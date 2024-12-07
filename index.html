@@ -1,797 +1,262 @@
 <!DOCTYPE html>
-
-
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=1440, maximum-scale=1.0"><link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"><meta name="og:type" content="website"><meta name="twitter:card" content="photo"><script id="anima-load-script" src="load.js"></script><script id="anima-hotspots-script" src="hotspots.js"></script><script id="anima-overrides-script" src="overrides.js"></script><script src="https://animaapp.s3.amazonaws.com/js/timeline.js"></script><style>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
-
-@import url("https://fonts.googleapis.com/css?family=Inter:700");
-
-/* The following line is used to measure usage of this code. You can remove it if you want. */
-@import url("https://px.animaapp.com/675080849062a4697d8753d5.675080849062a4697d8753da.OJcUt13.hch.png");
-
-
-.screen textarea:focus,
-.screen input:focus {
-  outline: none;
-}
-
-.screen * {
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-.screen div {
-  -webkit-text-size-adjust: none;
-}
-
-.component-wrapper a {
-  display: contents;
-  pointer-events: auto;
-  text-decoration: none;
-}
-
-.component-wrapper * {
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-  pointer-events: none;
-}
-
-.component-wrapper a *,
-.component-wrapper input,
-.component-wrapper video,
-.component-wrapper iframe {
-  pointer-events: auto;
-}
-
-.component-wrapper.not-ready,
-.component-wrapper.not-ready * {
-  visibility: hidden !important;
-}
-
-.screen a {
-  display: contents;
-  text-decoration: none;
-}
-
-.full-width-a {
-  width: 100%;
-}
-
-.full-height-a {
-  height: 100%;
-}
-
-.container-center-vertical {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  pointer-events: none;
-}
-
-.container-center-vertical > * {
-  flex-shrink: 0;
-  pointer-events: auto;
-}
-
-.container-center-horizontal {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  pointer-events: none;
-  width: 100%;
-}
-
-.container-center-horizontal > * {
-  flex-shrink: 0;
-  pointer-events: auto;
-}
-
-.auto-animated div {
-  --z-index: -1;
-  opacity: 0;
-  position: absolute;
-}
-
-.auto-animated input {
-  --z-index: -1;
-  opacity: 0;
-  position: absolute;
-}
-
-.auto-animated .container-center-vertical,
-.auto-animated .container-center-horizontal {
-  opacity: 1;
-}
-
-.overlay-base {
-  display: none;
-  height: 100%;
-  opacity: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
-.overlay-base.animate-appear {
-  align-items: center;
-  animation: reveal 0.3s ease-in-out 1 normal forwards;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  opacity: 0;
-}
-
-.overlay-base.animate-disappear {
-  animation: reveal 0.3s ease-in-out 1 reverse forwards;
-  display: block;
-  opacity: 1;
-  pointer-events: none;
-}
-
-.overlay-base.animate-disappear * {
-  pointer-events: none;
-}
-
-@keyframes reveal {
-  from { opacity: 0 }
- to { opacity: 1 }
-}
-
-.animate-nodelay {
-  animation-delay: 0s;
-}
-
-.align-self-flex-start {
-  align-self: flex-start;
-}
-
-.align-self-flex-end {
-  align-self: flex-end;
-}
-
-.align-self-flex-center {
-  align-self: flex-center;
-}
-
-.valign-text-middle {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.valign-text-bottom {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-input:focus {
-  outline: none;
-}
-
-.listeners-active,
-.listeners-active * {
-  pointer-events: auto;
-}
-
-.hidden,
-.hidden * {
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.smart-layers-pointers,
-.smart-layers-pointers * {
-  pointer-events: auto;
-  visibility: visible;
-}
-
-.listeners-active-click,
-.listeners-active-click * {
-  cursor: pointer;
-}
-
-* {
-  box-sizing: border-box;
-}
-:root { 
-  --black: #000000;
-  --clay-creek: #95835d;
-  --white: #ffffff;
- 
-  --font-size-l: 40px;
-  --font-size-m: 36px;
-  --font-size-s: 32px;
-  --font-size-xl: 48px;
-  --font-size-xs: 24px;
-  --font-size-xxl: 52px;
-  --font-size-xxs: 14px;
- 
-  --font-family-inter: "Inter", Helvetica;
-}
-.inter-bold-black-36px {
-  color: var(--black);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-m);
-  font-style: normal;
-  font-weight: 700;
-}
-
-.inter-bold-black-14px {
-  color: var(--black);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-xxs);
-  font-style: normal;
-  font-weight: 700;
-}
-
-:root {
-}
-
-
-/* screen - desktop-1 */
-
-.desktop-1 {
-  background: linear-gradient(180deg, rgb(255, 255, 255) 0%, rgb(150.34375101327896, 147.712741792202, 132.80364900827408) 100%);
-  background-color: rgba(255,255,255,1.0);
-  height: 6231px;
-  overflow: hidden;
-  overflow-x: hidden;
-  position: relative;
-  width: 1440px;
-}
-
-.desktop-1 .intro-page-Ys8k0x {
-  background-color: transparent;
-  height: 521px;
-  left: 0px;
-  position: absolute;
-  top: 204px;
-  width: 1448px;
-}
-
-.desktop-1 .i-am-a-passionate-co-xb6LqH {
-  background-color: transparent;
-  color: #4b4343e6;
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-xs);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 198px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  top: 376px;
-  width: 1047px;
-}
-
-.desktop-1 .aspiring-data-scient-xb6LqH {
-  background-color: transparent;
-  height: auto;
-  left: 192px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  top: 174px;
-  width: 758px;
-}
-
-.desktop-1 .title-xb6LqH {
-  background-color: transparent;
-  color: var(--white);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-xxl);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 194px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  text-shadow: 0px 4px 38.79999923706055px #b2a38d;
-  top: 110px;
-  width: auto;
-}
-
-.desktop-1 .hello-im-xb6LqH {
-  background-color: transparent;
-  color: #94835c;
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-xl);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 194px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  top: 51px;
-  width: auto;
-}
-
-.desktop-1 .frame-2-xb6LqH {
-  align-items: center;
-  background-color: transparent;
-  display: flex;
-  gap: 22px;
-  justify-content: flex-end;
-  left: 0px;
-  padding: 10px 195px;
-  position: absolute;
-  top: 0px;
-  width: 1440px;
-}
-
-.desktop-1 .group-1-TvphBh {
-  background-color: transparent;
-  height: 337px;
-  position: relative;
-  width: 245px;
-}
-
-.desktop-1 .rectangle-1-BpNIVP {
-  background: linear-gradient(180deg, rgba(217.0000022649765, 217.0000022649765, 217.0000022649765, 0.1899999976158142) 0%, rgba(255, 211.11875385046005, 66.93749696016312, 0.07789999834299088) 100%);
-  background-color: transparent;
-  border-radius: 19px;
-  height: 336px;
-  left: 0px;
-  position: absolute;
-  top: 0px;
-  width: 245px;
-}
-
-.desktop-1 .photocopy-BpNIVP {
-  background-color: transparent;
-  height: 511px;
-  left: -87px;
-  object-fit: cover;
-  position: absolute;
-  top: -83px;
-  width: 419px;
-}
-
-.desktop-1 .projects-Ys8k0x {
-  background-color: transparent;
-  height: 2201px;
-  left: 180px;
-  position: absolute;
-  top: 925px;
-  width: 1081px;
-}
-
-.desktop-1 .group-3-qqAzWT {
-  background-color: transparent;
-  height: 573px;
-  left: 3px;
-  position: absolute;
-  top: 0px;
-  width: 1082px;
-}
-
-.desktop-1 .developed-a-machine-xvBLFW {
-  color: var(--black);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-s);
-  font-style: normal;
-  font-weight: 700;
-  top: 411px;
-  width: 1078px;
-}
-
-.desktop-1 .improving-learning-e-xvBLFW {
-  background-color: transparent;
-  color: var(--clay-creek);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-s);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 0px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  text-shadow: 0px 4px 36.599998474121094px #f4a30040;
-  top: 274px;
-  width: 570px;
-}
-
-.desktop-1 .image-xvBLFW {
-  height: 601px;
-  left: -183px;
-}
-
-.desktop-1 .group-4-qqAzWT {
-  background-color: transparent;
-  height: 548px;
-  left: 0px;
-  position: absolute;
-  top: 779px;
-  width: 1085px;
-}
-
-.desktop-1 .remote-sensing-using-ai-706GQx {
-  background-color: transparent;
-  color: var(--clay-creek);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-m);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 3px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  text-shadow: 0px 4px 36.599998474121094px #f4a30040;
-  top: 276px;
-  width: 570px;
-}
-
-.desktop-1 .developed-a-machine-706GQx {
-  top: 386px;
-  width: 1081px;
-}
-
-.desktop-1 .image-706GQx {
-  height: 594px;
-  left: -180px;
-  object-fit: cover;
-}
-
-.desktop-1 .group-5-qqAzWT {
-  background-color: transparent;
-  height: 653px;
-  left: 0px;
-  position: absolute;
-  top: 1548px;
-  width: 1085px;
-}
-
-.desktop-1 .patient-health-assis-L3PebP {
-  background-color: transparent;
-  color: var(--clay-creek);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-m);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 0px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  text-shadow: 0px 4px 36.599998474121094px #f4a30040;
-  top: 260px;
-  width: 570px;
-}
-
-.desktop-1 .image-L3PebP {
-  height: 594px;
-  left: -180px;
-  object-fit: cover;
-}
-
-.desktop-1 .developed-an-ai-syst-L3PebP {
-  background-color: transparent;
-  height: auto;
-  left: 1px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  top: 433px;
-  width: 1080px;
-}
-
-.desktop-1 .line-1-Ys8k0x {
-  background-color: transparent;
-  height: 4px;
-  left: 0px;
-  position: absolute;
-  top: 816px;
-  width: 1437px;
-}
-
-.desktop-1 .line-2-Ys8k0x {
-  background-color: transparent;
-  height: 4px;
-  left: 0px;
-  position: absolute;
-  top: 3281px;
-  width: 1440px;
-}
-
-.desktop-1 .line-3-Ys8k0x {
-  background-color: transparent;
-  height: 4px;
-  left: 0px;
-  position: absolute;
-  top: 4143px;
-  width: 1440px;
-}
-
-.desktop-1 .share-idea-page-Ys8k0x {
-  background-color: transparent;
-  height: 1255px;
-  left: 0px;
-  position: absolute;
-  top: 4146px;
-  width: 1440px;
-}
-
-.desktop-1 .group-8-Ys8k0x {
-  background-color: transparent;
-  height: 60px;
-  left: 0px;
-  position: absolute;
-  top: 0px;
-  width: 1440px;
-}
-
-.desktop-1 .rectangle-3-Xl5Dwo {
-  -webkit-backdrop-filter: blur(35.70000076293945px) brightness(100%);
-  backdrop-filter: blur(35.70000076293945px) brightness(100%);
-  background-color: #fcfcfc99;
-  height: 60px;
-  left: 0px;
-  position: absolute;
-  top: 0px;
-  width: 1440px;
-}
-
-.desktop-1 .frame-1-Xl5Dwo::-webkit-scrollbar {
-  display: none;
-  width: 0;
-}
-
-.desktop-1 .frame-1-Xl5Dwo {
-  -webkit-backdrop-filter: blur(22.700000762939453px) brightness(100%);
-  align-items: center;
-  backdrop-filter: blur(22.700000762939453px) brightness(100%);
-  background-color: transparent;
-  border-radius: 27px;
-  box-shadow: 0px 4px 4px #00000021;
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 75px;
-  height: 58px;
-  justify-content: center;
-  left: 0px;
-  overflow-y: scroll;
-  padding: 9px 169px;
-  position: absolute;
-  top: 1px;
-  width: 1440px;
-}
-
-.desktop-1 .home-YhTFuA {
-  background-color: transparent;
-  color: #ff8800;
-  font-family: var(--font-family-inter);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: relative;
-  text-align: left;
-  white-space: nowrap;
-  width: fit-content;
-}
-
-.desktop-1 .projects-YhTFuA {
-  background-color: transparent;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: relative;
-  text-align: left;
-  width: fit-content;
-}
-
-.desktop-1 .any-idea-to-share-YhTFuA {
-  background-color: transparent;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: relative;
-  text-align: left;
-  width: fit-content;
-}
-
-.desktop-1 .contact-YhTFuA {
-  background-color: transparent;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: relative;
-  text-align: left;
-  width: fit-content;
-}
-
-.desktop-1 .line-6-Ys8k0x {
-  background-color: transparent;
-  height: 1px;
-  left: 183px;
-  object-fit: cover;
-  position: absolute;
-  top: 1577px;
-  width: 1078px;
-}
-
-.desktop-1 .line-7-Ys8k0x {
-  background-color: transparent;
-  height: 1px;
-  left: 180px;
-  object-fit: cover;
-  position: absolute;
-  top: 2380px;
-  width: 1081px;
-}
-
-.desktop-1 .contact-page-Ys8k0x {
-  background-color: transparent;
-  height: 217px;
-  left: 339px;
-  position: absolute;
-  top: 5599px;
-  width: 794px;
-}
-
-.desktop-1 .same-minds-should-shake-hands-wickVm {
-  background-color: transparent;
-  color: #dac28f;
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-xl);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 0px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  text-shadow: 0px 4px 12.800000190734863px #ffb6005e;
-  top: 0px;
-  width: auto;
-}
-
-.desktop-1 .email-ranjithkumarp309gmailcom-wickVm {
-  background-color: transparent;
-  color: var(--white);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-m);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 45px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  text-shadow: 0px 4px 44.599998474121094px #ffffff;
-  top: 82px;
-  width: auto;
-}
-
-.desktop-1 .thank-you-wickVm {
-  background-color: transparent;
-  color: #00000069;
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-m);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 275px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  text-shadow: 0px 4px 85.80000305175781px #ab8a58;
-  top: 173px;
-  width: auto;
-}
-
-.desktop-1 .experience-page-Ys8k0x {
-  background-color: transparent;
-  height: 250px;
-  left: 242px;
-  position: absolute;
-  top: 3485px;
-  width: 909px;
-}
-
-.desktop-1 .experience-Ugd5s3 {
-  background-color: transparent;
-  color: #94835c;
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-l);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 0px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  top: 0px;
-  white-space: nowrap;
-  width: auto;
-}
-
-.desktop-1 .ai-intern-trainee-Ugd5s3 {
-  background-color: transparent;
-  color: var(--white);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-s);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 55px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  top: 163px;
-  width: auto;
-}
-
-.desktop-1 .infosys-springboard-Ugd5s3 {
-  background-color: transparent;
-  color: var(--black);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-s);
-  font-style: normal;
-  font-weight: 700;
-  height: auto;
-  left: 455px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-  top: 163px;
-  width: auto;
-}
-
-.desktop-1 .rectangle-4-Ugd5s3 {
-  background-color: #d9d9d942;
-  border-radius: 28px;
-  box-shadow: 0px 4px 130.89999389648438px #00000026;
-  height: 134px;
-  left: 7px;
-  position: absolute;
-  top: 116px;
-  width: 896px;
-}
-
-.desktop-1 .arrow-1-Ugd5s3 {
-  background-color: transparent;
-  height: 18px;
-  left: 383px;
-  position: absolute;
-  top: 174px;
-  width: 55px;
-}
-
-.desktop-1 .developed-a-machine {
-  background-color: transparent;
-  height: auto;
-  left: 0px;
-  letter-spacing: 0.00px;
-  line-height: normal;
-  position: absolute;
-  text-align: left;
-}
-
-.desktop-1 .image {
-  background-blend-mode: luminosity;
-  background-color: transparent;
-  position: absolute;
-  top: -208px;
-  width: 1440px;
-}
-</style></head><body style="margin: 0;"><input type="hidden" id="anPageName" name="page" value="desktop-1"><div class="container-center-horizontal"><div class="desktop-1 screen " data-id="1:2"><div class="intro-page-Ys8k0x" data-id="4:67"><p class="i-am-a-passionate-co-xb6LqH" data-id="3:21">I am a passionate Computer Science student with a solid grasp of Python for artificial intelligence and handson experience with PyTorch for deep learning. My interests lie in researching how to make AI models work efficiently on mobile and battery-powered devices. Currently pursuing my Bachelor of Engineering, I’m excited to apply my knowledge and creativity in the field of AI as I work towards becoming an AI Engineer.</p><p class="aspiring-data-scient-xb6LqH inter-bold-black-36px" data-id="3:12">ASPIRING DATA SCIENTIST AND AI MODEL DEVELOPER .</p><h1 class="title-xb6LqH" data-id="3:10">RANJITH KUMAR .</h1><div class="hello-im-xb6LqH" data-id="3:17">Hello , I’m</div><div class="frame-2-xb6LqH" data-id="4:65"><div class="group-1-TvphBh" data-id="4:66"><div class="rectangle-1-BpNIVP" data-id="4:19"></div><img class="photocopy-BpNIVP" data-id="3:19" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/photocopy@2x.png" alt="photocopy"></div></div></div><div class="projects-Ys8k0x" data-id="7:72"><div class="group-3-qqAzWT" data-id="7:68"><p class="developed-a-machine-xvBLFW developed-a-machine" data-id="4:50">Developed a machine learning model using the OULAD dataset, applying techniques such as data preprocessing, feature selection, and classification algorithms to predict student success.</p><p class="improving-learning-e-xvBLFW" data-id="4:21">Improving Learning Experience through Success Prediction</p><img class="image-xvBLFW image" data-id="4:51" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/image.png" alt="image"></div><div class="group-4-qqAzWT" data-id="7:70"><div class="remote-sensing-using-ai-706GQx" data-id="4:42">Remote Sensing Using AI</div><p class="developed-a-machine-706GQx developed-a-machine inter-bold-black-36px" data-id="4:52">Developed a machine learning model using the OULAD dataset, applying techniques such as data preprocessing, feature selection, and classification algorithms to predict student success.</p><img class="image-706GQx image" data-id="4:54" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/image-1.png" alt="image"></div><div class="group-5-qqAzWT" data-id="7:71"><p class="patient-health-assis-L3PebP" data-id="4:49">Patient Health Assistant System Using Their Unstructured Data</p><img class="image-L3PebP image" data-id="4:55" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/image-2.png" alt="image"><p class="developed-an-ai-syst-L3PebP inter-bold-black-36px" data-id="7:69">Developed an AI system to automate exam paper evaluation using natural language processing and machine learning algorithms, implementing data preprocessing, feature extraction, and deep learning models to accurately assess student responses and generate personalized feedback.</p></div></div><img class="line-1-Ys8k0x" data-id="7:74" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/line-1.svg" alt="Line 1"><img class="line-2-Ys8k0x" data-id="7:75" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/line-2.svg" alt="Line 2"><img class="line-3-Ys8k0x" data-id="7:81" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/line-3.svg" alt="Line 3"><img class="share-idea-page-Ys8k0x" data-id="7:77" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/share-idea-page.png" alt="SHARE IDEA PAGE"><div class="group-8-Ys8k0x" data-id="7:88"><div class="rectangle-3-Xl5Dwo" data-id="7:86"></div><div class="frame-1-Xl5Dwo" data-id="3:23"><div class="home-YhTFuA" data-id="3:3">HOME</div><div class="projects-YhTFuA inter-bold-black-14px" data-id="3:5">projects</div><p class="any-idea-to-share-YhTFuA inter-bold-black-14px" data-id="3:7">any idea to share ?</p><div class="contact-YhTFuA inter-bold-black-14px" data-id="3:4">contact</div></div></div><img class="line-6-Ys8k0x" data-id="7:91" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/line-6.svg" alt="Line 6"><img class="line-7-Ys8k0x" data-id="7:92" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/line-7.svg" alt="Line 7"><div class="contact-page-Ys8k0x" data-id="13:2"><p class="same-minds-should-shake-hands-wickVm" data-id="7:93">same minds should shake hands !</p><div class="email-ranjithkumarp309gmailcom-wickVm" data-id="7:95">email : ranjithkumarp.309@gmail.com</div><div class="thank-you-wickVm" data-id="7:96">THANK YOU !</div></div><div class="experience-page-Ys8k0x" data-id="15:7"><div class="experience-Ugd5s3" data-id="15:3">EXPERIENCE :</div><div class="ai-intern-trainee-Ugd5s3" data-id="15:4">AI INTERN TRAINEE</div><div class="infosys-springboard-Ugd5s3" data-id="15:5">INFOSYS SPRINGBOARD</div><div class="rectangle-4-Ugd5s3" data-id="15:6"></div><img class="arrow-1-Ugd5s3" data-id="15:8" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" anima-src="https://cdn.animaapp.com/projects/675080869062a4697d8753dc/releases/675080e87582ab6b545a849b/img/arrow-1.svg" alt="Arrow 1"></div></div></div><script src="launchpad-js/launchpad-banner.js" async></script><script defer src="https://animaapp.s3.amazonaws.com/static/restart-btn.min.js"></script></body></html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranjith Kumar Portfolio</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+            color: #000000;
+        }
+        header, section, footer {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+        }
+        header {
+            text-align: center;
+        }
+        h1, h2, h3 {
+            color: #333333;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left :0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+            backdrop-filter: blur(10px); /* Blur effect */
+            -webkit-backdrop-filter: blur(10px); /* Safari compatibility */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+            border-radius: 0 0 10px 10px; /* Optional: Rounded bottom corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            transition: all 0.4s ease; /* Smooth overall transitions */
+        }
+
+        nav:hover {
+            background: rgba(255, 255, 255, 0.9); /* Slightly less transparent on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly more pronounced shadow */
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #000000;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s ease, transform 0.3s ease; /* Smooth color and scale changes */
+        }
+
+        nav a:hover {
+            color: #007BFF; /* Change to a highlight color */
+            transform: scale(1.1); /* Slight zoom-in effect */
+        }
+
+        nav a:active {
+            transform: scale(0.95); /* Button press effect */
+        }
+
+        .experience,{
+            margin-top:20px;
+            padding-top: 80px;
+        }
+        .project, .job {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        #about, #projects{
+            padding-top: 40px;
+        }
+        
+        /* General Footer Styling */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.3); /* Glassmorphism */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: black;
+        }
+
+        /* Content Layout */
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Space between email and Instagram */
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Space between label and link/icon */
+        }
+
+        /* Labels */
+        .footer-label {
+            font-weight: bold;
+            font-size: 16px;
+            color: black;
+        }
+
+        /* Links */
+        .footer-link {
+            font-size: 16px;
+            color: black;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Space between icon and text */
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: gray;
+            transform: scale(1.05); /* Slight zoom on hover */
+        }
+
+        /* Icons */
+        .footer-icon {
+            width: 20px; /* Icon size */
+            height: 20px;
+        }
+
+        /* Footer Note */
+        .footer-note {
+            font-size: 14px;
+            margin-top: 10px;
+            color: gray;
+        }
+
+
+        nav {
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Ranjith Kumar</h1>
+        <h2>Aspiring ML/AI Specialist</h2>
+        <p>I learn, develop, and optimize AI models for mobile use.</p>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#experience">Experience</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>
+            I am a passionate developer dedicated to leveraging Artificial Intelligence and Machine Learning
+            to solve real-world challenges. As a final-year Computer Science student at Kumaraguru College of
+            Technology, I focus on creating innovative solutions that combine advanced technology with thoughtful
+            design.
+        </p>
+        <p>
+            With a strong foundation in machine learning frameworks like PyTorch and experience in tools like LangChain
+            and Transformers, I thrive at the intersection of design and development. My goal is to deliver solutions
+            that are innovative, reliable, and accessible to all.
+        </p>
+    </section>
+
+    <section id="projects" class="projects">
+        <h2>Projects</h2>
+
+        <div class="project">
+            <h3>Intelligent Healthcare Assistant</h3>
+            <p>
+                A comprehensive AI solution designed to assist healthcare professionals and patients:
+            </p>
+            <ul>
+                <li><strong>Chatbot Module:</strong> Interactive Q&A based on patient prescriptions.</li>
+                <li><strong>Computer Vision Module:</strong> Extracts and interprets prescription details.</li>
+                <li><strong>Voice-Enabled Module:</strong> Disease prediction assistance for accessibility.</li>
+            </ul>
+        </div>
+
+        <div class="project">
+            <h3>Analysis of Tree Patterns</h3>
+            <p>
+                Conducted an in-depth study using satellite-based remote sensing data for environmental or agricultural
+                applications. Achieved <strong>third place</strong> in an inter-university competition for geospatial data processing.
+            </p>
+        </div>
+
+        <div class="project">
+            <h3>OULAD Student Performance Project</h3>
+            <p>
+                Analyzed student performance patterns using the Open University Learning Analytics Dataset (OULAD).
+                Implemented machine learning models to predict outcomes, demonstrating expertise in data preprocessing,
+                feature engineering, and predictive analytics.
+            </p>
+        </div>
+    </section>
+
+    <section id="experience" class="experience">
+        <h2>Experience</h2>
+
+        <div class="job">
+            <h3>AI Intern Trainee</h3>
+            <h4>Infosys Springboard (October 2024 – Present)</h4>
+            <p>
+                Designed and implemented a system for detecting fraudulent signature verifications using:
+            </p>
+            <ul>
+                <li><strong>Edge Detection</strong></li>
+                <li><strong>Contour Analysis</strong></li>
+                <li><strong>Pixel-Based Matching</strong></li>
+            </ul>
+            <p>
+                Enhanced authentication workflows to improve reliability and security of signature verification processes.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-item">
+                <span class="footer-label">Email:</span>
+                <a href="mailto:ranjithkumarp.309@gmail.com" class="footer-link">ranjithkumarp.309@gmail.com</a>
+            </div>
+            <div class="footer-item">
+                <span class="footer-label">Instagram:</span>
+                <a href="https://instagram.com/ranjithh_56" target="_blank" class="footer-link">
+                    <img src="instagram.png" alt="Instagram" class="footer-icon" />
+                    ranjithh_56
+                </a>
+            </div>
+        </div>
+        <p class="footer-note">Thanks for the visit! Same minds - shake hands.</p>
+    </footer>
+    
+    
+</body>
+</html>
