@@ -10,39 +10,99 @@
             font-family: Arial, sans-serif;
             background: #ffffff;
             color: #000000;
+            display: flex;
         }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 70px;
+            height: 100vh;
+            background: #f0f0f0;
+            border-right: 1px solid #dddddd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            padding-top: 80px;
+            padding-bottom:80px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background 0.6s ease, transform 0.6s ease;
+        }
+
+        .sidebar a img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .sidebar a:hover {
+            background: #007BFF;
+            transform: scale(1.1);
+        }
+
+        .sidebar a:hover img {
+            filter: brightness(0) invert(1); /* Make icon white on hover */
+        }
+
+        .sidebar-footer {
+            margin-bottom: 20px;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 80px;
+            width: calc(100% - 80px);
+        }
+
         header, section, footer {
             margin: 30px auto;
             padding: 20px;
             max-width: 800px;
         }
+
         header {
             text-align: center;
         }
+
         h1, h2, h3 {
             color: #333333;
         }
+
         nav {
             position: fixed;
             top: 0;
-            left :0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-            backdrop-filter: blur(10px); /* Blur effect */
-            -webkit-backdrop-filter: blur(10px); /* Safari compatibility */
+            left: 80px; /* Adjusted for sidebar */
+            width: calc(100% - 80px);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
             display: flex;
             justify-content: space-around;
             padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
-            border-radius: 0 0 10px 10px; /* Optional: Rounded bottom corners */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            transition: all 0.4s ease; /* Smooth overall transitions */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
         }
 
         nav:hover {
-            background: rgba(255, 255, 255, 0.9); /* Slightly less transparent on hover */
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly more pronounced shadow */
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
         }
 
         nav a {
@@ -50,213 +110,181 @@
             color: #000000;
             font-weight: bold;
             font-size: 16px;
-            transition: color 0.3s ease, transform 0.3s ease; /* Smooth color and scale changes */
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         nav a:hover {
-            color: #007BFF; /* Change to a highlight color */
-            transform: scale(1.1); /* Slight zoom-in effect */
+            color: #007BFF;
+            transform: scale(1.1);
         }
 
         nav a:active {
-            transform: scale(0.95); /* Button press effect */
+            transform: scale(0.95);
         }
 
-        .experience,{
-            margin-top:20px;
+        .experience {
+            margin-top: 20px;
             padding-top: 80px;
         }
-        .project, .job {
+
+        .project, .job, .paper {
             margin-bottom: 20px;
             padding: 15px;
             border: 1px solid #dddddd;
             border-radius: 5px;
             background: #f9f9f9;
         }
-        #about, #projects{
+
+        #about, #projects {
             padding-top: 40px;
         }
-        
-        /* General Footer Styling */
+
         footer {
             text-align: center;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.3); /* Glassmorphism */
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            -webkit-backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             color: black;
-        }
-
-        /* Content Layout */
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px; /* Space between email and Instagram */
-        }
-
-        .footer-item {
-            display: flex;
-            align-items: center;
-            gap: 5px; /* Space between label and link/icon */
-        }
-
-        /* Labels */
-        .footer-label {
-            font-weight: bold;
-            font-size: 16px;
-            color: black;
-        }
-
-        /* Links */
-        .footer-link {
-            font-size: 16px;
-            color: black;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px; /* Space between icon and text */
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        .footer-link:hover {
-            color: gray;
-            transform: scale(1.05); /* Slight zoom on hover */
-        }
-
-        /* Icons */
-        .footer-icon {
-            width: 20px; /* Icon size */
-            height: 20px;
-        }
-
-        /* Footer Note */
-        .footer-note {
-            font-size: 14px;
-            margin-top: 10px;
-            color: gray;
-        }
-
-
-        nav {
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: fadeIn 0.8s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         html {
             scroll-behavior: smooth;
         }
-
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Ranjith Kumar</h1>
-        <h2>Aspiring ML/AI Specialist</h2>
-        <p>I learn, develop, and optimize AI models for mobile use.</p>
-        <nav>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#experience">Experience</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
-
-    <section id="about">
-        <h2>About Me</h2>
-        <p>
-            I am a passionate developer dedicated to leveraging Artificial Intelligence and Machine Learning
-            to solve real-world challenges. As a final-year Computer Science student at Kumaraguru College of
-            Technology, I focus on creating innovative solutions that combine advanced technology with thoughtful
-            design.
-        </p>
-        <p>
-            With a strong foundation in machine learning frameworks like PyTorch and experience in tools like LangChain
-            and Transformers, I thrive at the intersection of design and development. My goal is to deliver solutions
-            that are innovative, reliable, and accessible to all.
-        </p>
-    </section>
-
-    <section id="projects" class="projects">
-        <h2>Projects</h2>
-
-        <div class="project">
-            <h3>Intelligent Healthcare Assistant</h3>
-            <p>
-                A comprehensive AI solution designed to assist healthcare professionals and patients:
-            </p>
-            <ul>
-                <li><strong>Chatbot Module:</strong> Interactive Q&A based on patient prescriptions.</li>
-                <li><strong>Computer Vision Module:</strong> Extracts and interprets prescription details.</li>
-                <li><strong>Voice-Enabled Module:</strong> Disease prediction assistance for accessibility.</li>
-            </ul>
+    <div class="sidebar">
+        <a href="mailto:ranjithkumarp.309@gmail.com">
+            <img src="assets/images/email.png" alt="Email">
+        </a>
+        <a href="https://instagram.com/ranjithh_56" target="_blank">
+            <img src="assets/images/instagram.png">
+        </a>
+        <a href="https://www.linkedin.com/in/ranjith-kumar-b66180250" target="_blank">
+            <img src="assets/images/linkedin.png" alt="LinkedIn">
+        </a>
+        <a href="https://github.com/P-RanjithKumar" target="_blank">
+            <img src="assets/images/github.png" alt="GitHub">
+        </a>
+        <a href="https://medium.com/@ranjithkumar" target="_blank">
+            <img src="assets/images/medium.png" alt="Medium">
+        </a>
+        <a href="https://www.hackerrank.com/profile/ranjithkumarp_31" target="_blank">
+            <img src="assets/images/hackerrank.png" alt="HackerRank">
+        </a>
+       <!-- 
+        <a href="https://leetcode.com/ranjithkumar" target="_blank">
+            <img src="assets/images/leetcode.png" alt="LeetCode">
+        </a>
+        -->
+        <div class="sidebar-footer">
+            <p style="font-size: 12px; text-align: center;">connect</p>
         </div>
+    </div>
 
-        <div class="project">
-            <h3>Analysis of Tree Patterns</h3>
+    <div class="main-content">
+        <header>
+            <h1>Ranjith Kumar</h1>
+            <h2>Aspiring ML/AI Specialist</h2>
+            <p>I learn, develop, and optimize AI models for mobile use.</p>
+            <nav>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#experience">Experience</a>
+                <a href="#papers">Papers</a>
+            </nav>
+        </header>
+
+        <section id="about">
+            <h2>About Me</h2>
             <p>
-                Conducted an in-depth study using satellite-based remote sensing data for environmental or agricultural
-                applications. Achieved <strong>third place</strong> in an inter-university competition for geospatial data processing.
+                I am a passionate developer dedicated to leveraging Artificial Intelligence and Machine Learning
+                to solve real-world challenges. As a final-year Computer Science student at Kumaraguru College of
+                Technology, I focus on creating innovative solutions that combine advanced technology with thoughtful
+                design.
             </p>
-        </div>
-
-        <div class="project">
-            <h3>OULAD Student Performance Project</h3>
             <p>
-                Analyzed student performance patterns using the Open University Learning Analytics Dataset (OULAD).
-                Implemented machine learning models to predict outcomes, demonstrating expertise in data preprocessing,
-                feature engineering, and predictive analytics.
+                With a strong foundation in machine learning frameworks like PyTorch and experience in tools like LangChain
+                and Transformers, I thrive at the intersection of design and development. My goal is to deliver solutions
+                that are innovative, reliable, and accessible to all.
             </p>
-        </div>
-    </section>
+        </section>
 
-    <section id="experience" class="experience">
-        <h2>Experience</h2>
+        <section id="projects" class="projects">
+            <h2>Projects</h2>
 
-        <div class="job">
-            <h3>AI Intern Trainee</h3>
-            <h4>Infosys Springboard (October 2024 – Present)</h4>
-            <p>
-                Designed and implemented a system for detecting fraudulent signature verifications using:
-            </p>
-            <ul>
-                <li><strong>Edge Detection</strong></li>
-                <li><strong>Contour Analysis</strong></li>
-                <li><strong>Pixel-Based Matching</strong></li>
-            </ul>
-            <p>
-                Enhanced authentication workflows to improve reliability and security of signature verification processes.
-            </p>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-item">
-                <span class="footer-label">Email:</span>
-                <a href="mailto:ranjithkumarp.309@gmail.com" class="footer-link">ranjithkumarp.309@gmail.com</a>
+            <div class="project">
+                <h3>Intelligent Healthcare Assistant</h3>
+                <p>
+                    A comprehensive AI solution designed to assist healthcare professionals and patients:
+                </p>
+                <ul>
+                    <li><strong>Chatbot Module:</strong> Interactive Q&A based on patient prescriptions.</li>
+                    <li><strong>Computer Vision Module:</strong> Extracts and interprets prescription details.</li>
+                    <li><strong>Voice-Enabled Module:</strong> Disease prediction assistance for accessibility.</li>
+                </ul>
             </div>
-            <div class="footer-item">
-                <span class="footer-label">Instagram:</span>
-                <a href="https://instagram.com/ranjithh_56" target="_blank" class="footer-link">
-                    <img src="instagram.png" alt="Instagram" class="footer-icon" />
-                    ranjithh_56
-                </a>
+
+            <div class="project">
+                <h3>Analysis of Tree Patterns</h3>
+                <p>
+                    Conducted an in-depth study using satellite-based remote sensing data for environmental or agricultural
+                    applications. Achieved <strong>third place</strong> in an inter-university competition for geospatial data processing.
+                </p>
             </div>
-        </div>
-        <p class="footer-note">Thanks for the visit! Same minds - shake hands.</p>
-    </footer>
-    
-    
+
+            <div class="project">
+                <h3>OULAD Student Performance Project</h3>
+                <p>
+                    Analyzed student performance patterns using the Open University Learning Analytics Dataset (OULAD).
+                    Implemented machine learning models to predict outcomes, demonstrating expertise in data preprocessing,
+                    feature engineering, and predictive analytics.
+                </p>
+            </div>
+        </section>
+
+        <section id="experience" class="experience">
+            <h2>Experience</h2>
+
+            <div class="job">
+                <h3>AI Intern Trainee</h3>
+                <h4>Infosys Springboard (October 2024 – Present)</h4>
+                <p>
+                    Designed and implemented a system for detecting fraudulent signature verifications using:
+                </p>
+                <ul>
+                    <li><strong>Edge Detection</strong></li>
+                    <li><strong>Contour Analysis</strong></li>
+                    <li><strong>Pixel-Based Matching</strong></li>
+                </ul>
+                <p>
+                    Enhanced authentication workflows to improve reliability and security of signature verification processes.
+                </p>
+            </div>
+        </section>
+
+        <section id="papers" class="papers">
+            <h2>Research Papers</h2>
+            <div class="paper">
+                <h3>Optimizing Neural Networks for Mobile Devices</h3>
+                <p>Published in XYZ Journal, 2023.</p>
+            </div>
+            <div class="paper">
+                <h3>Deep Learning for Satellite Image Classification</h3>
+                <p>Presented at ABC Conference, 2024.</p>
+            </div>
+            <div class="paper">
+                <h3>Improving Accessibility Through AI Interfaces</h3>
+                <p>Under Review, 2024.</p>
+            </div>
+        </section>
+        
+    </div>
 </body>
 </html>
+
+
+           
