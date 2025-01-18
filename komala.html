@@ -437,15 +437,16 @@
         .floating-nav {
             position: fixed;
             top: 30px;
-            right: 40px;
-            background: rgba(255, 255, 255, 0.9);
+            right: 80px;
+            background: var(--nav-bg);
             padding: 15px 30px;
             border-radius: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 20px var(--shadow);
             backdrop-filter: blur(10px);
             z-index: 100;
             opacity: 0;
             transform: translateY(-20px);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .floating-nav a {
@@ -467,8 +468,10 @@
         /* Pop-up styling */
         .popup-message {
             position: fixed;
-            top: 20px;
-            left: 50%;
+            margin-top: 18%;
+            margin-bottom: 70%;
+            margin-left: 50%;
+            margin-right: 50%;
             transform: translateX(-50%);
             background: #fff;
             padding: 20px;
@@ -493,7 +496,7 @@
         }
 
         .popup-ok {
-            background-color: #4CAF50;
+            background-color: #4ca5af;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -503,7 +506,7 @@
         }
 
         .popup-ok:hover {
-            background-color: #45a049;
+            background-color: #4592a0;
         }
 
         /* Theme toggle button */
@@ -564,7 +567,8 @@
     <div id="popup-message" class="popup-message">
         <div class="popup-content">
             <span id="popup-close" class="popup-close">&times;</span>
-            <p>Hi, how are you doing there? Nice to meet you!</p>
+            <h2>Theme Recommendation</h2><br>
+            <p>Dark theme would be better for viewing. Would you like to enable it?</p>
             <button id="popup-ok" class="popup-ok">Okay</button>
         </div>
     </div>
