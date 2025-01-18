@@ -4,14 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranjith Kumar Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
-            --primary: #2d3436;
-            --accent: #007BFF;
-            --bg-light: #f8f9fa;
-            --text-dark: #2d3436;
+            --primary: #0A192F;
+            --primary-rgb: 10, 25, 47;
+            --secondary: #64FFDA;
+            --accent: #112240;
+            --text: #8892B0;
+            --text-bright: #CCD6F6;
+            --bg-light: #0A192F;
+            --card-bg: #112240;
+            --gradient: linear-gradient(135deg, #64FFDA, #48BEFF);
+        }
+
+        :root[data-theme="light"] {
+            --primary: #FFFFFF;
+            --primary-rgb: 255, 255, 255;
+            --secondary: #007BFF;
+            --accent: #F8F9FA;
+            --text: #4A5568;
+            --text-bright: #2D3748;
+            --bg-light: #FFFFFF;
+            --card-bg: #F8F9FA;
             --gradient: linear-gradient(135deg, #007BFF, #00E5FF);
         }
 
@@ -19,12 +37,12 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         body {
-            background: var(--bg-light);
-            color: var(--text-dark);
+            background: var(--primary);
+            color: var(--text);
             overflow-x: hidden;
         }
 
@@ -95,6 +113,45 @@
             padding: 0 40px;
         }
 
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: var(--secondary);
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Animation Background */
+        .animation-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .grid-line {
+            position: absolute;
+            background: var(--secondary);
+            opacity: 0.1;
+        }
+
+        .vertical {
+            width: 1px;
+            height: 100%;
+            top: 0;
+        }
+
+        .horizontal {
+            height: 1px;
+            width: 100%;
+            left: 0;
+        }
+
         header {
             height: 100vh;
             display: flex;
@@ -106,7 +163,13 @@
 
         .header-content {
             text-align: center;
+            position: relative;
             z-index: 2;
+            padding: 20px;
+            border-radius: 10px;
+            /* background: rgba(var(--primary-rgb), 0.85);
+            border: 1px solid rgba(100, 255, 218, 0.1); */
+            padding: 2rem;
         }
 
         .header-title {
@@ -116,12 +179,22 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             opacity: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-bright);
+            opacity: 0;
         }
 
         .header-subtitle {
             font-size: 1.5rem;
             margin-bottom: 2rem;
             opacity: 0;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            opacity: 0;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .floating-nav {
@@ -166,6 +239,11 @@
             padding: 100px 0;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            background: rgba(var(--bg-rgb), 0.8);
+            /* backdrop-filter: blur(5px); */
+            border-radius: 15px;
+            margin: 20px 0;
         }
 
         .section-title {
@@ -175,6 +253,8 @@
             padding-left: 20px;
             opacity: 0;
             transform: translateY(30px);
+            color: var(--text-bright);
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .section-title::before {
@@ -187,6 +267,7 @@
             height: 30px;
             background: var(--gradient);
             border-radius: 3px;
+            background: var(--secondary);
         }
 
         .about-content {
@@ -209,18 +290,21 @@
         }
 
         .project-card {
-            background: white;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            opacity: 0;
             transform: translateY(30px);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            /* backdrop-filter: blur(10px);
+            background: var(--card-bg); */
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .project-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: var(--secondary);
         }
 
         .project-content {
@@ -230,7 +314,7 @@
         .project-title {
             font-size: 1.5rem;
             margin-bottom: 15px;
-            color: var(--text-dark);
+            color: var(--text);
         }
 
         .experience-timeline {
@@ -280,16 +364,15 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             opacity: 0;
             transform: translateY(30px);
+            background: var(--card-bg);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        .another-page{
-            width: 60%;
-            background-color: rgb(223, 255, 160);
-            margin: auto;
-            padding-left: 25%;
-            padding-right: 25%;
+        .paper-card:hover {
+            border-color: var(--secondary);
         }
-
 
         @media (max-width: 768px) {
             .main-content {
@@ -354,7 +437,7 @@
         .floating-nav {
             position: fixed;
             top: 30px;
-            right: 80px;
+            right: 40px;
             background: var(--nav-bg);
             padding: 15px 30px;
             border-radius: 30px;
@@ -382,15 +465,11 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .project-card, .paper-card {
-            background: var(--card-bg);
-        }
-
         /* Theme toggle button */
         .theme-toggle {
             position: fixed;
-            top: 35px;
-            right: 25px;
+            top: 30px;
+            left: 100px;
             background: var(--card-bg);
             border: none;
             padding: 10px;
@@ -420,9 +499,27 @@
         .sidebar, .floating-nav {
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
+
+        #networkCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        :root[data-theme="light"] #networkCanvas {
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
+    <canvas id="networkCanvas"></canvas>
+    <div class="content-wrapper">
+
     <div class="progress-bar"></div>
     
     <div class="sidebar">
@@ -547,11 +644,287 @@
         </section>
     </div>
 
-    <div class="another-page">
-        <a href="komala.html">view other pages</a>
-    </div>
+    <div class="animation-background" id="animationBackground"></div>
+
 
     <script>
+
+        // Three.js Neural Network Animation
+        let scene, camera, renderer;
+        let neurons = [];
+        let connections = [];
+        let activationWaves = [];
+
+        class Neuron {
+            constructor(x, y, z) {
+                const geometry = new THREE.SphereGeometry(0.2, 32, 32);
+                const material = new THREE.MeshPhysicalMaterial({
+                    color: 0x64FFDA,
+                    emissive: 0x64FFDA,
+                    emissiveIntensity: 0.2,
+                    roughness: 0.2,
+                    metalness: 0.8,
+                    clearcoat: 1.0,
+                    clearcoatRoughness: 0.1
+                });
+                this.mesh = new THREE.Mesh(geometry, material);
+                this.mesh.position.set(x, y, z);
+                this.connections = [];
+                this.baseEmissive = 0.2;
+                this.activated = false;
+                
+                // Add subtle oscillation
+                this.initialY = y;
+                this.oscillationOffset = Math.random() * Math.PI * 2;
+            }
+
+            update(time) {
+                // Subtle floating motion
+                this.mesh.position.y = this.initialY + Math.sin(time * 0.001 + this.oscillationOffset) * 0.1;
+            }
+
+            activate() {
+                if (!this.activated) {
+                    this.activated = true;
+                    const timeline = gsap.timeline();
+                    
+                    timeline.to(this.mesh.material, {
+                        emissiveIntensity: 1,
+                        duration: 0.3
+                    }).to(this.mesh.scale, {
+                        x: 1.3,
+                        y: 1.3,
+                        z: 1.3,
+                        duration: 0.3,
+                        yoyo: true,
+                        repeat: 1
+                    }).to(this.mesh.material, {
+                        emissiveIntensity: this.baseEmissive,
+                        duration: 0.3,
+                        onComplete: () => {
+                            this.activated = false;
+                        }
+                    });
+                }
+            }
+        }
+
+        class Connection {
+            constructor(start, end) {
+                const curve = new THREE.CatmullRomCurve3([
+                    start.mesh.position,
+                    new THREE.Vector3(
+                        (start.mesh.position.x + end.mesh.position.x) / 2,
+                        (start.mesh.position.y + end.mesh.position.y) / 2 + (Math.random() - 0.5),
+                        (start.mesh.position.z + end.mesh.position.z) / 2 + (Math.random() - 0.5)
+                    ),
+                    end.mesh.position
+                ]);
+                
+                const points = curve.getPoints(50);
+                const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                const material = new THREE.LineBasicMaterial({
+                    color: 0x64FFDA,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                this.line = new THREE.Line(geometry, material);
+                this.start = start;
+                this.end = end;
+                this.curve = curve;
+            }
+
+            pulse() {
+                const wave = new ActivationWave(this);
+                activationWaves.push(wave);
+            }
+        }
+
+        class ActivationWave {
+            constructor(connection) {
+                this.connection = connection;
+                this.progress = 0;
+                this.speed = 0.03;
+                const geometry = new THREE.SphereGeometry(0.08, 16, 16);
+                const material = new THREE.MeshPhysicalMaterial({
+                    color: 0x64FFDA,
+                    emissive: 0x64FFDA,
+                    emissiveIntensity: 1,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                this.mesh = new THREE.Mesh(geometry, material);
+                scene.add(this.mesh);
+                
+                // Add trail effect
+                this.trail = [];
+                for (let i = 0; i < 5; i++) {
+                    const trailMesh = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.05 - i * 0.01, 8, 8),
+                        material.clone()
+                    );
+                    trailMesh.material.opacity = 0.4 - i * 0.08;
+                    this.trail.push(trailMesh);
+                    scene.add(trailMesh);
+                }
+            }
+
+            update() {
+                this.progress += this.speed;
+                if (this.progress >= 1) {
+                    scene.remove(this.mesh);
+                    this.trail.forEach(mesh => scene.remove(mesh));
+                    return true;
+                }
+
+                const pos = this.connection.curve.getPoint(this.progress);
+                this.mesh.position.copy(pos);
+                
+                // Update trail positions
+                this.trail.forEach((mesh, i) => {
+                    const trailPos = this.connection.curve.getPoint(Math.max(0, this.progress - (i + 1) * 0.05));
+                    mesh.position.copy(trailPos);
+                });
+                
+                return false;
+            }
+        }
+
+        function init() {
+            // Scene setup
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById('networkCanvas'),
+                alpha: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Enhanced lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+            scene.add(ambientLight);
+            
+            const pointLight1 = new THREE.PointLight(0x64FFDA, 1);
+            pointLight1.position.set(5, 5, 5);
+            scene.add(pointLight1);
+            
+            const pointLight2 = new THREE.PointLight(0x48BEFF, 1);
+            pointLight2.position.set(-5, -5, -5);
+            scene.add(pointLight2);
+
+            createNeuralNetwork();
+            camera.position.z = 15;
+            animate();
+        }
+
+        function createNeuralNetwork() {
+            const layers = 5;
+            const neuronsPerLayer = 6;
+            const layerDistance = 4;
+
+            // Create neurons
+            for (let layer = 0; layer < layers; layer++) {
+                for (let i = 0; i < neuronsPerLayer; i++) {
+                    const x = layer * layerDistance - (layers * layerDistance) / 2;
+                    const y = i * 2 - (neuronsPerLayer * 2) / 2;
+                    const z = Math.sin(layer * 0.5) * 2;
+                    
+                    const neuron = new Neuron(x, y, z);
+                    neurons.push(neuron);
+                    scene.add(neuron.mesh);
+
+                    // Connect to previous layer
+                    if (layer > 0) {
+                        const prevLayerNeurons = neurons.slice(
+                            -(neuronsPerLayer + i + 1),
+                            -i - 1
+                        );
+                        prevLayerNeurons.forEach(prevNeuron => {
+                            if (Math.random() > 0.5) {
+                                const connection = new Connection(prevNeuron, neuron);
+                                connections.push(connection);
+                                scene.add(connection.line);
+                                prevNeuron.connections.push(connection);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate network
+            scene.rotation.y += 0.001;
+            
+            // Update activation waves
+            activationWaves = activationWaves.filter(wave => !wave.update());
+
+            renderer.render(scene, camera);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const time = Date.now();
+            
+            // Update neurons
+            neurons.forEach(neuron => neuron.update(time));
+            
+            // Rotate network with smooth oscillation
+            scene.rotation.y = Math.sin(time * 0.0001) * 0.1 + time * 0.0001;
+            scene.rotation.x = Math.sin(time * 0.01) * 0.002;
+            
+            // Update waves
+            activationWaves = activationWaves.filter(wave => !wave.update());
+            
+            renderer.render(scene, camera);
+        }
+
+        // Handle scroll events
+        let lastScrollPosition = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const scrollingDown = currentScroll > lastScrollPosition;
+            
+            // Activate neurons based on scroll direction
+            const layerToActivate = Math.floor((currentScroll / document.body.scrollHeight) * neurons.length);
+            
+            if (scrollingDown) {
+                // Forward propagation
+                const activeNeurons = neurons.filter((n, i) => i === layerToActivate);
+                activeNeurons.forEach(neuron => {
+                    neuron.activate();
+                    neuron.connections.forEach(conn => conn.pulse());
+                });
+            } else {
+                // Backward propagation
+                const activeNeurons = neurons.filter((n, i) => i === neurons.length - layerToActivate - 1);
+                activeNeurons.forEach(neuron => {
+                    neuron.activate();
+                    neuron.connections.forEach(conn => conn.pulse());
+                });
+            }
+            
+            lastScrollPosition = currentScroll;
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Initialize
+        init();
+        
         gsap.registerPlugin(ScrollTrigger);
 
         // Progress bar animation
