@@ -438,15 +438,14 @@
             position: fixed;
             top: 30px;
             right: 40px;
-            background: var(--nav-bg);
+            background: rgba(255, 255, 255, 0.9);
             padding: 15px 30px;
             border-radius: 30px;
-            box-shadow: 0 5px 20px var(--shadow);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
             z-index: 100;
             opacity: 0;
             transform: translateY(-20px);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .floating-nav a {
@@ -465,11 +464,53 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        /* Pop-up styling */
+        .popup-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none; /* Hidden by default */
+            z-index: 1001;
+            width: 300px;
+            text-align: center;
+        }
+
+        .popup-content {
+            position: relative;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .popup-ok {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .popup-ok:hover {
+            background-color: #45a049;
+        }
+
         /* Theme toggle button */
         .theme-toggle {
             position: fixed;
-            top: 30px;
-            left: 100px;
+            top: 35px;
+            right: 25px;
             background: var(--card-bg);
             border: none;
             padding: 10px;
@@ -496,6 +537,7 @@
                 left: 20px;
             }
         }
+
         .sidebar, .floating-nav {
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -519,6 +561,13 @@
 <body>
     <canvas id="networkCanvas"></canvas>
     <div class="content-wrapper">
+    <div id="popup-message" class="popup-message">
+        <div class="popup-content">
+            <span id="popup-close" class="popup-close">&times;</span>
+            <p>Hi, how are you doing there? Nice to meet you!</p>
+            <button id="popup-ok" class="popup-ok">Okay</button>
+        </div>
+    </div>
 
     <div class="progress-bar"></div>
     
@@ -1039,22 +1088,46 @@
         const toggle = document.querySelector('.theme-toggle');
         const root = document.documentElement;
         const themeIcon = document.getElementById('theme-icon');
-        
+
+        // Pop-up elements
+        const popupMessage = document.getElementById('popup-message');
+        const popupClose = document.getElementById('popup-close');
+        const popupOk = document.getElementById('popup-ok');
+
         // Check for saved theme preference or default to 'light'
         const currentTheme = localStorage.getItem('theme') || 'light';
         root.setAttribute('data-theme', currentTheme);
         updateThemeIcon(currentTheme);
-        
+
+        // Show the pop-up when the page loads
+        window.onload = function() {
+            popupMessage.style.display = 'block'; // Show the pop-up
+        };
+
         toggle.addEventListener('click', () => {
             const newTheme = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
             root.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateThemeIcon(newTheme);
         });
-        
+
         function updateThemeIcon(theme) {
             themeIcon.src = `assets/images/${theme === 'light' ? 'moon' : 'sun'}.png`;
         }
+
+        // Close the pop-up when the close button is clicked
+        popupClose.addEventListener('click', () => {
+            popupMessage.style.display = 'none';
+        });
+
+        // Activate dark mode when "Okay" button is clicked
+        popupOk.addEventListener('click', () => {
+            const newTheme = 'dark'; // Set to dark mode
+            root.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            popupMessage.style.display = 'none'; // Hide the pop-up after clicking okay
+        });
     </script>
 </body>
 </html>
