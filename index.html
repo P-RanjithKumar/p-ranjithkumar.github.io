@@ -420,6 +420,92 @@
         .sidebar, .floating-nav {
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
+
+        /* blog post cards*/
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .blog-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px var(--shadow);
+        }
+
+        .blog-content {
+            padding: 25px;
+        }
+
+        .blog-category {
+            display: inline-block;
+            padding: 5px 12px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .blog-excerpt {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            opacity: 0.6;
+        }
+
+        .view-all-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .view-all-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .view-all-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -545,6 +631,37 @@
                 </div>
             </div>
         </section>
+
+        <section id="featured-blogs">
+            <h2 class="section-title">Featured Blog Posts</h2>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-content">
+                        <span class="blog-category">Machine Learning</span>
+                        <h3 class="blog-title">Getting Started with PyTorch on Mobile Devices</h3>
+                        <p class="blog-excerpt">A comprehensive guide to optimizing neural networks for mobile applications...</p>
+                        <div class="blog-meta">
+                            <span class="blog-date">Feb 15, 2024</span>
+                            <span class="blog-readtime">5 min read</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-content">
+                        <span class="blog-category">AI Development</span>
+                        <h3 class="blog-title">Building Efficient Language Models</h3>
+                        <p class="blog-excerpt">Exploring techniques to create and optimize transformer-based models...</p>
+                        <div class="blog-meta">
+                            <span class="blog-date">Feb 10, 2024</span>
+                            <span class="blog-readtime">4 min read</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="view-all-container">
+                <a href="bloghome.html" class="view-all-button">View All Posts</a>
+            </div>
+        </section>
     </div>
 
     <div class="another-page">
@@ -636,6 +753,19 @@
 
         // Papers animation
         gsap.utils.toArray('.paper-card').forEach((card, i) => {
+            gsap.to(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top bottom-=50',
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                delay: i * 0.2
+            });
+        });
+
+        gsap.utils.toArray('.blog-card').forEach((card, i) => {
             gsap.to(card, {
                 scrollTrigger: {
                     trigger: card,

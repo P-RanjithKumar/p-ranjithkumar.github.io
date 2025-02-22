@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Title | Your Name</title>
+  <style>
+    /* Reuse existing styles from homepage */
+    :root {
+      --primary-color: #2d3436;
+      --accent-color: #0984e3;
+      --text-color: #2d3436;
+      --hover-color: #74b9ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin: 0 auto;
+      padding: 20px;
+      max-width: 1200px;
+    }
+
+    /* Fixed Scroll Progress Indicator */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #eee;
+      z-index: 1000;
+    }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--accent-color);
+    }
+
+    /* Post Header */
+    .post-header {
+      margin-bottom: 3rem;
+      position: relative;
+      /* Add top padding to avoid content being hidden under fixed progress bar */
+      padding-top: 10px;
+    }
+    .back-to-blog {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--accent-color);
+      margin-bottom: 2rem;
+      transition: color 0.2s ease;
+    }
+    .back-to-blog:hover {
+      color: var(--hover-color);
+    }
+    .post-meta {
+      display: flex;
+      gap: 15px;
+      color: #636e72;
+      font-size: 0.9em;
+      margin: 1rem 0;
+    }
+
+    /* Main Post Content */
+    .post-content {
+      display: grid;
+      grid-template-columns: 1fr 250px;
+      gap: 2rem;
+    }
+    .article-body {
+      max-width: 800px;
+      font-size: 1.1em;
+      line-height: 1.8;
+    }
+    .article-body img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+    .article-body h2,
+    .article-body h3 {
+      margin: 2rem 0 1rem;
+      color: var(--primary-color);
+    }
+    blockquote {
+      border-left: 4px solid var(--accent-color);
+      padding: 1rem 2rem;
+      margin: 2rem 0;
+      background: #f8f9fa;
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* Table of Contents */
+    .toc {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      padding: 1.5rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .toc ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+    .toc a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      display: block;
+      padding: 0.3rem 0;
+    }
+    .toc a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Post Navigation */
+    .post-navigation {
+      margin: 4rem 0;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #eee;
+      padding-top: 2rem;
+    }
+    .nav-button {
+      padding: 12px 25px;
+      text-decoration: none;
+      border-radius: 25px;
+      transition: all 0.2s ease;
+    }
+    .prev-post {
+      background: var(--accent-color);
+      color: white;
+    }
+    .next-post {
+      background: #f1f2f6;
+      color: var(--text-color);
+    }
+    .nav-button:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Social Sharing */
+    .social-sharing {
+      margin: 2rem 0;
+      display: flex;
+      gap: 1rem;
+    }
+    .social-button {
+      padding: 8px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s ease;
+    }
+    .twitter { background: #1DA1F2; color: white; }
+    .linkedin { background: #2867B2; color: white; }
+    .facebook { background: #4267B2; color: white; }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .post-content {
+        grid-template-columns: 1fr;
+      }
+      .toc {
+        position: static;
+        margin-bottom: 2rem;
+      }
+      .post-navigation {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Scroll Progress Indicator (fixed at the top) -->
+  <div class="scroll-progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <header class="post-header">
+    <a href="bloghome.html" class="back-to-blog">← Back to Blog</a>
+    <h1>Starting My Blogging Journey: From Curiosity to Code</h1>
+    <div class="post-meta">
+      <span>Feb 22, 2025</span>
+      <span>•</span>
+      <span>Technology, Self Development, Introduction  •</span>
+      <span>5 min read</span>
+    </div>
+    <div class="post-tags">
+      <span class="tag">Getting Started</span>
+      <span class="tag">AI</span>
+      <span class="tag">Fitness</span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <article class="article-body">
+      <!-- Post Content -->
+      <img src="assets/blog_cover_image/gettingstarted.png" alt="Blog post cover image" style="border-radius: 8px; width: 800px; height: 150px;">
+      <p>Hi, I’m Ranjith Kumar, a recent BE graduate in Computer Science and Engineering from Kumaraguru College of Technology. I’m passionate about AI, computers, and fitness, and I’m excited to kick off this blog to share my journey with you. Whether you’re here for tech talk, fitness inspiration, or just curious about my story, I hope you’ll stick around. Let’s get started!</p>
+  
+      <h2 id="section1">How I Fell in Love with AI and Computers</h2>
+      <p>It all began with movies—those sci-fi flicks where technology seemed like magic. As a kid, I’d watch, wide-eyed, wondering how it all worked. But the real spark came later when I started digging into the complexity behind it. Take computational photography, for instance—back around 2017, I was blown away by how companies like Qualcomm could pull off such feats. Then there was Google Translate, seamlessly bridging languages. Lastly a genrational leep forward in NLP, "Transformers", introduced by google. I kept asking myself, “How do they do that?” That curiosity pulled me into AI, and during my time at Kumaraguru College of Technology, it turned into a full-blown passion. AI isn’t just cool tech—it’s a way to solve real problems, and I wanted in.</p>
+  
+      <h2 id="section2">Building a Chatbot to Bridge Healthcare Gaps</h2>
+      <p>One project I’m pouring my heart into right now is a chatbot for elderly folks in India. I noticed a gap here: many older people struggle to keep their medical records organized. Sometimes, they even hand over the wrong documents at doctor’s appointments, which can mess things up. So, I’m building a chatbot to fix that. It uses RAG (Retrieval-Augmented Generation) tech, Flask, Socket.IO, and other tools to help them store and retrieve their medical info easily. It’s still a work in progress, but I’m excited to see it come to life and make healthcare a bit smoother for those who need it most.</p>
+      <img src="assets/content_images//blog1_fig1.png" alt="sample working diagram">  
+      <h2 id="section3">Why Fitness Became My Focus</h2>
+      <p>While I was geeking out over code, life threw me a curveball. I started feeling lost—learning stalled, and my health took a gradual nosedive. It hit me hard: without my health, I couldn’t focus on my studies or the things I love, like AI. So, I launched a fitness challenge to turn it around. It’s been tough but rewarding—think less couch, more energy. My goal? Get sharper, stronger, and ready to tackle my passions head-on. Health isn’t just a side quest; it’s the foundation.</p>
+  
+      <h2 id="section4">Why I Started This Blog (and What’s Next)</h2>
+      <p>So, why a blog? Simple:</p><br><p> I want to stay focused on what I love—AI, tech, and growth. It’s a space to revisit what I’ve done, track my progress, and maybe even connect with others who get it. My dream? To study a Master’s in CS with a focus on AI at DCU, Ireland, starting September 2025. It’s a big leap, and I’m buzzing with excitement (and a little nervousness—let’s see what happens!). This blog is my accountability partner and a bridge to people like you who share my vibe.</p>
+  
+      <h2 id="section5">Let’s Connect!</h2>
+      <p>If you’re into AI, fitness, or just love a good story, I’d love to chat. You can find me on:</p>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/ranjith-kumar-b66180250">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/ranjithh_56">Instagram</a></li>
+        <li><a href="https://github.com/P-RanjithKumar">Github</a></li>
+      </ul>
+  
+      <!-- Post Navigation -->
+      <div class="post-navigation">
+        <a href="post-4.html" class="nav-button next-post">Next Post →</a>
+      </div>
+    </article>
+  
+    <!-- Table of Contents -->
+    <aside class="toc">
+      <h3>Table of Contents</h3>
+      <ul>
+        <li><a href="#section1">How I Fell in Love with AI and Computers</a></li>
+        <li><a href="#section2">Building a Chatbot to Bridge Healthcare Gaps</a></li>
+        <li><a href="#section3">Why Fitness Became My Focus</a></li>
+        <li><a href="#section4">Why I Started This Blog (and What’s Next)</a></li>
+        <li><a href="#section5">Let’s Connect!</a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <!--###############################################################################################################-->
+
+  <script>
+    // Scroll Progress Indicator Update
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.querySelector('.progress-bar').style.width = scrolled + "%";
+    });
+
+    // Smooth Scroll for Table of Contents
+    document.querySelectorAll('.toc a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const section = document.querySelector(this.getAttribute('href'));
+        section.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Estimated Reading Time
+    const postContent = document.querySelector('.article-body');
+    const words = postContent.innerText.split(' ').length;
+    const readingTime = Math.ceil(words / 200);
+    document.querySelector('.post-meta span:nth-child(5)').innerHTML = 
+      `${readingTime} min read`;
+  </script>
+</body>
+</html>
