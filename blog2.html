@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog 2 | Ranjith Kumar</title>
+  <style>
+    /* Reuse existing styles from homepage */
+    :root {
+      --primary-color: #2d3436;
+      --accent-color: #0984e3;
+      --text-color: #2d3436;
+      --hover-color: #74b9ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin: 0 auto;
+      padding: 20px;
+      max-width: 1200px;
+    }
+
+    /* Fixed Scroll Progress Indicator */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #eee;
+      z-index: 1000;
+    }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--accent-color);
+    }
+
+    /* Post Header */
+    .post-header {
+      margin-bottom: 3rem;
+      position: relative;
+      /* Add top padding to avoid content being hidden under fixed progress bar */
+      padding-top: 10px;
+    }
+    .back-to-blog {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--accent-color);
+      margin-bottom: 2rem;
+      transition: color 0.2s ease;
+    }
+    .back-to-blog:hover {
+      color: var(--hover-color);
+    }
+    .post-meta {
+      display: flex;
+      gap: 15px;
+      color: #636e72;
+      font-size: 0.9em;
+      margin: 1rem 0;
+    }
+
+    /* Main Post Content */
+    .post-content {
+      display: grid;
+      grid-template-columns: 1fr 250px;
+      gap: 2rem;
+    }
+    .article-body {
+      max-width: 800px;
+      font-size: 1.1em;
+      line-height: 1.8;
+    }
+    .article-body img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 2rem 0;
+    }
+    .article-body h2,
+    .article-body h3 {
+      margin: 2rem 0 1rem;
+      color: var(--primary-color);
+    }
+    blockquote {
+      border-left: 4px solid var(--accent-color);
+      padding: 1rem 2rem;
+      margin: 2rem 0;
+      background: #f8f9fa;
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* Table of Contents */
+    .toc {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      padding: 1.5rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .toc ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+    .toc a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      display: block;
+      padding: 0.3rem 0;
+    }
+    .toc a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Post Navigation */
+    .post-navigation {
+      margin: 4rem 0;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #eee;
+      padding-top: 2rem;
+    }
+    .nav-button {
+      padding: 12px 25px;
+      text-decoration: none;
+      border-radius: 25px;
+      transition: all 0.2s ease;
+    }
+    .prev-post {
+      background: var(--accent-color);
+      color: white;
+    }
+    .next-post {
+      background: #f1f2f6;
+      color: var(--text-color);
+    }
+    .nav-button:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Social Sharing */
+    .social-sharing {
+      margin: 2rem 0;
+      display: flex;
+      gap: 1rem;
+    }
+    .social-button {
+      padding: 8px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s ease;
+    }
+    .twitter { background: #1DA1F2; color: white; }
+    .linkedin { background: #2867B2; color: white; }
+    .facebook { background: #4267B2; color: white; }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .post-content {
+        grid-template-columns: 1fr;
+      }
+      .toc {
+        position: static;
+        margin-bottom: 2rem;
+      }
+      .post-navigation {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Scroll Progress Indicator (fixed at the top) -->
+  <div class="scroll-progress">
+    <div class="progress-bar"></div>
+  </div>
+
+  <header class="post-header">
+    <a href="bloghome.html" class="back-to-blog">← Back to Blog</a>
+    <h1>Building My First Portfolio: A Journey of Design, Code, and a Little Magic</h1>
+    <div class="post-meta">
+      <span>Feb 23, 2025</span>
+      <span>•</span>
+      <span>10 min read</span>
+    </div>
+    <div class="post-tags">
+      <span class="tag">Portfolio  </span>
+      <span class="tag">Design</span>
+      <span class="tag">Blogging  </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <article class="article-body">
+      <!-- Post Content -->
+      <img src="assets/blog_cover_image/portfolio.png" alt="Blog post cover image" style="border-radius: 8px; width: 800px; height: 150px;">
+      <p>Hey there! I’m Ranjith Kumar, and I’m super excited to take you along on the wild ride of building my first portfolio website. Picture this: a newbie coder, a bunch of YouTube tutorials, and a dream to create something awesome. That’s where it all began. In this post, I’ll walk you through how I designed, coded, and hosted my portfolio—and added some fancy extras like a 3D neural network animation. Grab a snack, settle in, and let’s get started!</p>
+  
+      <h2 id="section1">1. The Spark: Why I Needed a Portfolio</h2>
+      <p>So, why build a portfolio? Well, as a fresh grad eager to show off my skills, I figured a website was the perfect canvas. I wanted to prove I could code, design, and maybe even impress a future employer or two. Plus, I’ll admit—I was itching to play with some cool tech and see what I could pull off. Spoiler: it was tougher than I thought, but oh-so-rewarding.</p>
+  
+      <h2 id="section2">2. Designing the UI: Figma to the Rescue</h2>
+      <p>I’m no design guru, so I turned to Figma after hearing it’s free and beginner-friendly. Armed with coffee and determination, I dove into YouTube tutorials—shoutout to channels like <em>DesignCourse</em> and <em>Flux Academy</em> for saving my sanity. I spent hours experimenting with layouts, fonts, and colors. My first design? Let’s just say it looked like a rainbow threw up on my screen. But after tweaking (and maybe a little crying), I crafted a clean, modern UI that screamed “me.” I was proud—and honestly, a little surprised it didn’t suck.</p>
+  
+      <h2 id="section3">3. Coding the Vision: HTML, CSS, and a Dash of JS</h2>
+      <p>With my Figma design ready, it was time to code. HTML and CSS are my comfort zone—I structured the page to match my layout and styled it to perfection (or so I thought). JavaScript, though? That’s where the real adventure began. I wanted interactivity—smooth scrolling, hover effects, the works. Here’s a snippet of my nav bar CSS, because who doesn’t love a sticky header?</p>
+      <pre>
+        <code class="language-css">
+            .nav-bar {
+              position: sticky;
+              top: 0;
+              background-color: #333;
+              z-index: 100;
+            }
+        </code>
+      </pre>
+      <p>Getting it right wasn’t easy—I spent an embarrassing amount of time wondering why my hover effects wouldn’t work (spoiler: I forgot to add the JS file). But when it all clicked, I couldn’t stop grinning. My static design was alive!</p>
+  
+      <h2 id="section4">4. Going Live: Hosting on GitHub.io</h2>
+      <p>Next step: getting my masterpiece online. GitHub.io was my pick—free, simple, and tied to my GitHub repo. I created a new repository, pushed my files, and boom—my portfolio was live at <em>[yourname].github.io</em>. The first time I loaded it in my browser, I felt like a rockstar. I may have refreshed the page 20 times just to make sure it wasn’t a fluke. Hosting was the easy part; the real challenge was still ahead.</p>
+  
+      <h2 id="section5">5. The Glow-Up: A 3D Neural Network Animation</h2>
+      <p>After admiring my site for a bit, I realized it needed something… extra. It was cool, but not “wow, that’s dope” cool. As an AI fan, I got this wild idea: what if I added a 3D neural network animation in the background? Picture neurons firing as you move your cursor—interactive and nerdy, just my style. I had no clue where to start, so I teamed up with Claude AI. It pointed me to Three.js, and after hours of research (and a few “I’m in over my head” moments), I built it. The network randomly lights up with cursor movement, and honestly, it’s hypnotic. My friends said it’s like my brain on caffeine—chaotic but beautiful.</p>
+      <img src="assets/gifs/NN_bg.gif" alt="sample neural network background">  
+      <h2 id="section6">6. Dark Mode: Because Night Owls Rule</h2>
+      <p>Another must-have? Dark mode. I’m a night owl, and staring at a bright screen at 2 a.m. is no picnic. Adding it was a puzzle—CSS variables for themes, JavaScript to toggle and save preferences. I wrestled with bugs (like forgetting to update all the colors), but eventually, it worked. Now, one click flips the site to dark mode, and it even remembers your choice. It’s a small win that feels huge—especially when I’m coding in the wee hours.</p>
+  
+      <h2 id="section7">7. Building the Blog Homepage: From Chaos to Calm</h2>
+      <p>While working on my portfolio, I decided I needed a blog too—a place to share my journey. I scoured sites like Medium and WordPress for inspiration, sketching layouts like a mad scientist. My early designs were a mess—too many buttons, clashing colors. But after several rounds of “this isn’t it,” I landed on the current homepage. It’s simple, readable, and (dare I say) pretty slick. I’m happy with it, but I’m curious—what do you think? Does it work for you, or should I tweak it more?</p>
+  
+      <h2 id="section8">8. The Struggles: Tears, Code, and Coffee</h2>
+      <p>Let’s talk struggles, because this wasn’t a fairy tale. Making the site responsive was my Everest—media queries turned into a game of whack-a-mole. Fix the desktop view, break the mobile one. I spent hours tweaking pixel sizes, cursing my screen. Then there was the JavaScript for the neural network. As a JS rookie, I stared at error messages like they were alien hieroglyphs. One night, I had so many tabs open—Stack Overflow, MDN, YouTube—that my laptop begged for mercy. But with grit and caffeine, I cracked it. Every bug fixed was a mini-party in my head.</p>
+  
+      <h2 id="section9">9. How I Decided on the Final Version</h2>
+      <p>Settling on the final design wasn’t planned—it evolved. After the animation and dark mode, I kept tweaking, asking myself, “Does this feel like me?” I almost added a chatbot (overkill, I know), but decided simplicity was key. One day, I showed it to a friend who said, “Dude, stop messing with it—it’s awesome.” That’s when I knew I’d hit the sweet spot: functional, unique, and true to my vibe. It’s not perfect, but it’s mine.</p>
+  
+      <h2 id="section10">10. Let’s Connect!</h2>
+      <p>And that’s the tale of my first portfolio! It’s been a blast—frustrating, thrilling, and totally worth it. If you’re thinking of building your own, do it—you’ll learn so much. I’d love your thoughts: Do you like the design? The animation? Hit me up with feedback or just say hi:</p>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/ranjith-kumar-b66180250">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/ranjithh_56">Instagram</a></li>
+        <li><a href="https://github.com/P-RanjithKumar">Github</a></li>
+      </ul>
+      <p>Thanks for sticking with me—take care and peace out! ✌️</p>
+  
+      <!-- Post Navigation -->
+      <div class="post-navigation">
+        <a href="blog1.html" class="nav-button prev-post">← Previous Post</a>
+        <a href="blog3.html" class="nav-button next-post">Next Post →</a>
+      </div>
+    </article>
+  
+    <!-- Table of Contents -->
+    <aside class="toc">
+      <h3>Table of Contents</h3>
+      <ul>
+        <li><a href="#section1">The Spark: Why I Needed a Portfolio</a></li>
+        <li><a href="#section2">Designing the UI: Figma to the Rescue</a></li>
+        <li><a href="#section3">Coding the Vision: HTML, CSS, and a Dash of JS</a></li>
+        <li><a href="#section4">Going Live: Hosting on GitHub.io</a></li>
+        <li><a href="#section5">The Glow-Up: Adding a 3D Neural Network Animation</a></li>
+        <li><a href="#section6">Dark Mode: Because Night Owls Rule</a></li>
+        <li><a href="#section7">Building the Blog Homepage: From Chaos to Calm</a></li>
+        <li><a href="#section8">The Struggles: Tears, Code, and Coffee</a></li>
+        <li><a href="#section9">How I Decided on the Final Version</a></li>
+        <li><a href="#section10">Let’s Connect!</a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <!--###############################################################################################################-->
+
+  <script>
+    // Scroll Progress Indicator Update
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.querySelector('.progress-bar').style.width = scrolled + "%";
+    });
+
+    // Smooth Scroll for Table of Contents
+    document.querySelectorAll('.toc a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const section = document.querySelector(this.getAttribute('href'));
+        section.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Estimated Reading Time
+    const postContent = document.querySelector('.article-body');
+    const words = postContent.innerText.split(' ').length;
+    const readingTime = Math.ceil(words / 200);
+    document.querySelector('.post-meta span:nth-child(5)').innerHTML = 
+      `${readingTime} min read`;
+  </script>
+</body>
+</html>
