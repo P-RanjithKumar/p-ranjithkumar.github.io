@@ -1,753 +1,1048 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog 5 | Ranjith Kumar</title>
-  <!-- Include MathJax for rendering LaTeX equations -->
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <style>
-    /* Reuse existing styles from the first blog */
-    :root {
-      --primary-color: #2d3436;
-      --accent-color: #0984e3;
-      --text-color: #2d3436;
-      --hover-color: #74b9ff;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      line-height: 1.6;
-      color: var(--text-color);
-      margin: 0 auto;
-      padding: 20px;
-      max-width: 1200px;
-    }
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: #eee;
-      z-index: 1000;
-    }
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: var(--accent-color);
-    }
-    .post-header {
-      margin-bottom: 3rem;
-      position: relative;
-      padding-top: 10px;
-    }
-    .back-to-blog {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      color: var(--accent-color);
-      margin-bottom: 2rem;
-      transition: color 0.2s ease;
-    }
-    .back-to-blog:hover {
-      color: var(--hover-color);
-    }
-    .post-meta {
-      display: flex;
-      gap: 15px;
-      color: #636e72;
-      font-size: 0.9em;
-      margin: 1rem 0;
-    }
-    .post-content {
-      display: grid;
-      grid-template-columns: 1fr 250px;
-      gap: 2rem;
-    }
-    .article-body {
-      max-width: 800px;
-      font-size: 1.1em;
-      line-height: 1.8;
-    }
-    .article-body img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 2rem 0;
-    }
-    .article-body h2,
-    .article-body h3 {
-      margin: 2rem 0 1rem;
-      color: var(--primary-color);
-    }
-    .toc {
-      position: sticky;
-      top: 20px;
-      align-self: start;
-      padding: 1.5rem;
-      background: #f8f9fa;
-      border-radius: 8px;
-    }
-    .toc ul {
-      list-style: none;
-      padding-left: 1rem;
-    }
-    .toc a {
-      color: var(--text-color);
-      text-decoration: none;
-      transition: color 0.2s ease;
-      display: block;
-      padding: 0.3rem 0;
-    }
-    .toc a:hover {
-      color: var(--accent-color);
-    }
-    .post-navigation {
-      margin: 4rem 0;
-      display: flex;
-      justify-content: space-between;
-      border-top: 1px solid #eee;
-      padding-top: 2rem;
-    }
-    .nav-button {
-      padding: 12px 25px;
-      text-decoration: none;
-      border-radius: 25px;
-      transition: all 0.2s ease;
-    }
-    .prev-post {
-      background: var(--accent-color);
-      color: white;
-    }
-    .next-post {
-      background: #f1f2f6;
-      color: var(--text-color);
-    }
-    .nav-button:hover {
-      transform: translateY(-2px);
-    }
-    @media (max-width: 768px) {
-      .post-content {
-        grid-template-columns: 1fr;
-      }
-      .toc {
-        position: static;
-        margin-bottom: 2rem;
-      }
-      .post-navigation {
-        flex-direction: column;
-        gap: 1rem;
-      }
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated Title -->
+    <title>Diving into RL and Attention Mechanisms | Ranjith Kumar</title>
+    <!-- Updated Description -->
+    <meta name="description" content="A deep dive into Reinforcement Learning (Q-learning, Tic-Tac-Toe) and various Attention Mechanisms in LLMs, including Multi Latent Attention, with a table of contents for easy navigation.">
 
-    .connect-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 10px;
-      background: linear-gradient(to right, #f8f9fa, #e9ecef);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    .connect-heading {
-      color: #2d3748;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      position: relative;
-      padding-bottom: 0.5rem;
-    }
-    
-    .connect-heading::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 3px;
-      width: 60px;
-      background-color: #4299e1;
-      border-radius: 3px;
-    }
-    
-    .connect-text {
-      color: #4a5568;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-    
-    .social-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      list-style: none;
-      padding: 0;
-    }
-    
-    .social-link {
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1.5rem;
-      background-color: white;
-      border-radius: 50px;
-      text-decoration: none;
-      color: #2d3748;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    
-    .social-link:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .social-link:hover .icon {
-      transform: rotate(10deg);
-    }
-    
-    .linkedin:hover {
-      background-color: #0077b5;
-      color: white;
-    }
-    
-    .instagram:hover {
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      color: white;
-    }
-    
-    .github:hover {
-      background-color: #333;
-      color: white;
-    }
-    
-    .icon {
-      margin-right: 10px;
-      transition: transform 0.3s ease;
-    }
-    
-    @media (max-width: 600px) {
-      .social-links {
-        flex-direction: column;
-      }
-      
-      .social-link {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  </style>
+    <!-- Include MathJax for rendering LaTeX equations -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* --- Copied Styles from code(8).html --- */
+        /* 1. --- Reset & Base Styles --- */
+        :root {
+            --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            --font-serif: "Merriweather", "Georgia", serif;
+            --font-mono: "Fira Code", "Courier New", monospace;
+
+            --color-text: #333;
+            --color-bg: #ffffff;
+            --color-primary: #0d6efd; /* Bootstrap Blue */
+            --color-secondary: #6c757d;
+            --color-accent: #fd7e14; /* Bootstrap Orange */
+            --color-border: #dee2e6;
+            --color-code-bg: #f8f9fa;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #e9ecef;
+            --color-illustration-border: var(--color-accent);
+
+            --container-width: 800px;
+            --toc-width: 220px; /* Width for the Table of Contents */
+            --layout-gap: calc(var(--spacing-unit) * 2.5); /* Gap between content and TOC */
+            --main-wrapper-width: calc(var(--container-width) + var(--toc-width) + var(--layout-gap)); /* Max width for content+TOC */
+
+            --spacing-unit: 1rem;
+            --border-radius: 6px;
+            --transition-speed: 0.3s;
+            --transition-speed-fast: 0.15s;
+            --header-height: 65px;
+        }
+
+        body.dark-mode {
+            --color-text: #e9ecef;
+            --color-bg: #121212;
+            --color-primary: #4dabf7;
+            --color-secondary: #adb5bd;
+            --color-accent: #ff922b;
+            --color-border: #495057;
+            --color-code-bg: #2a2a2a;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #343a40;
+            --color-illustration-border: var(--color-accent);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 100%; } /* Enable smooth scroll */
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        img, video, figure, canvas, iframe { max-width: 100%; height: auto; display: block; margin: var(--spacing-unit) 0; }
+        a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-speed-fast) ease, opacity var(--transition-speed-fast) ease; }
+        a:hover { color: var(--color-accent); text-decoration: underline; }
+        *:focus-visible { outline: 3px dashed var(--color-primary); outline-offset: 3px; }
+
+        /* Target headings for scroll margin */
+        h2[id], h3[id], h4[id], section[id] {
+            scroll-margin-top: calc(var(--header-height) + var(--spacing-unit) * 1.5);
+        }
+
+        /* 2. --- Layout Structure --- */
+        .container { /* Still used for header/footer */
+             width: 90%;
+             max-width: var(--container-width); /* Default article width */
+             margin: 0 auto;
+             padding: 0 calc(var(--spacing-unit) / 2);
+        }
+        /* New wrapper for main content and TOC */
+        .content-wrapper {
+            width: 90%;
+            max-width: var(--main-wrapper-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, var(--container-width)) auto; /* Article column + TOC column */
+            gap: var(--layout-gap);
+            align-items: start; /* Align top */
+        }
+        .article-column {
+            grid-column: 1 / 2;
+            max-width: 100%; /* Ensure it doesn't overflow */
+        }
+        .toc-column {
+            grid-column: 2 / 3;
+            width: var(--toc-width);
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-unit) * 1.5); /* Stick below header */
+            height: calc(100vh - var(--header-height) - var(--spacing-unit) * 3); /* Limit height */
+            overflow-y: auto; /* Allow scrolling within TOC if needed */
+        }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 5px; background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); width: 0%; z-index: 100; transition: width 0.1s linear; }
+
+        /* 3. --- Header --- */
+.site-header {
+    background-color: rgba(var(--color-bg-rgb, 255, 255, 255), 0.85);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    /* Make border slightly less prominent */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Example: Less opaque black */
+    /* Or keep var(--color-border) if you prefer */
+    /* border-bottom: 1px solid var(--color-border); */
+    padding: calc(var(--spacing-unit) * 0.75) 0;
+    position: sticky; top: 0; z-index: 99;
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+    height: var(--header-height);
+}
+
+/* Add this rule for dark mode border adjustment */
+body.dark-mode .site-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Example: Less opaque white */
+     /* Or keep var(--color-border) if you adjusted it globally */
+    /* border-bottom: 1px solid var(--color-border); */
+}
+        body { --color-bg-rgb: 255, 255, 255; --color-primary-rgb: 13, 110, 253;}
+        body.dark-mode { --color-bg-rgb: 18, 18, 18; --color-primary-rgb: 77, 171, 247; }
+
+        .site-header .container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: var(--main-wrapper-width); /* Make header align with content+toc */ }
+.logo { font-size: 1.6rem; font-weight: 700; color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+.logo:hover { text-decoration: none; color: var(--color-primary); }
+/* Remove these rules */
+.main-navigation ul { list-style: none; display: flex; gap: calc(var(--spacing-unit) * 1.8); }
+.main-navigation a { font-weight: 500; color: var(--color-secondary); position: relative; padding: 5px 0; }
+.main-navigation a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--color-primary); transition: width var(--transition-speed) ease; }
+.main-navigation a:hover::after, .main-navigation a.active::after { width: 100%; }
+.main-navigation a.active, .main-navigation a:hover { color: var(--color-primary); text-decoration: none; }
+@media (max-width: 768px) { .main-navigation { display: none; } }
+
+        .header-actions { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.2); }
+        .header-actions button { background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--color-secondary); transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; padding: 5px; }
+        .header-actions button:hover {
+            color: var(--color-primary);
+            transform: scale(1.1);
+            /* Optional: add a subtle background */
+            background-color: rgba(var(--color-primary-rgb), 0.08);
+            border-radius: 50%; /* If you want a circular background */
+        }
+        .header-actions button:focus-visible { /* Enhance focus visibility */
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+            background-color: rgba(var(--color-primary-rgb), 0.08);
+            border-radius: 50%;
+        }
+        #search-input { display: none; border: 1px solid var(--color-border); padding: 6px 10px; border-radius: var(--border-radius); background-color: var(--color-bg); color: var(--color-text); }
+        body.search-active #search-input { display: inline-block; animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(10px)} to { opacity: 1; transform: translateX(0)} }
+        @media (max-width: 768px) { .main-navigation { display: none; } }
+
+        /* 4. --- Main Content Area --- */
+        .main-content { flex-grow: 1; padding: calc(var(--spacing-unit) * 2.5) 0; }
+        .blog-post { background-color: var(--color-bg); transition: background-color var(--transition-speed) ease; }
+        /* Featured image now within the article column */
+        .post-featured-image { margin-bottom: calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: box-shadow var(--transition-speed) ease; }
+        body.dark-mode .post-featured-image { box-shadow: 0 10px 30px rgba(255,255,255,0.05); }
+        .post-featured-image img { width: 100%; /* Takes width of article column */ max-width: none; /* Override previous max-width */ height: auto; display: block; margin: 0 auto; }
+
+        .post-meta { font-size: 0.9rem; color: var(--color-secondary); margin-bottom: var(--spacing-unit); display: flex; flex-wrap: wrap; gap: calc(var(--spacing-unit) * 1.2); align-items: center; }
+        .post-meta .category a { background-color: var(--color-primary); color: #fff; padding: 3px 10px; border-radius: calc(var(--border-radius) / 1.5); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; transition: background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; display: inline-block; }
+        .post-meta .category a:hover { background-color: var(--color-accent); text-decoration: none; transform: translateY(-2px); }
+        .post-title { font-size: 2.8rem; font-family: var(--font-serif); font-weight: 700; line-height: 1.25; margin-bottom: var(--spacing-unit); color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .author-info { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 0.75); margin-bottom: calc(var(--spacing-unit) * 2.5); font-size: 0.95rem; }
+        .author-info .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-border); }
+        .author-info .author-name { font-weight: 500; color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+
+        .content-body { font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.8; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .content-body > * + * { margin-top: calc(var(--spacing-unit) * 1.8); }
+        .content-body h2, .content-body h3, .content-body h4 { font-family: var(--font-primary); font-weight: 700; line-height: 1.3; margin-top: calc(var(--spacing-unit) * 3); color: var(--color-text); transition: color var(--transition-speed) ease; }
+        /* Ensure headings with IDs have enough space above them for scrolling */
+        .content-body h2[id] { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; }
+        .content-body h3[id] { font-size: 1.6rem; }
+        .content-body h4[id] { font-size: 1.3rem; color: var(--color-primary); }
+        .content-body h2:not([id]) { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; } /* Style non-ID H2s */
+        .content-body h3:not([id]) { font-size: 1.6rem; }
+        .content-body h4:not([id]) { font-size: 1.3rem; color: var(--color-primary); }
+
+        .content-body p, .content-body ul, .content-body ol, .content-body blockquote, .content-body figure, .content-body pre, .content-body section, .content-body table, .content-body iframe {
+            transition: none; /* Disable transitions */
+        }
+
+        .content-body ul, .content-body ol { margin-left: calc(var(--spacing-unit) * 1.5); padding-left: var(--spacing-unit); }
+        .content-body li { margin-bottom: calc(var(--spacing-unit) * 0.5); }
+        .content-body blockquote { border-left: 5px solid var(--color-blockquote-border); padding-left: calc(var(--spacing-unit) * 1.5); margin-left: 0; font-style: italic; font-size: 1.2rem; color: var(--color-secondary); transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        .content-body code { font-family: var(--font-mono); background-color: var(--color-code-bg); padding: 3px 6px; border-radius: var(--border-radius); font-size: 0.9em; color: var(--color-text); transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        body.dark-mode .content-body code { color: #f8f9fa; }
+        .content-body pre { background-color: var(--color-code-bg); padding: calc(var(--spacing-unit) * 1.5); border-radius: var(--border-radius); overflow-x: auto; position: relative; transition: background-color var(--transition-speed) ease; border: 1px solid var(--color-border); margin: var(--spacing-unit) 0; }
+        .content-body pre code { background-color: transparent; padding: 0; font-size: 0.95rem; line-height: 1.6; color: var(--color-text); transition: color var(--transition-speed) ease; display: block; }
+        body.dark-mode .content-body pre code { color: #f8f9fa; }
+        .copy-code-button { position: absolute; top: 12px; right: 12px; background-color: var(--color-secondary); color: #fff; border: none; padding: 6px 12px; border-radius: var(--border-radius); font-size: 0.85rem; cursor: pointer; opacity: 0; transition: opacity var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; transform: translateY(5px); }
+        .content-body pre:hover .copy-code-button { opacity: 1; transform: translateY(0); }
+        .copy-code-button:hover { background-color: var(--color-primary); transform: scale(1.05) translateY(0); }
+        .copy-code-button.copied { background-color: var(--color-accent); transform: scale(1.05) translateY(0); }
+
+        .content-body .math { text-align: center; margin: var(--spacing-unit) 0; padding: var(--spacing-unit); background-color: var(--color-code-bg); border-radius: var(--border-radius); overflow-x: auto; border: 1px solid var(--color-border); }
+
+        .content-body table { width: 100%; border-collapse: collapse; margin: calc(var(--spacing-unit) * 2) 0; font-size: 0.95rem; border: 1px solid var(--color-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .content-body th, .content-body td { border: 1px solid var(--color-border); padding: calc(var(--spacing-unit) * 0.75); text-align: left; }
+        .content-body thead th { background-color: var(--color-code-bg); font-weight: 600; color: var(--color-text); }
+        .content-body tbody tr:nth-child(even) { background-color: var(--color-code-bg); }
+        body.dark-mode .content-body tbody tr:nth-child(even) { background-color: rgba(var(--color-bg-rgb), 0.1); }
+        body.dark-mode .content-body thead th { background-color: var(--color-code-bg); }
+
+        .section-divider { height: 5px; width: 100px; margin: calc(var(--spacing-unit) * 3) auto; background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary)); background-size: 200% 100%; border-radius: 3px; animation: gradient-shift 4s linear infinite; }
+        @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* Post Tags, Social Share, Author Bio, Related Posts, Comments... */
+        .post-tags { margin-top: calc(var(--spacing-unit) * 3); padding-top: calc(var(--spacing-unit) * 1.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .post-tags span { font-weight: 600; margin-right: var(--spacing-unit); color: var(--color-secondary); transition: color var(--transition-speed) ease; }
+        .post-tags a { display: inline-block; background-color: var(--color-code-bg); color: var(--color-secondary); padding: 5px 12px; border-radius: 15px; font-size: 0.9rem; margin-right: calc(var(--spacing-unit) / 2); margin-bottom: calc(var(--spacing-unit) / 2); transition: background-color var(--transition-speed-fast) ease, color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; border: 1px solid var(--color-border); }
+        .post-tags a:hover { background-color: var(--color-primary); color: #fff; text-decoration: none; transform: translateY(-2px) scale(1.03); border-color: var(--color-primary); }
+
+        .social-share { margin-top: calc(var(--spacing-unit) * 3); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-code-bg); text-align: center; transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+        .social-share h3 { margin-bottom: calc(var(--spacing-unit) * 1.5); font-size: 1.2rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .share-buttons a, .share-buttons button { display: inline-flex; align-items: center; justify-content: center; margin: 6px; padding: 10px 18px; border-radius: var(--border-radius); color: #fff; font-size: 0.95rem; font-weight: 500; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; min-width: 110px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .share-buttons a:hover, .share-buttons button:hover { opacity: 0.9; transform: translateY(-3px) scale(1.02); text-decoration: none; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .share-facebook { background-color: #1877F2; } .share-twitter { background-color: #1DA1F2; } .share-linkedin { background-color: #0A66C2; } .share-reddit { background-color: #FF4500; } .share-email { background-color: #777; } .share-copy { background-color: var(--color-secondary); }
+        .share-copy.copied { background-color: var(--color-accent) !important; }
+        #native-share-button { background-color: #0056b3; }
+
+        .author-bio { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 2); background-color: var(--color-code-bg); border-radius: var(--border-radius); display: flex; gap: calc(var(--spacing-unit) * 1.5); align-items: flex-start; transition: background-color var(--transition-speed) ease; border: 1px solid var(--color-border); }
+        .author-bio .avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 3px solid var(--color-bg); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .author-bio-content h4 { margin-bottom: calc(var(--spacing-unit) / 1.5); font-size: 1.3rem; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .author-bio-content p { font-size: 1rem; line-height: 1.6; color: var(--color-secondary); transition: color var(--transition-speed) ease; margin-bottom: var(--spacing-unit); }
+        .author-social-links a { margin-right: 12px; font-size: 1.3rem; color: var(--color-secondary); transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; display: inline-block; }
+        .author-social-links a:hover { color: var(--color-primary); transform: scale(1.1); }
+        .author-social-links a svg { width: 20px; height: 20px; vertical-align: middle; fill: currentColor; }
+
+        .related-posts { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 2.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .related-posts h2 { text-align: center; margin-bottom: calc(var(--spacing-unit) * 2); font-size: 1.8rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: calc(var(--spacing-unit) * 1.5); }
+        .related-post-card { border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; background-color: var(--color-bg); transition: border-color var(--transition-speed) ease, box-shadow 0.3s ease, transform 0.3s ease; display: flex; flex-direction: column; }
+        .related-post-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.1); border-color: var(--color-primary); transform: translateY(-5px); }
+        body.dark-mode .related-post-card { background-color: var(--color-code-bg); }
+        body.dark-mode .related-post-card:hover { box-shadow: 0 8px 25px rgba(255,255,255,0.08); }
+        .related-post-card a:first-child:focus-visible { outline-offset: -3px; }
+        .related-post-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--color-border); transition: transform 0.3s ease; margin: 0; }
+        .related-post-card:hover img { transform: scale(1.05); }
+        .related-post-card-content { padding: calc(var(--spacing-unit) * 1.2); flex-grow: 1; display: flex; flex-direction: column; }
+        .related-post-card h3 { font-size: 1.1rem; margin-bottom: calc(var(--spacing-unit) / 1.5); line-height: 1.4; flex-grow: 1; }
+        .related-post-card h3 a { color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+        .related-post-card h3 a:hover { color: var(--color-primary); text-decoration: none; }
+        .related-post-card .post-meta { font-size: 0.8rem; margin-top: var(--spacing-unit); margin-bottom: 0; gap: calc(var(--spacing-unit) / 1.5); color: var(--color-secondary); }
+
+        .comments-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 2.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .comments-section h2 { margin-bottom: calc(var(--spacing-unit) * 1.8); font-size: 1.8rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        #comment-form { border: 1px solid var(--color-border); padding: calc(var(--spacing-unit) * 1.5); border-radius: var(--border-radius); background-color: var(--color-code-bg); margin-bottom: calc(var(--spacing-unit) * 2.5); }
+        #comment-form p { font-weight: 500; margin-bottom: var(--spacing-unit); font-size: 1.1rem;}
+        #comment-form textarea, #comment-form input[type="text"], #comment-form input[type="email"] { width: 100%; padding: 12px; margin-bottom: var(--spacing-unit); border: 1px solid var(--color-border); border-radius: var(--border-radius); font-family: inherit; font-size: 1rem; background-color: var(--color-bg); color: var(--color-text); transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow 0.2s ease; }
+        #comment-form textarea:focus, #comment-form input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.2); outline: none; }
+        #comment-form .form-row { display: flex; gap: var(--spacing-unit); margin-bottom: var(--spacing-unit); }
+        #comment-form .form-row > input { flex: 1; margin-bottom: 0; }
+        @media (max-width: 600px) { #comment-form .form-row { flex-direction: column; } }
+        #comment-form button { padding: 12px 25px; background-color: var(--color-primary); color: #fff; border: none; border-radius: var(--border-radius); cursor: pointer; font-size: 1rem; font-weight: 500; transition: background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; }
+        #comment-form button:hover { background-color: var(--color-accent); transform: translateY(-2px); }
+        #comment-form button:active { transform: translateY(0); }
+        .gh-comments-info { background-color: var(--color-illustration-bg); border: 1px dashed var(--color-secondary); padding: calc(var(--spacing-unit) * 1.5); margin: calc(var(--spacing-unit)*2) 0; border-radius: var(--border-radius); font-size: 0.95rem; line-height: 1.6; color: var(--color-secondary); }
+        .gh-comments-info p { margin-bottom: 1em; }
+        .gh-comments-info strong { color: var(--color-text); }
+        .gh-comments-info code { font-size: 0.85em; padding: 2px 5px; background-color: rgba(0,0,0,0.05); border-radius: 3px; }
+        body.dark-mode .gh-comments-info code { background-color: rgba(255,255,255,0.1); }
+        #comment-thread-container { margin-top: calc(var(--spacing-unit) * 2); }
+
+        /* 5. --- Footer --- */
+        .site-footer { background-color: var(--color-code-bg); color: var(--color-secondary); padding: calc(var(--spacing-unit) * 2.5) 0; margin-top: calc(var(--spacing-unit) * 4); font-size: 0.9rem; text-align: center; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; border-top: 1px solid var(--color-border); }
+        .site-footer .container { max-width: var(--main-wrapper-width); } /* Align footer content */
+        .site-footer a { color: var(--color-secondary); transition: color var(--transition-speed-fast) ease; }
+        .site-footer a:hover { color: var(--color-primary); }
+        .footer-links { margin-top: calc(var(--spacing-unit) / 1.5); }
+        .footer-links a { margin: 0 10px; }
+
+        /* 6. --- Utility & Interaction Styles --- */
+        #back-to-top { position: fixed; bottom: 25px; right: 25px; background-color: var(--color-primary); color: #fff; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; line-height: 50px; text-align: center; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform 0.2s ease; z-index: 90; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        #back-to-top.visible { opacity: 0.8; visibility: visible; transform: scale(1); }
+        #back-to-top:hover { opacity: 1; background-color: var(--color-accent); transform: scale(1.1); }
+        #back-to-top:active { transform: scale(1); }
+
+
+        /* 7. --- Table of Contents Styling --- */
+        #toc-container {
+            padding: calc(var(--spacing-unit) * 1);
+            border-left: 1px solid var(--color-border); /* Optional separator */
+            transition: border-color var(--transition-speed) ease;
+        }
+        #toc-container h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-unit);
+            padding-bottom: calc(var(--spacing-unit) * 0.5);
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text);
+        }
+        #toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        #toc-list li {
+            margin-bottom: calc(var(--spacing-unit) * 0.5);
+        }
+        #toc-list a {
+            display: block;
+            color: var(--color-secondary);
+            padding: 4px 0;
+            transition: color var(--transition-speed-fast), border-left-color var(--transition-speed-fast), transform var(--transition-speed-fast);
+            border-left: 3px solid transparent; /* For active state indicator */
+            padding-left: calc(var(--spacing-unit) * 0.75);
+            text-decoration: none;
+        }
+        #toc-list a:hover {
+            color: var(--color-primary);
+            transform: translateX(3px);
+            text-decoration: none;
+        }
+        #toc-list a.active {
+            color: var(--color-primary);
+            font-weight: 600;
+            border-left-color: var(--color-primary);
+        }
+
+
+        /* --- Responsive Adjustments --- */
+        /* Hide TOC and revert to single column on smaller screens */
+        @media (max-width: 1024px) { /* Adjust breakpoint as needed */
+            .content-wrapper {
+                grid-template-columns: 1fr; /* Single column */
+                max-width: var(--container-width); /* Revert to article width */
+                 width: 90%; /* Maintain padding */
+            }
+            .toc-column {
+                display: none; /* Hide TOC */
+            }
+            .site-header .container,
+            .site-footer .container {
+                 max-width: var(--container-width); /* Adjust header/footer */
+            }
+            .post-featured-image img {
+                max-width: 800px; /* Re-apply max-width if needed on smaller screens */
+            }
+        }
+        @media (max-width: 768px) {
+            .post-title { font-size: 2.2rem; }
+            .content-body { font-size: 1.1rem; }
+            .content-body h2 { font-size: 1.8rem; }
+            .content-body h3 { font-size: 1.5rem; }
+            .author-bio { flex-direction: column; align-items: center; text-align: center; }
+            .author-bio .avatar { margin-bottom: var(--spacing-unit); }
+        }
+         @media (max-width: 600px) {
+              .related-posts-grid { grid-template-columns: 1fr; }
+         }
+    </style>
 </head>
 <body>
-  <!-- Scroll Progress Indicator -->
-  <div class="scroll-progress">
-    <div class="progress-bar"></div>
-  </div>
+    <!-- Optional Loading Spinner -->
+    <!-- <div class="loader-wrapper"><div class="loader"></div></div> -->
+     
 
-  <header class="post-header">
-    <a href="bloghome.html" class="back-to-blog">← Back to Blog</a>
-    <h1>Diving into Reinforcement Learning and Attention Mechanisms</h1>
-    <div class="post-meta">
-      <span>Mar 7, 2025  •</span>
-      <span>20 min read</span>
-    </div>
-    <div class="post-tags">
-      <span class="tag">AI discussion  </span>
-      <span class="tag">Deep Learning  </span>
-      <span class="tag">Blogging</span>
-    </div>
-  </header>
- 
-  <div class="post-content">
-    <article class="article-body">
-      <img src="assets/blog_cover_image/ReinforcementLearning.png" alt="Blog post cover image" style="border-radius: 8px; width: 800px; height: 150px;">
-      <p>Hi everyone! It’s been a couple of weeks since my last post—life got a bit busy, and I’ll admit I got distracted along the way. But I’m back now, and I’ve been diving deep into some exciting topics: Reinforcement Learning (RL), specifically off-policy algorithms like Q-learning, and the fascinating world of attention mechanisms in Large Language Models (LLMs). I’ve also been working on an RL-based Tic-Tac-Toe game, which is nearly complete except for some tricky training hurdles. Plus, I stumbled upon an amazing video that broke down different types of attention mechanisms—more on that later! In this post, I’ll walk you through what I’ve learned, the challenges I’ve faced, and why I’m so hooked on these topics. Let’s get started!</p>
-      
-      <h2 id="section1">Off-Policy RL Algorithms</h2>
-      <p>Reinforcement Learning is all about teaching an agent to make smart decisions by interacting with an environment—like training a virtual pet to fetch a ball. RL algorithms come in two flavors: on-policy and off-policy. On-policy algorithms learn from the actions the agent takes based on its current strategy (or policy), while off-policy algorithms can learn from actions taken by different policies, even from past experiences or random moves. This flexibility allows off-policy methods to reuse old data effectively.</p>
-      <p>My focus has been on Q-learning, a classic off-policy algorithm. Imagine you’re playing a game and trying to figure out the best move in every situation. Q-learning builds a “Q-table” that scores each possible action in each state—like a cheat sheet telling you how valuable each move is. Over time, it updates these scores based on rewards (e.g., +1 for a win) and potential future outcomes.</p>
-      <div class="math" style="text-align:center; margin: 1rem 0;">
-        \[
-          Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]
-        \]
-      </div>
-      <p>Let’s break it down:</p>
-      <ul>
-        <li>\( s \): The current situation (state) you’re in.</li>
-        <li>\( a \): The move (action) you choose.</li>
-        <li>\( r \): The immediate reward you get (e.g., points for a good move).</li>
-        <li>\( s' \): The new situation after your move.</li>
-        <li>\( \alpha \): The learning rate—how quickly you update your cheat sheet (between 0 and 1).</li>
-        <li>\( \gamma \): The discount factor—how much you care about future rewards (also between 0 and 1).</li>
-        <li>\( \max_{a'} Q(s', a') \): The best possible score you could get in the next situation.</li>
-      </ul>
-      <p>Think of it like this: you’re tweaking your strategy a little (\( \alpha \)) based on what you just earned (\( r \)) plus a sneak peek at the best future outcome, adjusted by how much you value the long game (\( \gamma \)). Q-learning is especially useful in robotics or game AI, where the agent learns optimal moves without needing a strict playbook.</p>
-      
-      <!-- Tic Tac Toe RL Training Content -->
-<section id="tic-tac-toe-training">
-    <h2>Training an RL Model for Tic Tac Toe: A Step-by-Step Guide</h2>
-    
-    <p>
-      Tic Tac Toe is a classic board game that, despite its simplicity, provides a fantastic testbed for Reinforcement Learning (RL). In this guide, we’ll walk through the detailed process of training an RL agent—using methods like Q-learning—to master Tic Tac Toe. Every step is broken down so that even if you’re new to RL, you can understand the rationale and techniques behind each decision.
-    </p>
-    
-    <h3>1. Understanding the Environment and Game Dynamics</h3>
-    <img src="assets/content_images/tictactoe.png" alt="tictactoe image">
-    <p>
-      In Tic Tac Toe, the <strong>environment</strong> is the game board—a 3x3 grid where each cell can be empty, marked with an “X”, or an “O”. The RL agent interacts with this environment by placing its mark on the board. The game can result in a win, loss, or draw, and we assign:
-    </p>
-    <ul>
-      <li><strong>+1 reward</strong> for a win</li>
-      <li><strong>0 reward</strong> for a draw</li>
-      <li><strong>-1 reward</strong> for a loss</li>
-    </ul>
-    
-    <h3>2. State Representation and Q-Table Initialization</h3>
-    <p>
-      To allow our agent to learn, we first need a way to represent each state of the board. A common approach is:
-    </p>
-    <ul>
-      <li>
-        <strong>Encoding the Board:</strong> Represent the 3x3 grid as a vector or a unique number. For instance, you can assign each cell a value (e.g., 0 for empty, 1 for “X”, -1 for “O”) and then flatten the grid into an array. Alternatively, you can generate a unique key for each board configuration.
-      </li>
-      <li>
-        <strong>Q-Table:</strong> The Q-table is a lookup table where each key corresponds to a state and each value is an array that holds the Q-value for each possible action (i.e., placing a mark in one of the empty cells). Initially, all Q-values are set to zero.
-      </li>
-    </ul>
-    
-    <h3>3. Action Selection: Balancing Exploration and Exploitation</h3>
-    <p>
-      To train effectively, the agent must both explore new moves and exploit known rewarding moves. This is typically handled by an <strong>epsilon-greedy policy</strong>:
-    </p>
-    <ul>
-      <li>
-        With probability <em>ε</em> (epsilon), choose a random move (exploration).
-      </li>
-      <li>
-        With probability <em>1 - ε</em>, select the move with the highest Q-value for the current state (exploitation).
-      </li>
-    </ul>
-    <p>
-      Over time, epsilon is usually decayed so that the agent explores less and exploits more once it has gained sufficient knowledge.
-    </p>
-    
-    <h3>4. The Q-Learning Update Rule</h3>
-    <p>
-      At the heart of training the agent is the Q-learning update rule. When the agent takes an action, it observes the resulting reward and the next state, and then updates its Q-value for the state-action pair using the formula:
-    </p>
-    <div style="text-align: center; margin: 1rem 0;">
-      \[
-        Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]
-      \]
-    </div>
-    <p>
-      Here:
-    </p>
-    <ul>
-      <li><strong>\(s\)</strong>: Current state (the board configuration before the move).</li>
-      <li><strong>\(a\)</strong>: Action taken (the move made).</li>
-      <li><strong>\(r\)</strong>: Immediate reward (win, draw, or loss).</li>
-      <li><strong>\(s'\)</strong>: Next state (the board after the move).</li>
-      <li><strong>\(\alpha\)</strong>: Learning rate, determining how fast the agent updates its knowledge.</li>
-      <li><strong>\(\gamma\)</strong>: Discount factor, indicating the importance of future rewards.</li>
-      <li><strong>\(\max_{a'} Q(s', a')\)</strong>: The maximum predicted future reward for the next state.</li>
-    </ul>
-    <p>
-      This rule helps the agent refine its “cheat sheet” (the Q-table) by blending immediate feedback with its estimation of long-term benefits.
-    </p>
-    
-    <h3>5. Training Loop and Episode Iteration</h3>
-    <p>
-      Training an RL agent for Tic Tac Toe involves running multiple episodes of the game. In each episode:
-    </p>
-    <ol>
-      <li>
-        <strong>Reset the Environment:</strong> Start with an empty board.
-      </li>
-      <li>
-        <strong>Play a Game:</strong> The agent (or two agents playing against each other) makes moves until the game ends.
-      </li>
-      <li>
-        <strong>Update Q-Values:</strong> After each move, update the Q-table using the Q-learning rule.
-      </li>
-      <li>
-        <strong>End of Episode:</strong> Once the game concludes (win, loss, or draw), record the outcome and reset the board for the next episode.
-      </li>
-    </ol>
-    <p>
-      By iterating over thousands of episodes, the agent gradually learns which moves lead to success. You can monitor the performance by periodically evaluating the win/draw/loss ratio.
-    </p>
-    
-    <h3>6. Challenges and Considerations</h3>
-    <p>
-      Although Tic Tac Toe has a limited number of board configurations (roughly 5,478 unique states after accounting for symmetry), there are several challenges:
-    </p>
-    <ul>
-      <li>
-        <strong>State Space Redundancy:</strong> Many board states are equivalent under rotation or reflection. Recognizing these can help reduce redundant learning.
-      </li>
-      <li>
-        <strong>Exploration vs. Exploitation:</strong> Finding the right balance is critical. Too much exploration can slow learning, while too much exploitation can trap the agent in suboptimal strategies.
-      </li>
-      <li>
-        <strong>Hyperparameter Tuning:</strong> Choosing appropriate values for the learning rate (\(\alpha\)), discount factor (\(\gamma\)), and exploration rate (\(\epsilon\)) is essential for effective training.
-      </li>
-    </ul>
-    
-    <h3>7. Optimizing Training</h3>
-    <p>
-      To further enhance performance:
-    </p>
-    <ul>
-      <li>
-        <strong>Vectorized Operations:</strong> If implementing in Python, use libraries like NumPy to perform batch updates and speed up computations.
-      </li>
-      <li>
-        <strong>State Hashing:</strong> Use efficient data structures to quickly retrieve and update Q-values for board states.
-      </li>
-      <li>
-        <strong>Curriculum Learning:</strong> Start with simpler scenarios (e.g., fewer moves or restricted board areas) before moving to full-game training.
-      </li>
-    </ul>
-    
-    <p>
-      With these steps and considerations, you can build an RL agent that learns to play Tic Tac Toe effectively, gaining insights that can be transferred to more complex environments.
-    </p>
-  </section>
+    <div id="progress-bar"></div>
 
-  <br><br>
-  <hr width="100%" size="2">
-  
-  <!-- Detailed Explanation of Different Types of Attention Mechanisms -->
-  <section id="attention-mechanisms">
-    <h2>Understanding Attention Mechanisms in Deep Learning: A Detailed Guide</h2>
-    <p>
-      Attention mechanisms have revolutionized how models process sequences, allowing them to focus on the most relevant parts of the input. In this section, we break down the different types of attention—explaining their workings step by step so that the underlying mathematics and intuition become crystal clear.
-    </p>
-    
-    <h3>A. Self-Attention .....</h3>
-    <p>
-      Self-attention is the fundamental building block behind many modern language models. It allows every element of a sequence (e.g., each word in a sentence) to interact with every other element, determining the importance of one word in the context of another.
-    </p>
-    <ol>
-      <li>
-        <strong>Input Representation:</strong> Every word in the input sequence is converted into a high-dimensional vector (embedding) that captures its semantic meaning.
-      </li>
-      <li>
-        <strong>Linear Projections:</strong> For each word, three vectors are derived using learned linear transformations:
-        <ul>
-          <li><em>Query (Q):</em> Represents the word’s request for contextual information.</li>
-          <li><em>Key (K):</em> Encodes the word’s content that might be relevant to others.</li>
-          <li><em>Value (V):</em> Contains the actual information that will be aggregated.</li>
-        </ul>
-      </li>
-      <li>
-        <strong>Score Calculation:</strong> For a given word, compute the dot product between its query vector and the key vectors of every word in the sequence. This yields a score for each word pair, quantifying their compatibility.
-      </li>
-      <li>
-        <strong>Scaling:</strong> Divide the dot products by \(\sqrt{d_k}\) (where \(d_k\) is the dimension of the key vectors) to stabilize gradients during training.
-      </li>
-      <li>
-        <strong>Softmax Normalization:</strong> Apply the softmax function to the scaled scores to convert them into a probability distribution (attention weights) that sums to 1.
-      </li>
-      <li>
-        <strong>Weighted Sum:</strong> Multiply each value vector by its corresponding attention weight and sum the results to obtain the final representation for the word.
-      </li>
-    </ol>
-    <p style="text-align: center; margin: 1rem 0;">
-      \[
-        \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V
-      \]
-    </p>
-    <p>
-      In essence, self-attention enables the model to dynamically reassemble information by highlighting which words in the sentence are most relevant to each other.
-    </p>
-    
-    <h3>B. Multi-Head Attention .....</h3>
-    <p>
-      Multi-head attention extends self-attention by running multiple attention mechanisms, or “heads,” in parallel. This allows the model to capture different types of relationships and features from the input.
-    </p>
-    <ol>
-      <li>
-        <strong>Multiple Projections:</strong> The input embeddings are projected into multiple sets of Q, K, and V vectors—one set for each head. Each head is trained to focus on different aspects of the input.
-      </li>
-      <li>
-        <strong>Parallel Attention Computation:</strong> Each head computes attention independently using the same self-attention mechanism:
-        <div style="text-align: center; margin: 1rem 0;">
-          \[
-            \text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
-          \]
+    <header class="site-header">
+        <div class="container">
+             <a href="bloghome.html" class="logo">Ranjith's Blog</a>
+             <!-- The nav block is gone -->
+             <div class="header-actions">
+                 <input type="search" id="search-input" placeholder="Search posts..." aria-label="Search Input">
+                 <button id="search-toggle" aria-label="Toggle Search" title="Search">🔍</button>
+                 <button id="theme-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌓</button>
+            </div>
         </div>
-      </li>
-      <li>
-        <strong>Concatenation and Final Projection:</strong> The outputs from all heads are concatenated and passed through a final linear layer to combine the information:
-        <div style="text-align: center; margin: 1rem 0;">
-          \[
-            \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \dots, \text{head}_h) W^O
-          \]
-        </div>
-      </li>
-    </ol>
-    <p>
-      By attending to different parts of the sequence in parallel, multi-head attention enriches the model’s capacity to understand complex and varied dependencies.
-    </p>
-    
-    <h3>C. Grouped Query Attention .....</h3>
-    <p>
-      Grouped Query Attention is designed to reduce the computational overhead inherent in the full attention mechanism. Instead of processing each query independently, similar queries are grouped together, which allows the model to share computations:
-    </p>
-    <ol>
-      <li>
-        <strong>Clustering Queries:</strong> Identify queries that are similar or share common characteristics. These queries are grouped so that their attention calculations can be computed collectively.
-      </li>
-      <li>
-        <strong>Shared Computation:</strong> Compute the attention scores for the grouped queries as a batch, reducing the total number of individual operations required.
-      </li>
-      <li>
-        <strong>Efficiency Trade-Off:</strong> While grouping might introduce a slight approximation error, the reduction in computation significantly speeds up the process, especially beneficial for very large models.
-      </li>
-    </ol>
-    <p>
-      This approach allows models to maintain high accuracy while scaling to longer sequences or larger datasets.
-    </p>
-</section>
-    
-    <h3>D. Multi Latent Attention Mechanism .....</h3>
-    <br>
-    <p>The video blew my mind with DeepSeek’s approach—it’s reportedly 57 times faster than standard attention! How? It optimizes how queries and keys interact, possibly with sparse attention (only looking at nearby or key words) or clever matrix tricks. It’s a game-changer for real-time applications.</p>
+    </header>
 
-      <p>Here’s the video that explains it all—highly recommend checking it out:</p>
-      <br>
-      <iframe width="760" height="400" src="https://www.youtube.com/embed/0VLAoVGf_74?si=YkHsXBvqL5lftd7t" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    
-    <p>
-        <br>In the evolving landscape of deep learning, attention mechanisms play a critical role in capturing complex dependencies within input sequences. DeepSeek has introduced an innovative approach known as the <strong>Multi Latent Attention Mechanism</strong> (MLAM), which leverages latent variable modeling to dynamically extract, aggregate, and fuse multiple levels of context while significantly reducing computational overhead. In this section, we delve into the technical depths of MLAM, detailing its theoretical foundations, mathematical formulation, algorithmic steps, and comparative advantages.
-    </p>
-    
-    <h3>Theoretical Foundations and Motivation</h3>
-    <p>
-      Traditional attention mechanisms—such as self-attention and multi-head attention—tend to compute pairwise interactions between all tokens in an input sequence. While effective, these methods scale quadratically (O(n²)) with sequence length, which can become a bottleneck in processing long sequences. To overcome this, MLAM introduces latent variables that capture the underlying structure of the input data. Instead of attending to every token explicitly, the model projects the input into a lower-dimensional latent space, where key patterns and relationships are distilled into a compact representation.
-    </p>
-    
-    <h3>Mathematical Formulation</h3>
-    <p>
-      The Multi Latent Attention Mechanism can be conceptually divided into three major stages:
-    </p>
-    <ol>
-      <li>
-        <strong>Latent Variable Extraction:</strong> Given an input sequence represented by embeddings \( X \in \mathbb{R}^{n \times d} \) (with \( n \) tokens and dimension \( d \)), MLAM first projects these embeddings into \( L \) latent components using a set of learned linear transformations:
-        <div style="text-align: center; margin: 1rem 0;">
-          \[
-            Z = f(X; W_Z) \quad \text{where} \quad Z \in \mathbb{R}^{n \times L}
-          \]
-        </div>
-        Here, \( W_Z \) denotes the projection matrix, and \( Z \) encapsulates the latent features.
-      </li>
-      <li>
-        <strong>Latent Attention Computation:</strong> For each latent component, separate query, key, and value projections are computed. The attention scores for each latent channel are calculated by comparing the latent queries with the keys, scaled appropriately:
-        <div style="text-align: center; margin: 1rem 0;">
-          \[
-            \text{Attention}_l(Q_l, K_l, V_l) = \text{softmax}\left(\frac{Q_l K_l^T}{\sqrt{d_k}}\right) V_l \quad \text{for } l = 1, 2, \ldots, L
-          \]
-        </div>
-        Each \( Q_l, K_l, V_l \) is derived from the latent representation \( Z \) via dedicated projection matrices.
-      </li>
-      <li>
-        <strong>Aggregation and Fusion:</strong> The outputs from the \( L \) latent attention channels are then concatenated and passed through a final linear transformation to produce the final context-aware representation:
-        <div style="text-align: center; margin: 1rem 0;">
-          \[
-            \text{MLAM}(Q, K, V) = \text{Concat}(\text{Attention}_1, \ldots, \text{Attention}_L) W^O
-          \]
-        </div>
-        Here, \( W^O \) is the output weight matrix that fuses the latent attention outputs into a coherent signal.
-      </li>
-    </ol>
-    
-    <h3>Algorithmic Steps</h3>
-    <ol>
-      <li>
-        <strong>Input Projection:</strong> Transform the input embeddings \( X \) into latent space \( Z \) using a learned projection.
-      </li>
-      <li>
-        <strong>Latent Splitting:</strong> For each of the \( L \) latent components, generate corresponding query (\( Q_l \)), key (\( K_l \)), and value (\( V_l \)) vectors.
-      </li>
-      <li>
-        <strong>Attention Scoring:</strong> Compute the scaled dot-product attention for each latent component using the formula above.
-      </li>
-      <li>
-        <strong>Aggregation:</strong> Concatenate the outputs from all latent channels.
-      </li>
-      <li>
-        <strong>Final Fusion:</strong> Apply a linear transformation to integrate the aggregated attention into the final output representation.
-      </li>
-    </ol>
-    
-    <h3>Comparative Analysis of Attention Mechanisms</h3>
-    <p>
-      The following table compares key attributes of various attention mechanisms, highlighting the distinctive features and computational benefits of the Multi Latent Attention Mechanism.
-    </p>
-    <table border="1" cellspacing="0" cellpadding="5">
-      <thead>
-        <tr>
-          <th>Mechanism</th>
-          <th>Description</th>
-          <th>Computational Complexity</th>
-          <th>Key Features</th>
-          <th>Advantages</th>
-          <th>Disadvantages</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Self-Attention</td>
-          <td>Each token attends to every other token in the sequence.</td>
-          <td>O(n²)</td>
-          <td>Global context; simplicity</td>
-          <td>Effective for moderate sequence lengths</td>
-          <td>Scales poorly with longer sequences</td>
-        </tr>
-        <tr>
-          <td>Multi-Head Attention</td>
-          <td>Multiple attention heads compute parallel attention in different subspaces.</td>
-          <td>O(h * n²), with h heads</td>
-          <td>Diverse representation; rich context capture</td>
-          <td>Improved modeling capacity over single-head attention</td>
-          <td>Increased computational cost</td>
-        </tr>
-        <tr>
-          <td>Grouped Query Attention</td>
-          <td>Clusters similar queries to share computations and reduce redundancy.</td>
-          <td>Below O(n²), dependent on grouping efficiency</td>
-          <td>Efficiency through query grouping</td>
-          <td>Lower computation with minor approximation</td>
-          <td>Potential loss in fine-grained detail</td>
-        </tr>
-        <tr>
-          <td>Multi Latent Attention (DeepSeek)</td>
-          <td>Uses latent variable modeling to extract and aggregate multiple latent representations.</td>
-          <td>Approximately O(L * n), where L ≪ n</td>
-          <td>Dynamic latent extraction; efficient fusion; scalability</td>
-          <td>Reduces computational overhead significantly; excels with long sequences; enhanced real-time performance</td>
-          <td>Higher model complexity; requires careful tuning of latent dimensions</td>
-        </tr>
-      </tbody>
-    </table>
-    
-    <h3>Implementation Considerations</h3>
-    <p>
-      Implementing MLAM demands careful attention to several design aspects:
-    </p>
-    <ul>
-      <li>
-        <strong>Latent Dimension Selection:</strong> The number of latent components \( L \) must be balanced; too few may limit expressiveness, whereas too many can lead to overfitting and unnecessary computational burden.
-      </li>
-      <li>
-        <strong>Projection Layers:</strong> Extend standard Q, K, and V projections to generate distinct latent vectors. This requires additional parameters and careful initialization.
-      </li>
-      <li>
-        <strong>Normalization and Scaling:</strong> Incorporate normalization techniques such as layer normalization and appropriate scaling (e.g., division by \( \sqrt{d_k} \)) to stabilize the gradients during training.
-      </li>
-      <li>
-        <strong>Fusion Strategy:</strong> The concatenation and final projection \( W^O \) must be designed to effectively merge diverse latent insights, ensuring that critical information is preserved.
-      </li>
-    </ul>
-    
-    <h3>Empirical Performance and Applications</h3>
-    <p>
-      Empirical studies have shown that the Multi Latent Attention Mechanism can significantly accelerate model inference and training, particularly in scenarios involving long text sequences or real-time applications. This mechanism is ideally suited for advanced language models, recommendation systems, and other tasks where efficiency and scalability are paramount.
-    </p>
-    
-    <h3 id="section4">Conclusion</h3>
-    <p>
-      DeepSeek’s Multi Latent Attention Mechanism marks a substantial leap in attention-based modeling. By incorporating latent variable modeling, MLAM not only reduces the computational complexity but also enriches the contextual representation by dynamically aggregating multiple latent factors. This approach sets the stage for the next generation of AI applications, offering unparalleled efficiency and robust performance in handling complex, real-world data.
-    </p>
-
-
-    <br><br>
-      <!-- ######### socials ##########-->
-      <div class="connect-container" id="section5">
-        <h2 class="connect-heading">Let's Connect & Grow Together</h2>
-        <p class="connect-text">I'm passionate about sharing knowledge and building a community of like-minded professionals. Connect with me on these platforms and let's learn and grow together!</p>
+    <main class="main-content">
         
-        <ul class="social-links">
-          <li>
-            <a href="https://www.linkedin.com/in/ranjith-kumar-b66180250" class="social-link linkedin" target="_blank">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-              </svg>
-              LinkedIn
-            </a>
-          </li>
-          <li>
-            <a href="https://www.instagram.com/ranjithh_56" class="social-link instagram" target="_blank">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-              Instagram
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/P-RanjithKumar" class="social-link github" target="_blank">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              GitHub
-            </a>
-          </li>
-        </ul>
-      </div>
-  
-  
-  
-      <!-- Post Navigation -->
-      <div class="post-navigation">
-        <a href="blog4.html" class="nav-button prev-post">← Previous Post</a>
-        <a href="blog_all_caught_up.html" class="nav-button next-post">Next Post →</a>
-      </div>
-    </article>
+        <!-- New Content Wrapper for Article + TOC -->
+        <div class="content-wrapper">
 
-    <!-- Table of Contents -->
-    <aside class="toc">
-      <h3>Table of Contents</h3>
-      <ul>
-        <li><a href="#section1">Off-Policy RL Algorithms</a></li>
-        <li><a href="#tic-tac-toe-training">Tic-Tac-Toe Game Project</a></li>
-        <li><a href="#attention-mechanisms">Attention Mechanisms in LLMs</a></li>
-        <li><a href="#section4">Conclusion</a></li>
-      </ul>
-    </aside>
-  </div>
+            <a href="bloghome.html" class="back-to-blog">← Back to Home</a>
 
-  <script>
-    // Scroll Progress Indicator
-    window.addEventListener('scroll', () => {
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      document.querySelector('.progress-bar').style.width = scrolled + "%";
-    });
+            <!-- Article Column -->
+            <div class="article-column">
+                <article class="blog-post" itemscope itemtype="http://schema.org/BlogPosting">
 
-    // Smooth Scroll for Table of Contents
-    document.querySelectorAll('.toc a').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const section = document.querySelector(this.getAttribute('href'));
-        section.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
+                    <!-- Featured Image -->
+                    <figure class="post-featured-image">
+                        <img src="assets/blog_cover_image/ReinforcementLearning.png"
+                             alt="Abstract art representing Reinforcement Learning and Attention"
+                             itemprop="image"
+                             loading="eager"> <!-- Load featured image eagerly -->
+                    </figure>
 
-    // Estimated Reading Time
-    const postContent = document.querySelector('.article-body');
-    const words = postContent.innerText.split(' ').length;
-    const readingTime = Math.ceil(words / 200);
-    document.querySelector('.post-meta span:nth-child(3)').innerHTML = `${readingTime} min read`;
-  </script>
+                    <!-- Post Meta -->
+                    <div class="post-meta">
+                        <span class="category"><a href="#category-ai" itemprop="articleSection">AI</a></span>
+                        <span class="category"><a href="#category-deep-learning" itemprop="articleSection">Deep Learning</a></span>
+                        <span class="category"><a href="#category-blogging" itemprop="articleSection">Blogging</a></span>
+                        <span class="reading-time" title="Estimated reading time">⏱️ Calculating...</span>
+                        <time class="publication-date" datetime="2025-03-07" itemprop="datePublished">March 7, 2025</time>
+                    </div>
+
+                    <!-- Post Title -->
+                    <h1 class="post-title" itemprop="headline">Diving into Reinforcement Learning and Attention Mechanisms</h1>
+
+                    <!-- Author Info -->
+                    <div class="author-info" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                         <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                        <span class="author-name" itemprop="name">Ranjith Kumar</span>
+                    </div>
+
+                    <!-- Content Body -->
+                    <div class="content-body" itemprop="articleBody">
+
+                        <p>Hi everyone! It’s been a couple of weeks since my last post—life got a bit busy, and I’ll admit I got distracted along the way. But I’m back now, and I’ve been diving deep into some exciting topics: Reinforcement Learning (RL), specifically off-policy algorithms like Q-learning, and the fascinating world of attention mechanisms in Large Language Models (LLMs). I’ve also been working on an RL-based Tic-Tac-Toe game, which is nearly complete except for some tricky training hurdles. Plus, I stumbled upon an amazing video that broke down different types of attention mechanisms—more on that later! In this post, I’ll walk you through what I’ve learned, the challenges I’ve faced, and why I’m so hooked on these topics. Let’s get started!</p>
+
+                        <!-- SECTION 1 -->
+                        <h2 id="section1">Off-Policy RL Algorithms</h2>
+                        <p>Reinforcement Learning is all about teaching an agent to make smart decisions by interacting with an environment—like training a virtual pet to fetch a ball. RL algorithms come in two flavors: on-policy and off-policy. On-policy algorithms learn from the actions the agent takes based on its current strategy (or policy), while off-policy algorithms can learn from actions taken by different policies, even from past experiences or random moves. This flexibility allows off-policy methods to reuse old data effectively.</p>
+                        <p>My focus has been on Q-learning, a classic off-policy algorithm. Imagine you’re playing a game and trying to figure out the best move in every situation. Q-learning builds a “Q-table” that scores each possible action in each state—like a cheat sheet telling you how valuable each move is. Over time, it updates these scores based on rewards (e.g., +1 for a win) and potential future outcomes.</p>
+
+                        <div class="math">
+                            \[
+                            Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]
+                            \]
+                        </div>
+
+                        <p>Let’s break it down:</p>
+                        <ul>
+                            <li>\( s \): The current situation (state) you’re in.</li>
+                            <li>\( a \): The move (action) you choose.</li>
+                            <li>\( r \): The immediate reward you get (e.g., points for a good move).</li>
+                            <li>\( s' \): The new situation after your move.</li>
+                            <li>\( \alpha \): The learning rate—how quickly you update your cheat sheet (between 0 and 1).</li>
+                            <li>\( \gamma \): The discount factor—how much you care about future rewards (also between 0 and 1).</li>
+                            <li>\( \max_{a'} Q(s', a') \): The best possible score you could get in the next situation.</li>
+                        </ul>
+                        <p>Think of it like this: you’re tweaking your strategy a little (\( \alpha \)) based on what you just earned (\( r \)) plus a sneak peek at the best future outcome, adjusted by how much you value the long game (\( \gamma \)). Q-learning is especially useful in robotics or game AI, where the agent learns optimal moves without needing a strict playbook.</p>
+
+                        <!-- SECTION 2 (Nested but gets TOC entry) -->
+                        <section id="tic-tac-toe-section"> <!-- Added wrapper section for TOC targeting -->
+                            <h2 id="tic-tac-toe-training">Training an RL Model for Tic Tac Toe: A Step-by-Step Guide</h2>
+                            <p>Tic Tac Toe is a classic board game that, despite its simplicity, provides a fantastic testbed for Reinforcement Learning (RL). In this guide, we’ll walk through the detailed process of training an RL agent—using methods like Q-learning—to master Tic Tac Toe. Every step is broken down so that even if you’re new to RL, you can understand the rationale and techniques behind each decision.</p>
+                            <h3>1. Understanding the Environment and Game Dynamics</h3>
+                            <figure>
+                                <img src="assets/content_images/tictactoe.png" alt="Tic Tac Toe board example" loading="lazy">
+                                <figcaption>The 3x3 Tic Tac Toe board environment.</figcaption>
+                             </figure>
+                            <p>In Tic Tac Toe, the <strong>environment</strong> is the game board—a 3x3 grid where each cell can be empty, marked with an “X”, or an “O”. The RL agent interacts with this environment by placing its mark on the board. The game can result in a win, loss, or draw, and we assign:</p>
+                            <ul>
+                            <li><strong>+1 reward</strong> for a win</li>
+                            <li><strong>0 reward</strong> for a draw</li>
+                            <li><strong>-1 reward</strong> for a loss</li>
+                            </ul>
+                            <h3>2. State Representation and Q-Table Initialization</h3>
+                            <p>To allow our agent to learn, we first need a way to represent each state of the board. A common approach is:</p>
+                            <ul>
+                            <li><strong>Encoding the Board:</strong> Represent the 3x3 grid as a vector or a unique number. For instance, you can assign each cell a value (e.g., 0 for empty, 1 for “X”, -1 for “O”) and then flatten the grid into an array. Alternatively, you can generate a unique key for each board configuration.</li>
+                            <li><strong>Q-Table:</strong> The Q-table is a lookup table where each key corresponds to a state and each value is an array that holds the Q-value for each possible action (i.e., placing a mark in one of the empty cells). Initially, all Q-values are set to zero.</li>
+                            </ul>
+                            <h3>3. Action Selection: Balancing Exploration and Exploitation</h3>
+                            <p>To train effectively, the agent must both explore new moves and exploit known rewarding moves. This is typically handled by an <strong>epsilon-greedy policy</strong>:</p>
+                            <ul>
+                            <li>With probability <em>ε</em> (epsilon), choose a random move (exploration).</li>
+                            <li>With probability <em>1 - ε</em>, select the move with the highest Q-value for the current state (exploitation).</li>
+                            </ul>
+                            <p>Over time, epsilon is usually decayed so that the agent explores less and exploits more once it has gained sufficient knowledge.</p>
+                            <h3>4. The Q-Learning Update Rule</h3>
+                            <p>At the heart of training the agent is the Q-learning update rule. When the agent takes an action, it observes the resulting reward and the next state, and then updates its Q-value for the state-action pair using the formula:</p>
+                            <div class="math">
+                                \[ Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right] \]
+                            </div>
+                            <p>Here:</p>
+                            <ul>
+                            <li><strong>\(s\)</strong>: Current state (the board configuration before the move).</li>
+                            <li><strong>\(a\)</strong>: Action taken (the move made).</li>
+                            <li><strong>\(r\)</strong>: Immediate reward (win, draw, or loss).</li>
+                            <li><strong>\(s'\)</strong>: Next state (the board after the move).</li>
+                            <li><strong>\(\alpha\)</strong>: Learning rate, determining how fast the agent updates its knowledge.</li>
+                            <li><strong>\(\gamma\)</strong>: Discount factor, indicating the importance of future rewards.</li>
+                            <li><strong>\(\max_{a'} Q(s', a')\)</strong>: The maximum predicted future reward for the next state.</li>
+                            </ul>
+                            <p>This rule helps the agent refine its “cheat sheet” (the Q-table) by blending immediate feedback with its estimation of long-term benefits.</p>
+                            <h3>5. Training Loop and Episode Iteration</h3>
+                            <p>Training an RL agent for Tic Tac Toe involves running multiple episodes of the game. In each episode:</p>
+                            <ol>
+                            <li><strong>Reset the Environment:</strong> Start with an empty board.</li>
+                            <li><strong>Play a Game:</strong> The agent (or two agents playing against each other) makes moves until the game ends.</li>
+                            <li><strong>Update Q-Values:</strong> After each move, update the Q-table using the Q-learning rule.</li>
+                            <li><strong>End of Episode:</strong> Once the game concludes (win, loss, or draw), record the outcome and reset the board for the next episode.</li>
+                            </ol>
+                            <p>By iterating over thousands of episodes, the agent gradually learns which moves lead to success. You can monitor the performance by periodically evaluating the win/draw/loss ratio.</p>
+                            <h3>6. Challenges and Considerations</h3>
+                            <p>Although Tic Tac Toe has a limited number of board configurations (roughly 5,478 unique states after accounting for symmetry), there are several challenges:</p>
+                            <ul>
+                            <li><strong>State Space Redundancy:</strong> Many board states are equivalent under rotation or reflection. Recognizing these can help reduce redundant learning.</li>
+                            <li><strong>Exploration vs. Exploitation:</strong> Finding the right balance is critical. Too much exploration can slow learning, while too much exploitation can trap the agent in suboptimal strategies.</li>
+                            <li><strong>Hyperparameter Tuning:</strong> Choosing appropriate values for the learning rate (\(\alpha\)), discount factor (\(\gamma\)), and exploration rate (\(\epsilon\)) is essential for effective training.</li>
+                            </ul>
+                            <h3>7. Optimizing Training</h3>
+                            <p>To further enhance performance:</p>
+                            <ul>
+                            <li><strong>Vectorized Operations:</strong> If implementing in Python, use libraries like NumPy to perform batch updates and speed up computations.</li>
+                            <li><strong>State Hashing:</strong> Use efficient data structures to quickly retrieve and update Q-values for board states.</li>
+                            <li><strong>Curriculum Learning:</strong> Start with simpler scenarios (e.g., fewer moves or restricted board areas) before moving to full-game training.</li>
+                            </ul>
+                            <p>With these steps and considerations, you can build an RL agent that learns to play Tic Tac Toe effectively, gaining insights that can be transferred to more complex environments.</p>
+                        </section> <!-- End tic-tac-toe-section -->
+
+                        <div class="section-divider"></div>
+
+                        <!-- SECTION 3 (Nested but gets TOC entry) -->
+                        <section id="attention-mechanisms-section"> <!-- Added wrapper section for TOC targeting -->
+                            <h2 id="attention-mechanisms">Understanding Attention Mechanisms in Deep Learning: A Detailed Guide</h2>
+                            <p>Attention mechanisms have revolutionized how models process sequences, allowing them to focus on the most relevant parts of the input. In this section, we break down the different types of attention—explaining their workings step by step so that the underlying mathematics and intuition become crystal clear.</p>
+                            <h3>A. Self-Attention</h3>
+                            <p>Self-attention is the fundamental building block behind many modern language models. It allows every element of a sequence (e.g., each word in a sentence) to interact with every other element, determining the importance of one word in the context of another.</p>
+                            <ol>
+                            <li><strong>Input Representation:</strong> Every word in the input sequence is converted into a high-dimensional vector (embedding) that captures its semantic meaning.</li>
+                            <li><strong>Linear Projections:</strong> For each word, three vectors are derived using learned linear transformations:
+                                <ul>
+                                <li><em>Query (Q):</em> Represents the word’s request for contextual information.</li>
+                                <li><em>Key (K):</em> Encodes the word’s content that might be relevant to others.</li>
+                                <li><em>Value (V):</em> Contains the actual information that will be aggregated.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Score Calculation:</strong> For a given word, compute the dot product between its query vector and the key vectors of every word in the sequence. This yields a score for each word pair, quantifying their compatibility.</li>
+                            <li><strong>Scaling:</strong> Divide the dot products by \(\sqrt{d_k}\) (where \(d_k\) is the dimension of the key vectors) to stabilize gradients during training.</li>
+                            <li><strong>Softmax Normalization:</strong> Apply the softmax function to the scaled scores to convert them into a probability distribution (attention weights) that sums to 1.</li>
+                            <li><strong>Weighted Sum:</strong> Multiply each value vector by its corresponding attention weight and sum the results to obtain the final representation for the word.</li>
+                            </ol>
+                            <div class="math">
+                                \[ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V \]
+                            </div>
+                            <p>In essence, self-attention enables the model to dynamically reassemble information by highlighting which words in the sentence are most relevant to each other.</p>
+                            <h3>B. Multi-Head Attention</h3>
+                            <p>Multi-head attention extends self-attention by running multiple attention mechanisms, or “heads,” in parallel. This allows the model to capture different types of relationships and features from the input.</p>
+                            <ol>
+                            <li><strong>Multiple Projections:</strong> The input embeddings are projected into multiple sets of Q, K, and V vectors—one set for each head. Each head is trained to focus on different aspects of the input.</li>
+                            <li><strong>Parallel Attention Computation:</strong> Each head computes attention independently using the same self-attention mechanism:
+                                <div class="math">
+                                \[ \text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V) \]
+                                </div>
+                            </li>
+                            <li><strong>Concatenation and Final Projection:</strong> The outputs from all heads are concatenated and passed through a final linear layer to combine the information:
+                                 <div class="math">
+                                \[ \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \dots, \text{head}_h) W^O \]
+                                </div>
+                            </li>
+                            </ol>
+                            <p>By attending to different parts of the sequence in parallel, multi-head attention enriches the model’s capacity to understand complex and varied dependencies.</p>
+                            <h3>C. Grouped Query Attention</h3>
+                            <p>Grouped Query Attention is designed to reduce the computational overhead inherent in the full attention mechanism. Instead of processing each query independently, similar queries are grouped together, which allows the model to share computations:</p>
+                            <ol>
+                            <li><strong>Clustering Queries:</strong> Identify queries that are similar or share common characteristics. These queries are grouped so that their attention calculations can be computed collectively.</li>
+                            <li><strong>Shared Computation:</strong> Compute the attention scores for the grouped queries as a batch, reducing the total number of individual operations required.</li>
+                            <li><strong>Efficiency Trade-Off:</strong> While grouping might introduce a slight approximation error, the reduction in computation significantly speeds up the process, especially beneficial for very large models.</li>
+                            </ol>
+                            <p>This approach allows models to maintain high accuracy while scaling to longer sequences or larger datasets.</p>
+                            <h3>D. Multi Latent Attention Mechanism</h3>
+                            <p>The video blew my mind with DeepSeek’s approach—it’s reportedly 57 times faster than standard attention! How? It optimizes how queries and keys interact, possibly with sparse attention (only looking at nearby or key words) or clever matrix tricks. It’s a game-changer for real-time applications.</p>
+                            <p>Here’s the video that explains it all—highly recommend checking it out:</p>
+                            <figure>
+                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/0VLAoVGf_74?si=YkHsXBvqL5lftd7t" title="YouTube video player explaining Attention Mechanisms" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                                <figcaption>Video explaining various Attention Mechanisms, including DeepSeek's approach.</figcaption>
+                            </figure>
+                            <p>In the evolving landscape of deep learning, attention mechanisms play a critical role in capturing complex dependencies within input sequences. DeepSeek has introduced an innovative approach known as the <strong>Multi Latent Attention Mechanism</strong> (MLAM), which leverages latent variable modeling to dynamically extract, aggregate, and fuse multiple levels of context while significantly reducing computational overhead. In this section, we delve into the technical depths of MLAM, detailing its theoretical foundations, mathematical formulation, algorithmic steps, and comparative advantages.</p>
+                            <h4>Theoretical Foundations and Motivation</h4>
+                            <p>Traditional attention mechanisms—such as self-attention and multi-head attention—tend to compute pairwise interactions between all tokens in an input sequence. While effective, these methods scale quadratically (O(n²)) with sequence length, which can become a bottleneck in processing long sequences. To overcome this, MLAM introduces latent variables that capture the underlying structure of the input data. Instead of attending to every token explicitly, the model projects the input into a lower-dimensional latent space, where key patterns and relationships are distilled into a compact representation.</p>
+                            <h4>Mathematical Formulation</h4>
+                            <p>The Multi Latent Attention Mechanism can be conceptually divided into three major stages:</p>
+                            <ol>
+                            <li><strong>Latent Variable Extraction:</strong> Given an input sequence represented by embeddings \( X \in \mathbb{R}^{n \times d} \) (with \( n \) tokens and dimension \( d \)), MLAM first projects these embeddings into \( L \) latent components using a set of learned linear transformations:
+                                <div class="math">
+                                \[ Z = f(X; W_Z) \quad \text{where} \quad Z \in \mathbb{R}^{n \times L} \]
+                                </div>
+                                Here, \( W_Z \) denotes the projection matrix, and \( Z \) encapsulates the latent features.
+                            </li>
+                            <li><strong>Latent Attention Computation:</strong> For each latent component, separate query, key, and value projections are computed. The attention scores for each latent channel are calculated by comparing the latent queries with the keys, scaled appropriately:
+                                <div class="math">
+                                \[ \text{Attention}_l(Q_l, K_l, V_l) = \text{softmax}\left(\frac{Q_l K_l^T}{\sqrt{d_k}}\right) V_l \quad \text{for } l = 1, 2, \ldots, L \]
+                                </div>
+                                Each \( Q_l, K_l, V_l \) is derived from the latent representation \( Z \) via dedicated projection matrices.
+                            </li>
+                            <li><strong>Aggregation and Fusion:</strong> The outputs from the \( L \) latent attention channels are then concatenated and passed through a final linear transformation to produce the final context-aware representation:
+                                 <div class="math">
+                                \[ \text{MLAM}(Q, K, V) = \text{Concat}(\text{Attention}_1, \ldots, \text{Attention}_L) W^O \]
+                                </div>
+                                Here, \( W^O \) is the output weight matrix that fuses the latent attention outputs into a coherent signal.
+                            </li>
+                            </ol>
+                            <h4>Algorithmic Steps</h4>
+                            <ol>
+                            <li><strong>Input Projection:</strong> Transform the input embeddings \( X \) into latent space \( Z \) using a learned projection.</li>
+                            <li><strong>Latent Splitting:</strong> For each of the \( L \) latent components, generate corresponding query (\( Q_l \)), key (\( K_l \)), and value (\( V_l \)) vectors.</li>
+                            <li><strong>Attention Scoring:</strong> Compute the scaled dot-product attention for each latent component using the formula above.</li>
+                            <li><strong>Aggregation:</strong> Concatenate the outputs from all latent channels.</li>
+                            <li><strong>Final Fusion:</strong> Apply a linear transformation to integrate the aggregated attention into the final output representation.</li>
+                            </ol>
+                            <h4>Comparative Analysis of Attention Mechanisms</h4>
+                            <p>The following table compares key attributes of various attention mechanisms, highlighting the distinctive features and computational benefits of the Multi Latent Attention Mechanism.</p>
+                            <table>
+                            <thead>
+                                <tr>
+                                <th>Mechanism</th>
+                                <th>Description</th>
+                                <th>Computational Complexity</th>
+                                <th>Key Features</th>
+                                <th>Advantages</th>
+                                <th>Disadvantages</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                <td>Self-Attention</td>
+                                <td>Each token attends to every other token in the sequence.</td>
+                                <td>O(n²)</td>
+                                <td>Global context; simplicity</td>
+                                <td>Effective for moderate sequence lengths</td>
+                                <td>Scales poorly with longer sequences</td>
+                                </tr>
+                                <tr>
+                                <td>Multi-Head Attention</td>
+                                <td>Multiple attention heads compute parallel attention in different subspaces.</td>
+                                <td>O(h * n²), with h heads</td>
+                                <td>Diverse representation; rich context capture</td>
+                                <td>Improved modeling capacity over single-head attention</td>
+                                <td>Increased computational cost</td>
+                                </tr>
+                                <tr>
+                                <td>Grouped Query Attention</td>
+                                <td>Clusters similar queries to share computations and reduce redundancy.</td>
+                                <td>Below O(n²), dependent on grouping efficiency</td>
+                                <td>Efficiency through query grouping</td>
+                                <td>Lower computation with minor approximation</td>
+                                <td>Potential loss in fine-grained detail</td>
+                                </tr>
+                                <tr>
+                                <td>Multi Latent Attention (DeepSeek)</td>
+                                <td>Uses latent variable modeling to extract and aggregate multiple latent representations.</td>
+                                <td>Approximately O(L * n), where L ≪ n</td>
+                                <td>Dynamic latent extraction; efficient fusion; scalability</td>
+                                <td>Reduces computational overhead significantly; excels with long sequences; enhanced real-time performance</td>
+                                <td>Higher model complexity; requires careful tuning of latent dimensions</td>
+                                </tr>
+                            </tbody>
+                            </table>
+                            <h4>Implementation Considerations</h4>
+                            <p>Implementing MLAM demands careful attention to several design aspects:</p>
+                            <ul>
+                            <li><strong>Latent Dimension Selection:</strong> The number of latent components \( L \) must be balanced; too few may limit expressiveness, whereas too many can lead to overfitting and unnecessary computational burden.</li>
+                            <li><strong>Projection Layers:</strong> Extend standard Q, K, and V projections to generate distinct latent vectors. This requires additional parameters and careful initialization.</li>
+                            <li><strong>Normalization and Scaling:</strong> Incorporate normalization techniques such as layer normalization and appropriate scaling (e.g., division by \( \sqrt{d_k} \)) to stabilize the gradients during training.</li>
+                            <li><strong>Fusion Strategy:</strong> The concatenation and final projection \( W^O \) must be designed to effectively merge diverse latent insights, ensuring that critical information is preserved.</li>
+                            </ul>
+                            <h4>Empirical Performance and Applications</h4>
+                            <p>Empirical studies have shown that the Multi Latent Attention Mechanism can significantly accelerate model inference and training, particularly in scenarios involving long text sequences or real-time applications. This mechanism is ideally suited for advanced language models, recommendation systems, and other tasks where efficiency and scalability are paramount.</p>
+                        </section> <!-- End attention-mechanisms-section -->
+
+                        <!-- SECTION 4 -->
+                        <h2 id="section4">Conclusion</h2>
+                        <p>DeepSeek’s Multi Latent Attention Mechanism marks a substantial leap in attention-based modeling. By incorporating latent variable modeling, MLAM not only reduces the computational complexity but also enriches the contextual representation by dynamically aggregating multiple latent factors. This approach sets the stage for the next generation of AI applications, offering unparalleled efficiency and robust performance in handling complex, real-world data.</p>
+
+                    </div> <!-- /.content-body -->
+
+                     <!-- Post Tags -->
+                     <div class="post-tags" itemprop="keywords">
+                         <span>Tags:</span>
+                         <a href="#tag-ai-discussion">AI discussion</a>
+                         <a href="#tag-deep-learning">Deep Learning</a>
+                         <a href="#tag-rl">Reinforcement Learning</a>
+                         <a href="#tag-attention">Attention Mechanisms</a>
+                         <a href="#tag-blogging">Blogging</a>
+                     </div>
+
+                     <!-- Social Share Section -->
+                     <div class="social-share">
+                         <h3>Share This Post</h3>
+                         <div class="share-buttons">
+                             <a href="#" class="share-facebook" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">Facebook</a>
+                             <a href="#" class="share-twitter" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter">Twitter</a>
+                             <a href="https://www.linkedin.com/shareArticle?mini=true&url=[YOUR_BLOG_POST_URL]&title=Diving%20into%20RL%20and%20Attention%20Mechanisms" class="share-linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a>
+                             <a href="#" class="share-reddit" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">Reddit</a>
+                             <a href="mailto:?subject=Check%20out%20this%20post%20on%20RL%20and%20Attention!&body=Thought%20you%20might%20find%20this%20interesting%3A%0A%0A[YOUR_BLOG_POST_URL]" class="share-email" aria-label="Share via Email">Email</a>
+                             <button id="copy-link-button" class="share-copy" aria-label="Copy post link">Copy Link</button>
+                              <button id="native-share-button" aria-label="Share natively" style="display: none;">Share...</button>
+                        </div>
+                     </div>
+
+                     <!-- Author Bio -->
+                     <section class="author-bio" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                         <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                         <div class="author-bio-content">
+                            <h4 itemprop="name">Ranjith Kumar</h4>
+                            <p itemprop="description">Passionate about AI, Deep Learning, and sharing knowledge through blogging. Currently exploring Reinforcement Learning and advanced model architectures. Let's connect and grow together!</p>
+                            <div class="author-social-links">
+                                 <a href="https://www.linkedin.com/in/ranjith-kumar-b66180250" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on LinkedIn" title="LinkedIn">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                 </a>
+                                 <a href="https://github.com/P-RanjithKumar" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on GitHub" title="GitHub">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                 </a>
+                                 <a href="https://www.instagram.com/ranjithh_56" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on Instagram" title="Instagram">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                 </a>
+                            </div>
+                         </div>
+                    </section>
+
+                    <!-- Related Posts Section -->
+                    <section class="related-posts">
+                        <h2>Previous & Next Posts</h2>
+                        <div class="related-posts-grid">
+                            <!-- Previous Post Link -->
+                            <div class="related-post-card">
+                                 <a href="blog4.html" aria-label="Read previous post">
+                                    <img src="assets/blogpost thumbnails/Empowering Patients with Technology.png" alt="Previous Post Thumbnail" loading="lazy">
+                                </a>
+                                 <div class="related-post-card-content">
+                                    <h3><a href="blog4.html">← Previous Post: [Blog 4 Title Here]</a></h3>
+                                    <div class="post-meta">
+                                        <!-- <time datetime="2025-XX-XX">Month Day, 2025</time> -->
+                                        <!-- <span>&middot; X min read</span> -->
+                                    </div>
+                                 </div>
+                            </div>
+                             <!-- Next Post Link -->
+                             <div class="related-post-card">
+                                 <a href="blog_all_caught_up.html" aria-label="Read next post">
+                                    <img src="assets/blogpost thumbnails/allcaughtup.png" alt="Next Post Thumbnail" loading="lazy">
+                                </a>
+                                 <div class="related-post-card-content">
+                                    <h3><a href="blog_all_caught_up.html">Next Post: All Caught Up! →</a></h3>
+                                    <div class="post-meta">
+                                         <time datetime="2025-XX-XX">Future Date</time>
+                                        <!-- <span>&middot; X min read</span> -->
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </section>
+
+                                         <!-- Comments Section -->
+                    <section id="comments" class="comments-section">
+                        <h2>Join the Discussion (<span id="comment-count">0</span>)</h2>
+                        <!-- The placeholder form has been removed -->
+
+                        <div class="gh-comments-info">
+                            <p><strong>Comments via GitHub Discussions:</strong> This blog uses <a href="https://giscus.app/" target="_blank" rel="noopener">Giscus</a>, which leverages GitHub Discussions for comments.</p>
+                            <p>You'll need a GitHub account to comment. Comments will appear in a dedicated Discussion category within the blog's repository.</p>
+                            <!-- Removed the code tag placeholder, Giscus script below handles it -->
+                        </div>
+
+                        <!-- Giscus Script Embed Area -->
+                        <!-- IMPORTANT: Replace placeholders below with values from Giscus.app config! -->
+                        <div id="comment-thread-container">
+                            <script src="https://giscus.app/client.js"
+                                    data-repo="P-RanjithKumar/p-ranjithkumar.github.io"
+                                    data-repo-id="R_kgDONYyxxg"
+                                    data-category="Blog Comments"
+                                    data-category-id="DIC_kwDONYyxxs4CpBgf"
+                                    data-mapping="pathname"
+                                    data-strict="0"
+                                    data-reactions-enabled="1"
+                                    data-emit-metadata="1"
+                                    data-input-position="bottom"
+                                    data-theme="preferred_color_scheme"
+                                    data-lang="en"
+                                    crossorigin="anonymous"
+                                    async>
+                            </script>
+                            <noscript>Please enable JavaScript to view the comments powered by Giscus.</noscript>
+                         </div>
+                         <!-- End Giscus Script Embed Area -->
+
+                    </section>
+
+                </article> <!-- /.blog-post -->
+            </div> <!-- /.article-column -->
+
+            <!-- Table of Contents Column -->
+            <aside class="toc-column">
+                 <nav id="toc-container" aria-label="Table of Contents">
+                    <h3>Table of Contents</h3>
+                    <ol id="toc-list">
+                        <!-- TOC items will be generated here by JS, or manually added -->
+                        <li><a href="#section1">Off-Policy RL Algorithms</a></li>
+                        <li><a href="#tic-tac-toe-training">Training RL for Tic Tac Toe</a></li>
+                        <li><a href="#attention-mechanisms">Understanding Attention Mechanisms</a></li>
+                        <li><a href="#section4">Conclusion</a></li>
+                    </ol>
+                </nav>
+            </aside> <!-- /.toc-column -->
+
+        </div> <!-- /.content-wrapper -->
+    </main> <!-- /.main-content -->
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Ranjith Kumar. Exploring AI and sharing the journey.</p>
+            <div class="footer-links">
+                 <a href="#privacy">Privacy Policy</a> |
+                 <a href="#terms">Terms of Use</a> |
+                 <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Back to top" title="Back to top" style="transform: scale(0);">↑</button>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Theme Toggle ---
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        const sunIcon = '☀️';
+        const moonIcon = '🌓';
+        let isDarkMode = false;
+
+        const setTheme = (theme) => {
+            isDarkMode = theme === 'dark';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            themeToggleButton.textContent = isDarkMode ? sunIcon : moonIcon;
+            themeToggleButton.setAttribute('aria-label', `Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`);
+            localStorage.setItem('theme', theme);
+
+            if (isDarkMode) {
+                 document.body.style.setProperty('--color-bg-rgb', '18, 18, 18');
+                 document.body.style.setProperty('--color-primary-rgb', '77, 171, 247');
+            } else {
+                 document.body.style.setProperty('--color-bg-rgb', '255, 255, 255');
+                 document.body.style.setProperty('--color-primary-rgb', '13, 110, 253');
+            }
+        };
+
+        const initialTheme = currentTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+        setTheme(initialTheme);
+
+        themeToggleButton.addEventListener('click', () => {
+            setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+        });
+        prefersDarkScheme.addEventListener('change', (e) => { if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light'); });
+
+
+         // --- Search Toggle ---
+         const searchToggleButton = document.getElementById('search-toggle');
+         const searchInput = document.getElementById('search-input');
+         searchToggleButton.addEventListener('click', () => { document.body.classList.toggle('search-active'); if(document.body.classList.contains('search-active')) searchInput.focus(); });
+
+        // --- Back to Top Button ---
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+             const isVisible = window.scrollY > 400;
+             backToTopButton.classList.toggle('visible', isVisible);
+             backToTopButton.style.transform = isVisible ? 'scale(1)' : 'scale(0)';
+        }, { passive: true });
+        backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+
+        // --- Reading Progress Bar ---
+        const progressBar = document.getElementById('progress-bar');
+         const updateProgressBar = () => {
+              const contentBody = document.querySelector('.content-body');
+              if (!contentBody) return; // Exit if no content body
+              const element = document.documentElement;
+              const body = document.body;
+              const scrollableHeight = Math.max( body.scrollHeight, body.offsetHeight,
+                                                element.clientHeight, element.scrollHeight, element.offsetHeight ) - window.innerHeight;
+              const scrolled = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
+              progressBar.style.width = `${Math.min(scrolled, 100)}%`;
+         };
+         window.addEventListener('scroll', updateProgressBar, { passive: true });
+         window.addEventListener('resize', updateProgressBar);
+         updateProgressBar(); // Initial calculation
+
+
+         // --- Copy Code Button ---
+         document.querySelectorAll('.copy-code-button').forEach(button => {
+             const pre = button.closest('pre');
+             const code = pre?.querySelector('code');
+             if (!code || !navigator.clipboard) { button.style.display = 'none'; return; }
+             button.addEventListener('click', async () => {
+                 try {
+                     await navigator.clipboard.writeText(code.innerText);
+                     button.textContent = 'Copied!'; button.classList.add('copied');
+                     setTimeout(() => { button.textContent = 'Copy'; button.classList.remove('copied'); }, 2000);
+                 } catch (err) { console.error('Copy failed:', err); button.textContent = 'Error'; }
+             });
+         });
+
+        // --- Copy Link Button ---
+        const copyLinkButton = document.getElementById('copy-link-button');
+        if (copyLinkButton && navigator.clipboard) {
+            copyLinkButton.addEventListener('click', async () => {
+                 try {
+                     // Construct the URL dynamically - replace placeholder if needed (looks like it's not needed now)
+                     const postUrl = window.location.href; //.replace('[YOUR_BLOG_POST_URL]', window.location.href);
+                     await navigator.clipboard.writeText(postUrl);
+                     copyLinkButton.textContent = 'Link Copied!'; copyLinkButton.classList.add('copied');
+                     setTimeout(() => { copyLinkButton.textContent = 'Copy Link'; copyLinkButton.classList.remove('copied'); }, 2000);
+                 } catch (err) { console.error('Copy link failed:', err); copyLinkButton.textContent = 'Error'; }
+            });
+        } else if (copyLinkButton) { copyLinkButton.style.display = 'none'; }
+
+
+        // --- Native Share API Button ---
+        const nativeShareButton = document.getElementById('native-share-button');
+        const postTitle = document.querySelector('.post-title')?.innerText || document.title;
+        const shareUrl = window.location.href; //.replace('[YOUR_BLOG_POST_URL]', window.location.href);
+        if (nativeShareButton && navigator.share) {
+             nativeShareButton.style.display = 'inline-flex';
+             nativeShareButton.addEventListener('click', async () => {
+                 try {
+                    await navigator.share({
+                        title: postTitle,
+                        text: `Check out this post: ${postTitle}`,
+                        url: shareUrl
+                    });
+                 } catch (err) {
+                    if (err.name !== 'AbortError') { console.error('Share failed:', err); }
+                 }
+             });
+        } else if(nativeShareButton) { nativeShareButton.style.display = 'none'; }
+
+
+
+
+        // --- Table of Contents (TOC) Active State Highlighting ---
+        const tocLinks = document.querySelectorAll('#toc-list a');
+        const sections = [];
+        // Collect sections based on TOC links hrefs
+        tocLinks.forEach(link => {
+            const sectionId = link.getAttribute('href').substring(1); // Get ID from href="#sectionId"
+            const section = document.getElementById(sectionId);
+            if (section) {
+                sections.push(section);
+            } else {
+                console.warn(`TOC link points to non-existent section: #${sectionId}`);
+            }
+        });
+
+        if (tocLinks.length > 0 && sections.length > 0) {
+             const observerOptions = {
+                 root: null, // relative to the viewport
+                 rootMargin: `-${getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim()} 0px -60% 0px`, // Adjust top margin for sticky header, bottom margin to activate earlier
+                 threshold: 0 // Trigger as soon as the section enters the adjusted viewport
+             };
+
+             const activateTocLink = (id) => {
+                 tocLinks.forEach(link => {
+                     link.classList.remove('active');
+                     if (link.getAttribute('href') === `#${id}`) {
+                         link.classList.add('active');
+                         // Optional: Scroll TOC into view if the active link is hidden
+                         // link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                     }
+                 });
+             };
+
+             const observerCallback = (entries) => {
+                 // Find the topmost visible or intersecting section
+                 let topVisibleSectionId = null;
+                 entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                         // Check if this section is higher up than the current top one
+                         const currentTopSection = topVisibleSectionId ? document.getElementById(topVisibleSectionId) : null;
+                         if (!currentTopSection || entry.target.getBoundingClientRect().top < currentTopSection.getBoundingClientRect().top) {
+                            topVisibleSectionId = entry.target.id;
+                         }
+                     }
+                 });
+
+                // If we found a visible section, activate its link
+                 if (topVisibleSectionId) {
+                     activateTocLink(topVisibleSectionId);
+                 } else {
+                    // If no sections are intersecting (e.g., scrolled past the last one),
+                    // maybe keep the last one active or clear all. Let's try keeping the last active one if scrolled past.
+                    // Find the last section whose top is above the trigger margin
+                    let lastSectionAbove = null;
+                     for (let i = sections.length - 1; i >= 0; i--) {
+                        if (sections[i].getBoundingClientRect().top < parseInt(observerOptions.rootMargin.split(' ')[0], 10) * -1) {
+                            lastSectionAbove = sections[i].id;
+                            break;
+                        }
+                     }
+                     if(lastSectionAbove) {
+                         activateTocLink(lastSectionAbove);
+                     } else if (window.scrollY === 0) {
+                         // If at the very top, potentially activate the first link or none
+                         activateTocLink(sections[0].id); // Activate first link at top
+                     }
+                 }
+             };
+
+             const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+             sections.forEach(section => scrollObserver.observe(section));
+
+        } else {
+            console.log("TOC or Sections not found for active state highlighting.");
+        }
+
+        // --- Dynamic Reading Time Calculation ---
+        try {
+            const contentBody = document.querySelector('.content-body');
+            const readingTimeSpan = document.querySelector('.reading-time');
+            if (contentBody && readingTimeSpan) {
+                 const text = contentBody.innerText || contentBody.textContent;
+                 const wordCount = text.split(/\s+/).filter(Boolean).length;
+                 const wordsPerMinute = 200; // Average reading speed
+                 const minutes = Math.ceil(wordCount / wordsPerMinute);
+                 readingTimeSpan.innerHTML = `⏱️ ~${minutes} min read`; // Update the span
+                 readingTimeSpan.title = `Estimated reading time: ${minutes} minutes`;
+            }
+        } catch (e) {
+            console.error("Could not calculate reading time:", e);
+            const readingTimeSpan = document.querySelector('.reading-time');
+            if(readingTimeSpan) readingTimeSpan.innerHTML = `⏱️ Reading time N/A`;
+        }
+
+
+    }); // End DOMContentLoaded
+    </script>
+
 </body>
 </html>
