@@ -1,530 +1,866 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog 3 | Ranjith Kumar</title>
-  <style>
-    /* Reuse existing styles from homepage */
-    :root {
-      --primary-color: #2d3436;
-      --accent-color: #0984e3;
-      --text-color: #2d3436;
-      --hover-color: #74b9ff;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      line-height: 1.6;
-      color: var(--text-color);
-      margin: 0 auto;
-      padding: 20px;
-      max-width: 1200px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated Title from blog3.html -->
+    <title>How I learnt Deep Learning and LLMs | Ranjith Kumar</title>
+    <!-- Updated Description based on blog3.html content -->
+    <meta name="description" content="A personal journey detailing how I learned Deep Learning, LLMs, Attention Mechanisms, Tokenization, and Reinforcement Learning, inspired by Andrej Karpathy.">
 
-    /* Fixed Scroll Progress Indicator */
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: #eee;
-      z-index: 1000;
-    }
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: var(--accent-color);
-    }
+    <!-- Include MathJax for rendering LaTeX equations -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    /* Post Header */
-    .post-header {
-      margin-bottom: 3rem;
-      position: relative;
-      padding-top: 10px;
-    }
-    .back-to-blog {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      color: var(--accent-color);
-      margin-bottom: 2rem;
-      transition: color 0.2s ease;
-    }
-    .back-to-blog:hover {
-      color: var(--hover-color);
-    }
-    .post-meta {
-      display: flex;
-      gap: 15px;
-      color: #636e72;
-      font-size: 0.9em;
-      margin: 1rem 0;
-    }
+    <style>
+        /* --- Copied Styles from blog5.html --- */
+        /* 1. --- Reset & Base Styles --- */
+        :root {
+            --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            --font-serif: "Merriweather", "Georgia", serif;
+            --font-mono: "Fira Code", "Courier New", monospace;
 
-    /* Post Content */
-    .post-content {
-      display: grid;
-      grid-template-columns: 1fr 250px;
-      gap: 2rem;
-    }
-    .article-body {
-      max-width: 800px;
-      font-size: 1.1em;
-      line-height: 1.8;
-    }
-    .article-body img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 2rem 0;
-    }
-    .article-body h2,
-    .article-body h3 {
-      margin: 2rem 0 1rem;
-      color: var(--primary-color);
-    }
-    blockquote {
-      border-left: 4px solid var(--accent-color);
-      padding: 1rem 2rem;
-      margin: 2rem 0;
-      background: #f8f9fa;
-      border-radius: 0 8px 8px 0;
-    }
+            --color-text: #333;
+            --color-bg: #ffffff;
+            --color-primary: #0d6efd; /* Bootstrap Blue */
+            --color-secondary: #6c757d;
+            --color-accent: #fd7e14; /* Bootstrap Orange */
+            --color-border: #dee2e6;
+            --color-code-bg: #f8f9fa;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #e9ecef;
+            --color-illustration-border: var(--color-accent);
 
-    /* Table of Contents */
-    .toc {
-      position: sticky;
-      top: 20px;
-      align-self: start;
-      padding: 1.5rem;
-      background: #f8f9fa;
-      border-radius: 8px;
-    }
-    .toc ul {
-      list-style: none;
-      padding-left: 1rem;
-    }
-    .toc a {
-      color: var(--text-color);
-      text-decoration: none;
-      transition: color 0.2s ease;
-      display: block;
-      padding: 0.3rem 0;
-    }
-    .toc a:hover {
-      color: var(--accent-color);
-    }
+            --container-width: 800px;
+            --toc-width: 220px; /* Width for the Table of Contents */
+            --layout-gap: calc(var(--spacing-unit) * 2.5); /* Gap between content and TOC */
+            --main-wrapper-width: calc(var(--container-width) + var(--toc-width) + var(--layout-gap)); /* Max width for content+TOC */
 
-    /* Post Navigation */
-    .post-navigation {
-      margin: 4rem 0;
-      display: flex;
-      justify-content: space-between;
-      border-top: 1px solid #eee;
-      padding-top: 2rem;
-    }
-    .nav-button {
-      padding: 12px 25px;
-      text-decoration: none;
-      border-radius: 25px;
-      transition: all 0.2s ease;
-    }
-    .prev-post {
-      background: var(--accent-color);
-      color: white;
-    }
-    .next-post {
-      background: #f1f2f6;
-      color: var(--text-color);
-    }
-    .nav-button:hover {
-      transform: translateY(-2px);
-    }
+            --spacing-unit: 1rem;
+            --border-radius: 6px;
+            --transition-speed: 0.3s;
+            --transition-speed-fast: 0.15s;
+            --header-height: 65px;
+        }
 
-    .connect-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 10px;
-      background: linear-gradient(to right, #f8f9fa, #e9ecef);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    .connect-heading {
-      color: #2d3748;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      position: relative;
-      padding-bottom: 0.5rem;
-    }
-    
-    .connect-heading::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 3px;
-      width: 60px;
-      background-color: #4299e1;
-      border-radius: 3px;
-    }
-    
-    .connect-text {
-      color: #4a5568;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-    
-    .social-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      list-style: none;
-      padding: 0;
-    }
-    
-    .social-link {
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1.5rem;
-      background-color: white;
-      border-radius: 50px;
-      text-decoration: none;
-      color: #2d3748;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    
-    .social-link:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .social-link:hover .icon {
-      transform: rotate(10deg);
-    }
-    
-    .linkedin:hover {
-      background-color: #0077b5;
-      color: white;
-    }
-    
-    .instagram:hover {
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      color: white;
-    }
-    
-    .github:hover {
-      background-color: #333;
-      color: white;
-    }
-    
-    .icon {
-      margin-right: 10px;
-      transition: transform 0.3s ease;
-    }
-    
-    @media (max-width: 600px) {
-      .social-links {
-        flex-direction: column;
-      }
-      
-      .social-link {
-        width: 100%;
-        justify-content: center;
-      }
-    }
+        body.dark-mode {
+            --color-text: #e9ecef;
+            --color-bg: #121212;
+            --color-primary: #4dabf7;
+            --color-secondary: #adb5bd;
+            --color-accent: #ff922b;
+            --color-border: #495057;
+            --color-code-bg: #2a2a2a;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #343a40;
+            --color-illustration-border: var(--color-accent);
+        }
 
-    /* New Math Section Styles */
-    .math-section {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-    }
-    
-    .math-card {
-      background: linear-gradient(145deg, #ffffff, #f5f7fa);
-      border-radius: 12px;
-      padding: 24px;
-      margin: 20px 0;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-    
-    .math-formula {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      border-left: 4px solid #0984e3;
-      margin: 15px 0;
-      font-size: 1.1em;
-    }
-    
-    .math-breakdown {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin: 20px 0;
-    }
-    
-    .math-component {
-      background: #f8fafc;
-      padding: 15px;
-      border-radius: 8px;
-      transition: transform 0.2s ease;
-    }
-    
-    .math-component:hover {
-      transform: translateY(-2px);
-    }
-    
-    .math-title {
-      color: #0984e3;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 100%; } /* Enable smooth scroll */
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .post-content {
-        grid-template-columns: 1fr;
-      }
-      .toc {
-        position: static;
-        margin-bottom: 2rem;
-      }
-      .post-navigation {
-        flex-direction: column;
-        gap: 1rem;
-      }
-      .math-breakdown {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        img, video, figure, canvas, iframe { max-width: 100%; height: auto; display: block; margin: var(--spacing-unit) 0; }
+        a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-speed-fast) ease, opacity var(--transition-speed-fast) ease; }
+        a:hover { color: var(--color-accent); text-decoration: underline; }
+        *:focus-visible { outline: 3px dashed var(--color-primary); outline-offset: 3px; }
+
+        /* Target headings for scroll margin */
+        h2[id], h3[id], h4[id], section[id] {
+            scroll-margin-top: calc(var(--header-height) + var(--spacing-unit) * 1.5);
+        }
+
+        /* 2. --- Layout Structure --- */
+        .container { /* Still used for header/footer */
+             width: 90%;
+             max-width: var(--container-width); /* Default article width */
+             margin: 0 auto;
+             padding: 0 calc(var(--spacing-unit) / 2);
+        }
+        /* New wrapper for main content and TOC */
+        .content-wrapper {
+            width: 90%;
+            max-width: var(--main-wrapper-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, var(--container-width)) auto; /* Article column + TOC column */
+            gap: var(--layout-gap);
+            align-items: start; /* Align top */
+        }
+        .article-column {
+            grid-column: 1 / 2;
+            max-width: 100%; /* Ensure it doesn't overflow */
+        }
+        .toc-column {
+            grid-column: 2 / 3;
+            width: var(--toc-width);
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-unit) * 1.5); /* Stick below header */
+            height: calc(100vh - var(--header-height) - var(--spacing-unit) * 3); /* Limit height */
+            overflow-y: auto; /* Allow scrolling within TOC if needed */
+        }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 5px; background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); width: 0%; z-index: 100; transition: width 0.1s linear; }
+
+        /* 3. --- Header --- */
+        .site-header {
+            background-color: rgba(var(--color-bg-rgb, 255, 255, 255), 0.85);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: calc(var(--spacing-unit) * 0.75) 0;
+            position: sticky; top: 0; z-index: 99;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            height: var(--header-height);
+        }
+
+        body.dark-mode .site-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        body { --color-bg-rgb: 255, 255, 255; --color-primary-rgb: 13, 110, 253;}
+        body.dark-mode { --color-bg-rgb: 18, 18, 18; --color-primary-rgb: 77, 171, 247; }
+
+        .site-header .container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: var(--main-wrapper-width); /* Make header align with content+toc */ }
+        .logo { font-size: 1.6rem; font-weight: 700; color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+        .logo:hover { text-decoration: none; color: var(--color-primary); }
+
+        .header-actions { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.2); }
+        .header-actions button { background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--color-secondary); transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; padding: 5px; }
+        .header-actions button:hover {
+            color: var(--color-primary);
+            transform: scale(1.1);
+            background-color: rgba(var(--color-primary-rgb), 0.08);
+            border-radius: 50%;
+        }
+        .header-actions button:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; background-color: rgba(var(--color-primary-rgb), 0.08); border-radius: 50%; }
+        #search-input { display: none; border: 1px solid var(--color-border); padding: 6px 10px; border-radius: var(--border-radius); background-color: var(--color-bg); color: var(--color-text); }
+        body.search-active #search-input { display: inline-block; animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(10px)} to { opacity: 1; transform: translateX(0)} }
+        @media (max-width: 768px) { .main-navigation { display: none; } } /* Keep main-nav hidden if needed */
+
+        /* 4. --- Main Content Area --- */
+        .main-content { flex-grow: 1; padding: calc(var(--spacing-unit) * 2.5) 0; }
+        .blog-post { background-color: var(--color-bg); transition: background-color var(--transition-speed) ease; }
+        /* Back to blog link style */
+        .back-to-blog {
+            display: inline-block;
+            margin-bottom: var(--spacing-unit);
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed-fast) ease;
+        }
+        .back-to-blog:hover {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
+        .post-featured-image { margin-bottom: calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: box-shadow var(--transition-speed) ease; }
+        body.dark-mode .post-featured-image { box-shadow: 0 10px 30px rgba(255,255,255,0.05); }
+        .post-featured-image img { width: 100%; max-width: none; height: auto; display: block; margin: 0 auto; }
+        /* Specific height adjustment for this post's image if needed */
+        .post-featured-image.neural-network img {
+             /* Adjust height as desired, using aspect-ratio or max-height */
+             /* Example: Keep aspect ratio but limit height */
+             /* max-height: 350px; */
+             /* object-fit: cover; */
+             /* Or force height (might distort) */
+             /* height: 150px; */ /* From blog3 - likely too small now */
+             /* Let's try a moderate height with cover */
+              max-height: 300px;
+              object-fit: cover;
+        }
+
+
+        .post-meta { font-size: 0.9rem; color: var(--color-secondary); margin-bottom: var(--spacing-unit); display: flex; flex-wrap: wrap; gap: calc(var(--spacing-unit) * 1.2); align-items: center; }
+        .post-meta .category a { background-color: var(--color-primary); color: #fff; padding: 3px 10px; border-radius: calc(var(--border-radius) / 1.5); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; transition: background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; display: inline-block; }
+        .post-meta .category a:hover { background-color: var(--color-accent); text-decoration: none; transform: translateY(-2px); }
+        .post-title { font-size: 2.8rem; font-family: var(--font-serif); font-weight: 700; line-height: 1.25; margin-bottom: var(--spacing-unit); color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .author-info { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 0.75); margin-bottom: calc(var(--spacing-unit) * 2.5); font-size: 0.95rem; }
+        .author-info .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-border); }
+        .author-info .author-name { font-weight: 500; color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+
+        .content-body { font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.8; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .content-body > * + * { margin-top: calc(var(--spacing-unit) * 1.8); }
+        .content-body h2, .content-body h3, .content-body h4 { font-family: var(--font-primary); font-weight: 700; line-height: 1.3; margin-top: calc(var(--spacing-unit) * 3); color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .content-body h2[id] { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; }
+        .content-body h3[id] { font-size: 1.6rem; }
+        .content-body h4[id] { font-size: 1.3rem; color: var(--color-primary); }
+        /* Also style non-ID headings if they exist */
+        .content-body h2:not([id]) { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; }
+        .content-body h3:not([id]) { font-size: 1.6rem; }
+        .content-body h4:not([id]) { font-size: 1.3rem; color: var(--color-primary); }
+
+        .content-body p, .content-body ul, .content-body ol, .content-body blockquote, .content-body figure, .content-body pre, .content-body table, .content-body iframe, .content-body .math {
+            transition: none; /* Disable transitions for content elements */
+        }
+
+        .content-body ul, .content-body ol { margin-left: calc(var(--spacing-unit) * 1.5); padding-left: var(--spacing-unit); }
+        .content-body li { margin-bottom: calc(var(--spacing-unit) * 0.5); }
+        .content-body blockquote { border-left: 5px solid var(--color-blockquote-border); padding-left: calc(var(--spacing-unit) * 1.5); margin-left: 0; font-style: italic; font-size: 1.2rem; color: var(--color-secondary); transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        .content-body code { font-family: var(--font-mono); background-color: var(--color-code-bg); padding: 3px 6px; border-radius: var(--border-radius); font-size: 0.9em; color: var(--color-text); transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        body.dark-mode .content-body code { color: #f8f9fa; }
+        .content-body pre { background-color: var(--color-code-bg); padding: calc(var(--spacing-unit) * 1.5); border-radius: var(--border-radius); overflow-x: auto; position: relative; transition: background-color var(--transition-speed) ease; border: 1px solid var(--color-border); margin: var(--spacing-unit) 0; }
+        .content-body pre code { background-color: transparent; padding: 0; font-size: 0.95rem; line-height: 1.6; color: var(--color-text); transition: color var(--transition-speed) ease; display: block; }
+        body.dark-mode .content-body pre code { color: #f8f9fa; }
+        .copy-code-button { position: absolute; top: 12px; right: 12px; background-color: var(--color-secondary); color: #fff; border: none; padding: 6px 12px; border-radius: var(--border-radius); font-size: 0.85rem; cursor: pointer; opacity: 0; transition: opacity var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; transform: translateY(5px); }
+        .content-body pre:hover .copy-code-button { opacity: 1; transform: translateY(0); }
+        .copy-code-button:hover { background-color: var(--color-primary); transform: scale(1.05) translateY(0); }
+        .copy-code-button.copied { background-color: var(--color-accent); transform: scale(1.05) translateY(0); }
+
+        .content-body .math { text-align: center; margin: var(--spacing-unit) 0; padding: var(--spacing-unit); background-color: var(--color-code-bg); border-radius: var(--border-radius); overflow-x: auto; border: 1px solid var(--color-border); }
+        /* Style for the breakdown from blog3, using standard elements */
+        .math-breakdown { margin-top: var(--spacing-unit); text-align: left; font-size: 0.95rem; }
+        .math-breakdown p { margin-bottom: calc(var(--spacing-unit) * 0.5); }
+        .math-breakdown strong { color: var(--color-primary); font-weight: 600; display: block; margin-bottom: 3px; }
+
+
+        .content-body figure { margin: calc(var(--spacing-unit) * 2) 0; }
+        .content-body figure img { border-radius: var(--border-radius); box-shadow: 0 5px 15px rgba(0,0,0,0.07); }
+        body.dark-mode .content-body figure img { box-shadow: 0 5px 15px rgba(255,255,255,0.05); }
+        .content-body figcaption { font-size: 0.9rem; color: var(--color-secondary); text-align: center; margin-top: calc(var(--spacing-unit) * 0.5); }
+
+        /* Section Divider (Optional, can uncomment if desired) */
+        /* .section-divider { height: 5px; width: 100px; margin: calc(var(--spacing-unit) * 3) auto; background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary)); background-size: 200% 100%; border-radius: 3px; animation: gradient-shift 4s linear infinite; }
+        @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } } */
+
+        .post-tags { margin-top: calc(var(--spacing-unit) * 3); padding-top: calc(var(--spacing-unit) * 1.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .post-tags span { font-weight: 600; margin-right: var(--spacing-unit); color: var(--color-secondary); transition: color var(--transition-speed) ease; }
+        .post-tags a { display: inline-block; background-color: var(--color-code-bg); color: var(--color-secondary); padding: 5px 12px; border-radius: 15px; font-size: 0.9rem; margin-right: calc(var(--spacing-unit) / 2); margin-bottom: calc(var(--spacing-unit) / 2); transition: background-color var(--transition-speed-fast) ease, color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; border: 1px solid var(--color-border); }
+        .post-tags a:hover { background-color: var(--color-primary); color: #fff; text-decoration: none; transform: translateY(-2px) scale(1.03); border-color: var(--color-primary); }
+
+        .social-share { margin-top: calc(var(--spacing-unit) * 3); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-code-bg); text-align: center; transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+        .social-share h3 { margin-bottom: calc(var(--spacing-unit) * 1.5); font-size: 1.2rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .share-buttons a, .share-buttons button { display: inline-flex; align-items: center; justify-content: center; margin: 6px; padding: 10px 18px; border-radius: var(--border-radius); color: #fff; font-size: 0.95rem; font-weight: 500; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; min-width: 110px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .share-buttons a:hover, .share-buttons button:hover { opacity: 0.9; transform: translateY(-3px) scale(1.02); text-decoration: none; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .share-facebook { background-color: #1877F2; } .share-twitter { background-color: #1DA1F2; } .share-linkedin { background-color: #0A66C2; } .share-reddit { background-color: #FF4500; } .share-email { background-color: #777; } .share-copy { background-color: var(--color-secondary); }
+        .share-copy.copied { background-color: var(--color-accent) !important; }
+        #native-share-button { background-color: #0056b3; }
+
+        .author-bio { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 2); background-color: var(--color-code-bg); border-radius: var(--border-radius); display: flex; gap: calc(var(--spacing-unit) * 1.5); align-items: flex-start; transition: background-color var(--transition-speed) ease; border: 1px solid var(--color-border); }
+        .author-bio .avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 3px solid var(--color-bg); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .author-bio-content h4 { margin-bottom: calc(var(--spacing-unit) / 1.5); font-size: 1.3rem; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .author-bio-content p { font-size: 1rem; line-height: 1.6; color: var(--color-secondary); transition: color var(--transition-speed) ease; margin-bottom: var(--spacing-unit); }
+        .author-social-links a { margin-right: 12px; font-size: 1.3rem; color: var(--color-secondary); transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; display: inline-block; }
+        .author-social-links a:hover { color: var(--color-primary); transform: scale(1.1); }
+        .author-social-links a svg { width: 20px; height: 20px; vertical-align: middle; fill: currentColor; }
+
+        .related-posts { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 2.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .related-posts h2 { text-align: center; margin-bottom: calc(var(--spacing-unit) * 2); font-size: 1.8rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: calc(var(--spacing-unit) * 1.5); }
+        .related-post-card { border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; background-color: var(--color-bg); transition: border-color var(--transition-speed) ease, box-shadow 0.3s ease, transform 0.3s ease; display: flex; flex-direction: column; }
+        .related-post-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.1); border-color: var(--color-primary); transform: translateY(-5px); }
+        body.dark-mode .related-post-card { background-color: var(--color-code-bg); }
+        body.dark-mode .related-post-card:hover { box-shadow: 0 8px 25px rgba(255,255,255,0.08); }
+        .related-post-card a:first-child:focus-visible { outline-offset: -3px; }
+        .related-post-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--color-border); transition: transform 0.3s ease; margin: 0; }
+        .related-post-card:hover img { transform: scale(1.05); }
+        .related-post-card-content { padding: calc(var(--spacing-unit) * 1.2); flex-grow: 1; display: flex; flex-direction: column; }
+        .related-post-card h3 { font-size: 1.1rem; margin-bottom: calc(var(--spacing-unit) / 1.5); line-height: 1.4; flex-grow: 1; }
+        .related-post-card h3 a { color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+        .related-post-card h3 a:hover { color: var(--color-primary); text-decoration: none; }
+        .related-post-card .post-meta { font-size: 0.8rem; margin-top: var(--spacing-unit); margin-bottom: 0; gap: calc(var(--spacing-unit) / 1.5); color: var(--color-secondary); }
+
+        .comments-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 2.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .comments-section h2 { margin-bottom: calc(var(--spacing-unit) * 1.8); font-size: 1.8rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .gh-comments-info { background-color: var(--color-illustration-bg); border: 1px dashed var(--color-secondary); padding: calc(var(--spacing-unit) * 1.5); margin: calc(var(--spacing-unit)*2) 0; border-radius: var(--border-radius); font-size: 0.95rem; line-height: 1.6; color: var(--color-secondary); }
+        .gh-comments-info p { margin-bottom: 1em; }
+        .gh-comments-info strong { color: var(--color-text); }
+        .gh-comments-info code { font-size: 0.85em; padding: 2px 5px; background-color: rgba(0,0,0,0.05); border-radius: 3px; }
+        body.dark-mode .gh-comments-info code { background-color: rgba(255,255,255,0.1); }
+        #comment-thread-container { margin-top: calc(var(--spacing-unit) * 2); }
+
+        /* 5. --- Footer --- */
+        .site-footer { background-color: var(--color-code-bg); color: var(--color-secondary); padding: calc(var(--spacing-unit) * 2.5) 0; margin-top: calc(var(--spacing-unit) * 4); font-size: 0.9rem; text-align: center; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; border-top: 1px solid var(--color-border); }
+        .site-footer .container { max-width: var(--main-wrapper-width); } /* Align footer content */
+        .site-footer a { color: var(--color-secondary); transition: color var(--transition-speed-fast) ease; }
+        .site-footer a:hover { color: var(--color-primary); }
+        .footer-links { margin-top: calc(var(--spacing-unit) / 1.5); }
+        .footer-links a { margin: 0 10px; }
+
+        /* 6. --- Utility & Interaction Styles --- */
+        #back-to-top { position: fixed; bottom: 25px; right: 25px; background-color: var(--color-primary); color: #fff; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; line-height: 50px; text-align: center; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform 0.2s ease; z-index: 90; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        #back-to-top.visible { opacity: 0.8; visibility: visible; transform: scale(1); }
+        #back-to-top:hover { opacity: 1; background-color: var(--color-accent); transform: scale(1.1); }
+        #back-to-top:active { transform: scale(1); }
+
+        /* 7. --- Table of Contents Styling --- */
+        #toc-container {
+            padding: calc(var(--spacing-unit) * 1);
+            border-left: 1px solid var(--color-border); /* Optional separator */
+            transition: border-color var(--transition-speed) ease;
+        }
+        #toc-container h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-unit);
+            padding-bottom: calc(var(--spacing-unit) * 0.5);
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text);
+        }
+        #toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        #toc-list li {
+            margin-bottom: calc(var(--spacing-unit) * 0.5);
+        }
+        #toc-list a {
+            display: block;
+            color: var(--color-secondary);
+            padding: 4px 0;
+            transition: color var(--transition-speed-fast), border-left-color var(--transition-speed-fast), transform var(--transition-speed-fast);
+            border-left: 3px solid transparent; /* For active state indicator */
+            padding-left: calc(var(--spacing-unit) * 0.75);
+            text-decoration: none;
+        }
+        #toc-list a:hover {
+            color: var(--color-primary);
+            transform: translateX(3px);
+            text-decoration: none;
+        }
+        #toc-list a.active {
+            color: var(--color-primary);
+            font-weight: 600;
+            border-left-color: var(--color-primary);
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 1024px) { /* Adjust breakpoint as needed */
+            .content-wrapper { grid-template-columns: 1fr; max-width: var(--container-width); width: 90%; }
+            .toc-column { display: none; }
+            .site-header .container, .site-footer .container { max-width: var(--container-width); }
+            .post-featured-image img { max-width: 800px; }
+            .post-featured-image.neural-network img { max-height: 250px; } /* Adjust height for smaller screens */
+        }
+        @media (max-width: 768px) {
+            .post-title { font-size: 2.2rem; }
+            .content-body { font-size: 1.1rem; }
+            .content-body h2 { font-size: 1.8rem; }
+            .content-body h3 { font-size: 1.5rem; }
+            .author-bio { flex-direction: column; align-items: center; text-align: center; }
+            .author-bio .avatar { margin-bottom: var(--spacing-unit); }
+            .post-featured-image.neural-network img { max-height: 200px; }
+        }
+         @media (max-width: 600px) {
+              .related-posts-grid { grid-template-columns: 1fr; }
+         }
+    </style>
 </head>
 <body>
-  <!-- Scroll Progress Indicator -->
-  <div class="scroll-progress">
-    <div class="progress-bar"></div>
-  </div>
+    <!-- Optional Loading Spinner -->
+    <!-- <div class="loader-wrapper"><div class="loader"></div></div> -->
 
-  <header class="post-header">
-    <a href="bloghome.html" class="back-to-blog">← Back to Blog</a>
-    <h1>How I learnt Deep Learning and LLMs: A Tale of Code, Curiosity, and Andrej Karpathy</h1>
-    <div class="post-meta">
-      <span>Feb 23, 2025</span>
-      <span>•</span>
-      <span>10 min read</span>
-    </div>
-    <div class="post-tags">
-      <span class="tag">Deep Learning  </span>
-      <span class="tag">Blogging</span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <article class="article-body">
-      <!-- Cover Image -->
-      <img src="assets/blog_cover_image/neuralnetwork.png" alt="Blog post cover image" style="border-radius: 8px; width: 800px; height: 150px;">
-  
-      <!-- Introduction -->
-      <p>Hey there! I’m Ranjith Kumar, and today I’m taking you on a journey—from my first steps in deep learning to wrestling with large language models (LLMs) and even dipping my toes into reinforcement learning (RL). It’s been a wild ride of late-night coding, GPU rentals, and a YouTube obsession that changed everything. If you’re curious about how LLMs work, what makes attention mechanisms tick, or why RL is suddenly my new jam, you’re in the right place. Let’s break it all down, step by step, with plenty of visuals and beginner-friendly explanations along the way.</p>
-  
-      <!-- Section 1 -->
-      <h2 id="section1">1. The Spark: PyTorch, Python, and a Hunger to Learn</h2>
-      <p>Like many of you, my deep learning journey started with the basics: Python and PyTorch. In college, I learned just enough to build simple neural networks—but let’s be honest, I was the kid tweaking code and praying it wouldn’t crash. The real magic happened outside class, down the YouTube rabbit hole. I devoured tutorials on LLMs, trying to understand how models like GPT churn out human-like text. Most videos were decent, but they left me with more questions than answers. That is, until I found my deep learning hero: Andrej Karpathy.</p>
-  
-      <!-- Section 2 -->
-      <h2 id="section2">2. Andrej Karpathy: The Teacher I Never Met</h2>
-      <p>One day, I stumbled upon Andrej Karpathy’s video on GPT-2, and it was like the clouds parted. His chill, no-nonsense style made even the toughest concepts feel approachable. I became a fanboy overnight, binging everything he’d ever posted. Thanks to Andrej, I finally cracked two of the trickiest parts of LLMs: <strong>attention mechanisms</strong> and <strong>tokenization</strong>. If you’re new to these terms, don’t worry—we’re about to break them down together.</p>
-      <!-- Section 3 -->
-      <h2 id="section3">3. Attention Mechanisms: The Secret Sauce of LLMs</h2>
-      <p>Let's start with attention mechanisms. Imagine you're reading this sentence: "The cat slept while the dog barked." Your brain naturally focuses on "cat" and "slept" to understand what's happening, right? Attention does the same for LLMs—it helps the model focus on the most important parts of the input when predicting the next word.</p>
-      
-      <!--  Math Section -->
-      <div class="math-section">
-        <div class="math-card">
-          <p>The attention mechanism can be broken down into a simple formula that shows how different parts work together:</p>
-          
-          <div class="math-formula">
-            <center>
-              Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>) × V
-            </center>
-          </div>
-          
-          <div class="math-breakdown">
-            <div class="math-component">
-              <div class="math-title">Step 1: Similarity Score</div>
-              <p>QK<sup>T</sup> measures how well each word matches with others - like finding connections between words.</p>
+    <div id="progress-bar"></div>
+
+    <header class="site-header">
+        <div class="container">
+             <a href="bloghome.html" class="logo">Ranjith's Blog</a>
+             <div class="header-actions">
+                 <input type="search" id="search-input" placeholder="Search posts..." aria-label="Search Input">
+                 <button id="search-toggle" aria-label="Toggle Search" title="Search">🔍</button>
+                 <button id="theme-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌓</button>
             </div>
-            
-            <div class="math-component">
-              <div class="math-title">Step 2: Scaling (√d<sub>k</sub>)</div>
-              <p>We divide by √d<sub>k</sub> to keep numbers manageable - think of it as turning down the volume when it's too loud.</p>
-            </div>
-            
-            <div class="math-component">
-              <div class="math-title">Step 3: Softmax</div>
-              <p>Converts scores into percentages (0-100%) showing how much attention each word should get.</p>
-            </div>
-            
-            <div class="math-component">
-              <div class="math-title">Step 4: Final Output</div>
-              <p>Multiply by V to get the weighted result - like mixing ingredients based on their importance in a recipe.</p>
-            </div>
-          </div>
         </div>
-        
-        <div class="math-card">
-          <h4>💡 Quick Example</h4>
-          <p>Imagine processing the sentence "The cat chased the mouse":</p>
-          <ul>
-            <li>When focusing on "cat", the model pays more attention to "chased" (action)</li>
-            <li>When focusing on "chased", it pays attention to both "cat" (subject) and "mouse" (object)</li>
-            <li>This helps the model understand who did what to whom</li>
-          </ul>
+    </header>
+
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- Article Column -->
+            <div class="article-column">
+                <a href="bloghome.html" class="back-to-blog">← Back to Home</a>
+
+                <article class="blog-post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                    <!-- Featured Image from blog3 -->
+                    <figure class="post-featured-image neural-network">
+                        <img src="assets/blog_cover_image/neuralnetwork.png"
+                             alt="Abstract neural network connections representing Deep Learning"
+                             itemprop="image"
+                             loading="eager">
+                    </figure>
+
+                    <!-- Post Meta from blog3 -->
+                    <div class="post-meta">
+                        <span class="category"><a href="#category-deep-learning" itemprop="articleSection">Deep Learning</a></span>
+                        <span class="category"><a href="#category-blogging" itemprop="articleSection">Blogging</a></span>
+                        <span class="category"><a href="#category-personal" itemprop="articleSection">Personal Journey</a></span>
+                        <span class="reading-time" title="Estimated reading time">⏱️ Calculating...</span>
+                        <time class="publication-date" datetime="2025-02-23" itemprop="datePublished">February 23, 2025</time>
+                    </div>
+
+                    <!-- Post Title from blog3 -->
+                    <h1 class="post-title" itemprop="headline">How I learnt Deep Learning and LLMs: A Tale of Code, Curiosity, and Andrej Karpathy</h1>
+
+                    <!-- Author Info (Assuming same author as blog5) -->
+                    <div class="author-info" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                         <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                        <span class="author-name" itemprop="name">Ranjith Kumar</span>
+                    </div>
+
+                    <!-- Content Body from blog3 -->
+                    <div class="content-body" itemprop="articleBody">
+
+                        <!-- Introduction -->
+                        <p>Hey there! I’m Ranjith Kumar, and today I’m taking you on a journey—from my first steps in deep learning to wrestling with large language models (LLMs) and even dipping my toes into reinforcement learning (RL). It’s been a wild ride of late-night coding, GPU rentals, and a YouTube obsession that changed everything. If you’re curious about how LLMs work, what makes attention mechanisms tick, or why RL is suddenly my new jam, you’re in the right place. Let’s break it all down, step by step, with plenty of visuals and beginner-friendly explanations along the way.</p>
+
+                        <!-- Section 1 -->
+                        <h2 id="section1">1. The Spark: PyTorch, Python, and a Hunger to Learn</h2>
+                        <p>Like many of you, my deep learning journey started with the basics: Python and PyTorch. In college, I learned just enough to build simple neural networks—but let’s be honest, I was the kid tweaking code and praying it wouldn’t crash. The real magic happened outside class, down the YouTube rabbit hole. I devoured tutorials on LLMs, trying to understand how models like GPT churn out human-like text. Most videos were decent, but they left me with more questions than answers. That is, until I found my deep learning hero: Andrej Karpathy.</p>
+
+                        <!-- Section 2 -->
+                        <h2 id="section2">2. Andrej Karpathy: The Teacher I Never Met</h2>
+                        <p>One day, I stumbled upon Andrej Karpathy’s video on GPT-2, and it was like the clouds parted. His chill, no-nonsense style made even the toughest concepts feel approachable. I became a fanboy overnight, binging everything he’d ever posted. Thanks to Andrej, I finally cracked two of the trickiest parts of LLMs: <strong>attention mechanisms</strong> and <strong>tokenization</strong>. If you’re new to these terms, don’t worry—we’re about to break them down together.</p>
+
+                        <!-- Section 3 -->
+                        <h2 id="section3">3. Attention Mechanisms: The Secret Sauce of LLMs</h2>
+                        <p>Let's start with attention mechanisms. Imagine you're reading this sentence: "The cat slept while the dog barked." Your brain naturally focuses on "cat" and "slept" to understand what's happening, right? Attention does the same for LLMs—it helps the model focus on the most important parts of the input when predicting the next word.</p>
+
+                        <!-- Math Section (using blog5 style) -->
+                        <div class="math">
+                            \[ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right) V \]
+                        </div>
+
+                        <!-- Math Breakdown (adapted using standard HTML) -->
+                        <div class="math-breakdown">
+                            <p>Here's how it works step-by-step:</p>
+                            <p><strong>Step 1: Similarity Score (QK<sup>T</sup>)</strong><br> Measures how well each word matches with others - like finding connections between words.</p>
+                            <p><strong>Step 2: Scaling (√d<sub>k</sub>)</strong><br> We divide by √d<sub>k</sub> to keep numbers manageable - think of it as turning down the volume when it's too loud.</p>
+                            <p><strong>Step 3: Softmax</strong><br> Converts scores into percentages (0-100%) showing how much attention each word should get.</p>
+                            <p><strong>Step 4: Final Output (× V)</strong><br> Multiply by V to get the weighted result - like mixing ingredients based on their importance in a recipe.</p>
+                        </div>
+
+                        <h4>💡 Quick Example</h4>
+                        <p>Imagine processing the sentence "The cat chased the mouse":</p>
+                        <ul>
+                            <li>When focusing on "cat", the model pays more attention to "chased" (action)</li>
+                            <li>When focusing on "chased", it pays attention to both "cat" (subject) and "mouse" (object)</li>
+                            <li>This helps the model understand who did what to whom</li>
+                        </ul>
+
+
+                        <!-- Section 4 -->
+                        <h2 id="section4">4. Tokenization: Turning Words into Numbers</h2>
+                        <p>Before attention can do its thing, the model needs to “read” the text. That’s where tokenization comes in. Tokenization chops text into smaller pieces called tokens—think of them as the model’s vocabulary. For example:</p>
+                        <ul>
+                            <li>“I love AI” might become <code>["I", "love", "AI"]</code>.</li>
+                            <li>Trickier words like “playing” could split into <code>["play", "ing"]</code> using subword tokenizers like BPE (Byte Pair Encoding).</li>
+                        </ul>
+                        <p>Each token gets a unique ID, and the model learns patterns from these IDs. Why’s this cool? It lets the model handle rare or new words by breaking them into familiar chunks. Imagine “unbelievable” as <code>["un", "believ", "able"]</code>—even if it’s never seen the full word, it can guess the meaning. Tokenization is the first step in turning messy human language into something a machine can process.</p>
+                        <figure>
+                            <img src="assets/content_images/tokenization.png" alt="Visual representation of tokenization process" loading="lazy">
+                            <figcaption>Tokenization breaks text into manageable pieces for the model.</figcaption>
+                        </figure>
+
+                        <!-- Section 5 -->
+                        <h2 id="section5">5. My First LLM: From Gibberish to “Almost Chatbot”</h2>
+                        <p>Armed with Andrej’s teachings, I decided to build my own LLM. I rented a GPU (because my laptop would’ve cried), slapped together a transformer in PyTorch, and got to work. I coded up multi-head attention—where the model runs attention multiple times in parallel to capture different relationships—and added positional encodings (more on those later). After training on a small dataset, my first output was… well, gibberish. Think “cat the the dog umm.” But with some tweaks to the learning rate and more data, it started forming actual sentences. Not chatbot-level, but I was stoked.</p>
+                        <p>Andrej mentioned in one video that to make an LLM chatty, you need to fine-tune it on conversational data. I haven’t gotten there yet, but it’s on my to-do list. For now, I’m just happy I didn’t break anything.</p>
+
+                        <!-- Section 6 -->
+                        <h2 id="section6">6. The RL Detour: DeepSeek R1 and a Whole New World</h2>
+                        <p>Just when I thought I was getting comfy with LLMs, I stumbled across DeepSeek R1, a reasoning model that uses GRPO (Generalized Reward Policy Optimization). Cue the confusion—RL? What’s that? I’d barely scratched the surface, but suddenly I was diving headfirst into reinforcement learning. GRPO led me to PPO (Proximal Policy Optimization), the HER paper (Hindsight Experience Replay), curiosity learning, and more. RL was a beast, but I couldn’t look away.</p>
+                        <h3 id="rl-breakdown">Reinforcement Learning: Teaching Machines to Learn by Doing</h3>
+                        <p>Let’s break down RL for beginners. Imagine teaching a dog to fetch: you reward it with treats when it brings the ball and ignore it when it doesn’t. Over time, the dog learns that fetching = treats. RL works similarly: an agent takes actions in an environment, gets rewards (or penalties), and learns to maximize its total reward.</p>
+                        <p>Here are the core pieces:</p>
+                        <ul>
+                            <li><strong>Agent</strong>: The learner (e.g., a model or robot).</li>
+                            <li><strong>Environment</strong>: The world the agent interacts with.</li>
+                            <li><strong>Policy (π)</strong>: The strategy the agent uses to pick actions—like “if I’m here, do this.”</li>
+                            <li><strong>Reward Function</strong>: Defines what’s good or bad (e.g., +1 for fetching, -1 for ignoring).</li>
+                            <li><strong>Value Function</strong>: Estimates how good a state is in the long run.</li>
+                        </ul>
+                        <p>Unlike supervised learning, where you have labeled data, RL is all about trial and error. The agent explores, fails, and learns—like me trying to bake without a recipe. It’s slow and messy, but when it works, you’ve got a model that can play games, optimize schedules, or even drive cars.</p>
+
+                        <!-- Section 7 -->
+                        <h2 id="section7">7. Transformers: The Engine Behind LLMs</h2>
+                        <p>Now, let’s zoom back to LLMs and unpack the transformer architecture—the real MVP. Born from the “Attention is All You Need” paper, transformers ditched recurrent networks (RNNs) and went all-in on attention. Here’s how they work:</p>
+                        <ul>
+                            <li><strong>Encoder</strong>: Takes the input (tokenized text), runs it through multiple layers of attention and feed-forward networks, and produces rich embeddings that capture the meaning of each token in context.</li>
+                            <li><strong>Decoder</strong>: Uses the encoder’s output plus its own attention to generate text, one token at a time. It’s autoregressive, meaning it predicts the next word based on the previous ones.</li>
+                            <li><strong>Multi-Head Attention</strong>: Runs attention multiple times in parallel, each “head” focusing on different aspects (like grammar or meaning).</li>
+                            <li><strong>Positional Encodings</strong>: Since transformers don’t process sequentially, we add sine and cosine waves to the token embeddings to encode word order. Without this, “cat chased dog” and “dog chased cat” would look the same to the model!</li>
+                        </ul>
+                        <figure>
+                            <img src="assets/content_images/transformers.png" alt="Diagram of the Transformer architecture" loading="lazy">
+                            <figcaption>The Transformer architecture relies heavily on Attention mechanisms.</figcaption>
+                        </figure>
+                        <p>Why are transformers so powerful? They process everything in parallel, making them fast, and attention lets them handle long-range dependencies. It’s why my baby LLM could eventually string sentences together, even if it’s not quite ready for prime time.</p>
+
+                        <!-- Section 8 -->
+                        <h2 id="section8">8. What’s Next? Fine-Tuning and RL Domination</h2>
+                        <p>I’m not done yet. My LLM needs fine-tuning on conversational data to chat like a human instead of a weird robot poet. And RL? I’ve got policy optimization on deck—more algorithms, more math, more coffee. The journey’s just heating up, and I’m here for it.</p>
+
+                        <!-- Removed the separate social connect section - use Author Bio -->
+                        <p>Whew, you made it! If you’re into deep learning, LLMs, or RL, let’s geek out together. What’s your go-to resource? Any RL tricks up your sleeve? Drop a comment or connect via the links below!</p>
+                        <p>Keep coding, stay curious, and embrace the chaos—it’s where the good stuff happens!</p>
+
+                    </div> <!-- /.content-body -->
+
+                     <!-- Post Tags from blog3 -->
+                     <div class="post-tags" itemprop="keywords">
+                         <span>Tags:</span>
+                         <a href="#tag-deep-learning">Deep Learning</a>
+                         <a href="#tag-llm">LLMs</a>
+                         <a href="#tag-pytorch">PyTorch</a>
+                         <a href="#tag-attention">Attention</a>
+                         <a href="#tag-transformers">Transformers</a>
+                         <a href="#tag-rl">Reinforcement Learning</a>
+                         <a href="#tag-andrej-karpathy">Andrej Karpathy</a>
+                         <a href="#tag-blogging">Blogging</a>
+                     </div>
+
+                     <!-- Social Share Section (Standard from blog5) -->
+                     <div class="social-share">
+                         <h3>Share This Post</h3>
+                         <div class="share-buttons">
+                             <a href="#" class="share-facebook" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">Facebook</a>
+                             <a href="#" class="share-twitter" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter">Twitter</a>
+                             <a href="https://www.linkedin.com/shareArticle?mini=true&url=[YOUR_BLOG_POST_URL]&title=How%20I%20learnt%20Deep%20Learning%20and%20LLMs" class="share-linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a>
+                             <a href="#" class="share-reddit" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">Reddit</a>
+                             <a href="mailto:?subject=Check%20out%20this%20post%20on%20Learning%20DL%20and%20LLMs!&body=Thought%20you%20might%20find%20this%20interesting%3A%0A%0A[YOUR_BLOG_POST_URL]" class="share-email" aria-label="Share via Email">Email</a>
+                             <button id="copy-link-button" class="share-copy" aria-label="Copy post link">Copy Link</button>
+                              <button id="native-share-button" aria-label="Share natively" style="display: none;">Share...</button>
+                        </div>
+                     </div>
+
+                     <!-- Author Bio (Standard from blog5, includes social links) -->
+                     <section class="author-bio" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                         <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                         <div class="author-bio-content">
+                            <h4 itemprop="name">Ranjith Kumar</h4>
+                            <p itemprop="description">Passionate about AI, Deep Learning, and sharing knowledge through blogging. Documenting my journey learning LLMs, Transformers, and RL. Let's connect and grow together!</p>
+                            <div class="author-social-links">
+                                 <!-- Social Links from blog3 incorporated here -->
+                                 <a href="https://www.linkedin.com/in/ranjith-kumar-b66180250" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on LinkedIn" title="LinkedIn">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                 </a>
+                                 <a href="https://github.com/P-RanjithKumar" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on GitHub" title="GitHub">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                 </a>
+                                 <a href="https://www.instagram.com/ranjithh_56" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on Instagram" title="Instagram">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                 </a>
+                            </div>
+                         </div>
+                    </section>
+
+                    <!-- Related Posts Section (Updated for blog3 navigation) -->
+                    <section class="related-posts">
+                        <h2>Previous & Next Posts</h2>
+                        <div class="related-posts-grid">
+                            <!-- Previous Post Link -->
+                            <div class="related-post-card">
+                                 <a href="blog2.html" aria-label="Read previous post">
+                                    <!-- Placeholder image - replace if you have one for blog2 -->
+                                    <img src="assets/blogpost thumbnails/blog3.png" alt="Previous Post Thumbnail" loading="lazy">
+                                </a>
+                                 <div class="related-post-card-content">
+                                    <h3><a href="blog2.html">← Previous Post: Building My First Portfolio</a></h3>
+                                    <div class="post-meta">
+                                        <!-- Add details if known -->
+                                    </div>
+                                 </div>
+                            </div>
+                             <!-- Next Post Link -->
+                             <div class="related-post-card">
+                                 <a href="blog4.html" aria-label="Read next post">
+                                    <!-- Placeholder image - replace if you have one for blog4 -->
+                                    <img src="assets/blogpost thumbnails/blog4.png" alt="Next Post Thumbnail" loading="lazy">
+                                </a>
+                                 <div class="related-post-card-content">
+                                    <h3><a href="blog4.html">Next Post: Empowering Patients with Technology →</a></h3>
+                                    <div class="post-meta">
+                                         <!-- Add details if known -->
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Comments Section (Standard Giscus from blog5) -->
+                    <section id="comments" class="comments-section">
+                        <h2>Join the Discussion (<span id="comment-count">0</span>)</h2>
+                        <div class="gh-comments-info">
+                            <p><strong>Comments via GitHub Discussions:</strong> This blog uses <a href="https://giscus.app/" target="_blank" rel="noopener">Giscus</a>, which leverages GitHub Discussions for comments.</p>
+                            <p>You'll need a GitHub account to comment. Comments will appear in a dedicated Discussion category within the blog's repository.</p>
+                        </div>
+                        <div id="comment-thread-container">
+                            <script src="https://giscus.app/client.js"
+                                    data-repo="P-RanjithKumar/p-ranjithkumar.github.io"
+                                    data-repo-id="R_kgDONYyxxg"
+                                    data-category="Blog Comments"
+                                    data-category-id="DIC_kwDONYyxxs4CpBgf"
+                                    data-mapping="pathname"
+                                    data-strict="0"
+                                    data-reactions-enabled="1"
+                                    data-emit-metadata="1"
+                                    data-input-position="bottom"
+                                    data-theme="preferred_color_scheme"
+                                    data-lang="en"
+                                    crossorigin="anonymous"
+                                    async>
+                            </script>
+                            <noscript>Please enable JavaScript to view the comments powered by Giscus.</noscript>
+                         </div>
+                    </section>
+
+                </article> <!-- /.blog-post -->
+            </div> <!-- /.article-column -->
+
+            <!-- Table of Contents Column -->
+            <aside class="toc-column">
+                 <nav id="toc-container" aria-label="Table of Contents">
+                    <h3>Table of Contents</h3>
+                    <ol id="toc-list">
+                        <!-- Manually added TOC items based on H2 IDs -->
+                        <li><a href="#section1">1. The Spark</a></li>
+                        <li><a href="#section2">2. Andrej Karpathy</a></li>
+                        <li><a href="#section3">3. Attention Mechanisms</a></li>
+                        <li><a href="#section4">4. Tokenization</a></li>
+                        <li><a href="#section5">5. My First LLM</a></li>
+                        <li><a href="#section6">6. The RL Detour</a></li>
+                        <li><a href="#section7">7. Transformers</a></li>
+                        <li><a href="#section8">8. What’s Next?</a></li>
+                    </ol>
+                </nav>
+            </aside> <!-- /.toc-column -->
+
+        </div> <!-- /.content-wrapper -->
+    </main> <!-- /.main-content -->
+
+    <!-- Footer (Standard from blog5) -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Ranjith Kumar. Exploring AI and sharing the journey.</p>
+            <div class="footer-links">
+                 <a href="#privacy">Privacy Policy</a> |
+                 <a href="#terms">Terms of Use</a> |
+                 <a href="#contact">Contact</a>
+            </div>
         </div>
-      </div>
+    </footer>
 
-      <!-- Section 4 -->
-      <h2 id="section4">4. Tokenization: Turning Words into Numbers</h2>
-      <p>Before attention can do its thing, the model needs to “read” the text. That’s where tokenization comes in. Tokenization chops text into smaller pieces called tokens—think of them as the model’s vocabulary. For example:</p>
-      <ul>
-        <li>“I love AI” might become [“I”, “love”, “AI”].</li>
-        <li>Trickier words like “playing” could split into [“play”, “ing”] using subword tokenizers like BPE (Byte Pair Encoding).</li>
-      </ul>
-      <p>Each token gets a unique ID, and the model learns patterns from these IDs. Why’s this cool? It lets the model handle rare or new words by breaking them into familiar chunks. Imagine “unbelievable” as [“un”, “believ”, “able”]—even if it’s never seen the full word, it can guess the meaning. Tokenization is the first step in turning messy human language into something a machine can process.</p>
-      <img src="assets/content_images/tokenization.png" alt="tokenization image" style="width: 700px; height: 400px;">
+    <button id="back-to-top" aria-label="Back to top" title="Back to top" style="transform: scale(0);">↑</button>
 
-      <!-- Section 5 -->
-      <h2 id="section5">5. My First LLM: From Gibberish to “Almost Chatbot”</h2>
-      <p>Armed with Andrej’s teachings, I decided to build my own LLM. I rented a GPU (because my laptop would’ve cried), slapped together a transformer in PyTorch, and got to work. I coded up multi-head attention—where the model runs attention multiple times in parallel to capture different relationships—and added positional encodings (more on those later). After training on a small dataset, my first output was… well, gibberish. Think “cat the the dog umm.” But with some tweaks to the learning rate and more data, it started forming actual sentences. Not chatbot-level, but I was stoked.</p>
-      <p>Andrej mentioned in one video that to make an LLM chatty, you need to fine-tune it on conversational data. I haven’t gotten there yet, but it’s on my to-do list. For now, I’m just happy I didn’t break anything.</p>
-  
-      <!-- Section 6 -->
-      <h2 id="section6">6. The RL Detour: DeepSeek R1 and a Whole New World</h2>
-      <p>Just when I thought I was getting comfy with LLMs, I stumbled across DeepSeek R1, a reasoning model that uses GRPO (Generalized Reward Policy Optimization). Cue the confusion—RL? What’s that? I’d barely scratched the surface, but suddenly I was diving headfirst into reinforcement learning. GRPO led me to PPO (Proximal Policy Optimization), the HER paper (Hindsight Experience Replay), curiosity learning, and more. RL was a beast, but I couldn’t look away.</p>
-      <h3>Reinforcement Learning: Teaching Machines to Learn by Doing</h3>
-      <p>Let’s break down RL for beginners. Imagine teaching a dog to fetch: you reward it with treats when it brings the ball and ignore it when it doesn’t. Over time, the dog learns that fetching = treats. RL works similarly: an agent takes actions in an environment, gets rewards (or penalties), and learns to maximize its total reward.</p>
-      <p>Here are the core pieces:</p>
-      <ul>
-        <li><strong>Agent</strong>: The learner (e.g., a model or robot).</li>
-        <li><strong>Environment</strong>: The world the agent interacts with.</li>
-        <li><strong>Policy (π)</strong>: The strategy the agent uses to pick actions—like “if I’m here, do this.”</li>
-        <li><strong>Reward Function</strong>: Defines what’s good or bad (e.g., +1 for fetching, -1 for ignoring).</li>
-        <li><strong>Value Function</strong>: Estimates how good a state is in the long run.</li>
-      </ul>
-      <p>Unlike supervised learning, where you have labeled data, RL is all about trial and error. The agent explores, fails, and learns—like me trying to bake without a recipe. It’s slow and messy, but when it works, you’ve got a model that can play games, optimize schedules, or even drive cars.</p>
-  
-      <!-- Section 7 -->
-      <h2 id="section7">7. Transformers: The Engine Behind LLMs</h2>
-      <p>Now, let’s zoom back to LLMs and unpack the transformer architecture—the real MVP. Born from the “Attention is All You Need” paper, transformers ditched recurrent networks (RNNs) and went all-in on attention. Here’s how they work:</p>
-      <ul>
-        <li><strong>Encoder</strong>: Takes the input (tokenized text), runs it through multiple layers of attention and feed-forward networks, and produces rich embeddings that capture the meaning of each token in context.</li>
-        <li><strong>Decoder</strong>: Uses the encoder’s output plus its own attention to generate text, one token at a time. It’s autoregressive, meaning it predicts the next word based on the previous ones.</li>
-        <li><strong>Multi-Head Attention</strong>: Runs attention multiple times in parallel, each “head” focusing on different aspects (like grammar or meaning).</li>
-        <li><strong>Positional Encodings</strong>: Since transformers don’t process sequentially, we add sine and cosine waves to the token embeddings to encode word order. Without this, “cat chased dog” and “dog chased cat” would look the same to the model!</li>
-      </ul>
-      <img src="assets/content_images/transformers.png" alt="transformer image">
-      <p>Why are transformers so powerful? They process everything in parallel, making them fast, and attention lets them handle long-range dependencies. It’s why my baby LLM could eventually string sentences together, even if it’s not quite ready for prime time.</p>
-  
-      <!-- Section 8 -->
-      <h2 id="section8">8. What’s Next? Fine-Tuning and RL Domination</h2>
-      <p>I’m not done yet. My LLM needs fine-tuning on conversational data to chat like a human instead of a weird robot poet. And RL? I’ve got policy optimization on deck—more algorithms, more math, more coffee. The journey’s just heating up, and I’m here for it.</p>
-  
-      <p>Whew, you made it! If you’re into deep learning, LLMs, or RL, let’s geek out together. What’s your go-to resource? Any RL tricks up your sleeve? Drop a comment or ping me on socials:</p>
-      <!-- ######### socials ##########-->
-      <div class="connect-container" id="section9">
-        <h2 class="connect-heading">Let's Connect & Grow Together</h2>
-        <p class="connect-text">I'm passionate about sharing knowledge and building a community of like-minded professionals. Connect with me on these platforms and let's learn and grow together!</p>
-        
-        <ul class="social-links">
-          <li>
-            <a href="https://www.linkedin.com/in/ranjith-kumar-b66180250" class="social-link linkedin" target="_blank">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-              </svg>
-              LinkedIn
-            </a>
-          </li>
-          <li>
-            <a href="https://www.instagram.com/ranjithh_56" class="social-link instagram" target="_blank">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-              Instagram
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/P-RanjithKumar" class="social-link github" target="_blank">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              GitHub
-            </a>
-          </li>
-        </ul>
-      </div>
-      <p>Keep coding, stay curious, and embrace the chaos—it’s where the good stuff happens!</p>
-  
-      <!-- Post Navigation -->
-      <div class="post-navigation">
-        <a href="blog2.html" class="nav-button prev-post">← Previous Post</a>
-        <a href="blog4.html" class="nav-button next-post">Next Post →</a>
-      </div>
-    </article>
-  
-    <!-- Table of Contents -->
-    <aside class="toc">
-      <h3>Table of Contents</h3>
-      <ul>
-        <li><a href="#section1">The Spark: PyTorch, Python, and a Hunger to Learn</a></li>
-        <li><a href="#section2">Andrej Karpathy: The Teacher I Never Met</a></li>
-        <li><a href="#section3">Attention Mechanisms: The Secret Sauce of LLMs</a></li>
-        <li><a href="#section4">Tokenization: Turning Words into Numbers</a></li>
-        <li><a href="#section5">My First LLM: From Gibberish to "Almost Chatbot"</a></li>
-        <li><a href="#section6">The RL Detour: DeepSeek R1 and a Whole New World</a></li>
-        <li><a href="#section7">Transformers: The Engine Behind LLMs</a></li>
-        <li><a href="#section8">What's Next? Fine-Tuning and RL Domination</a></li>
-        <li><a href="#section9">Your Turn!</a></li>
-      </ul>
-    </aside>
-  </div>
+    <!-- Copied Scripts from blog5.html -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-  <!--###############################################################################################################-->
+        // --- Theme Toggle ---
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        const sunIcon = '☀️';
+        const moonIcon = '🌓';
+        let isDarkMode = false;
 
-  <script>
-    // Scroll Progress Indicator Update
-    window.addEventListener('scroll', () => {
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      document.querySelector('.progress-bar').style.width = scrolled + "%";
-    });
+        const setTheme = (theme) => {
+            isDarkMode = theme === 'dark';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            themeToggleButton.textContent = isDarkMode ? sunIcon : moonIcon;
+            themeToggleButton.setAttribute('aria-label', `Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`);
+            localStorage.setItem('theme', theme);
 
-    // Smooth Scroll for Table of Contents
-    document.querySelectorAll('.toc a').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const section = document.querySelector(this.getAttribute('href'));
-        section.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
+            if (isDarkMode) {
+                 document.body.style.setProperty('--color-bg-rgb', '18, 18, 18');
+                 document.body.style.setProperty('--color-primary-rgb', '77, 171, 247');
+            } else {
+                 document.body.style.setProperty('--color-bg-rgb', '255, 255, 255');
+                 document.body.style.setProperty('--color-primary-rgb', '13, 110, 253');
+            }
+        };
 
-    // Estimated Reading Time
-    const postContent = document.querySelector('.article-body');
-    const words = postContent.innerText.split(' ').length;
-    const readingTime = Math.ceil(words / 200);
-    document.querySelector('.post-meta span:nth-child(5)').innerHTML = 
-      `${readingTime} min read`;
-  </script>
+        const initialTheme = currentTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+        setTheme(initialTheme);
+
+        themeToggleButton.addEventListener('click', () => {
+            setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+        });
+        prefersDarkScheme.addEventListener('change', (e) => { if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light'); });
+
+
+         // --- Search Toggle ---
+         const searchToggleButton = document.getElementById('search-toggle');
+         const searchInput = document.getElementById('search-input');
+         searchToggleButton.addEventListener('click', () => { document.body.classList.toggle('search-active'); if(document.body.classList.contains('search-active')) searchInput.focus(); });
+
+        // --- Back to Top Button ---
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+             const isVisible = window.scrollY > 400;
+             backToTopButton.classList.toggle('visible', isVisible);
+             backToTopButton.style.transform = isVisible ? 'scale(1)' : 'scale(0)';
+        }, { passive: true });
+        backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+
+        // --- Reading Progress Bar ---
+        const progressBar = document.getElementById('progress-bar');
+         const updateProgressBar = () => {
+              const contentBody = document.querySelector('.content-body');
+              if (!contentBody) return; // Exit if no content body
+              const element = document.documentElement;
+              const body = document.body;
+              const scrollableHeight = Math.max( body.scrollHeight, body.offsetHeight,
+                                                element.clientHeight, element.scrollHeight, element.offsetHeight ) - window.innerHeight;
+              const scrolled = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
+              progressBar.style.width = `${Math.min(scrolled, 100)}%`;
+         };
+         window.addEventListener('scroll', updateProgressBar, { passive: true });
+         window.addEventListener('resize', updateProgressBar);
+         updateProgressBar(); // Initial calculation
+
+
+         // --- Copy Code Button ---
+         document.querySelectorAll('.copy-code-button').forEach(button => {
+             const pre = button.closest('pre');
+             const code = pre?.querySelector('code');
+             if (!code || !navigator.clipboard) { button.style.display = 'none'; return; }
+             button.addEventListener('click', async () => {
+                 try {
+                     await navigator.clipboard.writeText(code.innerText);
+                     button.textContent = 'Copied!'; button.classList.add('copied');
+                     setTimeout(() => { button.textContent = 'Copy'; button.classList.remove('copied'); }, 2000);
+                 } catch (err) { console.error('Copy failed:', err); button.textContent = 'Error'; }
+             });
+         });
+
+        // --- Copy Link Button ---
+        const copyLinkButton = document.getElementById('copy-link-button');
+        if (copyLinkButton && navigator.clipboard) {
+            copyLinkButton.addEventListener('click', async () => {
+                 try {
+                     const postUrl = window.location.href;
+                     await navigator.clipboard.writeText(postUrl);
+                     copyLinkButton.textContent = 'Link Copied!'; copyLinkButton.classList.add('copied');
+                     setTimeout(() => { copyLinkButton.textContent = 'Copy Link'; copyLinkButton.classList.remove('copied'); }, 2000);
+                 } catch (err) { console.error('Copy link failed:', err); copyLinkButton.textContent = 'Error'; }
+            });
+        } else if (copyLinkButton) { copyLinkButton.style.display = 'none'; }
+
+
+        // --- Native Share API Button ---
+        const nativeShareButton = document.getElementById('native-share-button');
+        const postTitle = document.querySelector('.post-title')?.innerText || document.title;
+        const shareUrl = window.location.href;
+        if (nativeShareButton && navigator.share) {
+             nativeShareButton.style.display = 'inline-flex';
+             nativeShareButton.addEventListener('click', async () => {
+                 try {
+                    await navigator.share({
+                        title: postTitle,
+                        text: `Check out this post: ${postTitle}`,
+                        url: shareUrl
+                    });
+                 } catch (err) {
+                    if (err.name !== 'AbortError') { console.error('Share failed:', err); }
+                 }
+             });
+        } else if(nativeShareButton) { nativeShareButton.style.display = 'none'; }
+
+
+        // --- Table of Contents (TOC) Active State Highlighting ---
+        const tocLinks = document.querySelectorAll('#toc-list a');
+        const sections = [];
+        tocLinks.forEach(link => {
+            try {
+                const sectionId = link.getAttribute('href').substring(1);
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    sections.push(section);
+                } else {
+                    console.warn(`TOC link points to non-existent section: #${sectionId}`);
+                }
+            } catch (e) {
+                 console.error("Error processing TOC link:", link, e);
+            }
+        });
+
+        if (tocLinks.length > 0 && sections.length > 0) {
+             const observerOptions = {
+                 root: null,
+                 rootMargin: `-${getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim()} 0px -60% 0px`,
+                 threshold: 0
+             };
+
+             const activateTocLink = (id) => {
+                 tocLinks.forEach(link => {
+                     link.classList.remove('active');
+                     if (link.getAttribute('href') === `#${id}`) {
+                         link.classList.add('active');
+                     }
+                 });
+             };
+
+             const observerCallback = (entries) => {
+                 let topVisibleSectionId = null;
+                 entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                         const currentTopSection = topVisibleSectionId ? document.getElementById(topVisibleSectionId) : null;
+                         if (!currentTopSection || entry.target.getBoundingClientRect().top < currentTopSection.getBoundingClientRect().top) {
+                            topVisibleSectionId = entry.target.id;
+                         }
+                     }
+                 });
+
+                 if (topVisibleSectionId) {
+                     activateTocLink(topVisibleSectionId);
+                 } else {
+                    let lastSectionAbove = null;
+                     for (let i = sections.length - 1; i >= 0; i--) {
+                        if (sections[i].getBoundingClientRect().top < parseInt(observerOptions.rootMargin.split(' ')[0], 10) * -1) {
+                            lastSectionAbove = sections[i].id;
+                            break;
+                        }
+                     }
+                     if(lastSectionAbove) {
+                         activateTocLink(lastSectionAbove);
+                     } else if (window.scrollY === 0 && sections.length > 0) {
+                         activateTocLink(sections[0].id);
+                     }
+                 }
+             };
+
+             const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+             sections.forEach(section => scrollObserver.observe(section));
+
+        } else {
+            console.log("TOC or Sections not found for active state highlighting.");
+        }
+
+        // --- Dynamic Reading Time Calculation ---
+        try {
+            const contentBody = document.querySelector('.content-body');
+            const readingTimeSpan = document.querySelector('.reading-time');
+            if (contentBody && readingTimeSpan) {
+                 const text = contentBody.innerText || contentBody.textContent;
+                 const wordCount = text.split(/\s+/).filter(Boolean).length;
+                 const wordsPerMinute = 200; // Average reading speed
+                 const minutes = Math.ceil(wordCount / wordsPerMinute);
+                 readingTimeSpan.innerHTML = `⏱️ ~${minutes} min read`; // Update the span
+                 readingTimeSpan.title = `Estimated reading time: ${minutes} minutes`;
+            }
+        } catch (e) {
+            console.error("Could not calculate reading time:", e);
+            const readingTimeSpan = document.querySelector('.reading-time');
+            if(readingTimeSpan) readingTimeSpan.innerHTML = `⏱️ Reading time N/A`;
+        }
+
+    }); // End DOMContentLoaded
+    </script>
+
 </body>
 </html>
