@@ -1,369 +1,753 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog 1 | Ranjith Kumar</title>
-  <style>
-    /* Reuse existing styles from homepage */
-    :root {
-      --primary-color: #2d3436;
-      --accent-color: #0984e3;
-      --text-color: #2d3436;
-      --hover-color: #74b9ff;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      line-height: 1.6;
-      color: var(--text-color);
-      margin: 0 auto;
-      padding: 20px;
-      max-width: 1200px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated Title for Blog 1 -->
+    <title>Starting My Blogging Journey: From Curiosity to Code | Ranjith Kumar</title>
+    <!-- Updated Description for Blog 1 -->
+    <meta name="description" content="My first blog post detailing my journey into AI, computers, fitness, and the motivation behind starting this blog.">
 
-    /* Fixed Scroll Progress Indicator */
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: #eee;
-      z-index: 1000;
-    }
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: var(--accent-color);
-    }
+    <!-- Include MathJax for rendering LaTeX equations (Kept in case needed later) -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    /* Post Header */
-    .post-header {
-      margin-bottom: 3rem;
-      position: relative;
-      /* Add top padding to avoid content being hidden under fixed progress bar */
-      padding-top: 10px;
-    }
-    .back-to-blog {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      color: var(--accent-color);
-      margin-bottom: 2rem;
-      transition: color 0.2s ease;
-    }
-    .back-to-blog:hover {
-      color: var(--hover-color);
-    }
-    .post-meta {
-      display: flex;
-      gap: 15px;
-      color: #636e72;
-      font-size: 0.9em;
-      margin: 1rem 0;
-    }
+    <style>
+        /* --- Copied Styles from blog5.html --- */
+        /* 1. --- Reset & Base Styles --- */
+        :root {
+            --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            --font-serif: "Merriweather", "Georgia", serif;
+            --font-mono: "Fira Code", "Courier New", monospace;
 
-    /* Main Post Content */
-    .post-content {
-      display: grid;
-      grid-template-columns: 1fr 250px;
-      gap: 2rem;
-    }
-    .article-body {
-      max-width: 800px;
-      font-size: 1.1em;
-      line-height: 1.8;
-    }
-    .article-body img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 2rem 0;
-    }
-    .article-body h2,
-    .article-body h3 {
-      margin: 2rem 0 1rem;
-      color: var(--primary-color);
-    }
-    blockquote {
-      border-left: 4px solid var(--accent-color);
-      padding: 1rem 2rem;
-      margin: 2rem 0;
-      background: #f8f9fa;
-      border-radius: 0 8px 8px 0;
-    }
+            --color-text: #333;
+            --color-bg: #ffffff;
+            --color-primary: #0d6efd; /* Bootstrap Blue */
+            --color-secondary: #6c757d;
+            --color-accent: #fd7e14; /* Bootstrap Orange */
+            --color-border: #dee2e6;
+            --color-code-bg: #f8f9fa;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #e9ecef;
+            --color-illustration-border: var(--color-accent);
 
-    /* Table of Contents */
-    .toc {
-      position: sticky;
-      top: 20px;
-      align-self: start;
-      padding: 1.5rem;
-      background: #f8f9fa;
-      border-radius: 8px;
-    }
-    .toc ul {
-      list-style: none;
-      padding-left: 1rem;
-    }
-    .toc a {
-      color: var(--text-color);
-      text-decoration: none;
-      transition: color 0.2s ease;
-      display: block;
-      padding: 0.3rem 0;
-    }
-    .toc a:hover {
-      color: var(--accent-color);
-    }
+            --container-width: 800px;
+            --toc-width: 220px; /* Width for the Table of Contents */
+            --layout-gap: calc(var(--spacing-unit) * 2.5); /* Gap between content and TOC */
+            --main-wrapper-width: calc(var(--container-width) + var(--toc-width) + var(--layout-gap)); /* Max width for content+TOC */
 
-    /* Post Navigation */
-    .post-navigation {
-      margin: 4rem 0;
-      display: flex;
-      justify-content: space-between;
-      border-top: 1px solid #eee;
-      padding-top: 2rem;
-    }
-    .nav-button {
-      padding: 12px 25px;
-      text-decoration: none;
-      border-radius: 25px;
-      transition: all 0.2s ease;
-    }
-    .prev-post {
-      background: var(--accent-color);
-      color: white;
-    }
-    .next-post {
-      background: #f1f2f6;
-      color: var(--text-color);
-    }
-    .nav-button:hover {
-      transform: translateY(-2px);
-    }
+            --spacing-unit: 1rem;
+            --border-radius: 6px;
+            --transition-speed: 0.3s;
+            --transition-speed-fast: 0.15s;
+            --header-height: 65px;
+        }
 
-    .connect-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 10px;
-      background: linear-gradient(to right, #f8f9fa, #e9ecef);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    .connect-heading {
-      color: #2d3748;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      position: relative;
-      padding-bottom: 0.5rem;
-    }
-    
-    .connect-heading::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 3px;
-      width: 60px;
-      background-color: #4299e1;
-      border-radius: 3px;
-    }
-    
-    .connect-text {
-      color: #4a5568;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-    
-    .social-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      list-style: none;
-      padding: 0;
-    }
-    
-    .social-link {
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1.5rem;
-      background-color: white;
-      border-radius: 50px;
-      text-decoration: none;
-      color: #2d3748;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    
-    .social-link:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .social-link:hover .icon {
-      transform: rotate(10deg);
-    }
-    
-    .linkedin:hover {
-      background-color: #0077b5;
-      color: white;
-    }
-    
-    .instagram:hover {
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      color: white;
-    }
-    
-    .github:hover {
-      background-color: #333;
-      color: white;
-    }
-    
-    .icon {
-      margin-right: 10px;
-      transition: transform 0.3s ease;
-    }
-    
-    @media (max-width: 600px) {
-      .social-links {
-        flex-direction: column;
-      }
-      
-      .social-link {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  </style>
+        body.dark-mode {
+            --color-text: #e9ecef;
+            --color-bg: #121212;
+            --color-primary: #4dabf7;
+            --color-secondary: #adb5bd;
+            --color-accent: #ff922b;
+            --color-border: #495057;
+            --color-code-bg: #2a2a2a;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #343a40;
+            --color-illustration-border: var(--color-accent);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 100%; } /* Enable smooth scroll */
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        img, video, figure, canvas, iframe { max-width: 100%; height: auto; display: block; margin: var(--spacing-unit) 0; }
+        a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-speed-fast) ease, opacity var(--transition-speed-fast) ease; }
+        a:hover { color: var(--color-accent); text-decoration: underline; }
+        *:focus-visible { outline: 3px dashed var(--color-primary); outline-offset: 3px; }
+
+        /* Target headings for scroll margin */
+        h2[id], h3[id], h4[id], section[id] {
+            scroll-margin-top: calc(var(--header-height) + var(--spacing-unit) * 1.5);
+        }
+
+        /* 2. --- Layout Structure --- */
+        .container { /* Still used for header/footer */
+             width: 90%;
+             max-width: var(--container-width); /* Default article width */
+             margin: 0 auto;
+             padding: 0 calc(var(--spacing-unit) / 2);
+        }
+        /* New wrapper for main content and TOC */
+        .content-wrapper {
+            width: 90%;
+            max-width: var(--main-wrapper-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, var(--container-width)) auto; /* Article column + TOC column */
+            gap: var(--layout-gap);
+            align-items: start; /* Align top */
+        }
+        .article-column {
+            grid-column: 1 / 2;
+            max-width: 100%; /* Ensure it doesn't overflow */
+        }
+        .toc-column {
+            grid-column: 2 / 3;
+            width: var(--toc-width);
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-unit) * 1.5); /* Stick below header */
+            height: calc(100vh - var(--header-height) - var(--spacing-unit) * 3); /* Limit height */
+            overflow-y: auto; /* Allow scrolling within TOC if needed */
+        }
+         /* Back to Blog link specific style */
+        .back-to-blog {
+            display: inline-block; /* Or inline-flex if aligning icon */
+            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            font-size: 0.95rem;
+            color: var(--color-secondary);
+            text-decoration: none;
+            transition: color var(--transition-speed-fast) ease;
+        }
+        .back-to-blog:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 5px; background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); width: 0%; z-index: 100; transition: width 0.1s linear; }
+
+        /* 3. --- Header --- */
+        .site-header {
+            background-color: rgba(var(--color-bg-rgb, 255, 255, 255), 0.85);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: calc(var(--spacing-unit) * 0.75) 0;
+            position: sticky; top: 0; z-index: 99;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            height: var(--header-height);
+        }
+        body.dark-mode .site-header { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        body { --color-bg-rgb: 255, 255, 255; --color-primary-rgb: 13, 110, 253;}
+        body.dark-mode { --color-bg-rgb: 18, 18, 18; --color-primary-rgb: 77, 171, 247; }
+        .site-header .container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: var(--main-wrapper-width); }
+        .logo { font-size: 1.6rem; font-weight: 700; color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+        .logo:hover { text-decoration: none; color: var(--color-primary); }
+        .header-actions { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.2); }
+        .header-actions button { background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--color-secondary); transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; padding: 5px; }
+        .header-actions button:hover { color: var(--color-primary); transform: scale(1.1); background-color: rgba(var(--color-primary-rgb), 0.08); border-radius: 50%; }
+        .header-actions button:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; background-color: rgba(var(--color-primary-rgb), 0.08); border-radius: 50%; }
+        #search-input { display: none; border: 1px solid var(--color-border); padding: 6px 10px; border-radius: var(--border-radius); background-color: var(--color-bg); color: var(--color-text); }
+        body.search-active #search-input { display: inline-block; animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(10px)} to { opacity: 1; transform: translateX(0)} }
+        @media (max-width: 768px) { .main-navigation { display: none; } }
+
+        /* 4. --- Main Content Area --- */
+        .main-content { flex-grow: 1; padding: calc(var(--spacing-unit) * 2.5) 0; }
+        .blog-post { background-color: var(--color-bg); transition: background-color var(--transition-speed) ease; }
+        .post-featured-image { margin-bottom: calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: box-shadow var(--transition-speed) ease; }
+        body.dark-mode .post-featured-image { box-shadow: 0 10px 30px rgba(255,255,255,0.05); }
+        .post-featured-image img { width: 100%; max-width: none; height: auto; display: block; margin: 0 auto; }
+        /* Specific height adjustment for Blog 1's featured image */
+        .blog-post-1 .post-featured-image img {
+             max-height: 350px; /* Or adjust as needed */
+             object-fit: cover; /* Ensure image covers the area nicely */
+        }
+
+        .post-meta { font-size: 0.9rem; color: var(--color-secondary); margin-bottom: var(--spacing-unit); display: flex; flex-wrap: wrap; gap: calc(var(--spacing-unit) * 1.2); align-items: center; }
+        .post-meta .category a { background-color: var(--color-primary); color: #fff; padding: 3px 10px; border-radius: calc(var(--border-radius) / 1.5); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; transition: background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; display: inline-block; }
+        .post-meta .category a:hover { background-color: var(--color-accent); text-decoration: none; transform: translateY(-2px); }
+        .post-title { font-size: 2.8rem; font-family: var(--font-serif); font-weight: 700; line-height: 1.25; margin-bottom: var(--spacing-unit); color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .author-info { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 0.75); margin-bottom: calc(var(--spacing-unit) * 2.5); font-size: 0.95rem; }
+        .author-info .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-border); }
+        .author-info .author-name { font-weight: 500; color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+
+        .content-body { font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.8; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .content-body > * + * { margin-top: calc(var(--spacing-unit) * 1.8); }
+        .content-body h2, .content-body h3, .content-body h4 { font-family: var(--font-primary); font-weight: 700; line-height: 1.3; margin-top: calc(var(--spacing-unit) * 3); color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .content-body h2[id] { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; }
+        .content-body h3[id] { font-size: 1.6rem; }
+        .content-body h4[id] { font-size: 1.3rem; color: var(--color-primary); }
+        .content-body h2:not([id]) { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; }
+        .content-body h3:not([id]) { font-size: 1.6rem; }
+        .content-body h4:not([id]) { font-size: 1.3rem; color: var(--color-primary); }
+
+        .content-body p, .content-body ul, .content-body ol, .content-body blockquote, .content-body figure, .content-body pre, .content-body section, .content-body table, .content-body iframe { transition: none; }
+        .content-body ul, .content-body ol { margin-left: calc(var(--spacing-unit) * 1.5); padding-left: var(--spacing-unit); }
+        .content-body li { margin-bottom: calc(var(--spacing-unit) * 0.5); }
+        .content-body blockquote { border-left: 5px solid var(--color-blockquote-border); padding-left: calc(var(--spacing-unit) * 1.5); margin-left: 0; font-style: italic; font-size: 1.2rem; color: var(--color-secondary); transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        .content-body code { font-family: var(--font-mono); background-color: var(--color-code-bg); padding: 3px 6px; border-radius: var(--border-radius); font-size: 0.9em; color: var(--color-text); transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        body.dark-mode .content-body code { color: #f8f9fa; }
+        .content-body pre { background-color: var(--color-code-bg); padding: calc(var(--spacing-unit) * 1.5); border-radius: var(--border-radius); overflow-x: auto; position: relative; transition: background-color var(--transition-speed) ease; border: 1px solid var(--color-border); margin: var(--spacing-unit) 0; }
+        .content-body pre code { background-color: transparent; padding: 0; font-size: 0.95rem; line-height: 1.6; color: var(--color-text); transition: color var(--transition-speed) ease; display: block; }
+        body.dark-mode .content-body pre code { color: #f8f9fa; }
+        .copy-code-button { position: absolute; top: 12px; right: 12px; background-color: var(--color-secondary); color: #fff; border: none; padding: 6px 12px; border-radius: var(--border-radius); font-size: 0.85rem; cursor: pointer; opacity: 0; transition: opacity var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; transform: translateY(5px); }
+        .content-body pre:hover .copy-code-button { opacity: 1; transform: translateY(0); }
+        .copy-code-button:hover { background-color: var(--color-primary); transform: scale(1.05) translateY(0); }
+        .copy-code-button.copied { background-color: var(--color-accent); transform: scale(1.05) translateY(0); }
+        .content-body figure { margin: calc(var(--spacing-unit) * 2) 0; } /* Add margin to figures */
+        .content-body figcaption { text-align: center; font-size: 0.9rem; color: var(--color-secondary); margin-top: calc(var(--spacing-unit) * 0.5); }
+
+        /* Post Tags, Social Share, Author Bio, Related Posts, Comments... */
+        .post-tags { margin-top: calc(var(--spacing-unit) * 3); padding-top: calc(var(--spacing-unit) * 1.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .post-tags span { font-weight: 600; margin-right: var(--spacing-unit); color: var(--color-secondary); transition: color var(--transition-speed) ease; }
+        .post-tags a { display: inline-block; background-color: var(--color-code-bg); color: var(--color-secondary); padding: 5px 12px; border-radius: 15px; font-size: 0.9rem; margin-right: calc(var(--spacing-unit) / 2); margin-bottom: calc(var(--spacing-unit) / 2); transition: background-color var(--transition-speed-fast) ease, color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; border: 1px solid var(--color-border); }
+        .post-tags a:hover { background-color: var(--color-primary); color: #fff; text-decoration: none; transform: translateY(-2px) scale(1.03); border-color: var(--color-primary); }
+
+        .social-share { margin-top: calc(var(--spacing-unit) * 3); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-code-bg); text-align: center; transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+        .social-share h3 { margin-bottom: calc(var(--spacing-unit) * 1.5); font-size: 1.2rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .share-buttons a, .share-buttons button { display: inline-flex; align-items: center; justify-content: center; margin: 6px; padding: 10px 18px; border-radius: var(--border-radius); color: #fff; font-size: 0.95rem; font-weight: 500; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; min-width: 110px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .share-buttons a:hover, .share-buttons button:hover { opacity: 0.9; transform: translateY(-3px) scale(1.02); text-decoration: none; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .share-facebook { background-color: #1877F2; } .share-twitter { background-color: #1DA1F2; } .share-linkedin { background-color: #0A66C2; } .share-reddit { background-color: #FF4500; } .share-email { background-color: #777; } .share-copy { background-color: var(--color-secondary); }
+        .share-copy.copied { background-color: var(--color-accent) !important; }
+        #native-share-button { background-color: #0056b3; }
+
+        .author-bio { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 2); background-color: var(--color-code-bg); border-radius: var(--border-radius); display: flex; gap: calc(var(--spacing-unit) * 1.5); align-items: flex-start; transition: background-color var(--transition-speed) ease; border: 1px solid var(--color-border); }
+        .author-bio .avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 3px solid var(--color-bg); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .author-bio-content h4 { margin-bottom: calc(var(--spacing-unit) / 1.5); font-size: 1.3rem; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        /* Style for the added "Let's Connect" heading */
+        .author-bio-content h4.connect-heading {
+            font-size: 1.2rem; /* Slightly smaller than main name */
+            margin-top: calc(var(--spacing-unit) * 1.5); /* Add space above */
+            margin-bottom: calc(var(--spacing-unit) * 0.75);
+            color: var(--color-primary); /* Optional: use accent color */
+            font-weight: 600;
+        }
+        .author-bio-content p { font-size: 1rem; line-height: 1.6; color: var(--color-secondary); transition: color var(--transition-speed) ease; margin-bottom: var(--spacing-unit); }
+        .author-social-links { margin-top: calc(var(--spacing-unit) * 1.5); /* Ensure space before links */ }
+        .author-social-links a { margin-right: 12px; font-size: 1.3rem; color: var(--color-secondary); transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; display: inline-block; }
+        .author-social-links a:hover { color: var(--color-primary); transform: scale(1.1); }
+        .author-social-links a svg { width: 20px; height: 20px; vertical-align: middle; fill: currentColor; }
+
+        .related-posts { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 2.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .related-posts h2 { text-align: center; margin-bottom: calc(var(--spacing-unit) * 2); font-size: 1.8rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: calc(var(--spacing-unit) * 1.5); }
+        /* Adjust grid for only one item (Next Post) */
+        .related-posts-grid.single-next {
+            grid-template-columns: 1fr; /* Full width */
+            max-width: 400px; /* Limit width */
+            margin: 0 auto; /* Center */
+        }
+        .related-post-card { border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; background-color: var(--color-bg); transition: border-color var(--transition-speed) ease, box-shadow 0.3s ease, transform 0.3s ease; display: flex; flex-direction: column; }
+        .related-post-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.1); border-color: var(--color-primary); transform: translateY(-5px); }
+        body.dark-mode .related-post-card { background-color: var(--color-code-bg); }
+        body.dark-mode .related-post-card:hover { box-shadow: 0 8px 25px rgba(255,255,255,0.08); }
+        .related-post-card a:first-child:focus-visible { outline-offset: -3px; }
+        .related-post-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--color-border); transition: transform 0.3s ease; margin: 0; }
+        .related-post-card:hover img { transform: scale(1.05); }
+        .related-post-card-content { padding: calc(var(--spacing-unit) * 1.2); flex-grow: 1; display: flex; flex-direction: column; }
+        .related-post-card h3 { font-size: 1.1rem; margin-bottom: calc(var(--spacing-unit) / 1.5); line-height: 1.4; flex-grow: 1; }
+        .related-post-card h3 a { color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+        .related-post-card h3 a:hover { color: var(--color-primary); text-decoration: none; }
+        .related-post-card .post-meta { font-size: 0.8rem; margin-top: var(--spacing-unit); margin-bottom: 0; gap: calc(var(--spacing-unit) / 1.5); color: var(--color-secondary); }
+
+        .comments-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 2.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .comments-section h2 { margin-bottom: calc(var(--spacing-unit) * 1.8); font-size: 1.8rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .gh-comments-info { background-color: var(--color-illustration-bg); border: 1px dashed var(--color-secondary); padding: calc(var(--spacing-unit) * 1.5); margin: calc(var(--spacing-unit)*2) 0; border-radius: var(--border-radius); font-size: 0.95rem; line-height: 1.6; color: var(--color-secondary); }
+        .gh-comments-info p { margin-bottom: 1em; }
+        .gh-comments-info strong { color: var(--color-text); }
+        .gh-comments-info code { font-size: 0.85em; padding: 2px 5px; background-color: rgba(0,0,0,0.05); border-radius: 3px; }
+        body.dark-mode .gh-comments-info code { background-color: rgba(255,255,255,0.1); }
+        #comment-thread-container { margin-top: calc(var(--spacing-unit) * 2); }
+
+        /* 5. --- Footer --- */
+        .site-footer { background-color: var(--color-code-bg); color: var(--color-secondary); padding: calc(var(--spacing-unit) * 2.5) 0; margin-top: calc(var(--spacing-unit) * 4); font-size: 0.9rem; text-align: center; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; border-top: 1px solid var(--color-border); }
+        .site-footer .container { max-width: var(--main-wrapper-width); }
+        .site-footer a { color: var(--color-secondary); transition: color var(--transition-speed-fast) ease; }
+        .site-footer a:hover { color: var(--color-primary); }
+        .footer-links { margin-top: calc(var(--spacing-unit) / 1.5); }
+        .footer-links a { margin: 0 10px; }
+
+        /* 6. --- Utility & Interaction Styles --- */
+        #back-to-top { position: fixed; bottom: 25px; right: 25px; background-color: var(--color-primary); color: #fff; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; line-height: 50px; text-align: center; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform 0.2s ease; z-index: 90; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        #back-to-top.visible { opacity: 0.8; visibility: visible; transform: scale(1); }
+        #back-to-top:hover { opacity: 1; background-color: var(--color-accent); transform: scale(1.1); }
+        #back-to-top:active { transform: scale(1); }
+
+        /* 7. --- Table of Contents Styling --- */
+        #toc-container { padding: calc(var(--spacing-unit) * 1); border-left: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        #toc-container h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: var(--spacing-unit); padding-bottom: calc(var(--spacing-unit) * 0.5); border-bottom: 1px solid var(--color-border); color: var(--color-text); }
+        #toc-list { list-style: none; padding: 0; margin: 0; font-size: 0.9rem; line-height: 1.6; }
+        #toc-list li { margin-bottom: calc(var(--spacing-unit) * 0.5); }
+        #toc-list a { display: block; color: var(--color-secondary); padding: 4px 0; transition: color var(--transition-speed-fast), border-left-color var(--transition-speed-fast), transform var(--transition-speed-fast); border-left: 3px solid transparent; padding-left: calc(var(--spacing-unit) * 0.75); text-decoration: none; }
+        #toc-list a:hover { color: var(--color-primary); transform: translateX(3px); text-decoration: none; }
+        #toc-list a.active { color: var(--color-primary); font-weight: 600; border-left-color: var(--color-primary); }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 1024px) {
+            .content-wrapper { grid-template-columns: 1fr; max-width: var(--container-width); width: 90%; }
+            .toc-column { display: none; }
+            .site-header .container, .site-footer .container { max-width: var(--container-width); }
+            .post-featured-image img { max-width: 800px; }
+            .blog-post-1 .post-featured-image img { max-height: 300px; } /* Adjust height on smaller screens too */
+        }
+        @media (max-width: 768px) {
+            .post-title { font-size: 2.2rem; }
+            .content-body { font-size: 1.1rem; }
+            .content-body h2[id] { font-size: 1.8rem; }
+            .content-body h3[id] { font-size: 1.5rem; }
+            .author-bio { flex-direction: column; align-items: center; text-align: center; }
+            .author-bio .avatar { margin-bottom: var(--spacing-unit); }
+            .blog-post-1 .post-featured-image img { max-height: 250px; }
+        }
+         @media (max-width: 600px) {
+              .related-posts-grid.single-next { max-width: 100%; } /* Allow full width on smallest screens */
+         }
+    </style>
 </head>
-<body>
-  <!-- Scroll Progress Indicator (fixed at the top) -->
-  <div class="scroll-progress">
-    <div class="progress-bar"></div>
-  </div>
+<body class="blog-post-1"> <!-- Added class for potential specific styling -->
 
-  <header class="post-header">
-    <a href="bloghome.html" class="back-to-blog">← Back to Blog</a>
-    <h1>Starting My Blogging Journey: From Curiosity to Code</h1>
-    <div class="post-meta">
-      <span>Feb 22, 2025</span>
-      <span>•</span>
-      <span>5 min read</span>
-    </div>
-    <div class="post-tags">
-      <span class="tag">Self Development  </span>
-      <span class="tag">My Journey  </span>
-      <span class="tag">Blogging</span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <article class="article-body">
-      <!-- Post Content -->
-      <img src="assets/blog_cover_image/gettingstarted.png" alt="Blog post cover image" style="border-radius: 8px; width: 800px; height: 150px;">
-      <p>Hi, I’m Ranjith Kumar, a recent BE graduate in Computer Science and Engineering from Kumaraguru College of Technology. I’m passionate about AI, computers, and fitness, and I’m excited to kick off this blog to share my journey with you. Whether you’re here for tech talk, fitness inspiration, or just curious about my story, I hope you’ll stick around. Let’s get started!</p>
-  
-      <h2 id="section1">How I Fell in Love with AI and Computers</h2>
-      <p>It all began with movies—those sci-fi flicks where technology seemed like magic. As a kid, I’d watch, wide-eyed, wondering how it all worked. But the real spark came later when I started digging into the complexity behind it. Take computational photography, for instance—back around 2017, I was blown away by how companies like Qualcomm could pull off such feats. Then there was Google Translate, seamlessly bridging languages. Lastly a genrational leep forward in NLP, "Transformers", introduced by google. I kept asking myself, “How do they do that?” That curiosity pulled me into AI, and during my time at Kumaraguru College of Technology, it turned into a full-blown passion. AI isn’t just cool tech—it’s a way to solve real problems, and I wanted in.</p>
-  
-      <h2 id="section2">Building a Chatbot to Bridge Healthcare Gaps</h2>
-      <p>One project I’m pouring my heart into right now is a chatbot for elderly folks in India. I noticed a gap here: many older people struggle to keep their medical records organized. Sometimes, they even hand over the wrong documents at doctor’s appointments, which can mess things up. So, I’m building a chatbot to fix that. It uses RAG (Retrieval-Augmented Generation) tech, Flask, Socket.IO, and other tools to help them store and retrieve their medical info easily. It’s still a work in progress, but I’m excited to see it come to life and make healthcare a bit smoother for those who need it most.</p>
-      <img src="assets/content_images//blog1_fig1.png" alt="sample working diagram">  
-      <h2 id="section3">Why Fitness Became My Focus</h2>
-      <p>While I was geeking out over code, life threw me a curveball. I started feeling lost—learning stalled, and my health took a gradual nosedive. It hit me hard: without my health, I couldn’t focus on my studies or the things I love, like AI. So, I launched a fitness challenge to turn it around. It’s been tough but rewarding—think less couch, more energy. My goal? Get sharper, stronger, and ready to tackle my passions head-on. Health isn’t just a side quest; it’s the foundation.</p>
-  
-      <h2 id="section4">Why I Started This Blog (and What’s Next)</h2>
-      <p>So, why a blog? Simple:</p><br><p> I want to stay focused on what I love—AI, tech, and growth. It’s a space to revisit what I’ve done, track my progress, and maybe even connect with others who get it. My dream? To study a Master’s in CS with a focus on AI at DCU, Ireland, starting September 2025. It’s a big leap, and I’m buzzing with excitement (and a little nervousness—let’s see what happens!). This blog is my accountability partner and a bridge to people like you who share my vibe.</p>
+    <div id="progress-bar"></div>
 
-      <!-- ######### socials ##########-->
-      <div class="connect-container" id="section5">
-        <h2 class="connect-heading">Let's Connect & Grow Together</h2>
-        <p class="connect-text">I'm passionate about sharing knowledge and building a community of like-minded professionals. Connect with me on these platforms and let's learn and grow together!</p>
-        
-        <ul class="social-links">
-          <li>
-            <a href="https://www.linkedin.com/in/ranjith-kumar-b66180250" class="social-link linkedin" target="_blank">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-              </svg>
-              LinkedIn
-            </a>
-          </li>
-          <li>
-            <a href="https://www.instagram.com/ranjithh_56" class="social-link instagram" target="_blank">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-              Instagram
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/P-RanjithKumar" class="social-link github" target="_blank">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              GitHub
-            </a>
-          </li>
-        </ul>
-      </div>
-  
-      <!-- Post Navigation -->
-      <div class="post-navigation">
-        <a href="blog2.html" class="nav-button next-post">Next Post →</a>
-      </div>
-    </article>
-  
-    <!-- Table of Contents -->
-    <aside class="toc">
-      <h3>Table of Contents</h3>
-      <ul>
-        <li><a href="#section1">How I Fell in Love with AI and Computers</a></li>
-        <li><a href="#section2">Building a Chatbot to Bridge Healthcare Gaps</a></li>
-        <li><a href="#section3">Why Fitness Became My Focus</a></li>
-        <li><a href="#section4">Why I Started This Blog (and What’s Next)</a></li>
-        <li><a href="#section5">Let’s Connect!</a></li>
-      </ul>
-    </aside>
-  </div>
+    <header class="site-header">
+        <div class="container">
+             <a href="bloghome.html" class="logo">Ranjith's Blog</a>
+             <div class="header-actions">
+                 <input type="search" id="search-input" placeholder="Search posts..." aria-label="Search Input">
+                 <button id="search-toggle" aria-label="Toggle Search" title="Search">🔍</button>
+                 <button id="theme-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌓</button>
+            </div>
+        </div>
+    </header>
 
-  <!--###############################################################################################################-->
+    <main class="main-content">
 
-  <script>
-    // Scroll Progress Indicator Update
-    window.addEventListener('scroll', () => {
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      document.querySelector('.progress-bar').style.width = scrolled + "%";
-    });
+        <!-- New Content Wrapper for Article + TOC -->
+        <div class="content-wrapper">
 
-    // Smooth Scroll for Table of Contents
-    document.querySelectorAll('.toc a').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const section = document.querySelector(this.getAttribute('href'));
-        section.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
+            <a href="bloghome.html" class="back-to-blog">← Back to Home</a>
 
-    // Estimated Reading Time
-    const postContent = document.querySelector('.article-body');
-    const words = postContent.innerText.split(' ').length;
-    const readingTime = Math.ceil(words / 200);
-    document.querySelector('.post-meta span:nth-child(5)').innerHTML = 
-      `${readingTime} min read`;
-  </script>
+            <!-- Article Column -->
+            <div class="article-column">
+                <article class="blog-post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                    <!-- Featured Image -->
+                    <figure class="post-featured-image">
+                        <img src="assets/blog_cover_image/gettingstarted.png"
+                             alt="Conceptual image representing starting a journey with code and curiosity"
+                             itemprop="image"
+                             loading="eager">
+                    </figure>
+
+                    <!-- Post Meta -->
+                    <div class="post-meta">
+                        <span class="category"><a href="#category-self-development" itemprop="articleSection">Self Development</a></span>
+                        <span class="category"><a href="#category-my-journey" itemprop="articleSection">My Journey</a></span>
+                        <span class="category"><a href="#category-blogging" itemprop="articleSection">Blogging</a></span>
+                        <span class="reading-time" title="Estimated reading time">⏱️ Calculating...</span>
+                        <time class="publication-date" datetime="2025-02-22" itemprop="datePublished">February 22, 2025</time>
+                    </div>
+
+                    <!-- Post Title -->
+                    <h1 class="post-title" itemprop="headline">Starting My Blogging Journey: From Curiosity to Code</h1>
+
+                    <!-- Author Info -->
+                    <div class="author-info" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                         <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                        <span class="author-name" itemprop="name">Ranjith Kumar</span>
+                    </div>
+
+                    <!-- Content Body -->
+                    <div class="content-body" itemprop="articleBody">
+
+                        <p>Hi, I’m Ranjith Kumar, a recent BE graduate in Computer Science and Engineering from Kumaraguru College of Technology. I’m passionate about AI, computers, and fitness, and I’m excited to kick off this blog to share my journey with you. Whether you’re here for tech talk, fitness inspiration, or just curious about my story, I hope you’ll stick around. Let’s get started!</p>
+
+                        <h2 id="section1">How I Fell in Love with AI and Computers</h2>
+                        <p>It all began with movies—those sci-fi flicks where technology seemed like magic. As a kid, I’d watch, wide-eyed, wondering how it all worked. But the real spark came later when I started digging into the complexity behind it. Take computational photography, for instance—back around 2017, I was blown away by how companies like Qualcomm could pull off such feats. Then there was Google Translate, seamlessly bridging languages. Lastly a genrational leep forward in NLP, "Transformers", introduced by google. I kept asking myself, “How do they do that?” That curiosity pulled me into AI, and during my time at Kumaraguru College of Technology, it turned into a full-blown passion. AI isn’t just cool tech—it’s a way to solve real problems, and I wanted in.</p>
+
+                        <h2 id="section2">Building a Chatbot to Bridge Healthcare Gaps</h2>
+                        <p>One project I’m pouring my heart into right now is a chatbot for elderly folks in India. I noticed a gap here: many older people struggle to keep their medical records organized. Sometimes, they even hand over the wrong documents at doctor’s appointments, which can mess things up. So, I’m building a chatbot to fix that. It uses RAG (Retrieval-Augmented Generation) tech, Flask, Socket.IO, and other tools to help them store and retrieve their medical info easily. It’s still a work in progress, but I’m excited to see it come to life and make healthcare a bit smoother for those who need it most.</p>
+                        <figure>
+                            <img src="assets/content_images/blog1_fig1.png" alt="Diagram showing chatbot architecture for healthcare" loading="lazy">
+                            <figcaption>Sample working diagram of the healthcare chatbot project.</figcaption>
+                        </figure>
+
+                        <h2 id="section3">Why Fitness Became My Focus</h2>
+                        <p>While I was geeking out over code, life threw me a curveball. I started feeling lost—learning stalled, and my health took a gradual nosedive. It hit me hard: without my health, I couldn’t focus on my studies or the things I love, like AI. So, I launched a fitness challenge to turn it around. It’s been tough but rewarding—think less couch, more energy. My goal? Get sharper, stronger, and ready to tackle my passions head-on. Health isn’t just a side quest; it’s the foundation.</p>
+
+                        <h2 id="section4">Why I Started This Blog (and What’s Next)</h2>
+                        <p>So, why a blog? Simple: I want to stay focused on what I love—AI, tech, and growth. It’s a space to revisit what I’ve done, track my progress, and maybe even connect with others who get it. My dream? To study a Master’s in CS with a focus on AI at DCU, Ireland, starting September 2025. It’s a big leap, and I’m buzzing with excitement (and a little nervousness—let’s see what happens!). This blog is my accountability partner and a bridge to people like you who share my vibe.</p>
+
+                    </div> <!-- /.content-body -->
+
+                     <!-- Post Tags -->
+                     <div class="post-tags" itemprop="keywords">
+                         <span>Tags:</span>
+                         <a href="#tag-self-development">Self Development</a>
+                         <a href="#tag-my-journey">My Journey</a>
+                         <a href="#tag-blogging">Blogging</a>
+                         <a href="#tag-ai">AI</a>
+                         <a href="#tag-fitness">Fitness</a>
+                     </div>
+
+                     <!-- Social Share Section -->
+                     <div class="social-share">
+                         <h3>Share This Post</h3>
+                         <div class="share-buttons">
+                             <a href="#" class="share-facebook" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">Facebook</a>
+                             <a href="#" class="share-twitter" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter">Twitter</a>
+                             <a href="https://www.linkedin.com/shareArticle?mini=true&url=[YOUR_BLOG_POST_URL]&title=Starting%20My%20Blogging%20Journey%3A%20From%20Curiosity%20to%20Code" class="share-linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a>
+                             <a href="#" class="share-reddit" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">Reddit</a>
+                             <a href="mailto:?subject=Check%20out%20Ranjith's%20first%20blog%20post!&body=Thought%20you%20might%20find%20this%20interesting%3A%0A%0A[YOUR_BLOG_POST_URL]" class="share-email" aria-label="Share via Email">Email</a>
+                             <button id="copy-link-button" class="share-copy" aria-label="Copy post link">Copy Link</button>
+                             <button id="native-share-button" aria-label="Share natively" style="display: none;">Share...</button>
+                        </div>
+                     </div>
+
+                     <!-- Author Bio - Integrated "Connect" content -->
+                     <section class="author-bio" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                         <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                         <div class="author-bio-content">
+                            <h4 itemprop="name">Ranjith Kumar</h4>
+                            <p itemprop="description">Recent Computer Science graduate passionate about AI, Deep Learning, fitness, and sharing the journey through blogging. Currently building projects and preparing for future studies.</p>
+                            <h4 class="connect-heading">Let's Connect & Grow Together</h4>
+                            <p>I'm passionate about sharing knowledge and building a community of like-minded professionals. Connect with me on these platforms and let's learn and grow together!</p>
+                            <div class="author-social-links">
+                                 <a href="https://www.linkedin.com/in/ranjith-kumar-b66180250" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on LinkedIn" title="LinkedIn">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                 </a>
+                                 <a href="https://github.com/P-RanjithKumar" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on GitHub" title="GitHub">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                 </a>
+                                 <a href="https://www.instagram.com/ranjithh_56" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on Instagram" title="Instagram">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                 </a>
+                            </div>
+                         </div>
+                    </section>
+
+                    <!-- Related Posts Section -->
+                    <section class="related-posts">
+                        <h2>Next Post</h2> <!-- Changed heading as there's no previous -->
+                        <div class="related-posts-grid single-next"> <!-- Added class to center single item -->
+                            <!-- Previous Post Link REMOVED -->
+                             <!-- Next Post Link -->
+                             <div class="related-post-card">
+                                 <a href="blog2.html" aria-label="Read next post">
+                                     <!-- Use a relevant placeholder or actual thumbnail for blog 2 -->
+                                    <img src="assets/blogpost thumbnails/blog2.png" alt="Next Post Thumbnail Placeholder" loading="lazy">
+                                </a>
+                                 <div class="related-post-card-content">
+                                    <h3><a href="blog2.html">Next Post: Building My First Portfolio</a></h3>
+                                    <div class="post-meta">
+                                         <time datetime="2025-XX-XX">Future Date</time>
+                                        <!-- Reading time can be added here if static, or calculated by JS if Blog 2 page is loaded -->
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Comments Section -->
+                    <section id="comments" class="comments-section">
+                        <h2>Join the Discussion (<span id="comment-count">0</span>)</h2>
+                        <div class="gh-comments-info">
+                            <p><strong>Comments via GitHub Discussions:</strong> This blog uses <a href="https://giscus.app/" target="_blank" rel="noopener">Giscus</a>, which leverages GitHub Discussions for comments.</p>
+                            <p>You'll need a GitHub account to comment. Comments will appear in a dedicated Discussion category within the blog's repository.</p>
+                        </div>
+                        <div id="comment-thread-container">
+                            <script src="https://giscus.app/client.js"
+                                    data-repo="P-RanjithKumar/p-ranjithkumar.github.io"
+                                    data-repo-id="R_kgDONYyxxg"
+                                    data-category="Blog Comments"
+                                    data-category-id="DIC_kwDONYyxxs4CpBgf"
+                                    data-mapping="pathname" /* Crucial: Maps comments to this specific page */
+                                    data-strict="0"
+                                    data-reactions-enabled="1"
+                                    data-emit-metadata="1" /* Needed for comment count */
+                                    data-input-position="bottom"
+                                    data-theme="preferred_color_scheme" /* Adapts to light/dark mode */
+                                    data-lang="en"
+                                    crossorigin="anonymous"
+                                    async>
+                            </script>
+                            <noscript>Please enable JavaScript to view the comments powered by Giscus.</noscript>
+                         </div>
+                    </section>
+
+                </article> <!-- /.blog-post -->
+            </div> <!-- /.article-column -->
+
+            <!-- Table of Contents Column -->
+            <aside class="toc-column">
+                 <nav id="toc-container" aria-label="Table of Contents">
+                    <h3>Table of Contents</h3>
+                    <ol id="toc-list">
+                        <!-- Updated TOC items for Blog 1 -->
+                        <li><a href="#section1">How I Fell in Love with AI and Computers</a></li>
+                        <li><a href="#section2">Building a Chatbot to Bridge Healthcare Gaps</a></li>
+                        <li><a href="#section3">Why Fitness Became My Focus</a></li>
+                        <li><a href="#section4">Why I Started This Blog (and What’s Next)</a></li>
+                        <!-- Section 5 (Connect) is now part of Author Bio, not in TOC -->
+                    </ol>
+                </nav>
+            </aside> <!-- /.toc-column -->
+
+        </div> <!-- /.content-wrapper -->
+    </main> <!-- /.main-content -->
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Ranjith Kumar. Exploring AI and sharing the journey.</p>
+            <div class="footer-links">
+                 <a href="#privacy">Privacy Policy</a> |
+                 <a href="#terms">Terms of Use</a> |
+                 <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Back to top" title="Back to top" style="transform: scale(0);">↑</button>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Theme Toggle ---
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        const sunIcon = '☀️';
+        const moonIcon = '🌓';
+        let isDarkMode = false;
+
+        const setTheme = (theme) => {
+            isDarkMode = theme === 'dark';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            themeToggleButton.textContent = isDarkMode ? sunIcon : moonIcon;
+            themeToggleButton.setAttribute('aria-label', `Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`);
+            localStorage.setItem('theme', theme);
+
+            // Update Giscus theme if the iframe exists
+            const giscusFrame = document.querySelector('iframe.giscus-frame');
+            if (giscusFrame) {
+                giscusFrame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme === 'dark' ? 'dark' : 'light' } } }, 'https://giscus.app');
+            }
+
+
+            if (isDarkMode) {
+                 document.body.style.setProperty('--color-bg-rgb', '18, 18, 18');
+                 document.body.style.setProperty('--color-primary-rgb', '77, 171, 247');
+            } else {
+                 document.body.style.setProperty('--color-bg-rgb', '255, 255, 255');
+                 document.body.style.setProperty('--color-primary-rgb', '13, 110, 253');
+            }
+        };
+
+        const initialTheme = currentTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+        setTheme(initialTheme);
+
+        themeToggleButton.addEventListener('click', () => {
+            setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+        });
+        prefersDarkScheme.addEventListener('change', (e) => { if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light'); });
+
+
+         // --- Search Toggle ---
+         const searchToggleButton = document.getElementById('search-toggle');
+         const searchInput = document.getElementById('search-input');
+         searchToggleButton.addEventListener('click', () => { document.body.classList.toggle('search-active'); if(document.body.classList.contains('search-active')) searchInput.focus(); });
+
+        // --- Back to Top Button ---
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+             const isVisible = window.scrollY > 400;
+             backToTopButton.classList.toggle('visible', isVisible);
+             backToTopButton.style.transform = isVisible ? 'scale(1)' : 'scale(0)';
+        }, { passive: true });
+        backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+
+        // --- Reading Progress Bar ---
+        const progressBar = document.getElementById('progress-bar');
+         const updateProgressBar = () => {
+              const contentBody = document.querySelector('.content-body');
+              if (!contentBody) return;
+              const element = document.documentElement;
+              const body = document.body;
+              const scrollableHeight = Math.max( body.scrollHeight, body.offsetHeight,
+                                                element.clientHeight, element.scrollHeight, element.offsetHeight ) - window.innerHeight;
+              const scrolled = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
+              progressBar.style.width = `${Math.min(scrolled, 100)}%`;
+         };
+         window.addEventListener('scroll', updateProgressBar, { passive: true });
+         window.addEventListener('resize', updateProgressBar);
+         updateProgressBar();
+
+
+         // --- Copy Code Button (If any code blocks are added later) ---
+         document.querySelectorAll('.copy-code-button').forEach(button => {
+             const pre = button.closest('pre');
+             const code = pre?.querySelector('code');
+             if (!code || !navigator.clipboard) { button.style.display = 'none'; return; }
+             button.addEventListener('click', async () => {
+                 try {
+                     await navigator.clipboard.writeText(code.innerText);
+                     button.textContent = 'Copied!'; button.classList.add('copied');
+                     setTimeout(() => { button.textContent = 'Copy'; button.classList.remove('copied'); }, 2000);
+                 } catch (err) { console.error('Copy failed:', err); button.textContent = 'Error'; }
+             });
+         });
+
+        // --- Copy Link Button ---
+        const copyLinkButton = document.getElementById('copy-link-button');
+        if (copyLinkButton && navigator.clipboard) {
+            copyLinkButton.addEventListener('click', async () => {
+                 try {
+                     // Construct the URL dynamically for this page
+                     const postUrl = window.location.href;
+                     // Update share links dynamically (example for LinkedIn)
+                     const linkedInLink = document.querySelector('.share-linkedin');
+                     if(linkedInLink) linkedInLink.href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(postUrl)}&title=${encodeURIComponent(document.title)}`;
+                     // Update other share links similarly...
+
+                     await navigator.clipboard.writeText(postUrl);
+                     copyLinkButton.textContent = 'Link Copied!'; copyLinkButton.classList.add('copied');
+                     setTimeout(() => { copyLinkButton.textContent = 'Copy Link'; copyLinkButton.classList.remove('copied'); }, 2000);
+                 } catch (err) { console.error('Copy link failed:', err); copyLinkButton.textContent = 'Error'; }
+            });
+        } else if (copyLinkButton) { copyLinkButton.style.display = 'none'; }
+
+
+        // --- Native Share API Button ---
+        const nativeShareButton = document.getElementById('native-share-button');
+        if (nativeShareButton && navigator.share) {
+             nativeShareButton.style.display = 'inline-flex';
+             nativeShareButton.addEventListener('click', async () => {
+                 try {
+                    const postTitle = document.querySelector('.post-title')?.innerText || document.title;
+                    const shareUrl = window.location.href;
+                    await navigator.share({
+                        title: postTitle,
+                        text: `Check out this post: ${postTitle}`,
+                        url: shareUrl
+                    });
+                 } catch (err) {
+                    if (err.name !== 'AbortError') { console.error('Share failed:', err); }
+                 }
+             });
+        } else if(nativeShareButton) { nativeShareButton.style.display = 'none'; }
+
+
+        // --- Table of Contents (TOC) Active State Highlighting ---
+        const tocLinks = document.querySelectorAll('#toc-list a');
+        const sections = [];
+        tocLinks.forEach(link => {
+            const sectionId = link.getAttribute('href')?.substring(1);
+            if (sectionId) {
+                const section = document.getElementById(sectionId);
+                if (section) sections.push(section);
+                else console.warn(`TOC link points to non-existent section: #${sectionId}`);
+            }
+        });
+
+        if (tocLinks.length > 0 && sections.length > 0) {
+             const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 65;
+             const topMarginOffset = headerHeight + (1.5 * 16); // header + 1.5rem in pixels (assuming 1rem=16px)
+
+             const observerOptions = {
+                 root: null,
+                 rootMargin: `-${topMarginOffset}px 0px -60% 0px`, // Adjusted for calculated header height + gap
+                 threshold: 0
+             };
+
+             const activateTocLink = (id) => {
+                 tocLinks.forEach(link => {
+                     link.classList.remove('active');
+                     if (link.getAttribute('href') === `#${id}`) {
+                         link.classList.add('active');
+                         // link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }); // Might be jerky
+                     }
+                 });
+             };
+
+            let lastActiveLink = null; // Keep track of the last activated link
+
+             const observerCallback = (entries) => {
+                 let topVisibleSectionId = null;
+                 let minTop = Infinity;
+
+                 entries.forEach(entry => {
+                     const rect = entry.boundingClientRect;
+                     // Check if it's intersecting OR if its bottom edge is below the trigger margin top
+                     if (entry.isIntersecting || rect.bottom > topMarginOffset) {
+                         if (rect.top < minTop) {
+                             minTop = rect.top;
+                             topVisibleSectionId = entry.target.id;
+                         }
+                     }
+                 });
+
+                 if (topVisibleSectionId) {
+                     activateTocLink(topVisibleSectionId);
+                     lastActiveLink = topVisibleSectionId; // Update last active link
+                 } else if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 5) {
+                     // If scrolled to the very bottom, keep the last section active
+                     if (lastActiveLink) {
+                         activateTocLink(lastActiveLink);
+                     } else if (sections.length > 0) {
+                         // Fallback: activate the last section if no prior active link
+                         activateTocLink(sections[sections.length - 1].id);
+                     }
+                 } else if (window.scrollY === 0) {
+                     // If scrolled to the top, activate the first link
+                     if (sections.length > 0) {
+                        activateTocLink(sections[0].id);
+                        lastActiveLink = sections[0].id;
+                     }
+                 }
+                 // Optional: Add logic for when scrolling *up* past the top section
+             };
+
+             const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+             sections.forEach(section => scrollObserver.observe(section));
+
+        } else {
+            console.log("TOC or Sections not found for active state highlighting.");
+        }
+
+        // --- Dynamic Reading Time Calculation ---
+        try {
+            const contentBody = document.querySelector('.content-body');
+            const readingTimeSpan = document.querySelector('.reading-time');
+            if (contentBody && readingTimeSpan) {
+                 const text = contentBody.innerText || contentBody.textContent;
+                 const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+                 const wordsPerMinute = 200;
+                 const minutes = Math.max(1, Math.ceil(wordCount / wordsPerMinute)); // Ensure at least 1 min
+                 readingTimeSpan.innerHTML = `⏱️ ~${minutes} min read`;
+                 readingTimeSpan.title = `Estimated reading time: ${minutes} minutes (${wordCount} words)`;
+            }
+        } catch (e) {
+            console.error("Could not calculate reading time:", e);
+            const readingTimeSpan = document.querySelector('.reading-time');
+            if(readingTimeSpan) readingTimeSpan.innerHTML = `⏱️ Reading time N/A`;
+        }
+
+         // --- Giscus Comment Count ---
+         const commentCountSpan = document.getElementById('comment-count');
+         if (commentCountSpan) {
+             window.addEventListener('message', event => {
+                 if (event.origin !== 'https://giscus.app') return;
+                 if (event.data && event.data.giscus && event.data.giscus.discussion) {
+                     const commentCount = event.data.giscus.discussion.totalCommentCount;
+                     commentCountSpan.textContent = commentCount;
+                 }
+             });
+         }
+
+
+    }); // End DOMContentLoaded
+    </script>
+
 </body>
 </html>
