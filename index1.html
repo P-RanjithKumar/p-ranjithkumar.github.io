@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Your Name] - Synaptic Flow</title>
+    <style>
+        :root {
+            --color-background-deep: #0d0c10;
+            --color-background-medium: #1a1820;
+            --color-surface-glass: rgba(26, 24, 32, 0.65);
+            
+            --color-text-primary: #e8e6f0;
+            --color-text-secondary: #b0acc0;
+            --color-text-muted: #706c80;
+
+            --color-accent-primary: #00f0ff;
+            --color-accent-secondary: #ff60c0;
+            --color-accent-tertiary: #f0c000;
+
+            --font-primary: 'Satoshi', 'Inter', system-ui, -apple-system, sans-serif;
+            --font-monospace: 'JetBrains Mono', 'Fira Code', monospace;
+
+            --border-radius-small: 6px;
+            --border-radius-medium: 12px;
+            --border-radius-large: 20px;
+            --border-radius-xl: 30px;
+
+            --transition-duration-fast: 0.2s;
+            --transition-duration-medium: 0.4s;
+            --transition-duration-slow: 0.6s;
+            --easing-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+            --easing-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Used for button pop */
+
+            --glow-intensity: 15px;
+            --glow-color-primary: rgba(0, 240, 255, 0.3);
+            --glow-color-secondary: rgba(255, 96, 192, 0.3);
+            --glow-color-tertiary: rgba(240, 192, 0, 0.3);
+
+            --particle-color-1: rgba(0, 240, 255, 0.7); 
+            --particle-color-2: rgba(255, 96, 192, 0.7);
+            --particle-color-3: rgba(240, 192, 0, 0.5);
+            --particle-link-color: rgba(200, 200, 220, 0.08);
+
+            /* Project Carousel Specifics */
+            --project-item-width: 350px;
+            --project-item-gap: 25px;
+            --project-image-overlay-color: rgba(var(--color-accent-primary-rgb, 0, 240, 255), 0.15); /* Default fallback if rgb var not set */
+        }
+
+        @font-face { font-family: 'Satoshi'; src: url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap') format('woff2'); font-weight: 300 700; font-display: swap; }
+        @font-face { font-family: 'JetBrains Mono'; src: url('https://api.fontshare.com/v2/css?f[]=jetbrains-mono@400&display=swap') format('woff2'); font-weight: 400; font-display: swap; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-background-deep);
+            color: var(--color-text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative; 
+        }
+
+        #global-particle-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
+        }
+
+        body::-webkit-scrollbar { width: 8px; }
+        body::-webkit-scrollbar-track { background: var(--color-background-deep); }
+        body::-webkit-scrollbar-thumb { background-color: var(--color-accent-primary); border-radius: 10px; border: 2px solid var(--color-background-deep); }
+        body::-webkit-scrollbar-thumb:hover { background-color: var(--color-accent-secondary); }
+
+        .main-nav { position: fixed; right: 30px; top: 50%; transform: translateY(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 15px; }
+        .nav-dot { width: 12px; height: 12px; background-color: rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer; transition: transform var(--transition-duration-medium) var(--easing-cubic), background-color var(--transition-duration-medium) var(--easing-cubic), box-shadow var(--transition-duration-medium) var(--easing-cubic); position: relative; }
+        .nav-dot::before { content: attr(data-tooltip); position: absolute; right: 150%; top: 50%; transform: translateY(-50%) translateX(10px); background-color: var(--color-surface-glass); backdrop-filter: blur(5px); color: var(--color-text-primary); padding: 5px 10px; border-radius: var(--border-radius-small); font-size: 0.8rem; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity var(--transition-duration-fast), transform var(--transition-duration-fast); pointer-events: none; }
+        .nav-dot:hover::before { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0px); }
+        .nav-dot:hover { background-color: var(--color-accent-secondary); transform: scale(1.5); }
+        .nav-dot.active { background-color: var(--color-accent-primary); transform: scale(1.8); box-shadow: 0 0 var(--glow-intensity) var(--glow-color-primary); }
+
+        .page-section { min-height: 100vh; padding: 100px 8vw; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+        #projects.page-section { padding-right: max(8vw, 75px); /* Original padding, check if it conflicts with button placement or helps */ }
+
+        .section-header { margin-bottom: 60px; position: relative; z-index: 1; }
+        .section-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: var(--color-text-primary); margin-bottom: 10px; line-height: 1.2; letter-spacing: -0.02em; }
+        .section-title .highlight { color: var(--color-accent-primary); }
+        .section-subtitle { font-size: clamp(1rem, 2.5vw, 1.3rem); color: var(--color-text-secondary); max-width: 600px; font-weight: 300; }
+
+        #hero { justify-content: center; text-align: left; }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-greeting { font-size: clamp(1.2rem, 3vw, 1.5rem); color: var(--color-accent-secondary); margin-bottom: 10px; font-weight: 500; letter-spacing: 0.05em; display: block; opacity: 0; transform: translateY(20px); animation: fadeInSlideUp 0.5s var(--easing-cubic) 0.2s forwards; }
+        .hero-name { font-size: clamp(3.5rem, 10vw, 7rem); font-weight: 700; color: var(--color-text-primary); line-height: 1; margin-bottom: 20px; letter-spacing: -0.03em; display: block; }
+        .hero-name .char { display: inline-block; opacity: 0; transform: translateY(30px) rotate(10deg); animation: letterReveal 0.8s var(--easing-elastic) forwards; }
+        .hero-tagline { font-size: clamp(1.3rem, 3.5vw, 1.8rem); color: var(--color-text-secondary); max-width: 700px; margin-bottom: 40px; font-weight: 300; opacity: 0; transform: translateY(20px); animation: fadeInSlideUp 0.5s var(--easing-cubic) 1.2s forwards; }
+        .hero-tagline strong { color: var(--color-accent-primary); font-weight: 500; }
+        .hero-cta { display: inline-block; padding: 15px 35px; background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary)); color: var(--color-background-deep); border: none; border-radius: var(--border-radius-medium); text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: transform var(--transition-duration-medium) var(--easing-elastic), box-shadow var(--transition-duration-medium) var(--easing-cubic); box-shadow: 0 5px 20px rgba(0, 240, 255, 0.2), 0 5px 20px rgba(255, 96, 192, 0.2); opacity: 0; transform: translateY(20px) scale(0.9); animation: fadeInSlideUpScale 0.6s var(--easing-cubic) 1.5s forwards; }
+        .hero-cta:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.4), 0 10px 30px rgba(255, 96, 192, 0.4); }
+        
+        @keyframes fadeInSlideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInSlideUpScale { to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes letterReveal { 0% { opacity: 0; transform: translateY(30px) rotate(10deg) scale(0.8); } 100% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); } }
+
+        /* --- About Section --- */
+        #about .about-content-grid { margin-bottom: 40px; }
+        .about-text p { margin-bottom: 20px; color: var(--color-text-secondary); font-size: 1.05rem; }
+        .about-text p strong { color: var(--color-text-primary); font-weight: 500; }
+        .tech-stack-showcase { background-color: var(--color-surface-glass); backdrop-filter: blur(10px); padding: 30px; border-radius: var(--border-radius-large); border: 1px solid rgba(255,255,255,0.05); margin-top: 50px; }
+        .tech-stack-title { font-size: 1.5rem; font-weight: 600; color: var(--color-text-primary); margin-bottom: 25px; text-align: center; }
+        .tech-stack-title .highlight { color: var(--color-accent-tertiary); }
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .skill-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 15px; min-width: 90px; text-align: center; background-color: rgba(var(--color-background-medium-rgb), 0.5); border-radius: var(--border-radius-medium); transition: transform var(--transition-duration-fast) var(--easing-cubic), box-shadow var(--transition-duration-fast); }
+        .skill-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .skill-icon { width: 40px; height: 40px; margin-bottom: 5px; }
+        .skill-icon img { width:100%; height:100%; object-fit:contain; } 
+        .skill-name { font-size: 0.85rem; color: var(--color-text-secondary); font-weight: 500; }
+
+        /* --- Experience Section --- */
+        #experience .experience-timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        #experience .experience-timeline::after { content: ''; position: absolute; width: 4px; background: linear-gradient(to bottom, var(--color-accent-primary), var(--color-accent-secondary)); top: 0; bottom: 0; left: 50%; margin-left: -2px; border-radius: 2px; opacity: 0.3; }
+        .timeline-item { padding: 10px 40px; position: relative; background-color: transparent; width: 50%; opacity: 0; transform: translateX(-30px); }
+        .timeline-item.reveal-on-scroll.is-visible { transform: translateX(0); opacity: 1; }
+        .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; text-align: left; }
+        .timeline-item:nth-child(odd)::before { content: ' '; height: 16px; width: 16px; position: absolute; top: 28px; right: -9px; background-color: var(--color-background-medium); border: 3px solid var(--color-accent-primary); border-radius: 50%; z-index: 1; transition: background-color 0.3s, border-color 0.3s; }
+        .timeline-item:nth-child(even)::before { content: ' '; height: 16px; width: 16px; position: absolute; top: 28px; left: -7px; background-color: var(--color-background-medium); border: 3px solid var(--color-accent-secondary); border-radius: 50%; z-index: 1; transition: background-color 0.3s, border-color 0.3s; }
+        .timeline-item:hover::before { background-color: var(--color-accent-tertiary); border-color: var(--color-accent-tertiary); }
+        .timeline-content { padding: 20px 30px; background-color: var(--color-surface-glass); backdrop-filter: blur(8px); position: relative; border-radius: var(--border-radius-medium); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: transform 0.3s var(--easing-cubic), box-shadow 0.3s; }
+        .timeline-item:hover .timeline-content { transform: scale(1.03); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+        .timeline-role { font-size: 1.3rem; font-weight: 600; color: var(--color-text-primary); margin-bottom: 5px; }
+        .timeline-company { font-size: 1rem; font-weight: 500; color: var(--color-accent-tertiary); margin-bottom: 5px; }
+        .timeline-date { font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 10px; }
+        .timeline-desc { font-size: 0.95rem; color: var(--color-text-secondary); }
+        @media screen and (max-width: 768px) {
+            #experience .experience-timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; transform: translateY(30px); }
+            .timeline-item:nth-child(odd), .timeline-item:nth-child(even) { left: 0; text-align: left; }
+            .timeline-item:nth-child(odd)::before, .timeline-item:nth-child(even)::before { left: 22px; }
+        }
+
+        /* --- Projects Section --- */
+        .projects-carousel-wrapper { 
+            position: relative; 
+            width: 100%; 
+            margin-top: 30px; 
+            opacity: 0; 
+            transform: translateY(50px); 
+            /* padding: 0 20px; /* Provides space for buttons at edges if they are left:0/right:0 of wrapper */
+        }
+        .projects-grid-viewport { width: calc( (var(--project-item-width) * 2) + var(--project-item-gap) ); overflow: hidden; margin: 0 auto; position: relative; }
+        @media (max-width: calc( (var(--project-item-width) * 2) + var(--project-item-gap) + 40px)) { 
+            .projects-grid-viewport { width: calc( var(--project-item-width) + (var(--project-item-gap) / 2) ); }
+        }
+        @media (max-width: calc(var(--project-item-width) + 50px)) { 
+            .projects-grid-viewport { width: var(--project-item-width); }
+        }
+        #projects .projects-grid { display: flex; gap: var(--project-item-gap); padding: 20px 0; position: relative; transition: transform var(--transition-duration-slow) var(--easing-cubic); }
+        
+        /* UPDATED Project Navigation Buttons */
+        .project-nav-btn {
+            position: absolute;
+            top: 50%;
+            background-color: var(--color-surface-glass);
+            color: var(--color-text-secondary); /* Initial icon color */
+            border: 1px solid rgba(var(--color-accent-primary-rgb, 0, 240, 255), 0.2);
+            border-radius: 50%;
+            width: 48px; 
+            height: 48px;
+            font-size: 1.8rem; 
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            opacity: 0.8; 
+            transform: translateY(-50%) scale(0.9); 
+            transition: transform var(--transition-duration-medium) var(--easing-elastic),
+                        opacity var(--transition-duration-fast) var(--easing-cubic),
+                        background-color var(--transition-duration-fast) var(--easing-cubic),
+                        color var(--transition-duration-fast) var(--easing-cubic),
+                        box-shadow var(--transition-duration-medium) var(--easing-cubic);
+            will-change: transform, opacity, background-color, color, box-shadow;
+        }
+
+        .project-nav-btn .arrow-icon {
+            display: inline-block;
+            transition: transform var(--transition-duration-fast) var(--easing-cubic);
+            line-height: 1; /* Helps vertical alignment of text arrows */
+        }
+
+        .project-nav-btn:hover {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1); 
+            color: var(--color-background-deep);
+        }
+        .project-nav-btn.prev:hover {
+            background-color: var(--color-accent-primary);
+            box-shadow: 0 0 15px var(--glow-color-primary), 0 0 25px var(--glow-color-primary);
+        }
+        .project-nav-btn.next:hover {
+            background-color: var(--color-accent-secondary); /* Different accent for next or use primary */
+            box-shadow: 0 0 15px var(--glow-color-secondary), 0 0 25px var(--glow-color-secondary);
+        }
+
+        .project-nav-btn:hover .arrow-icon.next-arrow { transform: translateX(3px); }
+        .project-nav-btn:hover .arrow-icon.prev-arrow { transform: translateX(-3px); }
+
+        .project-nav-btn:active {
+            transform: translateY(-50%) scale(1.0);
+            box-shadow: 0 0 10px var(--glow-color-primary); /* Or secondary depending on button */
+            transition-duration: var(--transition-duration-fast);
+        }
+        .project-nav-btn.prev:active { background-color: var(--color-accent-primary); }
+        .project-nav-btn.next:active { background-color: var(--color-accent-secondary); }
+
+
+        .project-nav-btn.prev {
+            left: 15px; 
+        }
+        .project-nav-btn.next {
+            right: 15px; 
+        }
+
+        .project-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: translateY(-50%) scale(0.9);
+            background-color: var(--color-surface-glass);
+            color: var(--color-text-muted);
+            box-shadow: none;
+        }
+
+        /* Responsive adjustments for button placement if needed before full mobile switch */
+        @media (max-width: calc( (var(--project-item-width) * 2) + var(--project-item-gap) + 150px)) { 
+             /* This media query was for when space for external buttons got tight.
+               With internal buttons (15px from wrapper edge), it might be okay.
+               If buttons feel too far from cards on this screen, reduce offset. */
+            .project-nav-btn.prev { left: 5px; }
+            .project-nav-btn.next { right: 5px; }
+        }
+
+        /* Mobile view for buttons */
+        @media (max-width: 500px) { 
+            /* .projects-carousel-wrapper { padding: 0 10px; } /* Adjust wrapper padding if needed for mobile */
+            .project-nav-btn {
+                position: static; /* Key change for mobile */
+                transform: none; /* Reset desktop transforms */
+                margin: 0 5px; /* Spacing when in a row */
+                display:inline-flex; /* Keep flex for icon centering */
+                opacity: 0.8; /* Reset opacity */
+                /* Hover/active effects will still apply which is nice */
+            }
+            .project-nav-btn:hover { /* Adjust hover for static buttons if needed */
+                transform: scale(1.05); /* Simpler hover for mobile */
+            }
+             .project-nav-btn:active {
+                transform: scale(0.98);
+            }
+            .project-carousel-wrapper .nav-button-container {
+                text-align: center;
+                margin-top: 20px; /* Increased margin for better spacing */
+            }
+        }
+
+
+        .project-item {
+            flex: 0 0 var(--project-item-width);
+            background-color: var(--color-surface-glass);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: var(--border-radius-large);
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative; 
+            z-index: 1; 
+            
+            opacity: 0.7;
+            transform: scale(0.92);
+            transition: transform var(--transition-duration-medium) var(--easing-cubic), 
+                        opacity var(--transition-duration-medium) var(--easing-cubic), 
+                        box-shadow var(--transition-duration-medium) var(--easing-cubic),
+                        border-color var(--transition-duration-medium) var(--easing-cubic);
+        }
+        .project-item.is-active-proj {
+            opacity: 1;
+            transform: scale(1);
+            border-color: rgba(255,255,255,0.08); 
+        }
+        .project-item:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 0 30px var(--glow-color-primary), 0 0 15px var(--glow-color-secondary);
+            border-color: rgba(var(--color-accent-primary-rgb), 0.3);
+            z-index: 5; 
+        }
+
+        .project-item::before { 
+            content: ''; position: absolute; inset: -1px; 
+            border-radius: inherit; 
+            background: conic-gradient( from var(--angle, 0deg), transparent 0%, var(--color-accent-primary) 10%, transparent 20% ); 
+            animation: rotateBorderGlow 6s linear infinite paused; 
+            opacity: 0; 
+            transition: opacity var(--transition-duration-medium) ease; 
+            z-index: -1; 
+        }
+        .project-item:hover::before { 
+            opacity: 0.7; 
+            animation-play-state: running; 
+        }
+        @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+        @keyframes rotateBorderGlow { to { --angle: 360deg; } }
+        
+        .project-image-placeholder { 
+            height: 150px; 
+            background-color: var(--color-background-medium); 
+            border-radius: var(--border-radius-medium); 
+            margin-bottom: 20px; 
+            display: flex; align-items: center; justify-content: center; 
+            color: var(--color-text-muted); font-size: 1rem; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .project-image-placeholder img { 
+            width:100%; height:100%; object-fit:cover; 
+            border-radius: inherit; 
+            transition: transform var(--transition-duration-medium) var(--easing-cubic);
+        }
+        .project-image-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--project-image-overlay-color);
+            border-radius: inherit; 
+            opacity: 0;
+            transition: opacity var(--transition-duration-medium) var(--easing-cubic);
+            pointer-events: none; 
+        }
+        .project-item:hover .project-image-placeholder img { 
+            transform: scale(1.1); 
+        }
+        .project-item:hover .project-image-overlay {
+            opacity: 1;
+        }
+
+        .project-title { font-size: 1.6rem; font-weight: 600; color: var(--color-text-primary); margin-bottom: 10px; }
+        .project-description { font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 20px; line-height: 1.6; flex-grow: 1; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .project-tag { background-color: rgba(var(--color-accent-primary-rgb), 0.1); color: var(--color-accent-primary); padding: 6px 12px; border-radius: var(--border-radius-small); font-size: 0.8rem; font-weight: 500; }
+        .project-links a { color: var(--color-accent-secondary); text-decoration: none; margin-right: 15px; font-weight: 500; transition: color var(--transition-duration-fast), text-shadow var(--transition-duration-fast); }
+        .project-links a:hover { color: var(--color-accent-primary); text-shadow: 0 0 8px var(--glow-color-primary); }
+
+        /* --- Blog Section --- */
+        #blog .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .blog-card { background-color: var(--color-background-medium); border-radius: var(--border-radius-large); border: 1px solid rgba(255,255,255,0.05); transition: transform var(--transition-duration-medium) var(--easing-cubic), box-shadow var(--transition-duration-medium) var(--easing-cubic); opacity: 0; transform: translateY(30px); overflow: hidden; display: flex; flex-direction: column; }
+        .blog-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.2), 0 0 20px var(--glow-color-secondary); border-color: rgba(var(--color-accent-secondary-rgb),0.3); }
+        .blog-card-image-placeholder { height: 180px; background-color: var(--color-surface-glass); overflow: hidden; }
+        .blog-card-image-placeholder img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s var(--easing-cubic); }
+        .blog-card:hover .blog-card-image-placeholder img { transform: scale(1.05); }
+        .blog-card-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .blog-card-title { font-size: 1.4rem; color: var(--color-text-primary); margin-bottom: 10px; text-decoration: none; font-weight: 600; }
+        .blog-card-title:hover { color: var(--color-accent-secondary); }
+        .blog-card-meta { font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 15px; }
+        .blog-card-excerpt { font-size: 0.95rem; color: var(--color-text-secondary); flex-grow: 1; margin-bottom: 15px;}
+        .blog-view-all-cta-container { text-align: center; margin-top: 50px; }
+        .blog-view-all-cta-container .hero-cta { background: linear-gradient(45deg, var(--color-accent-secondary), var(--color-accent-tertiary)); }
+
+        /* --- Contact Section Revamp --- */
+        #contact .contact-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
+        #contact .contact-pitch { font-size: clamp(1.5rem, 4vw, 2.5rem); color: var(--color-text-primary); max-width: 800px; margin-bottom: 30px; line-height: 1.3; font-weight: 600; }
+        #contact .contact-pitch .highlight { color: var(--color-accent-secondary); }
+        #contact .contact-cta-email { display: inline-block; padding: 18px 40px; background: linear-gradient(45deg, var(--color-accent-secondary), var(--color-accent-tertiary)); color: var(--color-background-deep); border: none; border-radius: var(--border-radius-medium); text-decoration: none; font-weight: 700; font-size: 1.2rem; margin-bottom: 50px; transition: transform var(--transition-duration-medium) var(--easing-elastic), box-shadow var(--transition-duration-medium) var(--easing-cubic); box-shadow: 0 5px 25px rgba(255, 96, 192, 0.25), 0 5px 25px rgba(240, 192, 0, 0.25); }
+        #contact .contact-cta-email:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 35px rgba(255, 96, 192, 0.4), 0 10px 35px rgba(240, 192, 0, 0.4); }
+        #contact .contact-social-prompt { font-size: 1rem; color: var(--color-text-secondary); margin-bottom: 25px; }
+        .social-icon-list { display: flex; gap: 25px; justify-content: center; }
+        .social-icon-list a { color: var(--color-text-muted); font-size: 2rem; transition: color var(--transition-duration-fast), transform var(--transition-duration-medium) var(--easing-elastic); position: relative; }
+        .social-icon-list a:hover { transform: scale(1.2) translateY(-3px); }
+        .social-icon-list a[title="LinkedIn"]:hover { color: #0A66C2; text-shadow: 0 0 10px rgba(10,102,194,0.5); }
+        .social-icon-list a[title="GitHub"]:hover { color: #E8E8E8; text-shadow: 0 0 10px rgba(232,232,232,0.5); }
+        .social-icon-list a[title="Twitter / X"]:hover { color: #1DA1F2; text-shadow: 0 0 10px rgba(29,161,242,0.5); }
+        .social-icon-list a[title="Kaggle"]:hover { color: #20BEFF; text-shadow: 0 0 10px rgba(32,190,255,0.5); }
+
+        .site-footer { padding: 40px 8vw; text-align: center; font-size: 0.9rem; color: var(--color-text-muted); border-top: 1px solid rgba(255,255,255,0.05); }
+        .site-footer a { color: var(--color-accent-primary); text-decoration: none; }
+        .site-footer a:hover { text-decoration: underline; }
+
+        .reveal-on-scroll { opacity: 0; transition: opacity var(--transition-duration-slow) var(--easing-cubic), transform var(--transition-duration-slow) var(--easing-cubic); }
+        .reveal-on-scroll.is-visible { opacity: 1; transform: none !important; }
+        @supports not (animation: test 1s var(--angle)) { .project-item:hover::before { animation: rotateBorderGlowFallback 6s linear infinite; } @keyframes rotateBorderGlowFallback { to { transform: rotate(360deg); } } }
+    </style>
+</head>
+<body>
+    <canvas id="global-particle-canvas"></canvas>
+
+    <nav class="main-nav">
+        <a href="#hero" class="nav-dot active" data-section="hero" data-tooltip="Home"></a>
+        <a href="#about" class="nav-dot" data-section="about" data-tooltip="About Me"></a>
+        <a href="#experience" class="nav-dot" data-section="experience" data-tooltip="Experience"></a>
+        <a href="#projects" class="nav-dot" data-section="projects" data-tooltip="Projects"></a>
+        <a href="#blog" class="nav-dot" data-section="blog" data-tooltip="Blog"></a>
+        <a href="#contact" class="nav-dot" data-section="contact" data-tooltip="Contact"></a>
+    </nav>
+
+    <main>
+        <section id="hero" class="page-section">
+            <div class="hero-content">
+                <span class="hero-greeting">Hello, I'm</span>
+                <h1 class="hero-name" data-text="[Your Name]">[Your Name]</h1>
+                <p class="hero-tagline">
+                    A <strong>Computer Scientist</strong> & <strong>AI Innovator</strong> transforming complex data into intelligent, elegant solutions for a smarter tomorrow.
+                </p>
+                <a href="#projects" class="hero-cta">View My Creations</a>
+            </div>
+        </section>
+
+        <section id="about" class="page-section reveal-on-scroll" style="transform: translateY(50px);">
+            <div class="section-header">
+                <h2 class="section-title">About <span class="highlight">Me</span></h2>
+                <p class="section-subtitle">My journey in the digital frontier, driven by curiosity and a passion for building the future.</p>
+            </div>
+            <div class="about-content-grid">
+                <div class="about-text">
+                    <p>I am a dedicated and innovative professional specializing in Computer Science, with deep expertise in Artificial Intelligence and Data Science. My approach combines <strong>rigorous analytical thinking</strong> with <strong>creative problem-solving</strong> to develop impactful technologies. I thrive on tackling complex challenges and am constantly exploring new frontiers in machine learning, data engineering, and software architecture.</p>
+                    <p>From crafting intricate algorithms to architecting scalable systems, my goal is to not just build software, but to engineer experiences and drive progress. I am passionate about the ethical implications of AI and strive to contribute to a future where technology empowers humanity.</p>
+                </div>
+            </div>
+            <div class="tech-stack-showcase">
+                <h3 class="tech-stack-title">My <span class="highlight">Core</span> Toolkit</h3>
+                <div class="skills-grid">
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/python/3776AB" alt="Python"></span><span class="skill-name">Python</span></div>
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/cplusplus/00599C" alt="C++"></span><span class="skill-name">C++</span></div>
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/tensorflow/FF6F00" alt="TensorFlow"></span><span class="skill-name">TensorFlow</span></div>
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/pytorch/EE4C2C" alt="PyTorch"></span><span class="skill-name">PyTorch</span></div>
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/scikitlearn/F7931E" alt="Scikit-learn"></span><span class="skill-name">Scikit-learn</span></div>
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/docker/2496ED" alt="Docker"></span><span class="skill-name">Docker</span></div>
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/kubernetes/326CE5" alt="Kubernetes"></span><span class="skill-name">Kubernetes</span></div>
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/amazonaws/232F3E" alt="AWS"></span><span class="skill-name">AWS</span></div>
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/apachekafka/231F20" alt="Kafka"></span><span class="skill-name">Kafka</span></div>
+                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/git/F05032" alt="Git"></span><span class="skill-name">Git</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="page-section">
+            <div class="section-header" style="text-align:center;">
+                <h2 class="section-title">My <span class="highlight">Journey</span></h2>
+                <p class="section-subtitle" style="margin-left:auto; margin-right:auto;">Milestones and roles that have shaped my expertise and perspective.</p>
+            </div>
+            <div class="experience-timeline">
+                <div class="timeline-item reveal-on-scroll">
+                    <div class="timeline-content">
+                        <h3 class="timeline-role">Senior AI Engineer</h3>
+                        <h4 class="timeline-company">Innovatech Solutions Inc.</h4>
+                        <p class="timeline-date">Jan 2022 - Present</p>
+                        <p class="timeline-desc">Leading the development of cutting-edge ML models for predictive analytics. Architecting MLOps pipelines for scalable deployment. Mentoring junior engineers.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal-on-scroll" style="transition-delay: 0.1s;">
+                    <div class="timeline-content">
+                        <h3 class="timeline-role">Machine Learning Engineer</h3>
+                        <h4 class="timeline-company">DataDriven Dynamics Ltd.</h4>
+                        <p class="timeline-date">Jun 2019 - Dec 2021</p>
+                        <p class="timeline-desc">Developed and deployed NLP and computer vision solutions. Contributed to research in explainable AI. Optimized model performance by X%.</p>
+                    </div>
+                </div>
+                 <div class="timeline-item reveal-on-scroll" style="transition-delay: 0.2s;">
+                    <div class="timeline-content">
+                        <h3 class="timeline-role">Software Development Intern</h3>
+                        <h4 class="timeline-company">TechForward Co.</h4>
+                        <p class="timeline-date">May 2018 - Aug 2018</p>
+                        <p class="timeline-desc">Assisted in developing backend services for an AI-powered recommendation engine. Gained experience with agile methodologies and cloud platforms.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">My <span class="highlight">Creations</span></h2>
+                <p class="section-subtitle">Selected projects showcasing my ability to translate ideas into tangible, data-driven realities.</p>
+            </div>
+            <div class="projects-carousel-wrapper reveal-on-scroll">
+                <div class="projects-grid-viewport">
+                    <div class="projects-grid">
+                        <div class="project-item">
+                            <div class="project-image-placeholder">
+                                <img src="https://source.unsplash.com/random/600x400?technology,abstract" alt="Featured Project">
+                                <div class="project-image-overlay"></div>
+                            </div>
+                            <div>
+                                <h3 class="project-title">AI Predictive Analytics Platform</h3>
+                                <p class="project-description">A comprehensive platform leveraging machine learning to forecast market trends with high accuracy, integrated with real-time data streams.</p>
+                                <div class="project-tags">
+                                    <span class="project-tag">ML</span><span class="project-tag">Python</span><span class="project-tag">React</span><span class="project-tag">AWS</span>
+                                </div>
+                                <div class="project-links"><a href="#">GitHub</a> <a href="#">Live Demo</a></div>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                             <div class="project-image-placeholder">
+                                <img src="https://source.unsplash.com/random/600x400?data,code" alt="Project B">
+                                <div class="project-image-overlay"></div>
+                            </div>
+                             <div>
+                                <h3 class="project-title">NLP Chatbot for Support</h3>
+                                <p class="project-description">Intelligent chatbot using advanced NLP models to automate and enhance customer service interactions effectively.</p>
+                                <div class="project-tags"><span class="project-tag">NLP</span><span class="project-tag">DialogFlow</span><span class="project-tag">Python</span></div>
+                                <div class="project-links"><a href="#">Case Study</a></div>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-image-placeholder">
+                                <img src="https://source.unsplash.com/random/600x400?network,cloud" alt="Project C">
+                                <div class="project-image-overlay"></div>
+                            </div>
+                            <div>
+                               <h3 class="project-title">Cloud Data Pipeline Orchestrator</h3>
+                               <p class="project-description">Scalable data pipeline solution for ETL processes using serverless architecture and workflow automation tools.</p>
+                               <div class="project-tags"><span class="project-tag">Data Eng.</span><span class="project-tag">AWS Lambda</span><span class="project-tag">Airflow</span></div>
+                               <div class="project-links"><a href="#">GitHub</a></div>
+                           </div>
+                       </div>
+                       <div class="project-item">
+                            <div class="project-image-placeholder">
+                                <img src="https://source.unsplash.com/random/600x400?visualization,graph" alt="Project D">
+                                <div class="project-image-overlay"></div>
+                            </div>
+                            <div>
+                               <h3 class="project-title">Interactive Data Viz Suite</h3>
+                               <p class="project-description">A web-based suite for generating dynamic and interactive visualizations from complex datasets using D3.js and React for insights.</p>
+                               <div class="project-tags"><span class="project-tag">D3.js</span><span class="project-tag">React</span><span class="project-tag">JavaScript</span></div>
+                               <div class="project-links"><a href="#">Live Demo</a></div>
+                           </div>
+                       </div>
+                       <div class="project-item">
+                            <div class="project-image-placeholder">
+                                <img src="https://source.unsplash.com/random/600x400?robotics,automation" alt="Project E">
+                                <div class="project-image-overlay"></div>
+                            </div>
+                            <div>
+                               <h3 class="project-title">Robotic Process Automation</h3>
+                               <p class="project-description">An RPA bot designed to automate repetitive data entry tasks, improving efficiency and reducing manual errors significantly.</p>
+                               <div class="project-tags"><span class="project-tag">RPA</span><span class="project-tag">UiPath</span><span class="project-tag">Python</span></div>
+                               <div class="project-links"><a href="#">Details</a></div>
+                           </div>
+                       </div>
+                    </div>
+                </div>
+                <!-- Buttons: Note the span for arrow icon -->
+                <button class="project-nav-btn prev" aria-label="Previous projects"><span class="arrow-icon prev-arrow">&lt;</span></button>
+                <button class="project-nav-btn next" aria-label="Next projects"><span class="arrow-icon next-arrow">&gt;</span></button>
+                
+                <!-- This container is used for mobile layout, buttons above will be static within it -->
+                <div class="nav-button-container">
+                    <!-- On mobile, the .project-nav-btn prev/next will be targeted by the mobile CSS rules -->
+                </div>
+            </div>
+        </section>
+
+        <section id="blog" class="page-section">
+             <div class="section-header">
+                <h2 class="section-title">Insights & <span class="highlight">Reflections</span></h2>
+                <p class="section-subtitle">Sharing knowledge, experiences, and thoughts on the evolving tech landscape.</p>
+            </div>
+            <div class="blog-grid">
+                 <article class="blog-card reveal-on-scroll" style="transform: translateY(50px);">
+                    <div class="blog-card-image-placeholder">
+                        <img src="https://source.unsplash.com/random/400x200?ai,ethics" alt="Explainable AI">
+                    </div>
+                    <div class="blog-card-content">
+                        <a href="#" class="blog-card-title">The Future of Explainable AI (XAI)</a>
+                        <p class="blog-card-meta">Nov 05, 2023 • 8 min read</p>
+                        <p class="blog-card-excerpt">Exploring why XAI is crucial for building trust and transparency in artificial intelligence systems, and its impact on future tech.</p>
+                    </div>
+                </article>
+                <article class="blog-card reveal-on-scroll" style="transform: translateY(50px); transition-delay: 0.1s;">
+                    <div class="blog-card-image-placeholder">
+                        <img src="https://source.unsplash.com/random/400x200?data,privacy" alt="Data Privacy">
+                    </div>
+                    <div class="blog-card-content">
+                        <a href="#" class="blog-card-title">Navigating Data Privacy in the Age of ML</a>
+                        <p class="blog-card-meta">Oct 22, 2023 • 6 min read</p>
+                        <p class="blog-card-excerpt">A deep dive into the challenges and best practices for ensuring data privacy while leveraging machine learning.</p>
+                    </div>
+                </article>
+                <article class="blog-card reveal-on-scroll" style="transform: translateY(50px); transition-delay: 0.2s;">
+                    <div class="blog-card-image-placeholder">
+                        <img src="https://source.unsplash.com/random/400x200?quantum,computing" alt="Quantum Computing">
+                    </div>
+                    <div class="blog-card-content">
+                        <a href="#" class="blog-card-title">Quantum Computing: Hype vs. Reality</a>
+                        <p class="blog-card-meta">Sep 15, 2023 • 10 min read</p>
+                        <p class="blog-card-excerpt">Breaking down the complex world of quantum computing and its potential implications for the tech industry.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="blog-view-all-cta-container">
+                <a href="#your-main-blog-page-link" class="hero-cta">View All Posts</a>
+            </div>
+        </section>
+
+        <section id="contact" class="page-section reveal-on-scroll" style="transform: translateY(50px);">
+            <div class="contact-container">
+                <h2 class="contact-pitch">
+                    Have an idea? A challenge? Or just want to talk <span class="highlight">tech</span>? <br/>Let's make something <span class="highlight">amazing</span> together.
+                </h2>
+                <a href="mailto:youremail@example.com" class="contact-cta-email">Drop Me a Line</a>
+                <p class="contact-social-prompt">Or find me on these platforms:</p>
+                <div class="social-icon-list">
+                    <a href="#" target="_blank" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    <a href="#" target="_blank" title="GitHub"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                    <a href="#" target="_blank" title="Twitter / X"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <p>&copy; <span id="currentYear"></span> [Your Name]. All Rights Reserved.</p>
+            <p>Designed & Built with Passion and <a href="https://www.perplexity.ai/" target="_blank">AI Assistance</a>.</p>
+        </footer>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        function setRGBVar(hexColorVariable) {
+            const rootStyle = getComputedStyle(document.documentElement);
+            const hex = rootStyle.getPropertyValue(hexColorVariable)?.trim();
+            if (hex && hex.startsWith('#')) {
+                const r = parseInt(hex.slice(1, 3), 16);
+                const g = parseInt(hex.slice(3, 5), 16);
+                const b = parseInt(hex.slice(5, 7), 16);
+                document.documentElement.style.setProperty(hexColorVariable + '-rgb', `${r},${g},${b}`);
+            }
+        }
+        ['--color-accent-primary', '--color-accent-secondary', '--color-accent-tertiary', '--color-background-deep', '--color-background-medium'].forEach(setRGBVar);
+        
+        const accentPrimaryRGB = getComputedStyle(document.documentElement).getPropertyValue('--color-accent-primary-rgb');
+        if (accentPrimaryRGB) {
+            document.documentElement.style.setProperty('--project-image-overlay-color', `rgba(${accentPrimaryRGB.trim()}, 0.15)`);
+        }
+
+
+        const heroNameElement = document.querySelector('.hero-name');
+        if (heroNameElement) {
+            const text = heroNameElement.dataset.text || heroNameElement.textContent;
+            heroNameElement.textContent = '';
+            text.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                span.style.animationDelay = `${0.5 + index * 0.05}s`;
+                heroNameElement.appendChild(span);
+            });
+        }
+        
+        const navDots = document.querySelectorAll('.nav-dot');
+        const pageSections = document.querySelectorAll('.page-section');
+        function updateActiveDot() {
+            let currentSectionId = 'hero';
+            pageSections.forEach(section => {
+                const sectionTop = section.offsetTop - window.innerHeight * 0.4; 
+                if (window.scrollY >= sectionTop) { currentSectionId = section.id; }
+            });
+            navDots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.dataset.section === currentSectionId) { dot.classList.add('active'); }
+            });
+        }
+        window.addEventListener('scroll', updateActiveDot);
+        updateActiveDot();
+        navDots.forEach(dot => {
+            dot.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { 
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        const projectCarousel = document.querySelector('#projects .projects-carousel-wrapper');
+        if (projectCarousel) {
+            const grid = projectCarousel.querySelector('.projects-grid');
+            const items = Array.from(grid.querySelectorAll('.project-item'));
+            // Select buttons that are direct children of projectCarousel for desktop
+            // For mobile, they will be handled by CSS (position: static within .nav-button-container)
+            const nextButton = projectCarousel.querySelector('.project-nav-btn.next:not(.mobile-nav)'); // Ensure we don't pick up mobile specific if structure changes
+            const prevButton = projectCarousel.querySelector('.project-nav-btn.prev:not(.mobile-nav)');
+            
+            // Also handle mobile buttons if they are distinct elements, or ensure the same buttons work
+            // Current setup: same buttons, CSS changes their behavior.
+            // If mobile uses separate buttons in .nav-button-container, select them here.
+            // For now, assuming the existing JS setup where .project-nav-btn.prev/next are unique enough.
+
+            const itemWidthStyle = getComputedStyle(document.documentElement).getPropertyValue('--project-item-width').trim();
+            const itemGapStyle = getComputedStyle(document.documentElement).getPropertyValue('--project-item-gap').trim();
+
+            const ITEM_WIDTH = parseFloat(itemWidthStyle) || 350;
+            const ITEM_GAP = parseFloat(itemGapStyle) || 25;
+            
+            let currentIndex = 0;
+            let itemsPerPage = 2;
+
+            function calculateItemsPerPageAndUpdate() {
+                const viewport = projectCarousel.querySelector('.projects-grid-viewport');
+                if (!viewport) { itemsPerPage = 2; return; }
+                const viewportWidth = viewport.offsetWidth;
+
+                if (viewportWidth < ITEM_WIDTH + ITEM_GAP / 2) { 
+                     itemsPerPage = 1; 
+                } else if (viewportWidth < (ITEM_WIDTH * 2) + ITEM_GAP -1 ) { 
+                     itemsPerPage = 1; 
+                } else {
+                    itemsPerPage = 2;
+                }
+                updateCarouselDOM(); 
+            }
+
+            function updateCarouselDOM() {
+                const totalItems = items.length;
+                const shiftAmount = ITEM_WIDTH + ITEM_GAP;
+                grid.style.transform = `translateX(-${currentIndex * shiftAmount}px)`;
+
+                items.forEach((item, index) => {
+                    item.classList.remove('is-active-proj');
+                    if (index >= currentIndex && index < currentIndex + itemsPerPage) {
+                        item.classList.add('is-active-proj');
+                    }
+                });
+                
+                // Update desktop buttons
+                if (prevButton) prevButton.disabled = currentIndex === 0;
+                if (nextButton) nextButton.disabled = currentIndex >= totalItems - itemsPerPage;
+
+                // Update mobile buttons if they are separate, or rely on CSS for static buttons
+                const mobilePrevButton = projectCarousel.querySelector('.nav-button-container .project-nav-btn.prev');
+                const mobileNextButton = projectCarousel.querySelector('.nav-button-container .project-nav-btn.next');
+                if (mobilePrevButton) mobilePrevButton.disabled = currentIndex === 0;
+                if (mobileNextButton) mobileNextButton.disabled = currentIndex >= totalItems - itemsPerPage;
+
+            }
+            
+            if (items.length > 0) {
+                // Desktop buttons
+                if (nextButton) {
+                    nextButton.addEventListener('click', () => {
+                        calculateItemsPerPageAndUpdate(); 
+                        if (currentIndex < items.length - itemsPerPage) {
+                            currentIndex++;
+                            updateCarouselDOM();
+                        }
+                    });
+                }
+                if (prevButton) {
+                    prevButton.addEventListener('click', () => {
+                        if (currentIndex > 0) {
+                            currentIndex--;
+                            updateCarouselDOM();
+                        }
+                    });
+                }
+                
+                // Attach listeners to mobile buttons if they are distinct in the .nav-button-container
+                // If they are the *same* buttons being restyled, the above listeners are enough.
+                // The HTML structure puts the primary buttons as direct children of wrapper for desktop,
+                // and .nav-button-container is for mobile where CSS makes them static.
+                // The JS should find the specific buttons it needs.
+                // My HTML adjustment means the buttons are now outside projects-grid-viewport,
+                // and .nav-button-container is for their mobile layout.
+
+                const mobileButtonContainer = projectCarousel.querySelector('.nav-button-container');
+                if (mobileButtonContainer) {
+                    // If buttons are dynamically moved into nav-button-container for mobile via JS, or
+                    // if specific mobile-only buttons exist there:
+                    const mobilePrev = mobileButtonContainer.querySelector('.project-nav-btn.prev');
+                    const mobileNext = mobileButtonContainer.querySelector('.project-nav-btn.next');
+
+                    if (mobileNext && mobileNext !== nextButton) { // Check if it's a different element
+                         mobileNext.addEventListener('click', () => {
+                            calculateItemsPerPageAndUpdate(); 
+                            if (currentIndex < items.length - itemsPerPage) {
+                                currentIndex++;
+                                updateCarouselDOM();
+                            }
+                        });
+                    }
+                     if (mobilePrev && mobilePrev !== prevButton) { // Check if it's a different element
+                        mobilePrev.addEventListener('click', () => {
+                            if (currentIndex > 0) {
+                                currentIndex--;
+                                updateCarouselDOM();
+                            }
+                        });
+                    }
+                    // If the *same* buttons are simply re-parented or re-styled, the original listeners on
+                    // `nextButton` and `prevButton` (selected from the main carousel wrapper context) should still work.
+                    // The current HTML: buttons are siblings of viewport, and `nav-button-container` is a separate div
+                    // that *doesn't* contain these buttons on desktop.
+                    // On mobile, the CSS makes the primary buttons static and they appear inside the flow of `nav-button-container`.
+                    // So, the original `nextButton` and `prevButton` selectors should work for all cases.
+                }
+
+
+                calculateItemsPerPageAndUpdate(); 
+                window.addEventListener('resize', calculateItemsPerPageAndUpdate);
+            } else if (nextButton && prevButton) {
+                nextButton.style.display = 'none';
+                prevButton.style.display = 'none';
+                 const mobileButtonContainer = projectCarousel.querySelector('.nav-button-container');
+                if (mobileButtonContainer) mobileButtonContainer.style.display = 'none';
+            }
+        }
+
+        const canvas = document.getElementById('global-particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 100 }; 
+
+        window.addEventListener('mousemove', event => {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+        });
+        window.addEventListener('mouseout', () => { 
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        class Particle {
+            constructor(x, y, size, color, speedX, speedY) {
+                this.x = x; this.y = y; this.size = size; this.color = color;
+                this.speedX = speedX; this.speedY = speedY;
+                this.baseX = this.x; this.baseY = this.y; 
+                this.density = (Math.random() * 30) + 1; 
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
+            update() {
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                let forceDirectionX = dx / distance;
+                let forceDirectionY = dy / distance;
+                
+                let maxDistance = mouse.radius;
+                let force = (maxDistance - distance) / maxDistance;
+
+                let directionX = forceDirectionX * force * this.density;
+                let directionY = forceDirectionY * force * this.density;
+
+                if (distance < mouse.radius && mouse.x !== null) { 
+                    this.x -= directionX;
+                    this.y -= directionY;
+                } else {
+                    if (this.x !== this.baseX) {
+                        let dxToBase = this.x - this.baseX;
+                        this.x -= dxToBase / 10; 
+                    }
+                    if (this.y !== this.baseY) {
+                        let dyToBase = this.y - this.baseY;
+                        this.y -= dyToBase / 10; 
+                    }
+                }
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const rootStyle = getComputedStyle(document.documentElement);
+            const colors = [
+                rootStyle.getPropertyValue('--particle-color-1').trim(),
+                rootStyle.getPropertyValue('--particle-color-2').trim(),
+                rootStyle.getPropertyValue('--particle-color-3').trim()
+            ];
+            let numberOfParticles = (canvas.width * canvas.height) / 20000; 
+            if (numberOfParticles > 150) numberOfParticles = 150; 
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = Math.random() * 1.5 + 0.5; 
+                let x = Math.random() * canvas.width;
+                let y = Math.random() * canvas.height;
+                let speedX = (Math.random() - 0.5) * 0.1; 
+                let speedY = (Math.random() - 0.5) * 0.1;
+                let color = colors[Math.floor(Math.random() * colors.length)];
+                particles.push(new Particle(x, y, size, color, speedX, speedY));
+            }
+        }
+
+        function connectParticles() {
+            let opacityValue = 1;
+            const linkColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-link-color').trim();
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x))
+                                 + ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
+                    if (distance < (canvas.width/10) * (canvas.height/10)) { 
+                        opacityValue = 1 - (distance/15000); 
+                        ctx.strokeStyle = linkColor.replace(/[\d\.]+\)$/g, `${Math.max(0, opacityValue)})`); 
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => particle.update());
+            connectParticles(); 
+            requestAnimationFrame(animateParticles);
+        }
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas(); 
+        animateParticles(); 
+    });
+    </script>
+</body>
+</html>
