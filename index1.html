@@ -6,9 +6,10 @@
     <title>[Your Name] - Synaptic Flow</title>
     <style>
         :root {
+            /* --- Dark Theme (Default) --- */
             --color-background-deep: #0d0c10;
             --color-background-medium: #1a1820;
-            --color-surface-glass: rgba(26, 24, 32, 0.65);
+            --color-surface-glass: rgba(26, 24, 32, 0.65); /* Dark glass */
             
             --color-text-primary: #e8e6f0;
             --color-text-secondary: #b0acc0;
@@ -30,7 +31,7 @@
             --transition-duration-medium: 0.4s;
             --transition-duration-slow: 0.6s;
             --easing-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
-            --easing-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Used for button pop */
+            --easing-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
             --glow-intensity: 15px;
             --glow-color-primary: rgba(0, 240, 255, 0.3);
@@ -41,13 +42,75 @@
             --particle-color-2: rgba(255, 96, 192, 0.7);
             --particle-color-3: rgba(240, 192, 0, 0.5);
             --particle-link-color: rgba(200, 200, 220, 0.08);
+
+            /* RGB Values for use in rgba() */
+            --color-background-deep-rgb-values: 13, 12, 16;
+            --color-background-medium-rgb-values: 26, 24, 32;
+            --color-accent-primary-rgb-values: 0, 240, 255;
+            --color-accent-secondary-rgb-values: 255, 96, 192;
+            --color-accent-tertiary-rgb-values: 240, 192, 0;
+            --color-text-muted-rgb-values: 112, 108, 128;
+            --color-text-primary-rgb-values: 232, 230, 240; /* For potential use in light theme shadows */
+
+
+            /* Universal properties that might need theme-specific overrides */
+            --color-border-subtle: rgba(255,255,255,0.05);
+            --shadow-color-nav: rgba(0,0,0,0.15);
+            --shadow-color-skill-hover: rgba(0,0,0,0.2);
+            --shadow-color-timeline-content: rgba(0,0,0,0.1);
+            --shadow-color-timeline-hover: rgba(0,0,0,0.2);
+            --shadow-color-card-hover: rgba(0,0,0,0.2);
         }
+
+        html.light-theme {
+            --color-background-deep: #f4f7f9; /* Light grey */
+            --color-background-medium: #ffffff; /* White */
+            --color-surface-glass: rgba(255, 255, 255, 0.65); /* Light glass */
+            
+            --color-text-primary: #1a1c20; /* Dark grey / Off-black */
+            --color-text-secondary: #4a4e58; /* Medium grey */
+            --color-text-muted: #787c88; /* Lighter grey */
+
+            /* Accents can often remain vibrant, ensure contrast */
+            /* --color-accent-primary: #00A0B0; Deeper cyan for better contrast if needed */
+            /* --color-accent-secondary: #D81B60; Deeper pink for better contrast if needed */
+            
+            --glow-color-primary: rgba(0, 200, 215, 0.2);
+            --glow-color-secondary: rgba(230, 70, 160, 0.2);
+            --glow-color-tertiary: rgba(220, 170, 0, 0.2);
+
+            --particle-color-1: rgba(0, 150, 160, 0.6); 
+            --particle-color-2: rgba(200, 70, 140, 0.6);
+            --particle-color-3: rgba(180, 140, 0, 0.4);
+            --particle-link-color: rgba(100, 100, 120, 0.1); /* Darker links on light bg */
+
+            /* RGB Values for light theme */
+            --color-background-deep-rgb-values: 244, 247, 249;
+            --color-background-medium-rgb-values: 255, 255, 255;
+            /* Accent RGBs might be the same if hex values are same, or updated if hex changes */
+            --color-text-muted-rgb-values: 120, 124, 136;
+            --color-text-primary-rgb-values: 26, 28, 32;
+
+
+            --color-border-subtle: rgba(0,0,0,0.08);
+            --shadow-color-nav: rgba(0,0,0,0.06);
+            --shadow-color-skill-hover: rgba(var(--color-text-primary-rgb-values), 0.08); /* Subtle dark shadow */
+            --shadow-color-timeline-content: rgba(var(--color-text-primary-rgb-values), 0.05);
+            --shadow-color-timeline-hover: rgba(var(--color-text-primary-rgb-values), 0.1);
+            --shadow-color-card-hover: rgba(var(--color-text-primary-rgb-values), 0.08);
+        }
+
 
         @font-face { font-family: 'Satoshi'; src: url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap') format('woff2'); font-weight: 300 700; font-display: swap; }
         @font-face { font-family: 'JetBrains Mono'; src: url('https://api.fontshare.com/v2/css?f[]=jetbrains-mono@400&display=swap') format('woff2'); font-weight: 400; font-display: swap; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        html { 
+            scroll-behavior: smooth; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale; 
+            color-scheme: light dark; /* Inform browser about supported schemes */
+        }
 
         body {
             font-family: var(--font-primary);
@@ -56,18 +119,24 @@
             line-height: 1.7;
             overflow-x: hidden;
             position: relative; 
-            /* Add some scrollable height for testing the effect */
-            /* min-height: 300vh;  */ /* You can adjust this or remove if your content is long enough */
+            transition: background-color var(--transition-duration-medium), color var(--transition-duration-medium);
         }
 
         #global-particle-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
         }
 
+        /* --- Scrollbar --- */
         body::-webkit-scrollbar { width: 8px; }
-        body::-webkit-scrollbar-track { background: var(--color-background-deep); }
-        body::-webkit-scrollbar-thumb { background-color: var(--color-accent-primary); border-radius: 10px; border: 2px solid var(--color-background-deep); }
+        body::-webkit-scrollbar-track { background: var(--color-background-medium); } /* Use medium for track */
+        body::-webkit-scrollbar-thumb { background-color: var(--color-accent-primary); border-radius: 10px; border: 2px solid var(--color-background-medium); } /* border uses medium */
         body::-webkit-scrollbar-thumb:hover { background-color: var(--color-accent-secondary); }
+        
+        /* Light theme scrollbar could be the same if accents provide enough contrast, or explicitly defined */
+        html.light-theme body::-webkit-scrollbar-track { background: var(--color-background-medium); }
+        html.light-theme body::-webkit-scrollbar-thumb { background-color: var(--color-accent-secondary); border: 2px solid var(--color-background-medium); }
+        html.light-theme body::-webkit-scrollbar-thumb:hover { background-color: var(--color-accent-primary); }
+
 
         /* --- Horizontal Navigation - START --- */
         .main-nav {
@@ -79,10 +148,10 @@
             justify-content: center;
             align-items: center;
             padding: 12px 0; 
-            background-color: rgba(var(--color-background-deep-rgb, 13, 12, 16), 0.85); 
+            background-color: rgba(var(--color-background-deep-rgb-values), 0.85); 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px); 
-            box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 3px 15px var(--shadow-color-nav);
             z-index: 1000;
             gap: 15px; 
             transition: background-color var(--transition-duration-medium);
@@ -117,7 +186,7 @@
 
         .nav-link:hover {
             color: var(--color-text-primary);
-            background-color: rgba(var(--color-accent-primary-rgb, 0, 240, 255), 0.1); 
+            background-color: rgba(var(--color-accent-primary-rgb-values), 0.1); 
             transform: translateY(-1px); 
         }
         
@@ -129,14 +198,46 @@
 
         .nav-link.active:hover { 
              color: var(--color-accent-primary); 
-             background-color: rgba(var(--color-accent-primary-rgb, 0, 240, 255), 0.15); 
+             background-color: rgba(var(--color-accent-primary-rgb-values), 0.15); 
         }
 
         .nav-link.active::after {
             width: 55%; 
         }
+
+        #theme-toggle {
+            background: none;
+            border: none;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            padding: 10px; /* Same padding as nav-link for alignment */
+            border-radius: var(--border-radius-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px; /* Spacing from other nav items */
+            transition: color var(--transition-duration-fast), background-color var(--transition-duration-fast);
+        }
+        #theme-toggle:hover {
+            color: var(--color-text-primary);
+            background-color: rgba(var(--color-accent-primary-rgb-values), 0.1);
+        }
+        #theme-toggle svg {
+            width: 18px;
+            height: 18px;
+            transition: transform var(--transition-duration-medium) var(--easing-cubic);
+        }
+        #theme-toggle:hover svg {
+            transform: scale(1.1) rotate(15deg);
+        }
+        .sun-icon { display: none; } /* Default to dark theme, so sun icon is hidden */
+        html:not(.light-theme) .moon-icon { display: block; }
+        html:not(.light-theme) .sun-icon { display: none; }
+        html.light-theme .moon-icon { display: none; }
+        html.light-theme .sun-icon { display: block; }
+
         /* --- Horizontal Navigation - END --- */
-        .page-section { min-height: 100vh; padding: 100px 8vw; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+        .page-section { min-height: 100vh; padding: 20px 8vw; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
         
         .section-header { margin-bottom: 60px; position: relative; z-index: 1; }
         .section-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: var(--color-text-primary); margin-bottom: 10px; line-height: 1.2; letter-spacing: -0.02em; }
@@ -150,7 +251,7 @@
         .hero-name .char { display: inline-block; opacity: 0; transform: translateY(30px) rotate(10deg); animation: letterReveal 0.8s var(--easing-elastic) forwards; }
         .hero-tagline { font-size: clamp(1.3rem, 3.5vw, 1.8rem); color: var(--color-text-secondary); max-width: 700px; margin-bottom: 40px; font-weight: 300; opacity: 0; transform: translateY(20px); animation: fadeInSlideUp 0.5s var(--easing-cubic) 1.2s forwards; }
         .hero-tagline strong { color: var(--color-accent-primary); font-weight: 500; }
-        .hero-cta { display: inline-block; padding: 15px 35px; background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary)); color: var(--color-background-deep); border: none; border-radius: var(--border-radius-medium); text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: transform var(--transition-duration-medium) var(--easing-elastic), box-shadow var(--transition-duration-medium) var(--easing-cubic); box-shadow: 0 5px 20px rgba(0, 240, 255, 0.2), 0 5px 20px rgba(255, 96, 192, 0.2); opacity: 0; transform: translateY(20px) scale(0.9); animation: fadeInSlideUpScale 0.6s var(--easing-cubic) 1.5s forwards; }
+        .hero-cta { display: inline-block; padding: 15px 35px; background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary)); color: var(--color-background-deep); border: none; border-radius: var(--border-radius-medium); text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: transform var(--transition-duration-medium) var(--easing-elastic), box-shadow var(--transition-duration-medium) var(--easing-cubic), color var(--transition-duration-medium); box-shadow: 0 5px 20px rgba(0, 240, 255, 0.2), 0 5px 20px rgba(255, 96, 192, 0.2); opacity: 0; transform: translateY(20px) scale(0.9); animation: fadeInSlideUpScale 0.6s var(--easing-cubic) 1.5s forwards; }
         .hero-cta:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.4), 0 10px 30px rgba(255, 96, 192, 0.4); }
         
         @keyframes fadeInSlideUp { to { opacity: 1; transform: translateY(0); } }
@@ -161,12 +262,12 @@
         #about .about-content-grid { margin-bottom: 40px; }
         .about-text p { margin-bottom: 20px; color: var(--color-text-secondary); font-size: 1.05rem; }
         .about-text p strong { color: var(--color-text-primary); font-weight: 500; }
-        .tech-stack-showcase { background-color: var(--color-surface-glass); backdrop-filter: blur(10px); padding: 30px; border-radius: var(--border-radius-large); border: 1px solid rgba(255,255,255,0.05); margin-top: 50px; }
+        .tech-stack-showcase { background-color: var(--color-surface-glass); backdrop-filter: blur(10px); padding: 30px; border-radius: var(--border-radius-large); border: 1px solid var(--color-border-subtle); margin-top: 50px; transition: background-color var(--transition-duration-medium), border-color var(--transition-duration-medium); }
         .tech-stack-title { font-size: 1.5rem; font-weight: 600; color: var(--color-text-primary); margin-bottom: 25px; text-align: center; }
         .tech-stack-title .highlight { color: var(--color-accent-tertiary); }
         .skills-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-        .skill-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 15px; min-width: 90px; text-align: center; background-color: rgba(var(--color-background-medium-rgb), 0.5); border-radius: var(--border-radius-medium); transition: transform var(--transition-duration-fast) var(--easing-cubic), box-shadow var(--transition-duration-fast); }
-        .skill-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .skill-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 15px; min-width: 90px; text-align: center; background-color: rgba(var(--color-background-medium-rgb-values), 0.5); border-radius: var(--border-radius-medium); transition: transform var(--transition-duration-fast) var(--easing-cubic), box-shadow var(--transition-duration-fast), background-color var(--transition-duration-fast); }
+        .skill-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px var(--shadow-color-skill-hover); }
         .skill-icon { width: 40px; height: 40px; margin-bottom: 5px; }
         .skill-icon img { width:100%; height:100%; object-fit:contain; } 
         .skill-name { font-size: 0.85rem; color: var(--color-text-secondary); font-weight: 500; }
@@ -181,8 +282,8 @@
         .timeline-item:nth-child(odd)::before { content: ' '; height: 16px; width: 16px; position: absolute; top: 28px; right: -9px; background-color: var(--color-background-medium); border: 3px solid var(--color-accent-primary); border-radius: 50%; z-index: 1; transition: background-color 0.3s, border-color 0.3s; }
         .timeline-item:nth-child(even)::before { content: ' '; height: 16px; width: 16px; position: absolute; top: 28px; left: -7px; background-color: var(--color-background-medium); border: 3px solid var(--color-accent-secondary); border-radius: 50%; z-index: 1; transition: background-color 0.3s, border-color 0.3s; }
         .timeline-item:hover::before { background-color: var(--color-accent-tertiary); border-color: var(--color-accent-tertiary); }
-        .timeline-content { padding: 20px 30px; background-color: var(--color-surface-glass); backdrop-filter: blur(8px); position: relative; border-radius: var(--border-radius-medium); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: transform 0.3s var(--easing-cubic), box-shadow 0.3s; }
-        .timeline-item:hover .timeline-content { transform: scale(1.03); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+        .timeline-content { padding: 20px 30px; background-color: var(--color-surface-glass); backdrop-filter: blur(8px); position: relative; border-radius: var(--border-radius-medium); border: 1px solid var(--color-border-subtle); box-shadow: 0 5px 20px var(--shadow-color-timeline-content); transition: transform 0.3s var(--easing-cubic), box-shadow 0.3s, background-color 0.3s, border-color 0.3s; }
+        .timeline-item:hover .timeline-content { transform: scale(1.03); box-shadow: 0 8px 30px var(--shadow-color-timeline-hover); }
         .timeline-role { font-size: 1.3rem; font-weight: 600; color: var(--color-text-primary); margin-bottom: 5px; }
         .timeline-company { font-size: 1rem; font-weight: 500; color: var(--color-accent-tertiary); margin-bottom: 5px; }
         .timeline-date { font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 10px; }
@@ -214,38 +315,18 @@
             font-size: clamp(0.9rem, 2vw, 1.1rem); /* Slightly smaller subtitle for this layout */
         }
 
-        .view-all-projects-btn {
-            display: inline-block;
-            padding: 10px 22px;
-            background: transparent;
-            color: var(--color-accent-primary);
-            border: 1px solid var(--color-accent-primary);
-            border-radius: var(--border-radius-medium);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all var(--transition-duration-fast) var(--easing-cubic);
-            margin-left: 20px; 
-            white-space: nowrap; 
-            flex-shrink: 0; /* Prevents button from shrinking if header content is too wide */
-        }
-        .view-all-projects-btn:hover {
-            background-color: rgba(var(--color-accent-primary-rgb), 0.15);
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 3px 10px var(--glow-color-primary);
-        }
-
         .projects-list-container {
             margin-top: 30px;
         }
         .project-entry {
             padding: 20px 0; 
             margin-bottom: 40px; 
-            border-bottom: 1px solid rgba(var(--color-text-muted-rgb, 112, 108, 128), 0.2);
+            border-bottom: 1px solid rgba(var(--color-text-muted-rgb-values), 0.2); /* Adapts with text-muted */
             opacity: 0; 
             transform: translateY(30px); 
             transition: opacity var(--transition-duration-medium) var(--easing-cubic), 
-                        transform var(--transition-duration-medium) var(--easing-cubic);
+                        transform var(--transition-duration-medium) var(--easing-cubic),
+                        border-color var(--transition-duration-medium);
         }
         .project-entry.is-visible { 
             opacity: 1;
@@ -256,10 +337,31 @@
             margin-bottom: 0;
         }
         .project-entry-title {
-            font-size: 1.8rem; 
+            font-size: 1.8rem;
             font-weight: 600;
             color: var(--color-text-primary);
-            margin-bottom: 10px;
+            margin-bottom: 0; 
+            cursor: pointer; 
+            transition: color var(--transition-duration-fast); 
+            position: relative; 
+        }
+        .project-entry-title:hover {
+            color: var(--color-accent-primary);
+        }
+        .project-entry-details {
+            max-height: 0; 
+            opacity: 0;   
+            overflow: hidden; 
+            margin-top: 0; 
+            transition: max-height 0.5s var(--easing-cubic),
+                        opacity 0.4s var(--easing-cubic) 0.1s, 
+                        margin-top 0.5s var(--easing-cubic);
+        }
+
+        .project-entry-title:hover + .project-entry-details {
+            max-height: 700px; 
+            opacity: 1;
+            margin-top: 15px; 
         }
         .project-entry-description {
             font-size: 1rem; 
@@ -275,7 +377,7 @@
             margin-bottom: 15px;
         }
         .project-entry-tag {
-            background-color: rgba(var(--color-accent-primary-rgb), 0.1);
+            background-color: rgba(var(--color-accent-primary-rgb-values), 0.1);
             color: var(--color-accent-primary);
             padding: 5px 10px;
             border-radius: var(--border-radius-small);
@@ -300,19 +402,14 @@
                 flex-direction: column; 
                 align-items: flex-start; 
             }
-            .view-all-projects-btn {
-                margin-left: 0;
-                margin-top: 20px; 
-                align-self: flex-start; 
-            }
         }
 
 
         /* --- Blog Section --- */
         #blog .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .blog-card { background-color: var(--color-background-medium); border-radius: var(--border-radius-large); border: 1px solid rgba(255,255,255,0.05); transition: transform var(--transition-duration-medium) var(--easing-cubic), box-shadow var(--transition-duration-medium) var(--easing-cubic); opacity: 0; transform: translateY(30px); overflow: hidden; display: flex; flex-direction: column; }
-        .blog-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.2), 0 0 20px var(--glow-color-secondary); border-color: rgba(var(--color-accent-secondary-rgb),0.3); }
-        .blog-card-image-placeholder { height: 180px; background-color: var(--color-surface-glass); overflow: hidden; }
+        .blog-card { background-color: var(--color-background-medium); border-radius: var(--border-radius-large); border: 1px solid var(--color-border-subtle); transition: transform var(--transition-duration-medium) var(--easing-cubic), box-shadow var(--transition-duration-medium) var(--easing-cubic), background-color var(--transition-duration-medium), border-color var(--transition-duration-medium); opacity: 0; transform: translateY(30px); overflow: hidden; display: flex; flex-direction: column; }
+        .blog-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px var(--shadow-color-card-hover), 0 0 20px var(--glow-color-secondary); border-color: rgba(var(--color-accent-secondary-rgb-values),0.3); }
+        .blog-card-image-placeholder { height: 180px; background-color: var(--color-surface-glass); overflow: hidden; transition: background-color var(--transition-duration-medium); }
         .blog-card-image-placeholder img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s var(--easing-cubic); }
         .blog-card:hover .blog-card-image-placeholder img { transform: scale(1.05); }
         .blog-card-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
@@ -321,24 +418,28 @@
         .blog-card-meta { font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 15px; }
         .blog-card-excerpt { font-size: 0.95rem; color: var(--color-text-secondary); flex-grow: 1; margin-bottom: 15px;}
         .blog-view-all-cta-container { text-align: center; margin-top: 50px; }
-        .blog-view-all-cta-container .hero-cta { background: linear-gradient(45deg, var(--color-accent-secondary), var(--color-accent-tertiary)); }
+        .blog-view-all-cta-container .hero-cta { background: linear-gradient(45deg, var(--color-accent-secondary), var(--color-accent-tertiary)); /* This CTA style is already adaptive */ }
 
         /* --- Contact Section Revamp --- */
         #contact .contact-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
         #contact .contact-pitch { font-size: clamp(1.5rem, 4vw, 2.5rem); color: var(--color-text-primary); max-width: 800px; margin-bottom: 30px; line-height: 1.3; font-weight: 600; }
         #contact .contact-pitch .highlight { color: var(--color-accent-secondary); }
-        #contact .contact-cta-email { display: inline-block; padding: 18px 40px; background: linear-gradient(45deg, var(--color-accent-secondary), var(--color-accent-tertiary)); color: var(--color-background-deep); border: none; border-radius: var(--border-radius-medium); text-decoration: none; font-weight: 700; font-size: 1.2rem; margin-bottom: 50px; transition: transform var(--transition-duration-medium) var(--easing-elastic), box-shadow var(--transition-duration-medium) var(--easing-cubic); box-shadow: 0 5px 25px rgba(255, 96, 192, 0.25), 0 5px 25px rgba(240, 192, 0, 0.25); }
+        #contact .contact-cta-email { display: inline-block; padding: 18px 40px; background: linear-gradient(45deg, var(--color-accent-secondary), var(--color-accent-tertiary)); color: var(--color-background-deep); border: none; border-radius: var(--border-radius-medium); text-decoration: none; font-weight: 700; font-size: 1.2rem; margin-bottom: 50px; transition: transform var(--transition-duration-medium) var(--easing-elastic), box-shadow var(--transition-duration-medium) var(--easing-cubic), color var(--transition-duration-medium); box-shadow: 0 5px 25px rgba(255, 96, 192, 0.25), 0 5px 25px rgba(240, 192, 0, 0.25); }
         #contact .contact-cta-email:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 35px rgba(255, 96, 192, 0.4), 0 10px 35px rgba(240, 192, 0, 0.4); }
         #contact .contact-social-prompt { font-size: 1rem; color: var(--color-text-secondary); margin-bottom: 25px; }
         .social-icon-list { display: flex; gap: 25px; justify-content: center; }
         .social-icon-list a { color: var(--color-text-muted); font-size: 2rem; transition: color var(--transition-duration-fast), transform var(--transition-duration-medium) var(--easing-elastic); position: relative; }
         .social-icon-list a:hover { transform: scale(1.2) translateY(-3px); }
+        /* Brand colors for social icons on hover - these generally work well on both light/dark */
         .social-icon-list a[title="LinkedIn"]:hover { color: #0A66C2; text-shadow: 0 0 10px rgba(10,102,194,0.5); }
         .social-icon-list a[title="GitHub"]:hover { color: #E8E8E8; text-shadow: 0 0 10px rgba(232,232,232,0.5); }
+        html.light-theme .social-icon-list a[title="GitHub"]:hover { color: #171515; text-shadow: 0 0 10px rgba(23,21,21,0.3); } /* Darker GitHub for light theme */
         .social-icon-list a[title="Twitter / X"]:hover { color: #1DA1F2; text-shadow: 0 0 10px rgba(29,161,242,0.5); }
         .social-icon-list a[title="Kaggle"]:hover { color: #20BEFF; text-shadow: 0 0 10px rgba(32,190,255,0.5); }
+        .social-icon-list a[title="instagram"]:hover { color: #E1306C; text-shadow: 0 0 10px rgba(225, 48, 108, 0.5); }
 
-        .site-footer { padding: 40px 8vw; text-align: center; font-size: 0.9rem; color: var(--color-text-muted); border-top: 1px solid rgba(255,255,255,0.05); }
+
+        .site-footer { padding: 40px 8vw; text-align: center; font-size: 0.9rem; color: var(--color-text-muted); border-top: 1px solid var(--color-border-subtle); transition: border-color var(--transition-duration-medium); }
         .site-footer a { color: var(--color-accent-primary); text-decoration: none; }
         .site-footer a:hover { text-decoration: underline; }
 
@@ -346,7 +447,7 @@
         .reveal-on-scroll.is-visible { opacity: 1; transform: none !important; }
     </style>
 </head>
-<body>
+<body> <!-- Body tag will get class="light-theme" added/removed by JS -->
     <canvas id="global-particle-canvas"></canvas>
 
     <nav class="main-nav">
@@ -356,6 +457,10 @@
         <a href="#projects" class="nav-link" data-section="projects">Projects</a>
         <a href="#blog" class="nav-link" data-section="blog">Blog</a>
         <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+        <button id="theme-toggle" title="Toggle light/dark mode">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM12 4.5a.75.75 0 01.75.75v.01a.75.75 0 01-1.5 0V5.25a.75.75 0 01.75-.75zM4.94 6.44a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.06L4.939 7.5a.75.75 0 010-1.061zM16.469 17.531a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.06l-1.591-1.591a.75.75 0 010-1.06zM19.07 16.06a.75.75 0 010 1.06l-1.591 1.591a.75.75 0 11-1.06-1.06l1.591-1.591a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM4.939 16.06a.75.75 0 011.06 0l1.591 1.591a.75.75 0 01-1.06 1.06l-1.591-1.591a.75.75 0 010-1.06zM17.53 4.94a.75.75 0 011.06 0l1.591 1.591a.75.75 0 01-1.06 1.06L17.531 6a.75.75 0 010-1.06zM2.25 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3a.75.75 0 01-.75-.75zM12 19.5a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V20.25a.75.75 0 01.75-.75z"/></svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.51 1.713-6.634 4.372-8.452a.75.75 0 01.819.162z" clip-rule="evenodd"/></svg>
+        </button>
     </nav>
 
     <main>
@@ -364,9 +469,8 @@
                 <span class="hero-greeting">Hello, I'm</span>
                 <h1 class="hero-name" data-text="[Your Name]">[Your Name]</h1>
                 <p class="hero-tagline">
-                    A <strong>Computer Scientist</strong> & <strong>AI Innovator</strong> transforming complex data into intelligent, elegant solutions for a smarter tomorrow.
+                    A <strong>Software Devloper</strong> & <strong>AI Enthusiat.</strong><br> I learn, develop, and optimize AI models for mobile use.
                 </p>
-                <a href="#projects" class="hero-cta">View My Creations</a>
             </div>
         </section>
 
@@ -377,22 +481,20 @@
             </div>
             <div class="about-content-grid">
                 <div class="about-text">
-                    <p>I am a dedicated and innovative professional specializing in Computer Science, with deep expertise in Artificial Intelligence and Data Science. My approach combines <strong>rigorous analytical thinking</strong> with <strong>creative problem-solving</strong> to develop impactful technologies. I thrive on tackling complex challenges and am constantly exploring new frontiers in machine learning, data engineering, and software architecture.</p>
-                    <p>From crafting intricate algorithms to architecting scalable systems, my goal is to not just build software, but to engineer experiences and drive progress. I am passionate about the ethical implications of AI and strive to contribute to a future where technology empowers humanity.</p>
+                    <p>I am a passionate and driven developer currently in my final year of B.Tech in Computer Science at Kumaraguru College of Technology, with a deep focus on leveraging Artificial Intelligence and Machine Learning to solve real-world problems. I specialize in building intelligent systems that blend strong technical foundations with thoughtful, user-centered design.</p>
+                    <p>My experience spans frameworks like PyTorch and tools such as Transformers and LangChain, enabling me to work confidently at the intersection of research and application. I have a particular knack for understanding the fundamentals behind complex models, which helps me not only implement AI systems but also dissect and optimize them for better performance.</p>
+                    <p>Recently, I was honored with the Best Process Excellence Award at my college for a project that showcased innovation, impact, and technical depth — an achievement that reflects my commitment to building effective and efficient solutions. I also have experience deploying models and developing full-stack ML applications, giving me end-to-end visibility of the development pipeline.</p>
+                    <P>While I enjoy development, my core interest lies in AI research — exploring model behavior, challenging existing limits, and uncovering novel use cases. In the next few years, I aspire to grow as an AI researcher, product engineer, or startup founder, creating solutions that are not only scalable and reliable, but also socially meaningful and accessible across domains like healthcare, education, and sustainability.</P>
                 </div>
             </div>
             <div class="tech-stack-showcase">
                 <h3 class="tech-stack-title">My <span class="highlight">Core</span> Toolkit</h3>
                 <div class="skills-grid">
                     <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/python/3776AB" alt="Python"></span><span class="skill-name">Python</span></div>
-                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/cplusplus/00599C" alt="C++"></span><span class="skill-name">C++</span></div>
                     <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/tensorflow/FF6F00" alt="TensorFlow"></span><span class="skill-name">TensorFlow</span></div>
                     <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/pytorch/EE4C2C" alt="PyTorch"></span><span class="skill-name">PyTorch</span></div>
                     <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/scikitlearn/F7931E" alt="Scikit-learn"></span><span class="skill-name">Scikit-learn</span></div>
                     <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/docker/2496ED" alt="Docker"></span><span class="skill-name">Docker</span></div>
-                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/kubernetes/326CE5" alt="Kubernetes"></span><span class="skill-name">Kubernetes</span></div>
-                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/amazonaws/232F3E" alt="AWS"></span><span class="skill-name">AWS</span></div>
-                    <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/apachekafka/231F20" alt="Kafka"></span><span class="skill-name">Kafka</span></div>
                     <div class="skill-item"><span class="skill-icon"><img src="https://cdn.simpleicons.org/git/F05032" alt="Git"></span><span class="skill-name">Git</span></div>
                 </div>
             </div>
@@ -406,18 +508,15 @@
             <div class="experience-timeline">
                 <div class="timeline-item reveal-on-scroll">
                     <div class="timeline-content">
-                        <h3 class="timeline-role">Senior AI Engineer</h3>
-                        <h4 class="timeline-company">Innovatech Solutions Inc.</h4>
-                        <p class="timeline-date">Jan 2022 - Present</p>
-                        <p class="timeline-desc">Leading the development of cutting-edge ML models for predictive analytics. Architecting MLOps pipelines for scalable deployment. Mentoring junior engineers.</p>
-                    </div>
-                </div>
-                 <div class="timeline-item reveal-on-scroll"> <!-- Added another for more scroll height -->
-                    <div class="timeline-content">
-                        <h3 class="timeline-role">AI Researcher</h3>
-                        <h4 class="timeline-company">Future Tech Labs</h4>
-                        <p class="timeline-date">Jun 2020 - Dec 2021</p>
-                        <p class="timeline-desc">Developed novel algorithms for natural language understanding and computer vision. Published 3 papers in top-tier conferences.</p>
+                        <h3 class="timeline-role">AI Intern Trainee</h3>
+                        <h4 class="timeline-company">Infosys Springboard</h4>
+                        <p class="timeline-date">OCT 2024 - DEC 2024</p>
+                        <p class="timeline-desc">Designed and implemented a system for detecting fraudulent signature verifications using:</p>
+                        <ul>
+                            <li>Edge Detection</li>
+                            <li>Contour Analysis</li>
+                            <li>Pixel-Based Matching</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -429,28 +528,40 @@
                     <h2 class="section-title">My <span class="highlight">Creations</span></h2>
                     <p class="section-subtitle">Here's a glimpse into some of the exciting projects I've worked on, showcasing my skills and passion for innovation. Each project represents a unique challenge and a step forward in my journey.</p>
                 </div>
-                <a href="#projects-archive" class="view-all-projects-btn">Explore All Projects</a>
+                <a href="#projects-archive" class="hero-cta">Explore All Projects</a> <!-- Changed class from hero-cta -->
             </div>
             <div class="projects-list-container reveal-on-scroll" style="transform: translateY(50px);">
-                <div class="project-entry reveal-on-scroll"> 
-                    <h3 class="project-entry-title">AI Predictive Analytics Platform</h3>
-                    <p class="project-entry-description">A comprehensive platform leveraging machine learning to forecast market trends with high accuracy, integrated with real-time data streams.</p>
-                    <div class="project-entry-tags">
-                        <span class="project-entry-tag">ML</span><span class="project-entry-tag">Python</span><span class="project-entry-tag">React</span><span class="project-entry-tag">AWS</span>
+                <div class="project-entry reveal-on-scroll">
+                    <h3 class="project-entry-title">Intelligent Healthcare Assistant</h3>
+                    <div class="project-entry-details">
+                        <p class="project-entry-description">A comprehensive AI solution designed to assist healthcare professionals and patients:
+                            <ul>
+                                <li>Chatbot Module: Interactive Q&A based on patient prescriptions</li>
+                                <li>Computer Vision Module: Extracts and interprets prescription details</li>
+                                <li>Voice-Enabled Module: Disease prediction assistance</li>
+                            </ul>
+                        </p>
+                        <div class="project-entry-tags">
+                            <span class="project-entry-tag">ML</span><span class="project-entry-tag">Python</span><span class="project-entry-tag">HTML</span><span class="project-entry-tag">Custom LLM</span>
+                        </div>
+                        <div class="project-entry-links"><a href="#">GitHub</a></div>
                     </div>
-                    <div class="project-entry-links"><a href="#">GitHub</a> <a href="#">Live Demo</a></div>
                 </div>
                 <div class="project-entry reveal-on-scroll" style="transition-delay: 0.1s;">
-                    <h3 class="project-entry-title">NLP Chatbot for Support</h3>
-                    <p class="project-entry-description">Intelligent chatbot using advanced NLP models to automate and enhance customer service interactions effectively.</p>
-                    <div class="project-entry-tags"><span class="project-entry-tag">NLP</span><span class="project-entry-tag">DialogFlow</span><span class="project-entry-tag">Python</span></div>
-                    <div class="project-entry-links"><a href="#">Case Study</a></div>
+                    <h3 class="project-entry-title">Remote Sensing using ML</h3>
+                    <div class="project-entry-details">
+                        <p class="project-entry-description">Conducted an in-depth study using satellite-based remote sensing data. Achieved third place in an inter-university competition for geospatial data processing.</p>
+                        <div class="project-entry-tags"><span class="project-entry-tag">CNN</span><span class="project-entry-tag">DataFlow</span><span class="project-entry-tag">Python</span></div>
+                        <div class="project-entry-links"><a href="#">Case Study</a></div>
+                    </div>
                 </div>
                 <div class="project-entry reveal-on-scroll" style="transition-delay: 0.2s;">
-                   <h3 class="project-entry-title">Cloud Data Pipeline Orchestrator</h3>
-                   <p class="project-entry-description">Scalable data pipeline solution for ETL processes using serverless architecture and workflow automation tools.</p>
-                   <div class="project-entry-tags"><span class="project-entry-tag">Data Eng.</span><span class="project-entry-tag">AWS Lambda</span><span class="project-entry-tag">Airflow</span></div>
-                   <div class="project-entry-links"><a href="#">GitHub</a></div>
+                   <h3 class="project-entry-title">OULAD Student Performance</h3>
+                   <div class="project-entry-details">
+                        <p class="project-entry-description">Analyzed student performance patterns using the Open University Learning Analytics Dataset. Implemented machine learning models to predict outcomes.</p>
+                        <div class="project-entry-tags"><span class="project-entry-tag">Data Eng.</span><span class="project-entry-tag">ANN</span><span class="project-entry-tag">Scikit-learn</span></div>
+                        <div class="project-entry-links"><a href="#">GitHub</a></div>
+                   </div>
                </div>
             </div>
         </section>
@@ -463,37 +574,37 @@
             <div class="blog-grid">
                  <article class="blog-card reveal-on-scroll" style="transform: translateY(50px);">
                     <div class="blog-card-image-placeholder">
-                        <img src="https://source.unsplash.com/random/400x200?ai,ethics" alt="Explainable AI">
+                        <img src="assets/blogpost thumbnails/blog5.png" alt="Explainable AI">
                     </div>
                     <div class="blog-card-content">
-                        <a href="#" class="blog-card-title">The Future of Explainable AI (XAI)</a>
-                        <p class="blog-card-meta">Nov 05, 2023 • 8 min read</p>
-                        <p class="blog-card-excerpt">Exploring why XAI is crucial for building trust and transparency in artificial intelligence systems, and its impact on future tech.</p>
+                        <a href="blog5.html" class="blog-card-title">Reinforcement Learning</a>
+                        <p class="blog-card-meta">Mar 7, 2025</p>
+                        <p class="blog-card-excerpt">Been a busy few weeks, but I’m back! Lately, I’ve been deep into Reinforcement Learning—mainly Q-learning—and exploring attention mechanisms in LLMs. Also building an RL-powered Tic-Tac-Toe game, nearly done, just ironing out training issues. Found a great video on attention too—more on that soon!</p>
                     </div>
                 </article>
                 <article class="blog-card reveal-on-scroll" style="transform: translateY(50px); transition-delay: 0.1s;">
                     <div class="blog-card-image-placeholder">
-                        <img src="https://source.unsplash.com/random/400x200?data,privacy" alt="Data Privacy">
+                        <img src="assets/blogpost thumbnails/blog4.png" alt="Data Privacy">
                     </div>
                     <div class="blog-card-content">
-                        <a href="#" class="blog-card-title">Navigating Data Privacy in the Age of ML</a>
-                        <p class="blog-card-meta">Oct 22, 2023 • 6 min read</p>
-                        <p class="blog-card-excerpt">A deep dive into the challenges and best practices for ensuring data privacy while leveraging machine learning.</p>
+                        <a href="blog4.html" class="blog-card-title">Empowering Patients with Technology</a>
+                        <p class="blog-card-meta">Feb 24, 2025</p>
+                        <p class="blog-card-excerpt">Healthcare can be overwhelming, so I built a smart interface—both as a webpage and Android app—to help patients manage documents and get personalized assistance. In this post, I break down the tech, workflow, challenges, and what’s next, repeating key parts to make sure it all clicks.</p>
                     </div>
                 </article>
                 <article class="blog-card reveal-on-scroll" style="transform: translateY(50px); transition-delay: 0.2s;">
                     <div class="blog-card-image-placeholder">
-                        <img src="https://source.unsplash.com/random/400x200?quantum,computing" alt="Quantum Computing">
+                        <img src="assets/blogpost thumbnails/blog3.png" alt="Quantum Computing">
                     </div>
                     <div class="blog-card-content">
-                        <a href="#" class="blog-card-title">Quantum Computing: Hype vs. Reality</a>
-                        <p class="blog-card-meta">Sep 15, 2023 • 10 min read</p>
-                        <p class="blog-card-excerpt">Breaking down the complex world of quantum computing and its potential implications for the tech industry.</p>
+                        <a href="blog3.html" class="blog-card-title">How I learnt Deep Learning and LLMs</a>
+                        <p class="blog-card-meta">Feb 23, 2025</p>
+                        <p class="blog-card-excerpt">Sharing my journey from deep learning basics to exploring LLMs and diving into reinforcement learning. It’s been late nights, rented GPUs, and a serious YouTube deep dive. If you're curious about attention, LLMs, or why RL has me hooked—let’s break it all down, step by step.</p>
                     </div>
                 </article>
             </div>
             <div class="blog-view-all-cta-container">
-                <a href="#your-main-blog-page-link" class="hero-cta">View All Posts</a>
+                <a href="bloghome.html" class="hero-cta">View All Posts</a>
             </div>
         </section>
 
@@ -505,35 +616,63 @@
                 <a href="mailto:youremail@example.com" class="contact-cta-email">Drop Me a Line</a>
                 <p class="contact-social-prompt">Or find me on these platforms:</p>
                 <div class="social-icon-list">
-                    <a href="#" target="_blank" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
-                    <a href="#" target="_blank" title="GitHub"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
-                    <a href="#" target="_blank" title="Twitter / X"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="https://www.linkedin.com/in/ranjith-kumar-b66180250" target="_blank" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    <a href="https://github.com/P-RanjithKumar" target="_blank" title="GitHub"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                    <a href="https://instagram.com/ranjithh_56" target="_blank" title="instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm8.75 2.25a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/></svg></a>
                 </div>
             </div>
         </section>
 
         <footer class="site-footer">
-            <p>&copy; <span id="currentYear"></span> [Your Name]. All Rights Reserved.</p>
-            <p>Designed & Built with Passion and <a href="https://www.perplexity.ai/" target="_blank">AI Assistance</a>.</p>
+            <p>&copy; <span id="currentYear"></span> Ranjith Kumar. All Rights Reserved.</p>
+            <p>Designed & Built with Passion and Practice.</p>
         </footer>
     </main>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        const currentYearElem = document.getElementById('currentYear');
+        if (currentYearElem) {
+            currentYearElem.textContent = new Date().getFullYear();
+        }
 
-        function setRGBVar(hexColorVariable) {
-            const rootStyle = getComputedStyle(document.documentElement);
-            const hex = rootStyle.getPropertyValue(hexColorVariable)?.trim();
-            if (hex && hex.startsWith('#')) {
-                const r = parseInt(hex.slice(1, 3), 16);
-                const g = parseInt(hex.slice(3, 5), 16);
-                const b = parseInt(hex.slice(5, 7), 16);
-                document.documentElement.style.setProperty(hexColorVariable + '-rgb', `${r},${g},${b}`);
+        // Theme Toggling Logic
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement; // Target <html> for theme class
+
+        // Function to apply theme and save preference
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                htmlElement.classList.add('light-theme');
+                themeToggleButton.title = 'Switch to dark mode';
+            } else {
+                htmlElement.classList.remove('light-theme');
+                themeToggleButton.title = 'Switch to light mode';
+            }
+            localStorage.setItem('theme', theme);
+            
+            // Crucially, re-initialize particles if the canvas and functions are available
+            if (typeof initParticles === 'function') {
+                // Wait for CSS transitions to finish before re-init, if any affecting particles directly
+                // setTimeout(initParticles, 0); // Or just call directly if no major bg transition for canvas
+                initParticles(); 
             }
         }
-        ['--color-accent-primary', '--color-accent-secondary', '--color-accent-tertiary', '--color-background-deep', '--color-background-medium', '--color-text-muted'].forEach(setRGBVar);
-        
+
+        // Determine initial theme
+        let currentTheme = localStorage.getItem('theme');
+        if (!currentTheme) {
+            currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        applyTheme(currentTheme); // Apply it on load
+
+        // Toggle theme on button click
+        themeToggleButton.addEventListener('click', () => {
+            currentTheme = htmlElement.classList.contains('light-theme') ? 'dark' : 'light';
+            applyTheme(currentTheme);
+        });
+
+        // --- Hero Name Animation ---
         const heroNameElement = document.querySelector('.hero-name');
         if (heroNameElement) {
             const text = heroNameElement.dataset.text || heroNameElement.textContent;
@@ -541,23 +680,34 @@
             text.split('').forEach((char, index) => {
                 const span = document.createElement('span');
                 span.className = 'char';
-                span.textContent = char === ' ' ? '\u00A0' : char;
+                span.textContent = char === ' ' ? '\u00A0' : char; // Handle spaces
                 span.style.animationDelay = `${0.5 + index * 0.05}s`;
                 heroNameElement.appendChild(span);
             });
         }
         
+        // --- Navigation Active Link & Smooth Scroll ---
         const navLinks = document.querySelectorAll('.nav-link');
         const pageSections = document.querySelectorAll('.page-section');
         function updateActiveLink() {
             let currentSectionId = 'hero';
             const navBarHeight = document.querySelector('.main-nav')?.offsetHeight || 60;
+            const scrollThreshold = window.innerHeight * 0.4; // Consider section active when 40% in view from top
+
             pageSections.forEach(section => {
-                const sectionTop = section.offsetTop - navBarHeight - Math.min(100, window.innerHeight * 0.1);
-                if (window.scrollY >= sectionTop) {
+                const sectionTop = section.offsetTop - navBarHeight;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                
+                // Check if the top of the section is within a certain range of the viewport top
+                if (window.scrollY >= sectionTop - scrollThreshold && window.scrollY < sectionBottom - scrollThreshold) {
                     currentSectionId = section.id;
                 }
             });
+             // Fallback for very bottom of page
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) { // 50px buffer
+                currentSectionId = pageSections[pageSections.length - 1].id;
+            }
+
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.dataset.section === currentSectionId) {
@@ -565,8 +715,9 @@
                 }
             });
         }
-        window.addEventListener('scroll', updateActiveLink);
-        updateActiveLink();
+        window.addEventListener('scroll', updateActiveLink, { passive: true });
+        updateActiveLink(); // Initial call
+
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
@@ -576,7 +727,7 @@
                     if (targetElement) {
                         const navBarHeight = document.querySelector('.main-nav')?.offsetHeight || 0;
                         const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                        const offsetPosition = elementPosition - navBarHeight - 10;
+                        const offsetPosition = elementPosition - navBarHeight - 10; // Small offset
 
                         window.scrollTo({
                             top: offsetPosition,
@@ -587,53 +738,36 @@
             });
         });
 
-        const exploreProjectsBtn = document.querySelector('.view-all-projects-btn');
-        if (exploreProjectsBtn) {
-            exploreProjectsBtn.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href && href.startsWith('#') && href !== "#") { 
-                     e.preventDefault(); 
-                     const targetElement = document.querySelector(href);
-                     if (targetElement) {
-                         const navBarHeight = document.querySelector('.main-nav')?.offsetHeight || 0;
-                         const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                         const offsetPosition = elementPosition - navBarHeight - 10; 
-                         window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-                     } else {
-                         console.warn(`Target element for "${href}" not found.`);
-                     }
-                }
-            });
-        }
-
-
+        // --- Reveal on Scroll ---
         const revealElements = document.querySelectorAll('.reveal-on-scroll');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) { 
                     entry.target.classList.add('is-visible');
                 }
+                // Optional: remove for re-animation on scroll up (not typical for this effect)
+                // else { entry.target.classList.remove('is-visible'); } 
             });
-        }, { threshold: 0.1 }); 
+        }, { threshold: 0.1 }); // Trigger when 10% of element is visible
         
         revealElements.forEach(el => {
             revealObserver.observe(el);
         });
 
         // --- Particle Animation with 3D Scroll Zoom ---
+        // (Global scope for initParticles to be callable by theme switcher)
         const canvas = document.getElementById('global-particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         let mouse = { x: null, y: null, radius: 100 };
         let currentScrollY = window.scrollY;
-        let lastScrollY = window.scrollY; // Track previous scroll position
+        let lastScrollY = window.scrollY; 
 
-        // Configuration for 3D scroll effect
-        const FOCAL_LENGTH = 300; // Lower for more perspective, higher for less
-        const PARTICLE_DEPTH = 1200; // Increased depth
-        const Z_SCROLL_FACTOR = 0.3; // Increased scroll effect
-        const Z_NEAR_CLIP = -FOCAL_LENGTH * 0.95; // Closest a particle can be before reset
-        const Z_FAR_CLIP = PARTICLE_DEPTH;      // Furthest before reset
+        const FOCAL_LENGTH = 300; 
+        const PARTICLE_DEPTH = 1200; 
+        const Z_SCROLL_FACTOR = 0.3; 
+        const Z_NEAR_CLIP = -FOCAL_LENGTH * 0.95; 
+        const Z_FAR_CLIP = PARTICLE_DEPTH;      
 
         window.addEventListener('mousemove', event => {
             mouse.x = event.clientX;
@@ -650,17 +784,16 @@
 
         class Particle {
             constructor(x, y, z, baseSize, color) {
-                this.x = x; // Actual X in 3D space (relative to center for projection)
-                this.y = y; // Actual Y in 3D space (relative to center for projection)
-                this.z = z; // Depth
+                this.x = x; 
+                this.y = y; 
+                this.z = z; 
 
-                this.baseX = x; // Original X if no mouse interaction
-                this.baseY = y; // Original Y if no mouse interaction
-                // this.initialZ = z; // No longer needed with delta-based scroll
-
+                this.baseX = x; 
+                this.baseY = y; 
+                
                 this.baseSize = baseSize;
                 this.color = color;
-                this.density = (Math.random() * 20) + 10; // Adjusted for 3D
+                this.density = (Math.random() * 20) + 10; 
             }
 
             reset() {
@@ -668,9 +801,9 @@
                 this.baseY = (Math.random() - 0.5) * canvas.height * 1.5;
                 this.x = this.baseX;
                 this.y = this.baseY;
-                this.z = Z_FAR_CLIP - Math.random() * (PARTICLE_DEPTH * 0.2); // Respawn at the back
+                this.z = Z_FAR_CLIP - Math.random() * (PARTICLE_DEPTH * 0.2); 
                 this.baseSize = Math.random() * 1.5 + 0.5;
-                 const rootStyle = getComputedStyle(document.documentElement);
+                const rootStyle = getComputedStyle(document.documentElement); // Re-fetch in case theme changed
                 const colors = [
                     rootStyle.getPropertyValue('--particle-color-1').trim(),
                     rootStyle.getPropertyValue('--particle-color-2').trim(),
@@ -679,33 +812,26 @@
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
 
-            update(scrollDelta) { // Accept scrollDelta as parameter
-                // Update Z based on scroll delta
+            update(scrollDelta) { 
                 this.z -= scrollDelta * Z_SCROLL_FACTOR;
 
-                // Perspective projection
                 const perspectiveScale = FOCAL_LENGTH / (FOCAL_LENGTH + this.z);
-
                 let screenX, screenY, screenSize;
 
-                // Clipping based on Z
                 if (perspectiveScale > 0 && this.z > Z_NEAR_CLIP && this.z < Z_FAR_CLIP) {
                     screenX = (this.x * perspectiveScale) + canvas.width / 2;
                     screenY = (this.y * perspectiveScale) + canvas.height / 2;
                     screenSize = this.baseSize * perspectiveScale;
                 } else {
-                    this.reset(); // Reset if too close, too far, or behind camera
-                    // Recalculate for the new position in the same frame
-                    const newPerspectiveScale = FOCAL_LENGTH / (FOCAL_LENGTH + this.z); // Use the new this.z
+                    this.reset(); 
+                    const newPerspectiveScale = FOCAL_LENGTH / (FOCAL_LENGTH + this.z); 
                     screenX = (this.x * newPerspectiveScale) + canvas.width / 2;
                     screenY = (this.y * newPerspectiveScale) + canvas.height / 2;
                     screenSize = this.baseSize * newPerspectiveScale;
                 }
 
-                // Mouse interaction (affects this.x, this.y which are world coords)
                 let dxMouse = null, dyMouse = null, distanceMouse = Infinity;
                 if (mouse.x != null) {
-                    // Use screenX/Y for mouse interaction distance
                     dxMouse = mouse.x - screenX;
                     dyMouse = mouse.y - screenY;
                     distanceMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
@@ -717,14 +843,9 @@
                     const force = (mouse.radius - distanceMouse) / mouse.radius;
                     const directionX = forceDirectionX * force * this.density;
                     const directionY = forceDirectionY * force * this.density;
-
-                    // Apply repulsion to world coordinates (this.x, this.y)
-                    // Scale the force inversely by perspectiveScale to make it feel consistent
                     this.x -= directionX / Math.max(0.1, perspectiveScale);
                     this.y -= directionY / Math.max(0.1, perspectiveScale);
-
                 } else {
-                    // Return to base position (in 3D space)
                     if (this.x !== this.baseX) {
                         let dxToBase = this.x - this.baseX;
                         this.x -= dxToBase / 20;
@@ -735,20 +856,17 @@
                     }
                 }
 
-                // Re-calculate screen position AFTER mouse interaction for drawing this frame
-                // This is important because mouse interaction changes this.x and this.y
-                const finalPerspectiveScale = FOCAL_LENGTH / (FOCAL_LENGTH + this.z); // Use the updated this.z
+                const finalPerspectiveScale = FOCAL_LENGTH / (FOCAL_LENGTH + this.z); 
                 const finalScreenX = (this.x * finalPerspectiveScale) + canvas.width / 2;
                 const finalScreenY = (this.y * finalPerspectiveScale) + canvas.height / 2;
                 const finalScreenSize = this.baseSize * finalPerspectiveScale;
 
-
-                this.draw(finalScreenX, finalScreenY, finalScreenSize, finalPerspectiveScale); // Draw using the final calculated screen position
+                this.draw(finalScreenX, finalScreenY, finalScreenSize, finalPerspectiveScale); 
             }
 
             draw(screenX, screenY, screenSize, scale) {
                 if (screenSize <= 0.1 || screenX < -screenSize || screenX > canvas.width + screenSize || screenY < -screenSize || screenY > canvas.height + screenSize) {
-                    return; // Don't draw if too small or off-screen
+                    return; 
                 }
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
@@ -757,58 +875,52 @@
                 ctx.fill();
             }
         }
-
-        function initParticles() {
+        
+        // Make initParticles global for theme switcher
+        window.initParticles = function() {
             particles = [];
-            const rootStyle = getComputedStyle(document.documentElement);
+            const rootStyle = getComputedStyle(document.documentElement); // Get current theme's styles
             const colors = [
                 rootStyle.getPropertyValue('--particle-color-1').trim(),
                 rootStyle.getPropertyValue('--particle-color-2').trim(),
                 rootStyle.getPropertyValue('--particle-color-3').trim()
             ];
-            let numberOfParticles = (canvas.width * canvas.height) / 10000; // Increased particle density
-            if (numberOfParticles > 250) numberOfParticles = 250; // Increased max particles
-            if (numberOfParticles < 100) numberOfParticles = 100; // Increased min particles
-
+            let numberOfParticles = (canvas.width * canvas.height) / 10000; 
+            if (numberOfParticles > 250) numberOfParticles = 250; 
+            if (numberOfParticles < 100) numberOfParticles = 100; 
 
             for (let i = 0; i < numberOfParticles; i++) {
                 let baseSize = Math.random() * 1.5 + 0.5;
-                // Distribute particles in a 3D volume. X and Y are relative to center for projection.
-                let x = (Math.random() - 0.5) * canvas.width * 1.5; // Wider spread for X/Y
+                let x = (Math.random() - 0.5) * canvas.width * 1.5; 
                 let y = (Math.random() - 0.5) * canvas.height * 1.5;
-                let z = Math.random() * PARTICLE_DEPTH; // Initial Z from 0 to PARTICLE_DEPTH
-
+                let z = Math.random() * PARTICLE_DEPTH; 
                 let color = colors[Math.floor(Math.random() * colors.length)];
                 particles.push(new Particle(x, y, z, baseSize, color));
             }
-            // Ensure initial Z is correct with current scroll
-            // particles.forEach(p => p.z = p.initialZ - (currentScrollY * Z_SCROLL_FACTOR)); // No longer needed
         }
 
-        function connectParticles() { // Connect based on screen positions
-            const linkColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-link-color').trim();
-            const maxDistSq = (canvas.width/12) * (canvas.width/12); // Adjusted for sparser connections
+        function connectParticles() { 
+            const rootStyle = getComputedStyle(document.documentElement); // Get current theme's styles
+            const linkColor = rootStyle.getPropertyValue('--particle-link-color').trim();
+            const maxDistSq = (canvas.width/12) * (canvas.width/12); 
 
             for (let a = 0; a < particles.length; a++) {
                 const pA = particles[a];
-                const pA_z = pA.z; // Use current Z
+                const pA_z = pA.z; 
                 const pA_scale = FOCAL_LENGTH / (FOCAL_LENGTH + pA_z);
 
-                if (pA_scale <= 0 || pA_z <= Z_NEAR_CLIP || pA_z >= Z_FAR_CLIP) continue; // Don't connect if A is not visible
+                if (pA_scale <= 0 || pA_z <= Z_NEAR_CLIP || pA_z >= Z_FAR_CLIP) continue; 
 
                 const pA_screenX = (pA.x * pA_scale) + canvas.width / 2;
                 const pA_screenY = (pA.y * pA_scale) + canvas.height / 2;
 
                 for (let b = a + 1; b < particles.length; b++) {
                     const pB = particles[b];
-                    const pB_z = pB.z; // Use current Z
+                    const pB_z = pB.z; 
                     const pB_scale = FOCAL_LENGTH / (FOCAL_LENGTH + pB_z);
 
-                    if (pB_scale <= 0 || pB_z <= Z_NEAR_CLIP || pB_z >= Z_FAR_CLIP) continue; // Don't connect if B is not visible
-
-                    // Only connect particles that are relatively close in Z depth
+                    if (pB_scale <= 0 || pB_z <= Z_NEAR_CLIP || pB_z >= Z_FAR_CLIP) continue; 
                     if (Math.abs(pA_z - pB_z) > PARTICLE_DEPTH / 4) continue;
-
 
                     const pB_screenX = (pB.x * pB_scale) + canvas.width / 2;
                     const pB_screenY = (pB.y * pB_scale) + canvas.height / 2;
@@ -818,13 +930,13 @@
                     let distanceSq = dx * dx + dy * dy;
 
                     if (distanceSq < maxDistSq) {
-                        let opacityValue = 1 - (distanceSq / maxDistSq) * 0.7; // Make links fainter
-                        opacityValue *= Math.min(pA_scale, pB_scale) * 1.5; // Fade links for far particles
-                        opacityValue = Math.max(0, Math.min(opacityValue, 0.8)); // Clamp opacity
+                        let opacityValue = 1 - (distanceSq / maxDistSq) * 0.7; 
+                        opacityValue *= Math.min(pA_scale, pB_scale) * 1.5; 
+                        opacityValue = Math.max(0, Math.min(opacityValue, 0.8)); 
 
-                        if (opacityValue > 0.02) { // Only draw if reasonably visible
+                        if (opacityValue > 0.02) { 
                              ctx.strokeStyle = linkColor.replace(/[\d\.]+\)$/g, `${opacityValue})`);
-                             ctx.lineWidth = 0.3 + Math.min(pA.baseSize * pA_scale, pB.baseSize * pB_scale) * 0.2; // Link width subtly related to particle screen size
+                             ctx.lineWidth = 0.3 + Math.min(pA.baseSize * pA_scale, pB.baseSize * pB_scale) * 0.2; 
                              ctx.beginPath();
                              ctx.moveTo(pA_screenX, pA_screenY);
                              ctx.lineTo(pB_screenX, pB_screenY);
@@ -835,26 +947,30 @@
             }
         }
 
+        let animationFrameId = null; // To manage animation frame
         function animateParticles() {
-            const scrollDelta = currentScrollY - lastScrollY; // Calculate scroll delta
+            const scrollDelta = currentScrollY - lastScrollY; 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(particle => particle.update(scrollDelta)); // Pass scrollDelta
+            particles.forEach(particle => particle.update(scrollDelta)); 
             connectParticles();
-            lastScrollY = currentScrollY; // Update lastScrollY
-            requestAnimationFrame(animateParticles);
+            lastScrollY = currentScrollY; 
+            animationFrameId = requestAnimationFrame(animateParticles);
         }
 
         function resizeCanvas() {
+            if (animationFrameId) { // Cancel existing animation frame if resizing
+                cancelAnimationFrame(animationFrameId);
+            }
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            currentScrollY = window.scrollY; // Update scrollY on resize
-            lastScrollY = window.scrollY; // Initialize lastScrollY on resize
-            initParticles();
+            currentScrollY = window.scrollY; 
+            lastScrollY = window.scrollY; 
+            window.initParticles(); // Use global initParticles
+            animateParticles(); // Restart animation
         }
         window.addEventListener('resize', resizeCanvas);
 
-        resizeCanvas();
-        animateParticles();
+        resizeCanvas(); // Initial setup and start animation
     });
     </script>
 </body>
