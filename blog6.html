@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crafting Synaptic Flow: My Portfolio's Design & Code | Ranjith Kumar</title>
+    <meta name="description" content="A behind-the-scenes look at the design philosophy, technical choices, and development process of my interactive personal portfolio, 'Synaptic Flow'.">
+
+    <!-- Include MathJax for rendering LaTeX equations (if needed, can be removed if no math) -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* --- Copied Styles from blog5.html --- */
+        /* 1. --- Reset & Base Styles --- */
+        :root {
+            --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            --font-serif: "Merriweather", "Georgia", serif;
+            --font-mono: "Fira Code", "Courier New", monospace;
+
+            --color-text: #333;
+            --color-bg: #ffffff;
+            --color-primary: #0d6efd; /* Bootstrap Blue */
+            --color-secondary: #6c757d;
+            --color-accent: #fd7e14; /* Bootstrap Orange */
+            --color-border: #dee2e6;
+            --color-code-bg: #f8f9fa;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #e9ecef;
+            --color-illustration-border: var(--color-accent);
+
+            --container-width: 800px;
+            --toc-width: 220px; /* Width for the Table of Contents */
+            --layout-gap: calc(var(--spacing-unit) * 2.5); /* Gap between content and TOC */
+            --main-wrapper-width: calc(var(--container-width) + var(--toc-width) + var(--layout-gap)); /* Max width for content+TOC */
+
+            --spacing-unit: 1rem;
+            --border-radius: 6px;
+            --transition-speed: 0.3s;
+            --transition-speed-fast: 0.15s;
+            --header-height: 65px;
+        }
+
+        body.dark-mode {
+            --color-text: #e9ecef;
+            --color-bg: #121212;
+            --color-primary: #4dabf7;
+            --color-secondary: #adb5bd;
+            --color-accent: #ff922b;
+            --color-border: #495057;
+            --color-code-bg: #2a2a2a;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #343a40;
+            --color-illustration-border: var(--color-accent);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 100%; } /* Enable smooth scroll */
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        img, video, figure, canvas, iframe { max-width: 100%; height: auto; display: block; margin: var(--spacing-unit) 0; }
+        a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-speed-fast) ease, opacity var(--transition-speed-fast) ease; }
+        a:hover { color: var(--color-accent); text-decoration: underline; }
+        *:focus-visible { outline: 3px dashed var(--color-primary); outline-offset: 3px; }
+
+        /* Target headings for scroll margin */
+        h2[id], h3[id], h4[id], section[id] {
+            scroll-margin-top: calc(var(--header-height) + var(--spacing-unit) * 1.5);
+        }
+
+        /* 2. --- Layout Structure --- */
+        .container { /* Still used for header/footer */
+             width: 90%;
+             max-width: var(--container-width); /* Default article width */
+             margin: 0 auto;
+             padding: 0 calc(var(--spacing-unit) / 2);
+        }
+        /* New wrapper for main content and TOC */
+        .content-wrapper {
+            width: 90%;
+            max-width: var(--main-wrapper-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, var(--container-width)) auto; /* Article column + TOC column */
+            gap: var(--layout-gap);
+            align-items: start; /* Align top */
+        }
+        .article-column {
+            grid-column: 1 / 2;
+            max-width: 100%; /* Ensure it doesn't overflow */
+        }
+        .toc-column {
+            grid-column: 2 / 3;
+            width: var(--toc-width);
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-unit) * 1.5); /* Stick below header */
+            height: calc(100vh - var(--header-height) - var(--spacing-unit) * 3); /* Limit height */
+            overflow-y: auto; /* Allow scrolling within TOC if needed */
+        }
+
+        #progress-bar { position: fixed; top: 0; left: 0; height: 5px; background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); width: 0%; z-index: 100; transition: width 0.1s linear; }
+
+        /* 3. --- Header --- */
+        .site-header {
+            background-color: rgba(var(--color-bg-rgb, 255, 255, 255), 0.85);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
+            padding: calc(var(--spacing-unit) * 0.75) 0;
+            position: sticky; top: 0; z-index: 99;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            height: var(--header-height);
+        }
+
+        body.dark-mode .site-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        body { --color-bg-rgb: 255, 255, 255; --color-primary-rgb: 13, 110, 253;}
+        body.dark-mode { --color-bg-rgb: 18, 18, 18; --color-primary-rgb: 77, 171, 247; }
+
+        .site-header .container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: var(--main-wrapper-width); }
+        .logo { font-size: 1.6rem; font-weight: 700; color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+        .logo:hover { text-decoration: none; color: var(--color-primary); }
+        .main-navigation ul { list-style: none; display: flex; gap: calc(var(--spacing-unit) * 1.8); }
+        .main-navigation a { font-weight: 500; color: var(--color-secondary); position: relative; padding: 5px 0; }
+        .main-navigation a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--color-primary); transition: width var(--transition-speed) ease; }
+        .main-navigation a:hover::after, .main-navigation a.active::after { width: 100%; }
+        .main-navigation a.active, .main-navigation a:hover { color: var(--color-primary); text-decoration: none; }
+        @media (max-width: 768px) { .main-navigation { display: none; } }
+
+        .header-actions { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.2); }
+        .header-actions button { background: none; border: none; cursor: pointer; font-size: 1.3rem; color: var(--color-secondary); transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; padding: 5px; }
+        .header-actions button:hover {
+            color: var(--color-primary);
+            transform: scale(1.1);
+            background-color: rgba(var(--color-primary-rgb), 0.08);
+            border-radius: 50%;
+        }
+        .header-actions button:focus-visible {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+            background-color: rgba(var(--color-primary-rgb), 0.08);
+            border-radius: 50%;
+        }
+        #search-input { display: none; border: 1px solid var(--color-border); padding: 6px 10px; border-radius: var(--border-radius); background-color: var(--color-bg); color: var(--color-text); }
+        body.search-active #search-input { display: inline-block; animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(10px)} to { opacity: 1; transform: translateX(0)} }
+        @media (max-width: 768px) { .main-navigation { display: none; } }
+        
+        .back-to-blog {
+            display: inline-block;
+            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            color: var(--color-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .back-to-blog:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        /* 4. --- Main Content Area --- */
+        .main-content { flex-grow: 1; padding: calc(var(--spacing-unit) * 2.5) 0; }
+        .blog-post { background-color: var(--color-bg); transition: background-color var(--transition-speed) ease; }
+        .post-featured-image { margin-bottom: calc(var(--spacing-unit) * 2); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: box-shadow var(--transition-speed) ease; }
+        body.dark-mode .post-featured-image { box-shadow: 0 10px 30px rgba(255,255,255,0.05); }
+        .post-featured-image img { width: 100%; max-width: none; height: auto; display: block; margin: 0 auto; }
+
+        .post-meta { font-size: 0.9rem; color: var(--color-secondary); margin-bottom: var(--spacing-unit); display: flex; flex-wrap: wrap; gap: calc(var(--spacing-unit) * 1.2); align-items: center; }
+        .post-meta .category a { background-color: var(--color-primary); color: #fff; padding: 3px 10px; border-radius: calc(var(--border-radius) / 1.5); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; transition: background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; display: inline-block; }
+        .post-meta .category a:hover { background-color: var(--color-accent); text-decoration: none; transform: translateY(-2px); }
+        .post-title { font-size: 2.8rem; font-family: var(--font-serif); font-weight: 700; line-height: 1.25; margin-bottom: var(--spacing-unit); color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .author-info { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 0.75); margin-bottom: calc(var(--spacing-unit) * 2.5); font-size: 0.95rem; }
+        .author-info .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-border); }
+        .author-info .author-name { font-weight: 500; color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+
+        .content-body { font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.8; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .content-body > * + * { margin-top: calc(var(--spacing-unit) * 1.8); }
+        .content-body h2, .content-body h3, .content-body h4 { font-family: var(--font-primary); font-weight: 700; line-height: 1.3; margin-top: calc(var(--spacing-unit) * 3); color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .content-body h2[id] { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; }
+        .content-body h3[id] { font-size: 1.6rem; }
+        .content-body h4[id] { font-size: 1.3rem; color: var(--color-primary); }
+        .content-body h2:not([id]) { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; } 
+        .content-body h3:not([id]) { font-size: 1.6rem; }
+        .content-body h4:not([id]) { font-size: 1.3rem; color: var(--color-primary); }
+
+        .content-body p, .content-body ul, .content-body ol, .content-body blockquote, .content-body figure, .content-body pre, .content-body section, .content-body table, .content-body iframe {
+            transition: none; 
+        }
+
+        .content-body ul, .content-body ol { margin-left: calc(var(--spacing-unit) * 1.5); padding-left: var(--spacing-unit); }
+        .content-body li { margin-bottom: calc(var(--spacing-unit) * 0.5); }
+        .content-body blockquote { border-left: 5px solid var(--color-blockquote-border); padding-left: calc(var(--spacing-unit) * 1.5); margin-left: 0; font-style: italic; font-size: 1.2rem; color: var(--color-secondary); transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        .content-body code { font-family: var(--font-mono); background-color: var(--color-code-bg); padding: 3px 6px; border-radius: var(--border-radius); font-size: 0.9em; color: var(--color-text); transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        body.dark-mode .content-body code { color: #f8f9fa; }
+        .content-body pre { background-color: var(--color-code-bg); padding: calc(var(--spacing-unit) * 1.5); border-radius: var(--border-radius); overflow-x: auto; position: relative; transition: background-color var(--transition-speed) ease; border: 1px solid var(--color-border); margin: var(--spacing-unit) 0; }
+        .content-body pre code { background-color: transparent; padding: 0; font-size: 0.95rem; line-height: 1.6; color: var(--color-text); transition: color var(--transition-speed) ease; display: block; }
+        body.dark-mode .content-body pre code { color: #f8f9fa; }
+        .copy-code-button { position: absolute; top: 12px; right: 12px; background-color: var(--color-secondary); color: #fff; border: none; padding: 6px 12px; border-radius: var(--border-radius); font-size: 0.85rem; cursor: pointer; opacity: 0; transition: opacity var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; transform: translateY(5px); }
+        .content-body pre:hover .copy-code-button { opacity: 1; transform: translateY(0); }
+        .copy-code-button:hover { background-color: var(--color-primary); transform: scale(1.05) translateY(0); }
+        .copy-code-button.copied { background-color: var(--color-accent); transform: scale(1.05) translateY(0); }
+
+        .content-body .math { text-align: center; margin: var(--spacing-unit) 0; padding: var(--spacing-unit); background-color: var(--color-code-bg); border-radius: var(--border-radius); overflow-x: auto; border: 1px solid var(--color-border); }
+        
+        .content-body figure { 
+            background-color: var(--color-illustration-bg); 
+            border: 1px solid var(--color-illustration-border);
+            padding: var(--spacing-unit); 
+            border-radius: var(--border-radius);
+            margin: calc(var(--spacing-unit) * 1.5) auto; /* Centered with auto margins */
+            max-width: 90%; /* Control max width of figure */
+        }
+        .content-body figure img { 
+            border-radius: calc(var(--border-radius) / 2);
+            margin-bottom: calc(var(--spacing-unit) / 2); 
+        }
+        .content-body figcaption { 
+            text-align: center; 
+            font-size: 0.9rem; 
+            color: var(--color-secondary); 
+            font-style: italic;
+        }
+
+
+        .content-body table { width: 100%; border-collapse: collapse; margin: calc(var(--spacing-unit) * 2) 0; font-size: 0.95rem; border: 1px solid var(--color-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .content-body th, .content-body td { border: 1px solid var(--color-border); padding: calc(var(--spacing-unit) * 0.75); text-align: left; }
+        .content-body thead th { background-color: var(--color-code-bg); font-weight: 600; color: var(--color-text); }
+        .content-body tbody tr:nth-child(even) { background-color: var(--color-code-bg); }
+        body.dark-mode .content-body tbody tr:nth-child(even) { background-color: rgba(var(--color-bg-rgb), 0.1); }
+        body.dark-mode .content-body thead th { background-color: var(--color-code-bg); }
+
+        .section-divider { height: 5px; width: 100px; margin: calc(var(--spacing-unit) * 3) auto; background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary)); background-size: 200% 100%; border-radius: 3px; animation: gradient-shift 4s linear infinite; }
+        @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .post-tags { margin-top: calc(var(--spacing-unit) * 3); padding-top: calc(var(--spacing-unit) * 1.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .post-tags span { font-weight: 600; margin-right: var(--spacing-unit); color: var(--color-secondary); transition: color var(--transition-speed) ease; }
+        .post-tags a { display: inline-block; background-color: var(--color-code-bg); color: var(--color-secondary); padding: 5px 12px; border-radius: 15px; font-size: 0.9rem; margin-right: calc(var(--spacing-unit) / 2); margin-bottom: calc(var(--spacing-unit) / 2); transition: background-color var(--transition-speed-fast) ease, color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; border: 1px solid var(--color-border); }
+        .post-tags a:hover { background-color: var(--color-primary); color: #fff; text-decoration: none; transform: translateY(-2px) scale(1.03); border-color: var(--color-primary); }
+
+        .social-share { margin-top: calc(var(--spacing-unit) * 3); padding: calc(var(--spacing-unit) * 2); border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-code-bg); text-align: center; transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+        .social-share h3 { margin-bottom: calc(var(--spacing-unit) * 1.5); font-size: 1.2rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .share-buttons a, .share-buttons button { display: inline-flex; align-items: center; justify-content: center; margin: 6px; padding: 10px 18px; border-radius: var(--border-radius); color: #fff; font-size: 0.95rem; font-weight: 500; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; min-width: 110px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .share-buttons a:hover, .share-buttons button:hover { opacity: 0.9; transform: translateY(-3px) scale(1.02); text-decoration: none; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .share-facebook { background-color: #1877F2; } .share-twitter { background-color: #1DA1F2; } .share-linkedin { background-color: #0A66C2; } .share-reddit { background-color: #FF4500; } .share-email { background-color: #777; } .share-copy { background-color: var(--color-secondary); }
+        .share-copy.copied { background-color: var(--color-accent) !important; }
+        #native-share-button { background-color: #0056b3; }
+
+        .author-bio { margin-top: calc(var(--spacing-unit) * 4); padding: calc(var(--spacing-unit) * 2); background-color: var(--color-code-bg); border-radius: var(--border-radius); display: flex; gap: calc(var(--spacing-unit) * 1.5); align-items: flex-start; transition: background-color var(--transition-speed) ease; border: 1px solid var(--color-border); }
+        .author-bio .avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 3px solid var(--color-bg); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .author-bio-content h4 { margin-bottom: calc(var(--spacing-unit) / 1.5); font-size: 1.3rem; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .author-bio-content p { font-size: 1rem; line-height: 1.6; color: var(--color-secondary); transition: color var(--transition-speed) ease; margin-bottom: var(--spacing-unit); }
+        .author-social-links a { margin-right: 12px; font-size: 1.3rem; color: var(--color-secondary); transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; display: inline-block; }
+        .author-social-links a:hover { color: var(--color-primary); transform: scale(1.1); }
+        .author-social-links a svg { width: 20px; height: 20px; vertical-align: middle; fill: currentColor; }
+
+        .related-posts { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 2.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .related-posts h2 { text-align: center; margin-bottom: calc(var(--spacing-unit) * 2); font-size: 1.8rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .related-posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: calc(var(--spacing-unit) * 1.5); }
+        .related-post-card { border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; background-color: var(--color-bg); transition: border-color var(--transition-speed) ease, box-shadow 0.3s ease, transform 0.3s ease; display: flex; flex-direction: column; }
+        .related-post-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.1); border-color: var(--color-primary); transform: translateY(-5px); }
+        body.dark-mode .related-post-card { background-color: var(--color-code-bg); }
+        body.dark-mode .related-post-card:hover { box-shadow: 0 8px 25px rgba(255,255,255,0.08); }
+        .related-post-card a:first-child:focus-visible { outline-offset: -3px; }
+        .related-post-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--color-border); transition: transform 0.3s ease; margin: 0; }
+        .related-post-card:hover img { transform: scale(1.05); }
+        .related-post-card-content { padding: calc(var(--spacing-unit) * 1.2); flex-grow: 1; display: flex; flex-direction: column; }
+        .related-post-card h3 { font-size: 1.1rem; margin-bottom: calc(var(--spacing-unit) / 1.5); line-height: 1.4; flex-grow: 1; }
+        .related-post-card h3 a { color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
+        .related-post-card h3 a:hover { color: var(--color-primary); text-decoration: none; }
+        .related-post-card .post-meta { font-size: 0.8rem; margin-top: var(--spacing-unit); margin-bottom: 0; gap: calc(var(--spacing-unit) / 1.5); color: var(--color-secondary); }
+
+        .comments-section { margin-top: calc(var(--spacing-unit) * 4); padding-top: calc(var(--spacing-unit) * 2.5); border-top: 1px solid var(--color-border); transition: border-color var(--transition-speed) ease; }
+        .comments-section h2 { margin-bottom: calc(var(--spacing-unit) * 1.8); font-size: 1.8rem; font-weight: 600; color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .gh-comments-info { background-color: var(--color-illustration-bg); border: 1px dashed var(--color-secondary); padding: calc(var(--spacing-unit) * 1.5); margin: calc(var(--spacing-unit)*2) 0; border-radius: var(--border-radius); font-size: 0.95rem; line-height: 1.6; color: var(--color-secondary); }
+        .gh-comments-info p { margin-bottom: 1em; }
+        .gh-comments-info strong { color: var(--color-text); }
+        .gh-comments-info code { font-size: 0.85em; padding: 2px 5px; background-color: rgba(0,0,0,0.05); border-radius: 3px; }
+        body.dark-mode .gh-comments-info code { background-color: rgba(255,255,255,0.1); }
+        #comment-thread-container { margin-top: calc(var(--spacing-unit) * 2); }
+
+        /* 5. --- Footer --- */
+        .site-footer { background-color: var(--color-code-bg); color: var(--color-secondary); padding: calc(var(--spacing-unit) * 2.5) 0; margin-top: calc(var(--spacing-unit) * 4); font-size: 0.9rem; text-align: center; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; border-top: 1px solid var(--color-border); }
+        .site-footer .container { max-width: var(--main-wrapper-width); } 
+        .site-footer a { color: var(--color-secondary); transition: color var(--transition-speed-fast) ease; }
+        .site-footer a:hover { color: var(--color-primary); }
+        .footer-links { margin-top: calc(var(--spacing-unit) / 1.5); }
+        .footer-links a { margin: 0 10px; }
+
+        /* 6. --- Utility & Interaction Styles --- */
+        #back-to-top { position: fixed; bottom: 25px; right: 25px; background-color: var(--color-primary); color: #fff; border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.8rem; line-height: 50px; text-align: center; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform 0.2s ease; z-index: 90; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        #back-to-top.visible { opacity: 0.8; visibility: visible; transform: scale(1); }
+        #back-to-top:hover { opacity: 1; background-color: var(--color-accent); transform: scale(1.1); }
+        #back-to-top:active { transform: scale(1); }
+
+
+        /* 7. --- Table of Contents Styling --- */
+        #toc-container {
+            padding: calc(var(--spacing-unit) * 1);
+            border-left: 1px solid var(--color-border);
+            transition: border-color var(--transition-speed) ease;
+        }
+        #toc-container h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-unit);
+            padding-bottom: calc(var(--spacing-unit) * 0.5);
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text);
+        }
+        #toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        #toc-list li {
+            margin-bottom: calc(var(--spacing-unit) * 0.5);
+        }
+        #toc-list ul { /* For nested lists (H3s under H2s) */
+            list-style: none;
+            padding-left: var(--spacing-unit);
+            margin-top: calc(var(--spacing-unit) * 0.25);
+        }
+        #toc-list a {
+            display: block;
+            color: var(--color-secondary);
+            padding: 4px 0;
+            transition: color var(--transition-speed-fast), border-left-color var(--transition-speed-fast), transform var(--transition-speed-fast);
+            border-left: 3px solid transparent; 
+            padding-left: calc(var(--spacing-unit) * 0.75);
+            text-decoration: none;
+        }
+        #toc-list ul a { /* Style for H3 links */
+            padding-left: calc(var(--spacing-unit) * 1.25); /* More indent for H3 */
+            font-size: 0.85rem;
+        }
+        #toc-list a:hover {
+            color: var(--color-primary);
+            transform: translateX(3px);
+            text-decoration: none;
+        }
+        #toc-list a.active {
+            color: var(--color-primary);
+            font-weight: 600;
+            border-left-color: var(--color-primary);
+        }
+
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 1024px) { 
+            .content-wrapper {
+                grid-template-columns: 1fr; 
+                max-width: var(--container-width); 
+                 width: 90%; 
+            }
+            .toc-column {
+                display: none; 
+            }
+            .site-header .container,
+            .site-footer .container {
+                 max-width: var(--container-width); 
+            }
+            .post-featured-image img {
+                max-width: 800px; 
+            }
+        }
+        @media (max-width: 768px) {
+            .post-title { font-size: 2.2rem; }
+            .content-body { font-size: 1.1rem; }
+            .content-body h2 { font-size: 1.8rem; }
+            .content-body h3 { font-size: 1.5rem; }
+            .author-bio { flex-direction: column; align-items: center; text-align: center; }
+            .author-bio .avatar { margin-bottom: var(--spacing-unit); }
+        }
+         @media (max-width: 600px) {
+              .related-posts-grid { grid-template-columns: 1fr; }
+         }
+    </style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+
+    <header class="site-header">
+        <div class="container">
+             <a href="bloghome.html" class="logo">Ranjith's Blog</a>
+             <div class="header-actions">
+                 <input type="search" id="search-input" placeholder="Search posts..." aria-label="Search Input">
+                 <button id="search-toggle" aria-label="Toggle Search" title="Search">🔍</button>
+                 <button id="theme-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌓</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="content-wrapper">
+            <a href="bloghome.html" class="back-to-blog">← Back to Home</a>
+            <div class="article-column">
+                <article class="blog-post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                    <figure class="post-featured-image">
+                        <img src="assets/blog_cover_image/newportfolio.png"
+                             alt="Conceptual image representing the Synaptic Flow portfolio design"
+                             itemprop="image"
+                             loading="eager">
+                    </figure>
+
+                    <div class="post-meta">
+                        <span class="category"><a href="#category-webdev" itemprop="articleSection">Web Dev</a></span>
+                        <span class="category"><a href="#category-portfolio" itemprop="articleSection">Portfolio</a></span>
+                        <span class="category"><a href="#category-design" itemprop="articleSection">Design</a></span>
+                        <span class="reading-time" title="Estimated reading time">⏱️ Calculating...</span>
+                        <time class="publication-date" datetime="2025-03-08" itemprop="datePublished">March 8, 2025</time>
+                    </div>
+
+                    <h1 class="post-title" itemprop="headline">Crafting Synaptic Flow: A Deep Dive into My Portfolio's Design & Code</h1>
+
+                    <div class="author-info" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                         <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                        <span class="author-name" itemprop="name">Ranjith Kumar</span>
+                    </div>
+
+                    <div class="content-body" itemprop="articleBody">
+                        <p>I'm thrilled to finally share a behind-the-scenes look at my new personal portfolio page! This project was a labor of love, aimed at not just showcasing my skills and projects, but also creating an immersive and engaging experience for visitors. I've themed it "Synaptic Flow," representing the interconnectedness of ideas, skills, and the continuous flow of learning and creation in the tech world. In this post, I'll walk you through the design philosophy, highlight key features, discuss the technology stack, and touch upon some of the interesting coding aspects.</p>
+
+                        <h2 id="intro">Introduction: The Vision Behind "Synaptic Flow"</h2>
+                        <p>The primary goal for my new portfolio was to create a digital space that felt alive, modern, and reflective of my passion for software development and AI. The name "Synaptic Flow" itself evokes imagery of neural networks, data streams, and the fluid exchange of information. I wanted the design to embody this – a dynamic, interconnected experience that guides visitors through my journey and work seamlessly.</p>
+                        <p>This post will cover:</p>
+                        <ul>
+                            <li>The core design philosophy and visual goals.</li>
+                            <li>A breakdown of key features and how they contribute to the theme.</li>
+                            <li>The technology stack that powers the site.</li>
+                            <li>Some interesting code snippets and challenges faced.</li>
+                        </ul>
+
+                        <h2 id="design-philosophy">Design Philosophy: Weaving the "Synaptic Flow"</h2>
+                        <p>The design journey started with a few core principles:</p>
+                        <ul>
+                            <li><strong>Modern & Tech-Forward:</strong> A look that feels current and hints at the future of technology.</li>
+                            <li><strong>Dark Theme Dominance:</strong> A sleek, dark interface as the default, which is often preferred in developer tools and creative software, complemented by a clean, accessible light theme.</li>
+                            <li><strong>Vibrant Accents:</strong> Strategic use of accent colors (a vivid cyan, a striking magenta, and a warm yellow) to create focal points, highlight important information, and add energy.</li>
+                            <li><strong>Glassmorphism:</strong> Employing frosted glass effects (<code>backdrop-filter: blur()</code>) on elements like the navigation bar and some surfaces to create a sense of depth and modern elegance.</li>
+                            <li><strong>Subtle Dynamism:</strong> Incorporating animations and micro-interactions that enhance user experience without being overwhelming. Think smooth transitions, hover effects, and reveal-on-scroll animations.</li>
+                            <li><strong>Clarity & Intuition:</strong> Ensuring that despite the dynamic elements, the information architecture is clear, and navigation is intuitive.</li>
+                        </ul>
+                        <p>The overall aim was to make the portfolio not just a static resume but an interactive experience that tells a story.</p>
+
+                        <h2 id="key-features">Key Features & Section Breakdown</h2>
+                        <p>Let's dive into some of the specific features and how they were designed and implemented to align with the "Synaptic Flow" theme.</p>
+
+                        <h3 id="feature-particles">The Living Background: Particles in Motion</h3>
+                        <p>One of the most prominent features is the global particle animation. This is the visual backbone of the "Synaptic Flow" concept, representing data points, neural connections, or abstract energy flowing through the digital space.</p>
+                        <ul>
+                            <li><strong>Implementation:</strong> Built using the HTML5 Canvas API and JavaScript. Each particle is an object with properties like position (x, y, z for a 3D perspective), size, color, and velocity.</li>
+                            <li><strong>Interactivity:</strong>
+                                <ul>
+                                    <li><strong>3D Scroll Zoom:</strong> As the user scrolls, particles in the "foreground" move faster and appear larger, while those in the "background" move slower, creating a parallax-like 3D effect. This is achieved by adjusting their 'z' coordinate based on scroll delta and applying a perspective projection.</li>
+                                    <li><strong>Mouse Interaction:</strong> Particles subtly react to mouse movements, either repelling or moving towards the cursor, adding a layer of direct interaction.</li>
+                                    <li><strong>Theme Adaptability:</strong> Particle colors and link colors are defined using CSS custom properties, so they automatically update when the theme is switched between light and dark modes.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>A simplified version of the particle update logic might look like this in JavaScript:</p>
+                        <pre><code class="language-javascript">// Simplified Particle update logic
+class Particle {
+    // ... constructor ...
+    update(scrollDelta) {
+        this.z -= scrollDelta * Z_SCROLL_FACTOR; // Adjust depth based on scroll
+
+        // Perspective projection
+        const perspectiveScale = FOCAL_LENGTH / (FOCAL_LENGTH + this.z);
+        let screenX = (this.x * perspectiveScale) + canvas.width / 2;
+        let screenY = (this.y * perspectiveScale) + canvas.height / 2;
+        let screenSize = this.baseSize * perspectiveScale;
+
+        // Mouse interaction logic (simplified)
+        // ...
+
+        // Boundary checks and reset if particle goes out of view
+        if (this.z <= Z_NEAR_CLIP || this.z >= Z_FAR_CLIP || perspectiveScale <= 0) {
+            this.reset();
+        }
+        this.draw(screenX, screenY, screenSize);
+    }
+    // ... draw method ...
+}</code><button class="copy-code-button">Copy</button></pre>
+                        <p>The key was to balance the number of particles and the complexity of calculations to ensure smooth performance across devices.</p>
+
+                        <h3 id="feature-navigation">Navigating the Flow: Header & Theme Toggle</h3>
+                        <p>The main navigation is designed to be always accessible yet unobtrusive. It uses a glassmorphism effect to sit atop the content and features:</p>
+                        <ul>
+                            <li><strong>Fixed Position & Glassmorphism:</strong> <code>position: fixed</code> and <code>backdrop-filter: blur(10px)</code> give it a modern, floating appearance.</li>
+                            <li><strong>Active Link Highlighting:</strong> JavaScript monitors the scroll position and updates the <code>.active</code> class on navigation links to indicate the current section. The active link has a distinct style with an underline accent.</li>
+                            <li><strong>Smooth Scroll:</strong> Clicking a nav link smoothly scrolls the page to the corresponding section, taking the navigation bar's height into account for precise positioning.</li>
+                            <li><strong>Theme Toggle:</strong> A dedicated button allows users to switch between light and dark themes. This updates a class on the <code>&lt;html&gt;</code> element, and CSS custom properties handle the rest. The SVG icon within the button also changes to reflect the current mode. The particle system is re-initialized on theme change to pick up new colors.</li>
+                        </ul>
+
+                        <h3 id="feature-hero">Making an Entrance: The Hero Section</h3>
+                        <p>The hero section is designed to make a strong first impression.</p>
+                        <ul>
+                            <li><strong>Animated Name:</strong> My name, "Ranjith Kumar," animates in character by character with a slight playful rotation and upward motion, drawing attention immediately. This is achieved by splitting the name into individual <code>&lt;span&gt;</code> elements and applying a CSS animation with staggered delays.</li>
+                            <li><strong>Clear Tagline & CTA:</strong> A concise tagline introduces my focus, and a prominent Call to Action (CTA) button encourages visitors to explore further or get in touch. The CTA uses a gradient background and a subtle shadow that intensifies on hover.</li>
+                        </ul>
+
+                        <h3 id="feature-about">Crafting the Narrative: About Me</h3>
+                        <p>The About section provides a personal narrative, and importantly, showcases my core technical skills.</p>
+                        <ul>
+                            <li><strong>Storytelling:</strong> The text focuses on my journey, passion, and aspirations.</li>
+                            <li><strong>Tech Stack Showcase:</strong> Instead of a plain list, skills are presented in a visually appealing grid with icons. Each skill item has a subtle hover effect. This section also uses a glassmorphism background for a modern touch.</li>
+                        </ul>
+
+                        <h3 id="feature-experience">Tracing the Journey: Experience Timeline</h3>
+                        <p>The Experience section uses a vertical timeline to present my roles and milestones. This visual metaphor for progression is central to the "Synaptic Flow" theme.</p>
+                        <ul>
+                            <li><strong>Visual Structure:</strong> A central line connects timeline items, which alternate on either side (on wider screens). Each item has a distinct circular marker on the timeline.</li>
+                            <li><strong>Glassmorphic Content Blocks:</strong> The content for each timeline entry is housed in a card with a <code>backdrop-filter</code>, maintaining consistency with the navigation and tech stack showcase.</li>
+                            <li><strong>Reveal-on-Scroll:</strong> Timeline items animate into view as the user scrolls, using the Intersection Observer API. This adds a dynamic feel and guides the user's attention.</li>
+                        </ul>
+
+                        <h3 id="feature-projects">Showcasing Creations: Projects</h3>
+                        <p>The Projects section is designed for quick scanning with an option to dive deeper.</p>
+                        <ul>
+                            <li><strong>List-Based Layout:</strong> Projects are listed with their titles prominently displayed.</li>
+                            <li><strong>Hover-to-Reveal Details:</strong> Hovering over a project title smoothly expands a details section below it, revealing a description, tags, and links. This uses CSS transitions on <code>max-height</code> and <code>opacity</code> for the effect. This approach keeps the initial view clean and uncluttered.</li>
+                            <li><strong>CTA for All Projects:</strong> A button links to a (future) dedicated page for a more comprehensive list of projects.</li>
+                        </ul>
+
+                        <h3 id="feature-blog">Sharing Insights: Blog Preview</h3>
+                        <p>The Blog section previews a few recent posts using a card-based layout, consistent with modern blog designs.</p>
+                        <ul>
+                            <li><strong>Blog Cards:</strong> Each card includes a placeholder for an image, title, metadata, and an excerpt. Hovering over a card provides a subtle lift and shadow effect, and can also apply effects to the image like a slight zoom.</li>
+                            <li><strong>View All CTA:</strong> A clear CTA directs users to the main blog page.</li>
+                        </ul>
+                        
+                        <h3 id="feature-contact">Connecting: The Contact Section</h3>
+                        <p>The Contact section aims to be direct and inviting.</p>
+                        <ul>
+                            <li><strong>Engaging Pitch:</strong> A friendly and inspiring message encourages users to reach out.</li>
+                            <li><strong>Prominent Email CTA:</strong> A large, gradient button makes it easy to send an email.</li>
+                            <li><strong>Social Links:</strong> Social media icons are provided, which change to their respective brand colors on hover, adding a touch of personality.</li>
+                        </ul>
+
+                        <h3 id="feature-responsive">Adapting to All Screens: Responsiveness</h3>
+                        <p>A crucial aspect was ensuring the portfolio looks and works great on all devices. This involved:</p>
+                        <ul>
+                            <li><strong>Fluid Layouts:</strong> Using CSS Flexbox and Grid extensively for page structure and component layout.</li>
+                            <li><strong>Media Queries:</strong> Adjusting typography, spacing, and layout at different breakpoints. For instance, the experience timeline collapses into a single column on smaller screens.</li>
+                            <li><strong>Optimized Interactions:</strong> Ensuring hover effects gracefully degrade or are adapted for touch devices.</li>
+                        </ul>
+
+                        <div class="section-divider"></div>
+
+                        <h2 id="tech-stack">The Building Blocks: Tech Stack & Tools</h2>
+                        <p>This portfolio was built from the ground up using fundamental web technologies:</p>
+                        <ul>
+                            <li><strong>HTML5:</strong> For a semantic and well-structured foundation.</li>
+                            <li><strong>CSS3:</strong> The powerhouse for styling and layout. Key features used:
+                                <ul>
+                                    <li><strong>CSS Custom Properties (Variables):</strong> Heavily used for theming (colors, fonts, spacing). This made implementing the light/dark theme toggle much more manageable. Example:
+                                        <pre><code class="language-css">:root {
+    --color-background-deep: #0d0c10;
+    --color-text-primary: #e8e6f0;
+    /* ... other dark theme vars ... */
+}
+
+html.light-theme {
+    --color-background-deep: #f4f7f9;
+    --color-text-primary: #1a1c20;
+    /* ... other light theme vars ... */
+}
+
+body {
+    background-color: var(--color-background-deep);
+    color: var(--color-text-primary);
+}</code><button class="copy-code-button">Copy</button></pre>
+                                    </li>
+                                    <li><strong>Flexbox & Grid:</strong> For all major layout needs.</li>
+                                    <li><strong>Animations & Transitions:</strong> For hover effects, reveals, and the hero name animation.</li>
+                                    <li><code>backdrop-filter</code>: For the glassmorphism effect.</li>
+                                </ul>
+                            </li>
+                            <li><strong>JavaScript (Vanilla):</strong> No frameworks, just pure JS for:
+                                <ul>
+                                    <li>DOM manipulation and event handling.</li>
+                                    <li>Intersection Observer API for reveal-on-scroll effects.</li>
+                                    <li>Canvas API for the particle animation.</li>
+                                    <li>Theme switching logic.</li>
+                                    <li>Navigation active state and smooth scrolling.</li>
+                                    <li>Hero name character animation setup.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Fonts:</strong>
+                                <ul>
+                                    <li><strong>Satoshi:</strong> For primary text, offering a clean and modern feel.</li>
+                                    <li><strong>JetBrains Mono:</strong> For monospace text (like code snippets if I had any directly in the portfolio).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Icons:</strong>
+                                <ul>
+                                    <li>Inline SVGs for theme toggle icons (sun/moon).</li>
+                                    <li>SVG icons from SimpleIcons (via CDN) for the tech stack showcase.</li>
+                                    <li>SVG icons for social media links.</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h2 id="challenges">Challenges & Triumphs</h2>
+                        <p>Every project comes with its hurdles, and this was no exception:</p>
+                        <ul>
+                            <li><strong>Particle Animation Performance:</strong> Balancing the visual appeal of many particles with smooth performance, especially on less powerful devices, required careful optimization. This involved limiting the number of particles, simplifying calculations, and ensuring efficient rendering on the canvas. The 3D perspective scroll also added complexity.</li>
+                            <li><strong>Theme Transition Consistency:</strong> Ensuring all elements transitioned smoothly and correctly between light and dark themes. CSS custom properties were a huge help here, but it still required meticulous checking of every component.</li>
+                            <li><strong>Responsive Timeline:</strong> Making the alternating timeline design collapse gracefully into a single column on mobile, while maintaining readability and visual appeal.</li>
+                            <li><strong>Animation Subtlety:</strong> Fine-tuning animations to be engaging but not distracting. It's a delicate balance – too much can be overwhelming, too little can feel static.</li>
+                        </ul>
+                        <p>Overcoming these challenges was incredibly rewarding, especially seeing the "Synaptic Flow" concept come to life through the interactive elements and cohesive design.</p>
+
+                        <h2 id="conclusion">Final Thoughts</h2>
+                        <p>Developing this portfolio has been a fantastic learning experience, allowing me to blend design creativity with technical implementation. I'm really pleased with how "Synaptic Flow" turned out – a dynamic, interactive space that I hope effectively communicates my skills, projects, and personality.</p>
+                        <p>I invite you to <a href="index.html" target="_blank" rel="noopener">explore the portfolio</a> and experience it firsthand! Your feedback is always welcome, so feel free to reach out or drop a comment below. What are your favorite features? Is there anything you'd like to see improved?</p>
+                        <p>Thanks for reading, and I hope this peek behind the curtain was insightful!</p>
+                    </div>
+
+                     <div class="post-tags" itemprop="keywords">
+                         <span>Tags:</span>
+                         <a href="#tag-portfolio-design">Portfolio Design</a>
+                         <a href="#tag-web-development">Web Development</a>
+                         <a href="#tag-css">CSS</a>
+                         <a href="#tag-javascript">JavaScript</a>
+                         <a href="#tag-ui-ux">UI/UX</a>
+                         <a href="#tag-interactive-design">Interactive Design</a>
+                     </div>
+
+                     <div class="social-share">
+                         <h3>Share This Post</h3>
+                         <div class="share-buttons">
+                             <a href="https://www.facebook.com/sharer/sharer.php?u=https://p-ranjithkumar.github.io/blog_portfolio_design.html" class="share-facebook" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">Facebook</a>
+                             <a href="https://twitter.com/intent/tweet?url=https://p-ranjithkumar.github.io/blog_portfolio_design.html&text=Crafting%20Synaptic%20Flow%3A%20A%20Deep%20Dive%20into%20My%20Portfolio%27s%20Design%20%26%20Code" class="share-twitter" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter">Twitter</a>
+                             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://p-ranjithkumar.github.io/blog_portfolio_design.html&title=Crafting%20Synaptic%20Flow%3A%20A%20Deep%20Dive%20into%20My%20Portfolio%27s%20Design%20%26%20Code" class="share-linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a>
+                             <a href="https://www.reddit.com/submit?url=https://p-ranjithkumar.github.io/blog_portfolio_design.html&title=Crafting%20Synaptic%20Flow%3A%20A%20Deep%20Dive%20into%20My%20Portfolio%27s%20Design%20%26%20Code" class="share-reddit" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">Reddit</a>
+                             <a href="mailto:?subject=Check%20out%20this%20post%3A%20Crafting%20Synaptic%20Flow&body=Thought%20you%20might%20find%20this%20interesting%3A%0A%0Ahttps%3A//p-ranjithkumar.github.io/blog_portfolio_design.html" class="share-email" aria-label="Share via Email">Email</a>
+                             <button id="copy-link-button" class="share-copy" aria-label="Copy post link">Copy Link</button>
+                             <button id="native-share-button" aria-label="Share natively" style="display: none;">Share...</button>
+                        </div>
+                     </div>
+
+                     <section class="author-bio" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                         <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                         <div class="author-bio-content">
+                            <h4 itemprop="name">Ranjith Kumar</h4>
+                            <p itemprop="description">Software Developer & AI Enthusiast. Passionate about building innovative solutions and sharing insights on web development, AI, and UI/UX design.</p>
+                            <div class="author-social-links">
+                                 <a href="https://www.linkedin.com/in/ranjith-kumar-b66180250" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on LinkedIn" title="LinkedIn">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                 </a>
+                                 <a href="https://github.com/P-RanjithKumar" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on GitHub" title="GitHub">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                 </a>
+                                 <a href="https://instagram.com/ranjithh_56" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on Instagram" title="Instagram">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                 </a>
+                            </div>
+                         </div>
+                    </section>
+
+                    <section class="related-posts">
+                        <h2>Previous & Next Posts</h2>
+                        <div class="related-posts-grid">
+                            <div class="related-post-card">
+                                 <a href="blog5.html" aria-label="Read previous post: Diving into RL and Attention Mechanisms">
+                                    <img src="assets/blogpost thumbnails/blog5.png" alt="Diving into RL and Attention Mechanisms" loading="lazy">
+                                </a>
+                                 <div class="related-post-card-content">
+                                    <h3><a href="blog5.html">← Previous: Diving into RL and Attention</a></h3>
+                                 </div>
+                            </div>
+                             <div class="related-post-card">
+                                 <a href="blog_all_caught_up.html" aria-label="Read next post: All Caught Up!">
+                                    <img src="assets/blogpost thumbnails/allcaughtup.png" alt="All Caught Up! - Placeholder" loading="lazy">
+                                </a>
+                                 <div class="related-post-card-content">
+                                    <h3><a href="blog_all_caught_up.html">Next Post: All Caught Up! →</a></h3>
+                                 </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="comments" class="comments-section">
+                        <h2>Join the Discussion (<span id="comment-count">0</span>)</h2>
+                        <div class="gh-comments-info">
+                            <p><strong>Comments via GitHub Discussions:</strong> This blog uses <a href="https://giscus.app/" target="_blank" rel="noopener">Giscus</a>, which leverages GitHub Discussions for comments.</p>
+                            <p>You'll need a GitHub account to comment. Comments will appear in a dedicated Discussion category within the blog's repository.</p>
+                        </div>
+                        <div id="comment-thread-container">
+                            <script src="https://giscus.app/client.js"
+                                    data-repo="P-RanjithKumar/p-ranjithkumar.github.io"
+                                    data-repo-id="R_kgDONYyxxg"
+                                    data-category="Blog Comments"
+                                    data-category-id="DIC_kwDONYyxxs4CpBgf"
+                                    data-mapping="pathname"
+                                    data-strict="0"
+                                    data-reactions-enabled="1"
+                                    data-emit-metadata="1"
+                                    data-input-position="bottom"
+                                    data-theme="preferred_color_scheme"
+                                    data-lang="en"
+                                    crossorigin="anonymous"
+                                    async>
+                            </script>
+                            <noscript>Please enable JavaScript to view the comments powered by Giscus.</noscript>
+                         </div>
+                    </section>
+
+                </article>
+            </div> 
+
+            <aside class="toc-column">
+                 <nav id="toc-container" aria-label="Table of Contents">
+                    <h3>Table of Contents</h3>
+                    <ol id="toc-list">
+                        <li><a href="#intro">Introduction</a></li>
+                        <li><a href="#design-philosophy">Design Philosophy</a></li>
+                        <li><a href="#key-features">Key Features & Sections</a>
+                            <ul>
+                                <li><a href="#feature-particles">Particle Background</a></li>
+                                <li><a href="#feature-navigation">Navigation & Theme</a></li>
+                                <li><a href="#feature-hero">Hero Section</a></li>
+                                <li><a href="#feature-about">About Me</a></li>
+                                <li><a href="#feature-experience">Experience Timeline</a></li>
+                                <li><a href="#feature-projects">Projects</a></li>
+                                <li><a href="#feature-blog">Blog Preview</a></li>
+                                <li><a href="#feature-contact">Contact Section</a></li>
+                                <li><a href="#feature-responsive">Responsiveness</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#tech-stack">Tech Stack & Tools</a></li>
+                        <li><a href="#challenges">Challenges & Triumphs</a></li>
+                        <li><a href="#conclusion">Final Thoughts</a></li>
+                    </ol>
+                </nav>
+            </aside> 
+
+        </div> 
+    </main> 
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Ranjith Kumar. Building the future, one line of code at a time.</p>
+            <div class="footer-links">
+                 <a href="#privacy">Privacy Policy</a> |
+                 <a href="#terms">Terms of Use</a> |
+                 <a href="index.html#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Back to top" title="Back to top" style="transform: scale(0);">↑</button>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        const sunIcon = '☀️';
+        const moonIcon = '🌓';
+        let isDarkMode = false;
+
+        const setTheme = (theme) => {
+            isDarkMode = theme === 'dark';
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            themeToggleButton.textContent = isDarkMode ? sunIcon : moonIcon;
+            themeToggleButton.setAttribute('aria-label', `Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`);
+            localStorage.setItem('theme', theme);
+            document.body.style.setProperty('--color-bg-rgb', isDarkMode ? '18, 18, 18' : '255, 255, 255');
+            document.body.style.setProperty('--color-primary-rgb', isDarkMode ? '77, 171, 247' : '13, 110, 253');
+        };
+
+        const initialTheme = currentTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+        setTheme(initialTheme);
+
+        themeToggleButton.addEventListener('click', () => {
+            setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+        });
+        prefersDarkScheme.addEventListener('change', (e) => { if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light'); });
+
+         const searchToggleButton = document.getElementById('search-toggle');
+         const searchInput = document.getElementById('search-input');
+         searchToggleButton.addEventListener('click', () => { document.body.classList.toggle('search-active'); if(document.body.classList.contains('search-active')) searchInput.focus(); });
+
+        const backToTopButton = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+             const isVisible = window.scrollY > 400;
+             backToTopButton.classList.toggle('visible', isVisible);
+             backToTopButton.style.transform = isVisible ? 'scale(1)' : 'scale(0)';
+        }, { passive: true });
+        backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        const progressBar = document.getElementById('progress-bar');
+         const updateProgressBar = () => {
+              const contentBody = document.querySelector('.content-body');
+              if (!contentBody) return; 
+              const element = document.documentElement;
+              const body = document.body;
+              const scrollableHeight = Math.max( body.scrollHeight, body.offsetHeight,
+                                                element.clientHeight, element.scrollHeight, element.offsetHeight ) - window.innerHeight;
+              const scrolled = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
+              progressBar.style.width = `${Math.min(scrolled, 100)}%`;
+         };
+         window.addEventListener('scroll', updateProgressBar, { passive: true });
+         window.addEventListener('resize', updateProgressBar);
+         updateProgressBar(); 
+
+         document.querySelectorAll('.copy-code-button').forEach(button => {
+             const pre = button.closest('pre');
+             const code = pre?.querySelector('code');
+             if (!code || !navigator.clipboard) { button.style.display = 'none'; return; }
+             button.addEventListener('click', async () => {
+                 try {
+                     await navigator.clipboard.writeText(code.innerText);
+                     button.textContent = 'Copied!'; button.classList.add('copied');
+                     setTimeout(() => { button.textContent = 'Copy'; button.classList.remove('copied'); }, 2000);
+                 } catch (err) { console.error('Copy failed:', err); button.textContent = 'Error'; }
+             });
+         });
+
+        const copyLinkButton = document.getElementById('copy-link-button');
+        const postUrl = 'https://p-ranjithkumar.github.io/blog_portfolio_design.html'; // Hardcode or make dynamic
+        if (copyLinkButton && navigator.clipboard) {
+            copyLinkButton.addEventListener('click', async () => {
+                 try {
+                     await navigator.clipboard.writeText(postUrl);
+                     copyLinkButton.textContent = 'Link Copied!'; copyLinkButton.classList.add('copied');
+                     setTimeout(() => { copyLinkButton.textContent = 'Copy Link'; copyLinkButton.classList.remove('copied'); }, 2000);
+                 } catch (err) { console.error('Copy link failed:', err); copyLinkButton.textContent = 'Error'; }
+            });
+        } else if (copyLinkButton) { copyLinkButton.style.display = 'none'; }
+
+        const nativeShareButton = document.getElementById('native-share-button');
+        const postTitle = document.querySelector('.post-title')?.innerText || document.title;
+        if (nativeShareButton && navigator.share) {
+             nativeShareButton.style.display = 'inline-flex';
+             nativeShareButton.addEventListener('click', async () => {
+                 try {
+                    await navigator.share({
+                        title: postTitle,
+                        text: `Check out this post: ${postTitle}`,
+                        url: postUrl
+                    });
+                 } catch (err) {
+                    if (err.name !== 'AbortError') { console.error('Share failed:', err); }
+                 }
+             });
+        } else if(nativeShareButton) { nativeShareButton.style.display = 'none'; }
+
+        const tocLinks = document.querySelectorAll('#toc-list a');
+        const sections = Array.from(tocLinks).map(link => {
+            const sectionId = link.getAttribute('href').substring(1);
+            return document.getElementById(sectionId);
+        }).filter(section => section !== null);
+
+        if (tocLinks.length > 0 && sections.length > 0) {
+             const observerOptions = {
+                 root: null, 
+                 rootMargin: `-${getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim()} 0px -60% 0px`, 
+                 threshold: 0 
+             };
+
+             const activateTocLink = (id) => {
+                 tocLinks.forEach(link => {
+                     link.classList.remove('active');
+                     if (link.getAttribute('href') === `#${id}`) {
+                         link.classList.add('active');
+                         const tocContainer = document.getElementById('toc-container');
+                         if (tocContainer.scrollHeight > tocContainer.clientHeight) { // Check if TOC is scrollable
+                            // link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }); // Removed to avoid jumpiness
+                         }
+                     }
+                 });
+             };
+             
+             let lastActiveLink = null;
+
+             const observerCallback = (entries) => {
+                 let topVisibleSectionId = null;
+                 let minTop = Infinity;
+
+                 entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const rect = entry.target.getBoundingClientRect();
+                        if (rect.top < minTop) {
+                            minTop = rect.top;
+                            topVisibleSectionId = entry.target.id;
+                        }
+                     }
+                 });
+
+                 if (topVisibleSectionId) {
+                     activateTocLink(topVisibleSectionId);
+                     lastActiveLink = topVisibleSectionId;
+                 } else {
+                    // If nothing is intersecting, check scroll position relative to sections
+                    const scrollY = window.pageYOffset;
+                    const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim(), 10);
+                    
+                    let currentSection = null;
+                    for (let i = sections.length - 1; i >= 0; i--) {
+                        if (sections[i].offsetTop - headerHeight <= scrollY) {
+                            currentSection = sections[i].id;
+                            break;
+                        }
+                    }
+                    if (currentSection) {
+                        activateTocLink(currentSection);
+                        lastActiveLink = currentSection;
+                    } else if (scrollY === 0 && sections.length > 0) { // At the very top
+                        activateTocLink(sections[0].id);
+                        lastActiveLink = sections[0].id;
+                    } else if (lastActiveLink){ // Keep last active if scrolled past all
+                        activateTocLink(lastActiveLink);
+                    }
+                 }
+             };
+
+             const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+             sections.forEach(section => scrollObserver.observe(section));
+             // Initial check
+             if (sections.length > 0) activateTocLink(sections[0].id);
+
+
+        } else {
+            console.log("TOC or Sections not found for active state highlighting.");
+        }
+
+        try {
+            const contentBody = document.querySelector('.content-body');
+            const readingTimeSpan = document.querySelector('.reading-time');
+            if (contentBody && readingTimeSpan) {
+                 const text = contentBody.innerText || contentBody.textContent;
+                 const wordCount = text.split(/\s+/).filter(Boolean).length;
+                 const wordsPerMinute = 200; 
+                 const minutes = Math.ceil(wordCount / wordsPerMinute);
+                 readingTimeSpan.innerHTML = `⏱️ ~${minutes} min read`; 
+                 readingTimeSpan.title = `Estimated reading time: ${minutes} minutes`;
+            }
+        } catch (e) {
+            console.error("Could not calculate reading time:", e);
+            const readingTimeSpan = document.querySelector('.reading-time');
+            if(readingTimeSpan) readingTimeSpan.innerHTML = `⏱️ Reading time N/A`;
+        }
+    }); 
+    </script>
+</body>
+</html>
