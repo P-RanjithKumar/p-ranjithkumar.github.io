@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog | Ranjith Kumar</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>
+   Blog | Ranjith Kumar
+  </title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
+   :root {
       /* Light Theme (Default) */
       --primary-color: #1a1a1a;
       --secondary-color: #f8f9fa; /* Off-white background */
@@ -520,157 +522,321 @@
         }
      }
   </style>
-</head>
-<body>
+ </head>
+ <body>
   <header class="blog-header">
-    <div class="header-controls">
-        <a href="index.html" class="home-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-            </svg>
-            Back to Portfolio
-        </a>
-        <button id="themeToggle" aria-label="Toggle theme">🌙</button>
-    </div>
-    <h1>RANJITH KUMAR</h1>
-    <h2>My Thoughts &amp; Experiments</h2>
-    <p>Weekly insights on Progress, Development, and Learning</p>
+   <div class="header-controls">
+    <a class="home-button" href="index.html">
+     <svg fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" fill-rule="evenodd">
+      </path>
+     </svg>
+     Back to Portfolio
+    </a>
+    <button aria-label="Toggle theme" id="themeToggle">
+     🌙
+    </button>
+   </div>
+   <h1>
+    RANJITH KUMAR
+   </h1>
+   <h2>
+    My Thoughts & Experiments
+   </h2>
+   <p>
+    Weekly insights on Progress, Development, and Learning
+   </p>
   </header>
-
   <div class="main-content">
-    <!-- Search Section -->
-    <section class="search-section">
-      <input type="text" id="searchInput" placeholder="Search title, tags, description, date...">
-    </section>
-
-    <!-- Filter Controls -->
-    <div class="filter-controls">
-      <div class="filter-tags">
-        <span class="tag active" data-filter="all">All</span>
-        <span class="tag" data-filter="ai discussion">AI discussion</span>
-        <span class="tag" data-filter="deep learning">Deep Learning</span>
-        <span class="tag" data-filter="my journey">My Journey</span>
-        <span class="tag" data-filter="self development">Self Development</span>
-        <span class="tag" data-filter="design">Design</span>
-        <span class="tag" data-filter="projects">Projects</span>
-        <span class="tag" data-filter="blogging">Blogging</span>
-        <span class="tag" data-filter="portfolio">Portfolio</span> <!-- Added missing portfolio filter tag -->
-      </div>
-      <div id="filterStatus"></div>
+   <!-- Search Section -->
+   <section class="search-section">
+    <input id="searchInput" placeholder="Search title, tags, description, date..." type="text">
+   </section>
+   <!-- Filter Controls -->
+   <div class="filter-controls">
+    <div class="filter-tags">
+     <span class="tag active" data-filter="all">
+      All
+     </span>
+     <span class="tag" data-filter="ai discussion">
+      AI discussion
+     </span>
+     <span class="tag" data-filter="deep learning">
+      Deep Learning
+     </span>
+     <span class="tag" data-filter="my journey">
+      My Journey
+     </span>
+     <span class="tag" data-filter="self development">
+      Self Development
+     </span>
+     <span class="tag" data-filter="design">
+      Design
+     </span>
+     <span class="tag" data-filter="projects">
+      Projects
+     </span>
+     <span class="tag" data-filter="blogging">
+      Blogging
+     </span>
+     <span class="tag" data-filter="portfolio">
+      Portfolio
+     </span>
+     <span class="tag" data-filter="WebDev">
+      WebDev
+     </span>
     </div>
+    <div id="filterStatus">
+    </div>
+   </div>
+   <main id="blogPosts">
 
-
-    <main id="blogPosts">
-
-      <!-- #################### Post 5 #################### -->
-      <article class="post-card" data-tags="Deep Learning, Blogging, AI discussion" data-date="Mar 7, 2025" id="post5">
-        <div class="post-meta">
-          <span>Mar 7, 2025</span>
-          <span>•</span>
-          <span>20 min read</span>
-        </div>
-        <h2><a href="blog5.html">Diving into Reinforcement Learning and Attention Mechanisms</a></h2>
-        <div class="post-tags">
-          <span class="tag" data-tag="ai discussion">AI discussion</span>
-          <span class="tag" data-tag="deep learning">Deep Learning</span>
-          <span class="tag" data-tag="blogging">Blogging</span>
-        </div>
-        <p class="post-excerpt">
-          Hi everyone! It’s been a couple of weeks since my last post—life got a bit busy, and I’ll admit I got distracted along the way. But I’m back now, and I’ve been diving deep into some exciting topics: Reinforcement Learning (RL), specifically off-policy algorithms like Q-learning, and the fascinating world of attention mechanisms in Large Language Models (LLMs). I’ve also been working on an RL-based Tic-Tac-Toe game, which is nearly complete except for some tricky training hurdles. Plus, I stumbled upon an amazing video that broke down different types of attention mechanisms—more on that later!
-        </p>
-        <a href="blog5.html" class="read-more">Continue Reading <span class="arrow">→</span></a>
-      </article>
-
-      <!-- #################### Post 4 #################### -->
-      <article class="post-card" data-tags="Blogging, Projects" data-date="Feb 24, 2025" id="post4"> <!-- Changed ID slightly -->
-        <div class="post-meta">
-          <span>Feb 24, 2025</span>
-          <span>•</span>
-          <span>15 min read</span>
-        </div>
-        <h2><a href="blog4.html">Empowering Patients with Technology: A Deep Dive into My Healthcare Project</a></h2>
-        <div class="post-tags">
-          <span class="tag" data-tag="projects">Projects</span>
-          <span class="tag" data-tag="blogging">Blogging</span>
-        </div>
-        <p class="post-excerpt">
-          In today’s fast-paced world, managing healthcare can feel overwhelming for patients. Between keeping track of prescriptions, understanding medical conditions, and remembering appointments, there’s a clear need for a smarter, more organized solution. That’s why I built an innovative interface—available as both an HTML webpage and an Android app—to empower patients by organizing their medical documents and providing intelligent, personalized assistance. This blog post takes you under the hood of my project, diving deep into its architecture, technology stack, workflow, challenges, and future potential. I’ll explain everything in detail, sometimes repeating key points to ensure you fully grasp the technical nuances.
-         </p>
-         <a href="blog4.html" class="read-more">Continue Reading <span class="arrow">→</span></a>
-      </article>
-
-
-      <!-- #################### Post 3 #################### -->
-      <article class="post-card" data-tags="Deep Learning, Blogging, AI discussion" data-date="Feb 23, 2025" id="post3"> <!-- Changed ID slightly -->
-        <div class="post-meta">
-          <span>Feb 23, 2025</span>
-          <span>•</span>
-          <span>15 min read</span>
-        </div>
-        <h2><a href="blog3.html">How I learnt Deep Learning and LLMs</a></h2>
-        <div class="post-tags">
-          <span class="tag" data-tag="ai discussion">AI discussion</span>
-          <span class="tag" data-tag="deep learning">Deep Learning</span>
-          <span class="tag" data-tag="blogging">Blogging</span>
-        </div>
-        <p class="post-excerpt">
-          Today I’m taking you on a journey—from my first steps in deep learning to wrestling with large language models (LLMs) and even dipping my toes into reinforcement learning (RL). It’s been a wild ride of late-night coding, GPU rentals, and a YouTube obsession that changed everything. If you’re curious about how LLMs work, what makes attention mechanisms tick, or why RL is suddenly my new jam, you’re in the right place. Let’s break it all down, step by step, with plenty of visuals and beginner-friendly explanations along the way.
-         </p>
-         <a href="blog3.html" class="read-more">Continue Reading <span class="arrow">→</span></a>
-      </article>
-
-      <!-- #################### Post 2 #################### -->
-      <article class="post-card" data-tags="design, Blogging, Portfolio" data-date="Feb 23, 2025" id="post2">
-        <div class="post-meta">
-          <span>Feb 23, 2025</span>
-          <span>•</span>
-          <span>5 min read</span>
-        </div>
-        <h2><a href="blog2.html">Building My First Portfolio</a></h2>
-        <div class="post-tags">
-          <span class="tag" data-tag="portfolio">Portfolio</span>
-          <span class="tag" data-tag="design">Design</span>
-          <span class="tag" data-tag="blogging">Blogging</span>
-        </div>
-        <p class="post-excerpt">
-          Creating a personal portfolio was both challenging and rewarding. Throughout this journey, I learned valuable lessons about user experience design, responsive layouts, and the importance of telling a compelling story. I'll share my design process, the technical challenges I faced, and how I overcame them to create a portfolio that effectively showcases my skills and personality. Lets get started!.
-        </p>
-        <a href="blog2.html" class="read-more">Continue Reading <span class="arrow">→</span></a>
-      </article>
-
-      <!-- #################### Post 1 ##################### -->
-      <article class="post-card" data-tags="Self development, Blogging, My Journey" data-date="Feb 22, 2025" id="post1">
-        <div class="post-meta">
-          <span>Feb 22, 2025</span>
-          <span>•</span>
-          <span>5-10 min read</span>
-        </div>
-        <h2><a href="blog1.html">Starting My Blogging Journey: From Curiosity to Code</a></h2>
-        <div class="post-tags">
-          <span class="tag" data-tag="self development">Self Development</span>
-          <span class="tag" data-tag="my journey">My Journey</span>
-          <span class="tag" data-tag="blogging">Blogging</span>
-        </div>
-        <p class="post-excerpt">
-          Hi, I’m Ranjith Kumar, a recent BE graduate in Computer Science and Engineering from Kumaraguru College of Technology. I’m passionate about AI, computers, and fitness, and I’m excited to kick off this blog to share my journey with you. Whether you’re here for tech talk, fitness inspiration, or just curious about my story, I hope you’ll stick around. Let’s get started!
-        </p>
-        <a href="blog1.html" class="read-more">Continue Reading <span class="arrow">→</span></a>
-      </article>
-
-
-    </main>
+    <!-- #################### Post 6 #################### -->
+    <article class="post-card" data-date="May 18, 2025" data-tags="WebDev, Portfolio, Design" id="post6">
+     <div class="post-meta">
+      <span>
+       May 18, 2025
+      </span>
+      <span>
+       &bull;
+      </span>
+      <span>
+       12 min read
+      </span>
+     </div>
+     <h2>
+      <a href="blog6.html">
+       Crafting Synaptic Flow: A Deep Dive into My Portfolio's Design & Code
+      </a>
+     </h2>
+     <div class="post-tags">
+      <span class="tag" data-tag="webdev">
+       WebDev
+      </span>
+      <span class="tag" data-tag="portfolio">
+       Portfolio
+      </span>
+      <span class="tag" data-tag="design">
+       Design
+      </span>
+     </div>
+     <p class="post-excerpt">
+      I'm thrilled to finally share a behind-the-scenes look at my new personal portfolio page! This project was a labor of love, aimed at not just showcasing my skills and projects, but also creating an immersive and engaging experience for visitors. I've themed it "Synaptic Flow," representing the interconnectedness of ideas, skills, and the continuous flow of learning and creation in the tech world. In this post, I'll walk you through the design philosophy, highlight key features, discuss the technology stack, and touch upon some of the interesting coding aspects.
+     </p>
+     <a class="read-more" href="blog6.html">
+      Continue Reading
+      <span class="arrow">
+       &rarr;
+      </span>
+     </a>
+    </article>
+    <!-- #################### Post 5 #################### -->
+    <article class="post-card" data-date="Mar 7, 2025" data-tags="Deep Learning, Blogging, AI discussion" id="post5">
+     <div class="post-meta">
+      <span>
+       Mar 7, 2025
+      </span>
+      <span>
+       &bull;
+      </span>
+      <span>
+       20 min read
+      </span>
+     </div>
+     <h2>
+      <a href="blog5.html">
+       Diving into Reinforcement Learning and Attention Mechanisms
+      </a>
+     </h2>
+     <div class="post-tags">
+      <span class="tag" data-tag="ai discussion">
+       AI discussion
+      </span>
+      <span class="tag" data-tag="deep learning">
+       Deep Learning
+      </span>
+      <span class="tag" data-tag="blogging">
+       Blogging
+      </span>
+     </div>
+     <p class="post-excerpt">
+      Hi everyone! It&rsquo;s been a couple of weeks since my last post&mdash;life got a bit busy, and I&rsquo;ll admit I got distracted along the way. But I&rsquo;m back now, and I&rsquo;ve been diving deep into some exciting topics: Reinforcement Learning (RL), specifically off-policy algorithms like Q-learning, and the fascinating world of attention mechanisms in Large Language Models (LLMs). I&rsquo;ve also been working on an RL-based Tic-Tac-Toe game, which is nearly complete except for some tricky training hurdles. Plus, I stumbled upon an amazing video that broke down different types of attention mechanisms&mdash;more on that later!
+     </p>
+     <a class="read-more" href="blog5.html">
+      Continue Reading
+      <span class="arrow">
+       &rarr;
+      </span>
+     </a>
+    </article>
+    <!-- #################### Post 4 #################### -->
+    <article class="post-card" data-date="Feb 24, 2025" data-tags="Blogging, Projects" id="post4">
+     <!-- Changed ID slightly -->
+     <div class="post-meta">
+      <span>
+       Feb 24, 2025
+      </span>
+      <span>
+       &bull;
+      </span>
+      <span>
+       15 min read
+      </span>
+     </div>
+     <h2>
+      <a href="blog4.html">
+       Empowering Patients with Technology: A Deep Dive into My Healthcare Project
+      </a>
+     </h2>
+     <div class="post-tags">
+      <span class="tag" data-tag="projects">
+       Projects
+      </span>
+      <span class="tag" data-tag="blogging">
+       Blogging
+      </span>
+     </div>
+     <p class="post-excerpt">
+      In today&rsquo;s fast-paced world, managing healthcare can feel overwhelming for patients. Between keeping track of prescriptions, understanding medical conditions, and remembering appointments, there&rsquo;s a clear need for a smarter, more organized solution. That&rsquo;s why I built an innovative interface&mdash;available as both an HTML webpage and an Android app&mdash;to empower patients by organizing their medical documents and providing intelligent, personalized assistance. This blog post takes you under the hood of my project, diving deep into its architecture, technology stack, workflow, challenges, and future potential. I&rsquo;ll explain everything in detail, sometimes repeating key points to ensure you fully grasp the technical nuances.
+     </p>
+     <a class="read-more" href="blog4.html">
+      Continue Reading
+      <span class="arrow">
+       &rarr;
+      </span>
+     </a>
+    </article>
+    <!-- #################### Post 3 #################### -->
+    <article class="post-card" data-date="Feb 23, 2025" data-tags="Deep Learning, Blogging, AI discussion" id="post3">
+     <!-- Changed ID slightly -->
+     <div class="post-meta">
+      <span>
+       Feb 23, 2025
+      </span>
+      <span>
+       &bull;
+      </span>
+      <span>
+       15 min read
+      </span>
+     </div>
+     <h2>
+      <a href="blog3.html">
+       How I learnt Deep Learning and LLMs
+      </a>
+     </h2>
+     <div class="post-tags">
+      <span class="tag" data-tag="ai discussion">
+       AI discussion
+      </span>
+      <span class="tag" data-tag="deep learning">
+       Deep Learning
+      </span>
+      <span class="tag" data-tag="blogging">
+       Blogging
+      </span>
+     </div>
+     <p class="post-excerpt">
+      Today I&rsquo;m taking you on a journey&mdash;from my first steps in deep learning to wrestling with large language models (LLMs) and even dipping my toes into reinforcement learning (RL). It&rsquo;s been a wild ride of late-night coding, GPU rentals, and a YouTube obsession that changed everything. If you&rsquo;re curious about how LLMs work, what makes attention mechanisms tick, or why RL is suddenly my new jam, you&rsquo;re in the right place. Let&rsquo;s break it all down, step by step, with plenty of visuals and beginner-friendly explanations along the way.
+     </p>
+     <a class="read-more" href="blog3.html">
+      Continue Reading
+      <span class="arrow">
+       &rarr;
+      </span>
+     </a>
+    </article>
+    <!-- #################### Post 2 #################### -->
+    <article class="post-card" data-date="Feb 23, 2025" data-tags="design, Blogging, Portfolio" id="post2">
+     <div class="post-meta">
+      <span>
+       Feb 23, 2025
+      </span>
+      <span>
+       &bull;
+      </span>
+      <span>
+       5 min read
+      </span>
+     </div>
+     <h2>
+      <a href="blog2.html">
+       Building My First Portfolio
+      </a>
+     </h2>
+     <div class="post-tags">
+      <span class="tag" data-tag="portfolio">
+       Portfolio
+      </span>
+      <span class="tag" data-tag="design">
+       Design
+      </span>
+      <span class="tag" data-tag="blogging">
+       Blogging
+      </span>
+     </div>
+     <p class="post-excerpt">
+      Creating a personal portfolio was both challenging and rewarding. Throughout this journey, I learned valuable lessons about user experience design, responsive layouts, and the importance of telling a compelling story. I'll share my design process, the technical challenges I faced, and how I overcame them to create a portfolio that effectively showcases my skills and personality. Lets get started!.
+     </p>
+     <a class="read-more" href="blog2.html">
+      Continue Reading
+      <span class="arrow">
+       &rarr;
+      </span>
+     </a>
+    </article>
+    <!-- #################### Post 1 ##################### -->
+    <article class="post-card" data-date="Feb 22, 2025" data-tags="Self development, Blogging, My Journey" id="post1">
+     <div class="post-meta">
+      <span>
+       Feb 22, 2025
+      </span>
+      <span>
+       &bull;
+      </span>
+      <span>
+       5-10 min read
+      </span>
+     </div>
+     <h2>
+      <a href="blog1.html">
+       Starting My Blogging Journey: From Curiosity to Code
+      </a>
+     </h2>
+     <div class="post-tags">
+      <span class="tag" data-tag="self development">
+       Self Development
+      </span>
+      <span class="tag" data-tag="my journey">
+       My Journey
+      </span>
+      <span class="tag" data-tag="blogging">
+       Blogging
+      </span>
+     </div>
+     <p class="post-excerpt">
+      Hi, I&rsquo;m Ranjith Kumar, a recent BE graduate in Computer Science and Engineering from Kumaraguru College of Technology. I&rsquo;m passionate about AI, computers, and fitness, and I&rsquo;m excited to kick off this blog to share my journey with you. Whether you&rsquo;re here for tech talk, fitness inspiration, or just curious about my story, I hope you&rsquo;ll stick around. Let&rsquo;s get started!
+     </p>
+     <a class="read-more" href="blog1.html">
+      Continue Reading
+      <span class="arrow">
+       &rarr;
+      </span>
+     </a>
+    </article>
+   </main>
   </div>
-
   <!-- Sidebar with Modern Archives -->
   <aside class="sidebar">
-    <h3>Archives</h3>
-    <ul class="archives-list">
-       <!-- Populated by JavaScript -->
-    </ul>
+   <h3>
+    Archives
+   </h3>
+   <ul class="archives-list">
+    <!-- Populated by JavaScript -->
+   </ul>
   </aside>
-
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+   document.addEventListener('DOMContentLoaded', function() {
       const searchInput = document.getElementById('searchInput');
       const blogPostsContainer = document.getElementById('blogPosts');
       const allPosts = Array.from(blogPostsContainer.querySelectorAll('.post-card'));
@@ -938,5 +1104,5 @@
       filterAndSearchPosts(); // Initial display and count
     });
   </script>
-</body>
+ </body>
 </html>
