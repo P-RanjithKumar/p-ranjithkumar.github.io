@@ -6,6 +6,7 @@
     <title>Intelligence Assistance Chatbot Project Documentation</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
         :root {
             /* Light Mode */
             --primary-color-light: #0073aa; /* Professional Blue */
@@ -282,34 +283,178 @@
             min-height: 100vh; /* Full viewport height */
             background: var(--header-bg-light); /* Ensure background is applied */
             color: var(--text-color-light);
-            /* padding: 35px 20px; */ /* Padding will be handled differently for full screen */
+            /* padding: 0px 35px 0px 35px; */ /* Padding will be handled differently for full screen */
             padding-top: 70px; /* Space for fixed navbar + a bit more */
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center content horizontally */
-            justify-content: center; /* Center content vertically initially */
-            text-align: center;
+            /* align-items: center; */ /* REMOVE or change to flex-start if desired, but children control position now */
+            /* For consistent width and left alignment of children: */
+            align-items: stretch; /* Default, but explicit. Children will define their own max-width and padding. */
+            text-align: left;
             border-bottom: 1px solid var(--border-color-light);
             transition: background-color 0.3s, color 0.3s, border-bottom-color 0.3s;
             box-sizing: border-box; /* Include padding in height calculation */
         }
+
         .page-main-header .header-image-container {
             width: 100%;
-            height: 60vh; /* Adjust as needed, e.g., 60% of viewport height */
-            background-image: url('https://via.placeholder.com/1280x720.png?text=Main+Header+Image+16:9'); /* Placeholder */
-            background-size: cover;
-            background-position: center;
-            margin-bottom: 30px; /* Space between image and text */
+            max-width: 1200px; /* Keep this to constrain the content block width */
+            /* margin-left: auto; */ /* REMOVE */
+            /* margin-right: auto; */ /* REMOVE */
+            /* Add left padding to align with text elements */
+            /* Option 1: Direct padding (if no other child elements of page-main-header need this) */
+            /* Or better: Make the *parent* .page-main-header have overall content padding, */
+            /* or ensure child elements consistently use a shared max-width and internal padding. */
+            /* For now, let's assume we want a consistent max-width and internal padding for all children */
+            margin-top: calc(2%);
+            padding-left: 0;
+            padding-right: 0;
+            box-sizing: border-box; /* Important if you add padding here */
+            height: 50vh; /* Adjust as needed, e.g., 60% of viewport height */
+            /* margin-bottom: 30px;  Space between image and text */
+            border-radius: 8px; /* Optional: rounded corners for the container */
+            overflow: hidden; /* Ensures image respects border-radius */
         }
+        .page-main-header .header-image-container img {
+            display: block;
+            width: calc(100% - 130px); /* Match text content width (1200px - 80px left - 50px right) */
+            margin-left: 80px; /* Align with text content's left padding */
+            height: 100%;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Shadow for the container */
+            border-radius: 10px;            
+        }
+
+
         .page-main-header .header-text-content {
-            /* Styles for h1 and p will apply here */
+            width: 100%; /* Make it take full width */
+            max-width: 1200px; /* Constrain it like the image container */
+            padding: 0px 50px 0px 80px; /* Left padding is 80px, right is 50px */
+            box-sizing: border-box; /* Include padding in width calculation */
+            /* margin-left and margin-right will be handled by the parent's flex alignment if needed, */
+            /* but since we want a specific left padding, we control it here. */
+        }
+
+        .page-main-header .header-text-name {
+            width: 100%; 
+            max-width: 1200px; 
+            padding: 0px 50px 0px 80px;
+            box-sizing: border-box; 
+            
+            /* Flexbox properties */
+            display: flex;
+            justify-content: space-between ;
+            align-items: center; /* Vertically aligns items in the middle */
+        }
+        
+        /* Ensure the padding rule is correctly applied (it is, from the existing structure) */
+        /* .page-main-header .header-text-content, (This is an existing rule) */
+        /* .page-main-header .header-text-name { (This is an existing rule) */
+        /*    padding-left: 80px; */
+        /*    padding-right: 50px; */
+        /* } */
+
+
+        /* ADDED new CSS rules for the author info block and share button */
+        .author-info-block {
+            flex-grow: 0; /* Don't let it grow to push share button unnecessarily if space is tight */
+            /* Specific styling if needed, but existing h6, h3, p styles will apply */
+        }
+
+        .share-button-container {
+            margin-left: 20px; /* Provides some space from the author text */
+            position: relative; /* For dropdown positioning */
+        }
+
+        .share-dropdown {
+            position: absolute;
+            top: calc(100% + 5px); /* Position below the button */
+            right: 0; /* Align to the right of the container */
+            background-color: var(--card-background-light);
+            border: 1px solid var(--border-color-light);
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1001; /* Ensure it's above other content */
+            width: max-content; /* Fit content width */
+            padding: 5px 0;
+        }
+
+        .share-dropdown-item {
+            display: flex; /* Changed to flex for icon and text alignment */
+            align-items: center; /* Vertically center icon and text */
+            padding: 8px 15px;
+            color: var(--text-color-light);
+            text-decoration: none;
+            font-size: 0.9em;
+            background-color: transparent; /* For button reset */
+            border: none; /* For button reset */
+            width: 100%; /* For button reset */
+            text-align: left; /* For button reset */
+            cursor: pointer; /* For button reset */
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .share-dropdown-item svg {
+            margin-right: 10px;
+            /* width: 16px; height: 16px; -- set in HTML */
+            fill: currentColor; /* For single-color SVGs */
+            stroke: currentColor; /* For line-based SVGs if needed */
+        }
+
+        .share-dropdown-item:hover {
+            background-color: var(--code-background-light);
+            color: var(--primary-color-light);
+        }
+        
+        .copy-feedback {
+            padding: 5px 15px;
+            font-size: 0.8em;
+            color: var(--accent-color-light);
+            text-align: center;
+        }
+
+        /* Dark Mode for Dropdown */
+        body.dark-mode .share-dropdown {
+            background-color: var(--card-background-dark);
+            border-color: var(--border-color-dark);
+            box-shadow: 0 2px 10px rgba(255,255,255,0.05);
+        }
+        body.dark-mode .share-dropdown-item {
+            color: var(--text-color-dark);
+        }
+        body.dark-mode .share-dropdown-item:hover {
+            background-color: var(--code-background-dark);
+            color: var(--primary-color-dark);
+        }
+        body.dark-mode .copy-feedback {
+            color: var(--accent-color-dark);
+        }
+
+        .page-main-header .header-image-container,
+        .page-main-header .header-text-content,
+        .page-main-header .header-text-name {
+            width: 100%; /* Take full width of parent's alignment space */
+            max-width: 1200px; /* Define the content block width */
+            margin-left: auto;
+            margin-right: auto;
+            /* For explicit left alignment within the page-main-header overall structure: */
+            /* margin-left: 0; /* Or some fixed value if page-main-header has padding */
+        .page-main-header .header-text-content,
+        .page-main-header .header-text-name {
+            padding-left: 80px; /* Your desired left content indent */
+            padding-right: 50px; /* Consistent right padding */
+        }
+            /* If page-main-header has, e.g., padding: 0 30px; then these children would naturally align */
+            /* The internal padding below ensures content within these blocks is indented */
+            /* Padding for these elements is now handled by a more specific rule below for text content */
+            box-sizing: border-box;
         }
         .page-main-header h1 {
-            margin: 0 0 10px 0;
+            margin: 10px 0 5px 0; 
             font-size: 2.5em;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Rubik', sans-serif;
             font-weight: 700;
-            color: var(--primary-color-light);
+            color: #0065a9; /* Applied shining darker blue color */
+            line-height: 1.25; /* ADDED: Adjust for tighter spacing if H1 wraps to multiple lines (e.g., 1.2 or 1.25) */
         }
  
         .page-main-header p {
@@ -319,11 +464,38 @@
             color: var(--text-muted-light);
         }
 
-        /* Main content layout */
+        .page-main-header .header-text-name h3 {
+            margin-top: 2px;
+            margin-bottom: 2px; /* ADDED: Significantly reduces space below "Ranjith Kumar" (default was likely 12px from general h3) */
+            line-height: 1.3;   /* ADDED: Tighter line spacing if "Ranjith Kumar" itself wraps to multiple lines */
+            /* Other properties like margin-top, font-size, color will be inherited from the general 'h3' rule */
+            /* If you want to ensure the top margin remains as it was from the general h3 rule: */
+            /* margin-top: 25px; (This would be the value from your general h3 rule if you want to be explicit) */
+            /* For now, relying on inheritance of margin-top from the general h3 rule is fine. */
+        }
+        .page-main-header .header-text-name h6 {
+            margin-bottom: 0px; /* ADDED: Significantly reduces space below "date" (default was likely 12px from general h3) */
+            line-height: 1.3;   /* ADDED: Tighter line spacing if "date" itself wraps to multiple lines */
+            /* Other properties like margin-top, font-size, color will be inherited from the general 'h3' rule */
+            /* If you want to ensure the top margin remains as it was from the general h3 rule: */
+            /* margin-top: 25px; (This would be the value from your general h3 rule if you want to be explicit) */
+            /* For now, relying on inheritance of margin-top from the general h3 rule is fine. */
+        }
+
+        .page-main-header .header-text-name p {
+            /* This p inherits margin-top: 0 from the existing .page-main-header p rule, which is good. */
+            line-height: 1.4;   /* ADDED: Tighter line spacing for "Computer and AI enthusiast" if it wraps */
+            /* You can also adjust font-size or opacity here if desired for this specific paragraph, e.g.: */
+            /* font-size: 1.0em; */
+            /* opacity: 0.8; */
+        }
+
+        /* ######  Main content layout ####### */
         .page-content-wrapper {
             display: flex;
-            /* max-width: 1400px; */ /* Removed to allow full width */
-            /* margin: 20px auto; */ /* Removed for full width */
+            max-width: 1400px; /* Centered content block */
+            margin-left: auto;   /* Center the block */
+            margin-right: auto;  /* Center the block */
             margin-top: 20px; /* Keep top spacing from header */
             padding: 0;
         }
@@ -343,7 +515,6 @@
 
         .sidebar h3 { /* TOC Title */
             margin-top: 0;
-            margin-bottom: 15px;
             color: var(--primary-color-light);
             font-size: 1.3em;
             font-family: 'Roboto', sans-serif;
@@ -514,10 +685,10 @@
         }
         .feature-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.12);
         }
         body.dark-mode .feature-item:hover {
-             box-shadow: 0 4px 10px rgba(255, 255, 255, 0.08);
+             box-shadow: 0 4px 8px rgba(255,255,255,0.1);
         }
 
         .feature-item h4 {
@@ -847,9 +1018,9 @@
         <div class="top-utility-navbar-container">
             <a href="#" class="navbar-brand">DocProject</a>
             <div class="navbar-links-right">
-                <a href="#portfolio">Portfolio</a> <!-- Placeholder -->
+                <a href="index.html">Portfolio</a>
                 <a href="assets/papers/Medical Assistance System Using Large Language Model and Medical Data Management.docx" download id="view-paper-button" aria-label="View Paper">View Paper</a> <!-- Changed to download link -->
-                <a href="#contact">Contact</a> <!-- Placeholder -->
+                <a href="index.html">Contact</a> 
                 <button id="theme-toggle-button" aria-label="Toggle theme">
                     <svg id="theme-toggle-dark-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
@@ -864,11 +1035,53 @@
 
     <header class="page-main-header">
         <div class="header-image-container">
-            <!-- Background image set via CSS -->
+            <img src="assets/papers/project images/coverimage_project3.png" alt="Project Cover Image">
         </div>
         <div class="header-text-content">
-            <h1>Intelligence Assistance Chatbot Project</h1>
+            <h1>Medical Assistance System Using Large Language Model, OCR and Medical Data Management</h1>
             <p>Revolutionizing Healthcare Information Access and Understanding with AI</p>
+        </div>
+        <div class="header-text-name">
+            <div class="author-info-block">
+                <h6>April 23, 2025</h6>
+                <h3>Ranjith Kumar</h3>
+                <p>Computer and AI enthusiast</p>
+            </div>
+            <div class="share-button-container">
+                <button id="page-share-button" aria-label="Share this page" title="Share this page">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    <span>Share</span>
+                </button>
+                <div id="share-dropdown-menu" class="share-dropdown hidden">
+                    <a href="#" id="share-facebook" class="share-dropdown-item" title="Share on Facebook">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2.04C6.5 2.04 2 6.53 2 12.06c0 5.52 4.5 10.02 10 10.02s10-4.5 10-10.02C22 6.53 17.5 2.04 12 2.04zm2.6 10.44h-1.9v6.81h-2.8V12.5H8.7V10h1.2V8.4c0-1.1.6-2.4 2.4-2.4h1.9v2.4h-1.2c-.2 0-.4.1-.4.4V10h1.9l-.3 2.48z"></path></svg>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="#" id="share-twitter" class="share-dropdown-item" title="Share on Twitter (X)">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                        <span>Twitter (X)</span>
+                    </a>
+                    <a href="#" id="share-linkedin" class="share-dropdown-item" title="Share on LinkedIn">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M6.5 21.5h-5v-13h5v13zM4 6.5C2.5 6.5 1.5 5.3 1.5 4s1-2.4 2.5-2.4c1.6 0 2.5 1 2.6 2.4 0 1.4-1 2.5-2.6 2.5zm11.5 6c-1 0-2 1-2 2v7h-5v-13h5V10s1.6-1.5 4-1.5c3 0 5 2.2 5 6.3v6.7h-5v-7c0-1-1-2-2-2z"></path></svg>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="#" id="share-email" class="share-dropdown-item" title="Share via Email">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+                        <span>Email</span>
+                    </a>
+                    <button id="copy-link" class="share-dropdown-item" title="Copy link">
+                        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-1 16H9V8h9v13z"></path></svg>
+                        <span>Copy Link</span>
+                    </button>
+                    <div id="copy-feedback" class="copy-feedback hidden">Link Copied!</div>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -2423,6 +2636,105 @@ is_correct = check_password_hash(hashed_pw, "user_entered_password")</code></pre
                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
                }
            }, false);
+
+           
+            // --- Share Button Functionality ---
+            const shareButton = document.getElementById('page-share-button');
+            const shareDropdown = document.getElementById('share-dropdown-menu');
+            
+            const shareFacebookButton = document.getElementById('share-facebook');
+            const shareTwitterButton = document.getElementById('share-twitter');
+            const shareLinkedInButton = document.getElementById('share-linkedin');
+            const shareEmailButton = document.getElementById('share-email');
+            const copyLinkButton = document.getElementById('copy-link');
+            const copyFeedback = document.getElementById('copy-feedback');
+
+            if (shareButton && shareDropdown) {
+                shareButton.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Prevent click from immediately closing dropdown
+                    shareDropdown.classList.toggle('hidden');
+                });
+
+                // Close dropdown if clicked outside
+                document.addEventListener('click', (event) => {
+                    if (!shareDropdown.classList.contains('hidden') && !shareButton.contains(event.target) && !shareDropdown.contains(event.target)) {
+                        shareDropdown.classList.add('hidden');
+                        copyFeedback.classList.add('hidden'); // Hide feedback too
+                    }
+                });
+            }
+
+            const pageUrl = window.location.href;
+            const pageTitle = document.title;
+            const authorName = "Ranjith Kumar"; // As per your request
+            const sourceName = "DocProject"; // Or your website name
+
+            const shareTextGeneric = `Check out this project "${pageTitle}" by ${authorName}!`;
+            const shareTextTwitter = `Check out "${pageTitle}" by ${authorName}! An interesting project on AI in healthcare.`;
+
+            if (shareFacebookButton) {
+                shareFacebookButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}"e=${encodeURIComponent(shareTextGeneric)}`;
+                    window.open(fbUrl, 'facebook-share-dialog', 'width=800,height=600');
+                    shareDropdown.classList.add('hidden');
+                });
+            }
+
+            if (shareTwitterButton) {
+                shareTwitterButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // For Twitter, a more direct mention might be @Username if known. Here, using name in text.
+                    const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(shareTextTwitter)}`;
+                    window.open(twitterUrl, 'twitter-share-dialog', 'width=800,height=600');
+                    shareDropdown.classList.add('hidden');
+                });
+            }
+
+            if (shareLinkedInButton) {
+                shareLinkedInButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // LinkedIn's share-offsite doesn't prefill the user's comment box.
+                    // The older shareArticle?mini=true does, but parameters are more limited.
+                    // We'll use shareArticle and put the mention in the summary.
+                    const linkedInSummary = `Discover "${pageTitle}", a project by ${authorName}. ${document.querySelector('.page-main-header > .header-text-content > p').textContent || ''}`;
+                    const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(pageUrl)}&title=${encodeURIComponent(pageTitle)}&summary=${encodeURIComponent(linkedInSummary.substring(0,250))}Source=${encodeURIComponent(sourceName)}`;
+                    window.open(linkedInUrl, 'linkedin-share-dialog', 'width=600,height=700');
+                    shareDropdown.classList.add('hidden');
+                });
+            }
+
+            if (shareEmailButton) {
+                shareEmailButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const subject = `Interesting Project: ${pageTitle}`;
+                    const body = `Hi,\n\nI found this project interesting and thought you might too:\n${pageTitle}\n${pageUrl}\n\nThis project is by ${authorName}.`;
+                    const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    window.location.href = mailtoUrl; // Opens default email client
+                    shareDropdown.classList.add('hidden');
+                });
+            }
+
+            if (copyLinkButton) {
+                copyLinkButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigator.clipboard.writeText(pageUrl).then(() => {
+                        copyFeedback.classList.remove('hidden');
+                        setTimeout(() => {
+                            copyFeedback.classList.add('hidden');
+                            shareDropdown.classList.add('hidden'); // Optionally close dropdown after copy
+                        }, 1500);
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                        copyFeedback.textContent = 'Failed to copy!';
+                        copyFeedback.classList.remove('hidden');
+                         setTimeout(() => {
+                            copyFeedback.classList.add('hidden');
+                            copyFeedback.textContent = 'Link Copied!'; // Reset
+                        }, 2000);
+                    });
+                });
+            }
 
 
        });
