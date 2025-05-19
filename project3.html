@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence Assistance Chatbot Project Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Mode */
+            --primary-color-light: #0073aa; /* Professional Blue */
+            --secondary-color-light: #00557f; /* Darker Professional Blue */
+            --accent-color-light: #4caf50;
+            --background-color-light: #ffffff; /* Light grey background */
+            --card-background-light: #ffffff;
+            --text-color-light: #212529; /* Darker text for better contrast */
+            --text-muted-light: #5f6368;
+            --border-color-light: #dee2e6; /* Standard light border */
+            --code-background-light: #f1f3f5; /* Slightly darker code bg */
+            --header-bg-light: #ffffff; /* Solid white for main header */
+            --navbar-bg-light: #ffffff;
+            --sidebar-bg-light: #ffffff;
+            --link-color-light: var(--primary-color-light);
+            --link-hover-light: var(--secondary-color-light);
+
+            /* Dark Mode */
+            --primary-color-dark: #56aeff; /* Lighter blue for dark mode */
+            --secondary-color-dark: #368fdd; /* Slightly darker blue for dark mode */
+            --accent-color-dark: #66bb6a;
+            --background-color-dark: #121212; /* Very dark background */
+            --card-background-dark: #1e1e1e; /* Dark card background */
+            --text-color-dark: #e0e0e0;
+            --text-muted-dark: #9e9e9e;
+            --border-color-dark: #3a3a3a; /* Darker border */
+            --code-background-dark: #2a2a2a; /* Dark code bg */
+            --header-bg-dark: #1e1e1e; /* Dark solid for main header */
+            --navbar-bg-dark: #1e1e1e;
+            --sidebar-bg-dark: #1e1e1e;
+            --link-color-dark: var(--primary-color-dark);
+            --link-hover-dark: var(--secondary-color-dark);
+        }
+
+        /* Base body styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6; /* Adjusted from 1.7 */
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color-light);
+            color: var(--text-color-light);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: var(--background-color-dark);
+            color: var(--text-color-dark);
+        }
+
+        body.dark-mode .top-utility-navbar {
+            background-color: var(--navbar-bg-dark);
+            border-bottom-color: var(--border-color-dark);
+        }
+
+        body.dark-mode .top-utility-navbar a,
+        body.dark-mode .top-utility-navbar .navbar-brand {
+            color: var(--text-color-dark);
+        }
+        body.dark-mode .top-utility-navbar a:hover {
+            color: var(--primary-color-dark);
+        }
+        body.dark-mode #theme-toggle-button svg {
+            stroke: var(--text-color-dark);
+        }
+         body.dark-mode #theme-toggle-button:hover svg {
+            stroke: var(--primary-color-dark);
+        }
+
+
+        body.dark-mode .page-main-header {
+            background: var(--header-bg-dark);
+            color: var(--text-color-dark);
+            border-bottom: 1px solid var(--border-color-dark);
+        }
+         body.dark-mode .page-main-header h1 {
+            color: var(--primary-color-dark);
+        }
+
+
+        body.dark-mode .sidebar {
+            background-color: var(--sidebar-bg-dark);
+            border-right-color: var(--border-color-dark);
+        }
+
+        body.dark-mode .sidebar h3 {
+            color: var(--primary-color-dark);
+            border-bottom-color: var(--secondary-color-dark);
+        }
+
+        body.dark-mode #toc-list > li > a { /* Main TOC items */
+            color: var(--text-muted-dark);
+        }
+        body.dark-mode #toc-list > li > a:hover {
+            color: var(--primary-color-dark);
+        }
+        body.dark-mode #toc-list > li > a.active {
+            color: var(--primary-color-dark);
+            font-weight: 600;
+        }
+        body.dark-mode #toc-list ul li a { /* Sub TOC items */
+             color: #aaaaaa;
+        }
+        body.dark-mode #toc-list ul li a:hover {
+            color: var(--secondary-color-dark);
+        }
+        body.dark-mode #toc-list ul li a.active {
+            color: var(--secondary-color-dark);
+        }
+
+        body.dark-mode section {
+            /* Styles for background, box-shadow, border-color removed for article look */
+            /* border-color: var(--border-color-dark); */ /* Border is removed from base style */
+        }
+
+        body.dark-mode h2 {
+            color: var(--primary-color-dark);
+            border-bottom-color: var(--secondary-color-dark);
+        }
+        body.dark-mode h3 {
+            color: var(--secondary-color-dark);
+        }
+        body.dark-mode h4 {
+            color: var(--primary-color-dark);
+        }
+
+        body.dark-mode .feature-item {
+            background-color: var(--background-color-dark); /* Use main bg for contrast */
+            border-color: var(--border-color-dark);
+        }
+        body.dark-mode .tech-stack-list li {
+            /* background-color and border-color removed for article look */
+        }
+        body.dark-mode .feature-item h4,
+        body.dark-mode .tech-stack-list li strong {
+            color: var(--primary-color-dark);
+        }
+
+        body.dark-mode code {
+            background-color: var(--code-background-dark);
+            color: #f0f0f0; /* Lighter code text for dark bg */
+        }
+        body.dark-mode pre {
+            background-color: var(--code-background-dark);
+            border: 1px solid var(--border-color-dark);
+        }
+        body.dark-mode pre code {
+            color: #f0f0f0;
+        }
+
+
+        body.dark-mode a {
+            color: var(--link-color-dark);
+        }
+        body.dark-mode a:hover {
+            color: var(--link-hover-dark);
+        }
+
+        body.dark-mode footer {
+            border-top-color: var(--border-color-dark);
+            color: var(--text-muted-dark);
+        }
+
+        /* Top Utility Navbar */
+        .top-utility-navbar {
+            background-color: var(--navbar-bg-light);
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border-color-light);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: 60px; /* Fixed height */
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s, border-bottom-color 0.3s;
+        }
+
+        .top-utility-navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1400px; /* Consistent with page content max-width */
+            margin: 0 auto;
+        }
+
+        .top-utility-navbar .navbar-brand {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            font-size: 1.5em;
+            color: var(--text-color-light);
+            text-decoration: none;
+        }
+
+        .top-utility-navbar .navbar-links-right {
+            display: flex;
+            align-items: center;
+            padding-right: 30px; /* Added padding to the right */
+        }
+
+        .top-utility-navbar .navbar-links-right a,
+        .top-utility-navbar .navbar-links-right #view-paper-button { /* Combined selector */
+            margin-left: 20px;
+            text-decoration: none;
+            color: var(--text-muted-light);
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s ease, background-color 0.3s ease; /* Added background-color transition */
+            /* Reset button-specific styles for #view-paper-button */
+            background-color: transparent;
+            border: none;
+            padding: 0; /* Remove button padding */
+            cursor: pointer;
+        }
+        .top-utility-navbar .navbar-links-right a:hover,
+        .top-utility-navbar .navbar-links-right #view-paper-button:hover { /* Combined selector */
+            color: var(--primary-color-light);
+            background-color: var(--code-background-light); /* Example hover highlight */
+            border-radius: 4px; /* Optional: add some rounding on hover */
+            padding: 5px 8px; /* Add some padding on hover for highlight effect */
+            margin-left: calc(20px - 8px); /* Adjust margin to keep spacing consistent with padding */
+            margin-right: -8px; /* Adjust margin to keep spacing consistent with padding */
+        }
+
+        /* Remove original #view-paper-button specific styles that are now handled above or not needed */
+        /* #view-paper-button { ... } */
+        /* #view-paper-button:hover { ... } */
+
+        body.dark-mode .top-utility-navbar .navbar-links-right a,
+        body.dark-mode .top-utility-navbar .navbar-links-right #view-paper-button {
+            color: var(--text-muted-dark);
+        }
+
+        body.dark-mode .top-utility-navbar .navbar-links-right a:hover,
+        body.dark-mode .top-utility-navbar .navbar-links-right #view-paper-button:hover {
+            color: var(--primary-color-dark);
+            background-color: var(--code-background-dark); /* Example hover highlight for dark mode */
+        }
+        /* Remove original dark mode #view-paper-button specific styles */
+        /* body.dark-mode #view-paper-button { ... } */
+        /* body.dark-mode #view-paper-button:hover { ... } */
+
+        #theme-toggle-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #theme-toggle-button svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-muted-light);
+            transition: stroke 0.3s;
+        }
+         #theme-toggle-button:hover svg {
+            stroke: var(--primary-color-light);
+        }
+        .hidden {
+            display: none;
+        }
+
+
+        /* Page Main Header (Project Title) */
+        .page-main-header {
+            /* margin-top: 60px; */ /* Removed, will be handled by full height */
+            margin-top: 0; /* Start from the very top */
+            min-height: 100vh; /* Full viewport height */
+            background: var(--header-bg-light); /* Ensure background is applied */
+            color: var(--text-color-light);
+            /* padding: 35px 20px; */ /* Padding will be handled differently for full screen */
+            padding-top: 70px; /* Space for fixed navbar + a bit more */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            justify-content: center; /* Center content vertically initially */
+            text-align: center;
+            border-bottom: 1px solid var(--border-color-light);
+            transition: background-color 0.3s, color 0.3s, border-bottom-color 0.3s;
+            box-sizing: border-box; /* Include padding in height calculation */
+        }
+        .page-main-header .header-image-container {
+            width: 100%;
+            height: 60vh; /* Adjust as needed, e.g., 60% of viewport height */
+            background-image: url('https://via.placeholder.com/1280x720.png?text=Main+Header+Image+16:9'); /* Placeholder */
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 30px; /* Space between image and text */
+        }
+        .page-main-header .header-text-content {
+            /* Styles for h1 and p will apply here */
+        }
+        .page-main-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            color: var(--primary-color-light);
+        }
+ 
+        .page-main-header p {
+            margin-top: 0;
+            font-size: 1.2em;
+            opacity: 0.85;
+            color: var(--text-muted-light);
+        }
+
+        /* Main content layout */
+        .page-content-wrapper {
+            display: flex;
+            /* max-width: 1400px; */ /* Removed to allow full width */
+            /* margin: 20px auto; */ /* Removed for full width */
+            margin-top: 20px; /* Keep top spacing from header */
+            padding: 0;
+        }
+
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 70px; /* Navbar height (60px) + 10px spacing */
+            height: calc(100vh - 70px); /* Full viewport height minus top offset */
+            overflow-y: auto;
+            padding: 20px 15px; /* Internal padding for sidebar content */
+            background-color: var(--sidebar-bg-light);
+            border-right: 1px solid var(--border-color-light);
+            transition: background-color 0.3s, border-right-color 0.3s;
+        }
+
+        .sidebar h3 { /* TOC Title */
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color-light);
+            font-size: 1.3em;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            border-bottom: 2px solid var(--secondary-color-light);
+            padding-bottom: 10px;
+        }
+
+        #toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #toc-list > li { /* Direct li items for H2 */
+            margin-bottom: 4px;
+            position: relative; /* For absolute positioning of sub-menu or effects */
+        }
+        #toc-list > li > a { /* Links for H2 items */
+            color: var(--text-muted-light);
+            text-decoration: none;
+            display: block;
+            padding: 6px 8px; /* More clickable area */
+            border-radius: 4px;
+            font-size: 0.95em;
+            transition: color 0.2s ease, background-color 0.2s ease;
+        }
+        #toc-list > li > a:hover {
+            color: var(--primary-color-light);
+            /* background-color: var(--code-background-light); */ /* Removed background hover */
+        }
+        body.dark-mode #toc-list > li > a:hover {
+            /* background-color: var(--code-background-dark); */ /* Removed background hover */
+            color: var(--primary-color-dark); /* Ensure text color changes */
+        }
+        #toc-list > li > a.active { /* H2 active link */
+            color: var(--primary-color-light);
+            font-weight: 600;
+            /* background-color: var(--code-background-light); */ /* Removed active background */
+        }
+        body.dark-mode #toc-list > li > a.active {
+            color: var(--primary-color-dark);
+            font-weight: 600; /* Ensure font weight for dark mode active */
+            /* background-color: var(--code-background-dark); */ /* Removed active background */
+        }
+
+        /* Styling for sub-lists (H3 items) */
+        #toc-list ul {
+            list-style: none;
+            padding-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px; /* Space below sublist */
+            border-left: 1px solid var(--border-color-light);
+            max-height: 0; /* Initially hidden */
+            overflow: hidden;
+            transition: max-height 0.3s ease-out; /* Smooth transition */
+        }
+        #toc-list li.open > ul {
+             /* max-height will be set by JS or kept open if always visible */
+        }
+
+        body.dark-mode #toc-list ul {
+            border-left-color: var(--border-color-dark);
+        }
+
+        #toc-list ul li {
+            margin-bottom: 3px;
+        }
+        #toc-list ul li a {
+             font-size: 0.9em;
+             color: var(--text-muted-light);
+             padding: 4px 8px;
+             display: block;
+             border-radius: 3px;
+        }
+        #toc-list ul li a:hover {
+            color: var(--secondary-color-light);
+            /* background-color: var(--code-background-light); */ /* Removed background hover */
+        }
+        #toc-list ul li a.active { /* H3 active link */
+            color: var(--secondary-color-light);
+            font-weight: 500;
+            /* background-color: var(--code-background-light); */ /* Removed active background */
+        }
+        body.dark-mode #toc-list ul li a {
+             color: #b0b0b0;
+        }
+         body.dark-mode #toc-list ul li a:hover {
+            color: var(--secondary-color-dark);
+            /* background-color: var(--code-background-dark); */ /* Removed background hover */
+        }
+         body.dark-mode #toc-list ul li a.active {
+            color: var(--secondary-color-dark);
+            font-weight: 500; /* Ensure font weight for dark mode active */
+             /* background-color: var(--code-background-dark); */ /* Removed active background */
+        }
+
+
+        .content-area {
+            flex-grow: 1;
+            /* padding: 0 40px 20px 40px; */ /* Padding will be on an inner wrapper or directly */
+            padding: 0 120px 20px 50px; /* Space from sidebar and right edge */
+            min-width: 0; /* Important for flex item wrapping */
+            /* Optional: Add a max-width and margin auto if content shouldn't span full remaining width */
+            /* max-width: 900px; */ /* Example max content width */
+            /* margin-left: auto; */ /* If content-area itself should not be full width */
+            /* margin-right: auto; */
+        }
+
+        section {
+            /* background-color, box-shadow, border, border-radius removed for article look */
+            padding: 20px 0; /* Content area provides side padding */
+            margin-bottom: 40px; /* More space between sections */
+            transition: background-color 0.3s, border-color 0.3s; /* May be irrelevant now */
+        }
+        /* Add scroll-margin-top to sections and H3s to account for fixed header */
+        section[id], h3[id] {
+            scroll-margin-top: 80px; /* Adjust to match navbar height + desired offset */
+        }
+
+
+        h2 {
+            color: var(--primary-color-light);
+            border-bottom: 2px solid var(--secondary-color-light);
+            padding-bottom: 10px;
+            margin-top: 0; /* First element in section */
+            margin-bottom: 20px; /* Adjusted from 25px */
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            font-size: 1.8em; /* Slightly reduced */
+        }
+
+        h3 {
+            color: var(--secondary-color-light);
+            margin-top: 25px; /* Adjusted from 30px */
+            margin-bottom: 12px; /* Adjusted from 15px */
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 1.4em; /* Slightly reduced */
+        }
+
+        h4 {
+             color: var(--primary-color-light);
+             margin-top: 20px; /* Adjusted from 25px */
+             margin-bottom: 8px; /* Adjusted from 10px */
+             font-family: 'Roboto', sans-serif;
+             font-weight: 500;
+             font-size: 1.15em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjust minmax */
+            gap: 20px;
+        }
+
+        .feature-item {
+            background-color: var(--background-color-light); /* Slightly different from card for depth */
+            padding: 15px; /* Adjusted from 20px */
+            border-radius: 6px;
+            border: 1px solid var(--border-color-light);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex; /* Added for better internal alignment */
+            flex-direction: column; /* Added */
+        }
+        .feature-item p {
+            margin-bottom: 5px; /* Adjusted for tighter packing */
+            flex-grow: 1; /* Allow p to take available space if needed */
+        }
+        .feature-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        body.dark-mode .feature-item:hover {
+             box-shadow: 0 4px 10px rgba(255, 255, 255, 0.08);
+        }
+
+        .feature-item h4 {
+            margin-top: 0;
+            color: var(--primary-color-light);
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .tech-stack-list {
+            list-style: none;
+            padding: 0;
+        }
+        .tech-stack-list li {
+            /* background-color, border, border-radius removed for article look */
+            margin-bottom: 10px;
+            padding: 5px 0; /* Minimal padding, relies on ul padding for indent */
+        }
+        .tech-stack-list li strong {
+            color: var(--primary-color-light);
+            margin-right: 8px;
+            font-size: 1.05em;
+        }
+        .tech-stack-list li ul { /* Nested UL inside tech stack */
+            padding-left: 15px; /* Reduced from default 20px */
+            margin-top: 8px;
+        }
+        .tech-stack-list li ul li {
+            margin-bottom: 4px; /* Reduced from default 8px */
+            background-color: transparent; /* Remove double background */
+            border: none; /* Remove double border */
+            padding: 2px 0; /* Minimal padding */
+        }
+
+
+        code {
+            background-color: var(--code-background-light);
+            padding: 0.2em 0.4em; /* Standard padding */
+            margin: 0;
+            font-size: 0.9em; /* Slightly smaller for inline */
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            color: var(--text-color-light); /* Ensure text color contrasts with code bg */
+        }
+        body.dark-mode code {
+            color: #f0f0f0;
+        }
+
+
+        pre {
+            background-color: var(--code-background-light);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            line-height: 1.5;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color-light);
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-size: 1em; /* Reset for pre context */
+            border: none;
+        }
+
+        ul, ol {
+            padding-left: 20px; /* Standard indentation */
+            margin-bottom: 15px;
+        }
+        /* Exclude TOC lists from general ul/ol styling if they override specific TOC styles */
+        #toc-list ul, #toc-list ol {
+            padding-left: 15px; /* Specific for TOC */
+        }
+
+
+        ul li, ol li {
+            margin-bottom: 8px;
+        }
+         /* Exclude TOC list items */
+        #toc-list li, #toc-list ul li {
+            margin-bottom: 3px; /* Specific for TOC */
+        }
+
+
+        a {
+            color: var(--link-color-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        a:hover {
+            color: var(--link-hover-light);
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 30px;
+            color: var(--text-muted-light);
+            font-size: 0.9em;
+            border-top: 1px solid var(--border-color-light);
+            transition: color 0.3s, border-top-color 0.3s;
+        }
+
+        /* Accordion Styles for Key Features */
+        .accordion-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between accordion items */
+        }
+
+        .accordion-item {
+            /* background-color, border, border-radius removed for article look */
+            transition: background-color 0.3s, border-color 0.3s; /* May be irrelevant */
+            margin-bottom: 15px; /* Space between accordion headers */
+        }
+        body.dark-mode .accordion-item {
+            /* background-color, border-color removed for article look */
+        }
+
+        .accordion-header {
+            /* background-color: transparent; */ /* No background */
+            color: var(--text-color-light); /* More like standard text, or primary for emphasis */
+            cursor: pointer;
+            padding: 10px 0; /* Adjusted padding */
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.3em; /* More like an H3/H4 */
+            font-family: 'Roboto', sans-serif;
+            font-weight: 600; /* Bolder for heading feel */
+            /* transition: background-color 0.3s ease; */ /* No background transition */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* border-radius: 6px 6px 0 0; */ /* Removed */
+            /* border-bottom: 1px solid var(--border-color-light); */ /* Removed border for cleaner look */
+            margin-bottom: 10px; /* Space before content appears */
+        }
+        body.dark-mode .accordion-header {
+            color: var(--text-color-dark); /* Ensure this is distinct if needed */
+            /* border-bottom-color: var(--border-color-dark); */ /* Removed border */
+        }
+
+        .accordion-header:hover {
+            /* background-color: var(--code-background-light); */ /* Removed background hover */
+            color: var(--primary-color-light); /* Text color change on hover */
+        }
+        body.dark-mode .accordion-header:hover {
+            /* background-color: var(--code-background-dark); */ /* Removed background hover */
+            color: var(--primary-color-dark);
+        }
+        .accordion-header.active {
+             /* background-color: var(--code-background-light); */ /* Removed active background */
+             /* color: var(--primary-color-light); */ /* Keep color if desired for active state */
+        }
+        body.dark-mode .accordion-header.active {
+             /* background-color: var(--code-background-dark); */ /* Removed active background */
+        }
+
+
+        .accordion-icon {
+            font-size: 1.4em;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-icon {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            padding: 0 0; /* No side padding, vertical padding applied when active */
+            /* background-color: var(--card-background-light); */ /* Removed background */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            /* border-top: 1px solid transparent; */ /* Removed border */
+            /* border-radius: 0 0 6px 6px; */ /* Removed radius */
+        }
+        body.dark-mode .accordion-content {
+            /* background-color: var(--card-background-dark); */ /* Removed background */
+        }
+
+        .accordion-content.active {
+            /* max-height will be set by JS */
+            padding: 15px 0; /* Adjusted padding, no side padding */
+            /* border-top-color: var(--border-color-light); */ /* Removed border */
+        }
+        body.dark-mode .accordion-content.active {
+            /* border-top-color: var(--border-color-dark); */ /* Removed border */
+        }
+        .accordion-content p {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        .accordion-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Image Placeholder Styles */
+        .image-placeholder-container {
+            width: 100%;
+            max-width: 800px; /* Increased max width of the image */
+            margin: 25px auto; /* Centered with space */
+            padding: 0;
+            background-color: #e9ecef; /* Light background for the container */
+            border: 1px solid var(--border-color-light);
+            border-radius: 4px;
+            overflow: hidden; /* To contain the image aspect ratio padding */
+        }
+        body.dark-mode .image-placeholder-container {
+            background-color: #2c2c2c;
+            border-color: var(--border-color-dark);
+        }
+
+        .image-aspect-ratio-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio (9/16 * 100) */
+        }
+
+        img.placeholder-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the area, might crop */
+            display: block;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        body.dark-mode img.placeholder-image {
+            border-bottom-color: var(--border-color-dark);
+        }
+
+        .image-caption {
+            padding: 10px 15px;
+            font-size: 0.9em;
+            text-align: center;
+            color: var(--text-muted-light);
+            background-color: var(--card-background-light); /* Match card bg if any, or slightly off-main */
+        }
+        body.dark-mode .image-caption {
+            color: var(--text-muted-dark);
+            background-color: var(--card-background-dark);
+        }
+
+        /* Navbar hide on scroll */
+        .top-utility-navbar.navbar--hidden {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .top-utility-navbar.navbar--visible {
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out;
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .page-content-wrapper {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: static;
+                width: auto;
+                height: auto;
+                margin-bottom: 20px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color-light);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                overflow-y: visible; /* Allow content to expand */
+                top: auto; /* Reset sticky position */
+                padding: 20px;
+            }
+            /* Ensure sub-menus are always visible on smaller screens if sidebar stacks */
+            #toc-list ul {
+                max-height: 1000px; /* A large enough value to show content */
+            }
+
+            body.dark-mode .sidebar {
+                border-bottom-color: var(--border-color-dark);
+            }
+            .content-area {
+                margin-left: 0;
+                padding: 0 0 20px 0; /* Remove left padding */
+            }
+            .page-main-header h1 { font-size: 2em; }
+            .page-main-header p { font-size: 1.1em; }
+            section[id], h3[id] {
+                scroll-margin-top: 70px; /* Adjust for smaller navbar potentially */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-main-header { padding: 30px 15px; }
+            .page-main-header h1 { font-size: 1.8em; }
+            .page-main-header p { font-size: 1em; }
+
+            .top-utility-navbar { padding: 0 15px; height: 50px; }
+            .top-utility-navbar .navbar-brand { font-size: 1.3em; }
+            .top-utility-navbar .navbar-links-right a { font-size: 0.9em; margin-left: 15px; }
+            #theme-toggle-button { margin-left: 15px; }
+             #theme-toggle-button svg { width: 18px; height: 18px;}
+
+
+            .page-main-header { margin-top: 50px; } /* Adjust for smaller navbar */
+             section[id], h3[id] {
+                scroll-margin-top: 60px; /* Adjust for smaller navbar */
+            }
+
+
+            .page-content-wrapper { padding: 0 15px; margin-top:15px;}
+            section { padding: 20px 25px; }
+            h2 { font-size: 1.6em; }
+            h3 { font-size: 1.25em; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-utility-navbar">
+        <div class="top-utility-navbar-container">
+            <a href="#" class="navbar-brand">DocProject</a>
+            <div class="navbar-links-right">
+                <a href="#portfolio">Portfolio</a> <!-- Placeholder -->
+                <a href="assets/papers/Medical Assistance System Using Large Language Model and Medical Data Management.docx" download id="view-paper-button" aria-label="View Paper">View Paper</a> <!-- Changed to download link -->
+                <a href="#contact">Contact</a> <!-- Placeholder -->
+                <button id="theme-toggle-button" aria-label="Toggle theme">
+                    <svg id="theme-toggle-dark-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                    </svg>
+                    <svg id="theme-toggle-light-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hidden">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-main-header">
+        <div class="header-image-container">
+            <!-- Background image set via CSS -->
+        </div>
+        <div class="header-text-content">
+            <h1>Intelligence Assistance Chatbot Project</h1>
+            <p>Revolutionizing Healthcare Information Access and Understanding with AI</p>
+        </div>
+    </header>
+
+    <div class="page-content-wrapper">
+        <aside class="sidebar">
+            <h3>Table of Contents</h3>
+            <ul id="toc-list">
+                <!-- Table of contents will be generated here by JavaScript -->
+            </ul>
+        </aside>
+
+        <main class="content-area">
+            <section id="overview">
+            <h2>Project Overview</h2>
+            <p>The **Medical Chatbot for Prescription-Based Query Assistance** is a sophisticated AI-driven application meticulously engineered to enhance access to, and comprehension of, complex medical information, with a pronounced focus on prescription data. In an age where individuals are often inundated with medical jargon and intricate healthcare directives, this project stands as a beacon of clarity. It leverages state-of-the-art Natural Language Processing (NLP), Optical Character Recognition (OCR), and Large Language Model (LLM) technologies to distill convoluted medical documents into clear, concise, and actionable insights.</p>
+            
+            <div class="image-placeholder-container">
+                <div class="image-aspect-ratio-wrapper">
+                    <img src="https://via.placeholder.com/800x450.png?text=Project+Overview+16:9" alt="Project Overview Illustration" class="placeholder-image">
+                </div>
+                <p class="image-caption">Placeholder image illustrating the project's core concept.</p>
+            </div>
+
+            <p>The fundamental problem this project addresses is the pervasive difficulty patients encounter when trying to understand medication names, dosages, complex administration schedules, potential side effects, and drug interactions as detailed on prescriptions or in medical reports. This lack of clarity can lead to medication errors, poor adherence, and increased anxiety. By automating the extraction, interpretation, and contextual explanation of this information, the chatbot functions as an intelligent, empathetic assistant. It empowers patients to take a more active and informed role in managing their health and medication regimens, fostering a greater sense of control and confidence. The system's vision extends to democratizing medical knowledge, making it more accessible and less intimidating for the average user.</p>
+            <p>Beyond prescriptions, the system is architected to process a variety of medical documents (e.g., lab reports, discharge summaries if provided by the user) and offer general health-related guidance based on user queries and self-reported symptoms. It aims to bridge the communication gap between healthcare providers and patients by offering a supplementary tool for information reinforcement and clarification. The ultimate goal is to contribute to improved health literacy, better patient outcomes, and a more collaborative healthcare experience.</p>
+            <p>The target audience is diverse:
+                <ul>
+                    <li><strong>Patients and Caregivers:</strong> Seeking to demystify their prescriptions, understand medical conditions, track health parameters, and manage appointments more effectively.</li>
+                    <li><strong>Healthcare Providers:</strong> Potentially using it as a supplementary tool to reinforce patient education, answer common patient questions, and free up time for more complex clinical decision-making (though this project is not a diagnostic tool).</li>
+                    <li><strong>Developers and Researchers:</strong> Interested in exploring and contributing to applications at the intersection of AI, NLP, and healthcare, using the project as a foundational platform.</li>
+                </ul>
+            The project's modular architecture, reliance on well-established open-source technologies, and focus on user-centric design make it a robust foundation for future innovation, scalability, and potential integration into broader digital health ecosystems.
+            </p>
+        </section>
+
+        <section id="features">
+            <h2>Key Features</h2>
+            <p>The chatbot is endowed with a comprehensive suite of features, each meticulously designed to provide holistic and user-centric medical information assistance:</p>
+            
+            <div class="image-placeholder-container">
+                <div class="image-aspect-ratio-wrapper">
+                    <img src="https://via.placeholder.com/800x450.png?text=Key+Features+16:9" alt="Key Features Overview" class="placeholder-image">
+                </div>
+                <p class="image-caption">Placeholder illustrating a key feature of the chatbot.</p>
+            </div>
+
+            <div class="accordion-container">
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        Advanced Prescription Parsing
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Leverages the formidable Google Gemini API, renowned for its advanced multimodal understanding including OCR, to accurately and reliably extract structured data from diverse prescription formats. This includes deciphering both printed text and, critically, challenging handwritten prescriptions which are notorious for their variability. Key extracted elements include medication names (brand and generic), dosages, administration frequencies (e.g., "take one tablet twice daily"), routes of administration (e.g., oral, topical), and prescribed duration. The accuracy here is paramount as it forms the basis for many subsequent features.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        Symptom-Based Informational Assistance
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Utilizes the Meta Llama 3.2 8B Instruct model, a powerful yet relatively lightweight LLM, augmented with a sophisticated Retrieval-Augmented Generation (RAG) mechanism. When a user describes symptoms, the RAG system first retrieves relevant, vetted information from its knowledge base (which can include user-uploaded documents or curated medical texts). This retrieved context is then provided to Llama 3.2 to generate an informed response. This approach mitigates LLM "hallucinations" and grounds responses in factual data. The system can offer general information about conditions, explain potential (not definitive) causes, or, crucially, recommend when to seek professional medical advice, always emphasizing it is not a diagnostic tool.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        Intelligent Medical Abbreviation Handling
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Employs a custom-built lexicon and NLP techniques to intelligently identify and expand common, often cryptic, medical abbreviations (e.g., "q.i.d." to "four times a day," "PRN" to "as needed," "PO" to "by mouth"). This significantly enhances clarity and understanding for users unfamiliar with medical shorthand, making prescriptions and medical notes far more accessible.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        Persistent Interaction History & Contextual Understanding
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Maintains a secure and persistent history of user interactions and chat sessions within the robust PostgreSQL database. This allows the chatbot to provide personalized and context-aware responses, remembering previous queries, uploaded document contents, and user preferences across conversations. For example, if a user previously uploaded a prescription for "Metformin," they can later ask "What are the side effects of my medication?" without re-specifying it. This feature is key to a more natural and efficient user experience.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        Comprehensive Chat Management
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Offers a user-friendly interface and corresponding API endpoints for robust chat session management. Users can easily create new, distinct chat sessions (e.g., one for a specific prescription, another for general health queries), retrieve and review past conversations, and securely delete sessions if they wish, giving them full control and privacy over their interaction data.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        Secure Document Upload & Semantic Analysis
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Facilitates secure user uploads of various document types, including text files (.txt, .md) and images (.png, .jpg, .jpeg) of medical documents. The system processes these documents: images undergo OCR via Gemini, and text is parsed using NLP techniques. The extracted content is then chunked, embedded using sentence-transformer models, and indexed into the Chroma DB vector store. This enables the RAG system to perform semantic searches, retrieving highly relevant information from the user's own documents to answer their specific questions.</p>
+                    </div>
+                </div>
+                 <div class="accordion-item">
+                    <button class="accordion-header">
+                        Vital Signs Input & Tracking
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Provides an interface for users to manually input and track key vital signs such as body temperature, heart rate, blood pressure (systolic/diastolic), and respiratory rate. This data is stored historically, allowing users to monitor trends. Future enhancements could involve using this data to provide more personalized (non-diagnostic) health insights or flag significant deviations that might warrant medical attention.</p>
+                    </div>
+                </div>
+                 <div class="accordion-item">
+                    <button class="accordion-header">
+                        Medical Appointment Management
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Includes functionalities to create, retrieve, update, and categorize medical appointments. Users can input appointment details (doctor, specialty, date/time, location, notes) and receive reminders (a potential future extension). This feature aims to consolidate health-related information management within a single, accessible platform, helping users stay organized with their healthcare schedule.</p>
+                    </div>
+                </div>
+                 <div class="accordion-item">
+                    <button class="accordion-header">
+                        Voice-Enabled Interaction (STT/TTS)
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Integrates OpenAI's Whisper model for highly accurate speech-to-text (STT) conversion, allowing users to interact with the chatbot using natural voice commands, enhancing accessibility and convenience. Complementary text-to-speech (TTS) capabilities (using libraries like `gTTS` or browser-native APIs) provide auditory responses, making the system more accessible for users with visual impairments or those who prefer auditory information.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="techstack">
+            <h2>Technology Stack</h2>
+            <p>The project's architecture is founded upon a carefully curated stack of modern, powerful, and predominantly open-source technologies, selected for their robustness, scalability, and suitability for AI-driven healthcare applications:</p>
+            
+            <div class="image-placeholder-container">
+                <div class="image-aspect-ratio-wrapper">
+                    <img src="https://via.placeholder.com/800x450.png?text=Tech+Stack+16:9" alt="Technology Stack Diagram" class="placeholder-image">
+                </div>
+                <p class="image-caption">Placeholder diagram of the technology stack.</p>
+            </div>
+
+            <ul class="tech-stack-list">
+                <li>
+                    <strong>Language Models:</strong>
+                    <ul>
+                        <li><strong>Meta Llama 3.2 8B Instruct:</strong> This state-of-the-art Large Language Model (LLM) serves as the core conversational intelligence. Chosen for its strong reasoning and instruction-following capabilities relative to its size, making it deployable locally (e.g., via Ollama) with reasonable hardware (GPU highly recommended). It's used for generating human-like text, summarizing information, and understanding nuanced queries, especially when augmented by RAG.</li>
+                        <li><strong>Sentence-Transformers (e.g., `all-MiniLM-L6-v2`):</strong> These models are crucial for the RAG system. They convert text chunks (from documents or queries) into dense vector embeddings, capturing semantic meaning. `all-MiniLM-L6-v2` is chosen for its excellent balance of performance and speed, suitable for generating embeddings quickly.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Backend Framework:</strong>
+                    <ul>
+                        <li><strong>Flask:</strong> A Python microframework. Its lightweight nature, flexibility, and extensive ecosystem make it ideal for building the backend API. Flask allows for rapid development and easy integration with other Python libraries. It handles HTTP requests, defines API routes (e.g., for chat, document upload, user authentication), and orchestrates the application's logic.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Database & ORM:</strong>
+                    <ul>
+                        <li><strong>PostgreSQL:</strong> A highly reliable, feature-rich open-source relational database. Chosen for its robustness, support for complex queries (e.g., JSONB for flexible data storage), ACID compliance (essential for data integrity), and scalability. It stores user data, chat histories, document metadata, vital signs, and appointment information.</li>
+                        <li><strong>SQLAlchemy:</strong> A comprehensive Python SQL toolkit and Object-Relational Mapper (ORM). It provides a high-level, object-oriented interface to interact with PostgreSQL, abstracting raw SQL. This simplifies database operations, improves code readability, and makes schema management easier (e.g., with Alembic for migrations, if integrated).</li>
+                    </ul>
+                </li>
+                 <li>
+                    <strong>NLP & AI Orchestration Libraries:</strong>
+                    <ul>
+                        <li><strong>LangChain:</strong> A powerful framework for developing applications powered by LLMs. It's used to chain together different components: LLM calls, document loaders, text splitters, embedding models, vector stores, and prompt templates. LangChain simplifies the implementation of complex workflows like RAG and managing conversational memory.</li>
+                        <li><strong>Hugging Face Transformers:</strong> Provides access to thousands of pre-trained models, including LLMs and sentence transformers. While Ollama serves the main LLM, Transformers might be used directly for specific NLP tasks or for loading embedding models.</li>
+                        <li><strong>NLTK (Natural Language Toolkit) & spaCy:</strong> Foundational Python libraries for various NLP tasks. While the LLM handles much of the high-level understanding, NLTK or spaCy might be used for more granular text pre-processing, such as sentence tokenization for precise chunking, lemmatization, or specialized Named Entity Recognition (NER) if needed beyond the LLM's capabilities.</li>
+                    </ul>
+                </li>
+                 <li>
+                    <strong>Optical Character Recognition (OCR):</strong>
+                    <ul>
+                        <li><strong>Google Gemini API (Vision capabilities):</strong> Specifically chosen for its state-of-the-art OCR performance, especially on challenging inputs like handwritten text and complex document layouts often found in prescriptions. Its multimodal capabilities allow it to understand the context of text within an image. This is a cloud-based API, requiring an API key and internet connectivity.</li>
+                    </ul>
+                </li>
+                 <li>
+                    <strong>Speech Processing:</strong>
+                    <ul>
+                        <li><strong>OpenAI Whisper:</strong> An open-source, highly accurate automatic speech recognition (ASR) model. Used for converting spoken user queries into text. Its robustness across various accents and noisy environments makes it a strong choice.</li>
+                        <li><strong>gTTS (Google Text-to-Speech) / Browser Web Speech API:</strong> For converting chatbot text responses into audible speech. gTTS is a Python library interfacing with Google Translate's TTS engine, while the Web Speech API can be leveraged on the frontend for client-side synthesis. `sounddevice` (Python) might be used for lower-level audio I/O if direct microphone access from the backend is required (less common for web apps).</li>
+                    </ul>
+                </li>
+                 <li>
+                    <strong>Vector Database:</strong>
+                    <ul>
+                        <li><strong>Chroma DB:</strong> A developer-friendly, open-source vector database. It stores the vector embeddings of document chunks generated by sentence-transformer models. Chroma DB enables efficient semantic similarity searches, which are the core of the RAG system – finding document excerpts most relevant to a user's query. Its ability to run in-memory or persistently, and its ease of integration with LangChain, are key advantages.</li>
+                    </ul>
+                </li>
+                 <li>
+                    <strong>Supporting Libraries:</strong>
+                    <ul>
+                        <li><strong>PyTorch:</strong> The deep learning framework often underlying Hugging Face Transformers and Whisper models. Required for model inference, especially if running models locally.</li>
+                        <li><strong>NumPy:</strong> Fundamental package for numerical computation in Python, used extensively by AI/ML libraries.</li>
+                        <li><strong>python-dotenv:</strong> Manages environment variables by loading them from a `.env` file, crucial for keeping sensitive information like API keys out of source code.</li>
+                        <li><strong>Pillow (PIL Fork):</strong> Python Imaging Library used for basic image processing tasks (e.g., opening, resizing, format conversion) before sending images to the OCR API or for other manipulations.</li>
+                        <li><strong>psycopg2-binary:</strong> The PostgreSQL adapter for Python, enabling SQLAlchemy to communicate with the PostgreSQL database.</li>
+                    </ul>
+                </li>
+            </ul>
+             <h3>Why This Approach? The Strategic Rationale</h3>
+            <p>This technology stack was deliberately assembled to balance cutting-edge AI capabilities with practical development and deployment considerations. Flask offers a nimble yet powerful backend, avoiding the prescriptive nature of larger frameworks. SQLAlchemy ensures robust and maintainable database interactions. The combination of a locally-hostable LLM (Llama 3.2 via Ollama) with LangChain for orchestration allows for rapid prototyping and iteration of complex AI features while retaining control over the core logic. Google's Gemini API is chosen for its superior OCR, a critical bottleneck for prescription understanding. Chroma DB provides an efficient, easy-to-use vector store essential for effective RAG, which significantly enhances the LLM's factual grounding and ability to leverage user-specific documents. This careful selection aims for a system that is powerful, extensible, relatively cost-effective (by leveraging open-source components where possible), and capable of handling sensitive healthcare data responsibly.</p>
+        </section>
+
+        <section id="setup">
+            <h2>Installation and Setup</h2>
+            <p>To deploy the Intelligence Assistance Chatbot on your local machine for development or testing, follow these comprehensive steps. It's crucial to ensure your system meets the prerequisites for optimal performance, especially concerning AI model inference.</p>
+
+            <h3>System Requirements:</h3>
+            <ul>
+                <li><strong>Operating System:</strong> Linux (recommended for ease of use with many AI tools), macOS, or Windows (with WSL2 for a Linux-like environment often being beneficial).</li>
+                <li><strong>Python:</strong> Version 3.8 to 3.10 is generally well-supported by the ecosystem. Using a version manager like `pyenv` is advisable.</li>
+                <li><strong>Hardware (Critical for LLM & Whisper Performance):</strong>
+                    <ul>
+                        <li><strong>GPU:</strong> An NVIDIA GPU with at least 8GB VRAM is highly recommended for running Llama 3.2 8B and Whisper efficiently. For Llama 3.2 8B, 12GB+ VRAM provides a better experience. Examples: NVIDIA RTX 3060 (12GB), RTX 3080, RTX 4070, or higher. AMD GPUs might work with ROCm support in PyTorch, but NVIDIA with CUDA is more straightforward. Cloud-based GPUs (e.g., Google Colab T4, AWS EC2 P3/G4 instances) are also an option.</li>
+                        <li><strong>CPU-only:</strong> Possible, but inference will be *significantly* slower, potentially making real-time interaction frustrating. A modern multi-core CPU is needed if going this route.</li>
+                        <li><strong>Memory (RAM):</strong> Minimum 16GB. 32GB or more is recommended, especially if running multiple models or handling large documents.</li>
+                        <li><strong>Disk Space:</strong> Approximately 50-70GB free space to accommodate Python dependencies, downloaded AI models (LLMs, embedding models, Whisper can be several GBs each), the ChromaDB vector store (if persistent and large), and PostgreSQL data. SSD is highly recommended for faster load times.</li>
+                    </ul>
+                </li>
+                <li><strong>Internet Connection:</strong> Required for downloading dependencies, models, and for accessing the Gemini API.</li>
+            </ul>
+
+            <div class="image-placeholder-container">
+                <div class="image-aspect-ratio-wrapper">
+                    <img src="https://via.placeholder.com/800x450.png?text=Setup+Diagram+16:9" alt="Setup Illustration" class="placeholder-image">
+                </div>
+                <p class="image-caption">Placeholder illustrating a step in the setup process.</p>
+            </div>
+
+            <h3>Detailed Installation Steps:</h3>
+            <ol>
+                <li>
+                    <strong>Install Python:</strong> If not already installed, download Python 3.8+ from <a href="https://www.python.org/downloads/" target="_blank">python.org</a> or use `pyenv`. Ensure Python and `pip` are added to your system's PATH.
+                    <pre><code class="language-bash"># Example with pyenv
+pyenv install 3.9.13
+pyenv global 3.9.13</code></pre>
+                </li>
+                <li>
+                    <strong>Clone the Repository (if applicable):</strong> If the project is in a Git repository:
+                    <pre><code class="language-bash">git clone &lt;repository_url&gt;
+cd &lt;project_directory&gt;</code></pre>
+                </li>
+                <li>
+                    <strong>Create and Activate a Virtual Environment:</strong> This isolates project dependencies.
+                    <pre><code class="language-bash">python -m venv venv
+# On Windows:
+# venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate</code></pre>
+                    Your terminal prompt should now be prefixed with `(venv)`.
+                </li>
+                <li>
+                    <strong>Install Dependencies:</strong> The `requirements.txt` file lists all Python packages.
+                    <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                    This can take a while, especially for PyTorch if it needs to download CUDA-specific versions. If you have an NVIDIA GPU, ensure PyTorch is installed with CUDA support. You might need to install it separately from <a href="https://pytorch.org/get-started/locally/" target="_blank">pytorch.org</a> if `requirements.txt` specifies a CPU-only version or if you encounter issues.
+                </li>
+                <li>
+                    <strong>Install FFmpeg:</strong> Essential for Whisper and other audio processing tasks (e.g., converting audio formats, resampling).
+                    Download from <a href="https://ffmpeg.org/download.html" target="_blank">ffmpeg.org</a>.
+                    **Crucially, add the directory containing the `ffmpeg` executable to your system's PATH environment variable.**
+                    Verify by typing `ffmpeg -version` in a new terminal window.
+                </li>
+                <li>
+                    <strong>Set Up PostgreSQL:</strong>
+                    <ul>
+                        <li>Install PostgreSQL (e.g., from <a href="https://www.postgresql.org/download/" target="_blank">postgresql.org</a> or via a package manager like `apt` or `brew`).</li>
+                        <li>Start the PostgreSQL service.</li>
+                        <li>Create a database and a user for the application.
+                            <pre><code class="language-sql">-- Example SQL commands (run as postgres superuser, e.g., using psql)
+CREATE DATABASE medical_chatbot_db;
+CREATE USER chatbot_user WITH PASSWORD 'your_secure_password';
+GRANT ALL PRIVILEGES ON DATABASE medical_chatbot_db TO chatbot_user;</code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Set Up Ollama and Download Llama 3.2 8B:</strong>
+                    <ul>
+                        <li>Download and install Ollama from <a href="https://ollama.ai/" target="_blank">ollama.ai</a>.</li>
+                        <li>Pull the Llama 3.2 8B model (ensure you have the correct model tag, e.g., `llama3.2:8b` or similar):
+                            <pre><code class="language-bash">ollama pull llama3.2:8b</code></pre>
+                        </li>
+                        <li>Ensure Ollama is running (typically as a background service). You can test it with `ollama list`.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Obtain API Keys and Configure Environment Variables:</strong>
+                    Create a `.env` file in the project's root directory. **Never commit `.env` to version control.** Add it to your `.gitignore` file.
+                    <pre><code class="plaintext">#.env file content
+GEMINI_API_KEY=your_actual_google_ai_studio_api_key
+
+# Database URL for SQLAlchemy
+DATABASE_URL=postgresql://chatbot_user:your_secure_password@localhost:5432/medical_chatbot_db
+
+# Ollama API endpoint if not default
+OLLAMA_API_URL=http://localhost:11434/api/generate
+
+# Other sensitive config or app secrets
+FLASK_SECRET_KEY=a_very_strong_random_secret_key_for_sessions
+# ... any other necessary API keys or configuration ...
+</code></pre>
+                    Replace placeholders with your actual credentials and keys. Get your Gemini API key from <a href="https://ai.google.dev/" target="_blank">Google AI Studio</a>.
+                </li>
+            </ol>
+
+            <h3>Configuration Requirements (`config.py`):</h3>
+            <p>The `config.py` file typically loads these environment variables and sets other application parameters. Ensure it correctly loads values from `.env` (e.g., using `python-dotenv`). Key configurations to verify in `config.py` or via environment variables:</p>
+            <ul>
+                <li>`DATABASE_URL`: Connection string for PostgreSQL.</li>
+                <li>`OLLAMA_API_URL`: Endpoint for the Llama 3.2 model served by Ollama.</li>
+                <li>`GEMINI_API_KEY`: For OCR via Google Gemini.</li>
+                <li>`FLASK_SECRET_KEY`: Essential for session management and security in Flask.</li>
+                <li>Paths for data storage: `CHROMA_PATH` (if ChromaDB is persistent), `UPLOAD_FOLDER` for user-uploaded files. Ensure these directories exist and are writable by the application.</li>
+                <li>RAG parameters: `CHUNK_SIZE`, `CHUNK_OVERLAP` for text splitting.</li>
+            </ul>
+
+             <h3>Post-Installation Tasks & Verification:</h3>
+            <ol>
+                <li>
+                    <strong>Database Migrations:</strong> If the project uses a migration tool like Flask-Migrate (with Alembic), run the migrations to create the database schema defined in `models.py`.
+                    <pre><code class="language-bash">(venv) flask db upgrade # (or similar command based on project setup)</code></pre>
+                    If not using migrations, you might need to create tables manually or via a script (e.g., `db.create_all()` in Flask-SQLAlchemy for initial setup, but migrations are better for evolution).
+                </li>
+                <li>
+                    <strong>Run the Flask Application:</strong>
+                    <pre><code class="language-bash">(venv) python app2.py</code></pre>
+                    This starts the Flask development server, usually on `http://127.0.0.1:5000/`. Check the terminal output for the exact address and any error messages.
+                </li>
+                <li>
+                    <strong>Initial Verification:</strong>
+                    <ul>
+                        <li>Open the application in your web browser.</li>
+                        <li>Test basic chat functionality. Does the LLM respond?</li>
+                        <li>Try uploading a simple text document. Can you ask questions about its content?</li>
+                        <li>Attempt to upload a clear image of a (mock) prescription. Does OCR attempt to process it? (Check logs for Gemini API calls).</li>
+                        <li>Test voice input/output if implemented.</li>
+                        <li>Check for any errors in the Flask console or browser developer console.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Troubleshooting: If you encounter issues, check: Python version compatibility, `pip install` logs for errors, GPU driver compatibility with PyTorch/CUDA, Ollama server status, PostgreSQL connection, API key validity, and file/directory permissions.</p>
+        </section>
+
+        <section id="codebase">
+            <h2>Codebase Walkthrough</h2>
+            <p>A deep understanding of the project's codebase architecture, key modules, and data flow is essential for effective development, debugging, and contribution. The project is structured to promote modularity, separation of concerns, and maintainability, following common Python web application patterns.</p>
+
+            <h3>Standard Directory and File Structure:</h3>
+            <p>A well-organized project might look like this (specific names may vary):</p>
+            <pre><code>.
+├── app/                          # Main application package
+│   ├── __init__.py               # Initializes Flask app, extensions, Blueprints
+│   ├── main/                     # Blueprint for core routes (chat, UI)
+│   │   ├── __init__.py
+│   │   └── routes.py
+│   ├── api/                      # Blueprint for API-specific routes
+│   │   ├── __init__.py
+│   │   └── routes.py             # Endpoints for /api/chat, /api/document etc.
+│   ├── models.py                 # SQLAlchemy database models (schema definition)
+│   ├── services/                 # Business logic, service layer
+│   │   ├── chat_service.py
+│   │   ├── document_service.py
+│   │   ├── ocr_service.py
+│   │   └── rag_service.py        # Encapsulates RAG logic
+│   ├── static/                   # Static assets (CSS, JavaScript, images)
+│   │   ├── css/
+│   │   ├── js/
+│   │   └── images/
+│   ├── templates/                # HTML templates (Jinja2)
+│   └── utils/                    # Utility functions, helpers
+├── migrations/                   # Database migration scripts (if using Flask-Migrate/Alembic)
+├── tests/                        # Unit and integration tests
+│   ├── test_api.py
+│   └── test_services.py
+├── venv/                         # Virtual environment
+├── .env                          # Environment variables (GITIGNORED!)
+├── .flaskenv                     # Flask specific env vars (e.g. FLASK_APP, FLASK_ENV)
+├── config.py                     # Configuration classes (Dev, Prod, Test)
+├── requirements.txt              # Project dependencies
+├── app2.py                       # Main entry point to run the app (or run.py, wsgi.py)
+└── README.md                     # Project overview and setup
+</code></pre>
+
+<div class="image-placeholder-container">
+    <div class="image-aspect-ratio-wrapper">
+        <img src="https://via.placeholder.com/800x450.png?text=Codebase+Structure+16:9" alt="Codebase Structure" class="placeholder-image">
+    </div>
+    <p class="image-caption">Placeholder diagram of the codebase structure.</p>
+</div>
+
+<p>This structure separates concerns: `app/` contains the core application, `migrations/` handles database schema changes, `tests/` for quality assurance, and root files for configuration and execution. Using Flask Blueprints (`app/main/`, `app/api/`) helps organize routes into manageable groups.</p>
+
+            <h3>Core Components & Their In-depth Roles:</h3>
+            <ul>
+                <li>
+                    <strong>Flask Application Factory (`app/__init__.py`):</strong>
+                    Often employs the "application factory" pattern. A function (e.g., `create_app()`) initializes the Flask app object, configures it from `config.py`, initializes extensions (SQLAlchemy, JWT, CORS, etc.), and registers Blueprints. This pattern is excellent for testing and managing multiple configurations.
+                </li>
+                <li>
+                    <strong>Routes and Controllers (e.g., `app/main/routes.py`, `app/api/routes.py`):</strong>
+                    These files define the application's endpoints using Flask's `@blueprint.route('/path')` decorator. Controller functions handle incoming HTTP requests, parse data (from forms, JSON payloads, query parameters), interact with service layer modules (`app/services/`) to perform business logic, and formulate HTTP responses (rendering Jinja2 templates for HTML, or returning JSON for APIs). They act as the interface between the web and the application's core logic.
+                </li>
+                <li>
+                    <strong>SQLAlchemy Models (`app/models.py`):</strong>
+                    Defines the database schema using Python classes that inherit from SQLAlchemy's `db.Model`. Each class maps to a table, and class attributes map to columns with specific data types (Integer, String, Text, DateTime, Boolean, ForeignKey for relationships). Relationships (one-to-many like `User` to `Chat`, many-to-many like `Document` to `Tag`) are defined using `db.relationship()`. These models provide an object-oriented way to query and manipulate data, abstracting SQL. Important aspects include defining primary keys, foreign keys, indexes for performance, and constraints.
+                </li>
+                <li>
+                    <strong>Service Layer (e.g., `app/services/chat_service.py`, `rag_service.py`):</strong>
+                    This layer encapsulates the core business logic. For example, `ChatService` might handle message processing, interaction with the LLM, and saving chat history. `RAGService` would manage document ingestion (chunking, embedding, storing in ChromaDB) and query-time retrieval of relevant context. Services interact with `models.py` for database operations and external APIs (Ollama, Gemini). This separation keeps controllers lean and logic reusable.
+                </li>
+                <li>
+                    <strong>RAG Manager/Service (`app/services/rag_service.py` or `rag.py`):</strong>
+                    Crucial for grounding LLM responses. Key responsibilities:
+                    <ul>
+                        <li><strong>Document Loading & Preprocessing:</strong> Using LangChain document loaders for various file types.</li>
+                        <li><strong>Text Splitting:</strong> Employing strategies like `RecursiveCharacterTextSplitter` to break documents into manageable, semantically meaningful chunks. The choice of `chunk_size` and `chunk_overlap` is critical and often requires experimentation to balance context window limits with information completeness.</li>
+                        <li><strong>Embedding Generation:</strong> Using a sentence-transformer model (e.g., from Hugging Face) to convert text chunks into numerical vectors.</li>
+                        <li><strong>Vector Storage:</strong> Interfacing with Chroma DB to store embeddings and associated metadata (e.g., document source, chunk ID).</li>
+                        <li><strong>Similarity Search/Retrieval:</strong> Given a user query, embed it and perform a similarity search (e.g., cosine similarity) in Chroma DB to find the top-k most relevant chunks.</li>
+                        <li><strong>Context Formatting:</strong> Preparing the retrieved chunks as context to be prepended to the LLM prompt.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>OCR Processor/Service (`app/services/ocr_service.py` or `ocr_processor.py`):</strong>
+                    Handles text extraction from images. This involves:
+                    <ul>
+                        <li>Receiving image data (e.g., uploaded file).</li>
+                        <li>Optional image pre-processing (resizing, denoising, binarization using Pillow/OpenCV) to improve OCR accuracy, though modern APIs like Gemini often handle this well.</li>
+                        <li>Interfacing with the Gemini API: sending the image (e.g., as base64 encoded string or bytes) and handling the API response, which contains the extracted text and potentially bounding box information.</li>
+                        <li>Error handling for API calls (network issues, rate limits, invalid API key).</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Configuration (`config.py`):</strong>
+                    Defines different configuration environments (e.g., `DevelopmentConfig`, `ProductionConfig`, `TestingConfig`) as Python classes. Common settings include `SECRET_KEY`, `SQLALCHEMY_DATABASE_URI`, API keys, debug flags, and custom application settings. It often uses `os.getenv()` to load values from environment variables, allowing for secure and flexible configuration across deployments.
+                </li>
+                <li>
+                    <strong>Static Assets & Templates (`app/static/`, `app/templates/`):</strong>
+                    `static/` holds CSS files for styling, JavaScript for client-side interactivity (e.g., AJAX calls to API, dynamic UI updates, theme toggle), and images. `templates/` contains HTML files, typically using the Jinja2 templating engine, which Flask integrates seamlessly. Jinja2 allows embedding Python-like expressions and logic within HTML to render dynamic content.
+                </li>
+            </ul>
+
+            <h3>Key Code Snippets and Design Patterns Illustrated:</h3>
+            <ul>
+                <li>
+                    <strong>Flask Route with Service Interaction (Simplified):</strong>
+                    <pre><code class="language-python"># In app/api/routes.py
+from flask import Blueprint, request, jsonify
+from app.services.chat_service import process_user_message
+from app.models import Chat # Assuming Chat model exists
+
+api_bp = Blueprint('api', __name__, url_prefix='/api')
+
+@api_bp.route('/chat/&lt;int:chat_id&gt;/message', methods=['POST'])
+# @jwt_required() # If authentication is needed
+def send_chat_message(chat_id):
+    # user = get_jwt_identity() # Get user from JWT
+    data = request.get_json()
+    if not data or 'message' not in data:
+        return jsonify({"error": "Missing message"}), 400
+
+    user_message = data['message']
+    
+    # Basic authorization check (example)
+    # chat = Chat.query.get_or_404(chat_id)
+    # if chat.user_id != user.id:
+    #     return jsonify({"error": "Unauthorized"}), 403
+
+    try:
+        bot_response, updated_history = process_user_message(chat_id, user_message)
+        return jsonify({
+            "bot_response": bot_response,
+            "history": [msg.to_dict() for msg in updated_history] # Assuming a to_dict() method on Message model
+        }), 200
+    except Exception as e:
+        # Log the exception e
+        return jsonify({"error": "Failed to process message"}), 500
+                    </code></pre>
+                    This illustrates request parsing, interaction with a service (`process_user_message`), error handling, and JSON response generation. Authentication (`@jwt_required`) and authorization would be critical additions.
+                </li>
+                <li>
+                    <strong>SQLAlchemy Model with Relationships:</strong>
+                    <pre><code class="language-python"># In app/models.py
+from app import db # Assuming db is the SQLAlchemy instance from app/__init__.py
+from datetime import datetime
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    # ... other fields like hashed_password ...
+    chats = db.relationship('Chat', backref='user', lazy=True) # One-to-Many with Chat
+
+class Chat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    title = db.Column(db.String(200))
+    messages = db.relationship('Message', backref='chat', lazy='dynamic', cascade="all, delete-orphan") # One-to-Many with Message
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'), nullable=False)
+    sender = db.Column(db.String(10))  # 'user' or 'bot'
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    # Potentially add metadata like sources used for RAG response
+    # metadata = db.Column(db.JSON) 
+
+    def to_dict(self): # Example method for serialization
+        return {
+            'id': self.id, 'sender': self.sender, 'content': self.content, 
+            'timestamp': self.timestamp.isoformat()
+        }
+                    </code></pre>
+                    Demonstrates defining tables, columns, primary/foreign keys, and relationships (`user.chats`, `chat.messages`). `lazy='dynamic'` for `messages` means it returns a query object, useful for further filtering. `cascade="all, delete-orphan"` ensures messages are deleted if their parent chat is deleted.
+                </li>
+                <li>
+                    <strong>RAG Retrieval Snippet in a Service:</strong>
+                    <pre><code class="language-python"># In app/services/rag_service.py (conceptual)
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceEmbeddings # More specific
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+# from app import db # For interacting with document metadata models
+
+class RAGService:
+    def __init__(self, chroma_path, embedding_model_name, chunk_size, chunk_overlap):
+        self.embedding_model = HuggingFaceEmbeddings(model_name=embedding_model_name)
+        self.vector_store = Chroma(persist_directory=chroma_path, embedding_function=self.embedding_model)
+        self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        # self.collection_name = "medical_documents" # If using named collections in Chroma
+
+    def add_document_to_vector_store(self, text_content, doc_metadata):
+        chunks = self.text_splitter.split_text(text_content)
+        # Create list of LangChain Document objects for Chroma
+        # lc_documents = [Document(page_content=chunk, metadata=doc_metadata) for chunk in chunks]
+        # self.vector_store.add_documents(lc_documents, collection_name=self.collection_name)
+        # self.vector_store.persist() # If using persistence
+        pass # Simplified
+
+    def get_relevant_context(self, query_text, n_results=3):
+        # results = self.vector_store.similarity_search(query_text, k=n_results, collection_name=self.collection_name)
+        # context_str = "\n\n".join([doc.page_content for doc in results])
+        # return context_str
+        pass # Simplified
+                    </code></pre>
+                    Highlights instantiation of embedding models, vector stores, and text splitters. The actual addition and querying would involve LangChain's `Document` objects and the `add_texts` or `similarity_search` methods of the vector store. Metadata associated with chunks is vital for filtering or citing sources.
+                </li>
+            </ul>
+            <p>Navigating this structure involves understanding how requests flow from routes to services, how services use models for data persistence, and how external APIs or complex logic (like RAG) are encapsulated within services. The use of dependency injection (passing configurations or other services to classes) is also a common and good practice.</p>
+        </section>
+
+         <section id="usage">
+            <h2>Usage Instructions</h2>
+            <p>Once the Intelligence Assistance Chatbot is successfully installed, configured, and running, interacting with its features is designed to be intuitive through its web interface. This section provides guidance on how to effectively use the application and troubleshoot common operational scenarios.</p>
+
+            <h3>Running the Application (Recap):</h3>
+            <p>Ensure your virtual environment is active and all configurations (especially `.env` file with API keys and database URL) are correctly set. Start the Flask application from the project's root directory:</p>
+            <pre><code class="language-bash">(venv) python app2.py</code></pre>
+            <p>The terminal will indicate the address where the application is being served (typically `http://127.0.0.1:5000`). For production, a robust WSGI server like Gunicorn is used (see Deployment section).</p>
+
+            <h3>Interacting with the Chatbot via Web Interface:</h3>
+            <p>Open your web browser and navigate to the application's URL.</p>
+
+            <div class="image-placeholder-container">
+                <div class="image-aspect-ratio-wrapper">
+                    <img src="https://via.placeholder.com/800x450.png?text=Usage+Example+16:9" alt="Chatbot Interface Example" class="placeholder-image">
+                </div>
+                <p class="image-caption">Placeholder screenshot of the chatbot interface in use.</p>
+            </div>
+
+            <ul>
+                <li>
+                    <strong>Starting a New Chat:</strong> The interface should allow you to start a new chat session. This isolates conversation contexts.
+                </li>
+                <li>
+                    <strong>Text-Based Queries:</strong>
+                    <ul>
+                        <li>Type your medical questions, symptom descriptions, or requests for information into the chat input box. Press Enter or click the send button.</li>
+                        <li><strong>Example Queries:</strong>
+                            <ul>
+                                <li>"What is hypertension?"</li>
+                                <li>"My prescription says 'Metformin 500mg BID'. What does BID mean?"</li>
+                                <li>"I've been feeling tired and have a persistent cough for a week." (Expect informational response, not diagnosis)</li>
+                                <li>If a document about diabetes was uploaded: "What are common complications of diabetes mentioned in my document?"</li>
+                            </ul>
+                        </li>
+                        <li>The chatbot, powered by Llama 3.2 and RAG, will process your input and generate a response. Be mindful that LLMs can sometimes be verbose or, despite RAG, misinterpret complex queries. Rephrasing or breaking down complex questions can help.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Uploading Documents for Analysis:</strong>
+                    <ul>
+                        <li>Locate the document upload feature (e.g., an "Upload Document" button).</li>
+                        <li>Select supported file types: text files (.txt, .md) or images of prescriptions/documents (.png, .jpg, .jpeg).</li>
+                        <li>Upon successful upload, the system processes the document:
+                            <ul>
+                                <li>Images are sent to the Gemini API for OCR.</li>
+                                <li>Text content is chunked, embedded, and indexed in Chroma DB.</li>
+                            </ul>
+                        </li>
+                        <li>You can then ask questions specifically related to the content of the uploaded document(s) within the current chat session (or as per system design for document persistence).
+                            <ul><li>"Summarize the key findings from the uploaded lab report."</li></ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Managing Vitals and Appointments:</strong>
+                    <ul>
+                        <li>Navigate to dedicated sections for "Vital Signs" or "Appointments."</li>
+                        <li>Follow on-screen forms to input data (e.g., temperature values, blood pressure readings, appointment details).</li>
+                        <li>View historical vital signs data or upcoming appointments.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Voice Interaction (Speech-to-Text / Text-to-Speech):</strong>
+                    <ul>
+                        <li>If enabled, look for a microphone icon to activate STT. Click it, grant microphone permission if prompted by the browser, and speak your query. Whisper will transcribe it.</li>
+                        <li>Chatbot responses may be automatically read aloud (TTS) if this feature is active.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Managing Chat History:</strong> The interface should list past chat sessions, allowing you to revisit or delete them.
+                </li>
+            </ul>
+
+            <h3>Understanding Chatbot Responses & Limitations:</h3>
+            <ul>
+                <li><strong>Informational, Not Diagnostic:</strong> Crucially, remember this tool provides information and assistance, **not medical diagnoses or treatment advice.** Always consult a qualified healthcare professional for medical concerns.</li>
+                <li><strong>RAG-Grounded Responses:</strong> When querying about uploaded documents, the RAG system strives to base answers on that content. However, the LLM still synthesizes the final response.</li>
+                <li><strong>Medical Abbreviation Expansion:</strong> If an abbreviation isn't in its lexicon, it might not be expanded or could be misinterpreted.</li>
+                <li><strong>OCR Accuracy:</strong> While Gemini is powerful, OCR on very poor handwriting or complex layouts can still have errors. Double-check critical information (like dosages) against the original prescription if unsure.</li>
+            </ul>
+
+
+            <h3>Configuration for Different Environments (Recap):</h3>
+            <p>The application's behavior can be tailored via `config.py` and environment variables:</p>
+            <ul>
+                <li><strong>Development (`FLASK_ENV=development`):</strong> Enables debug mode (detailed error pages, auto-reloader). Uses local development settings (e.g., local DB, test API keys if available).</li>
+                <li><strong>Production (`FLASK_ENV=production`):</strong> Disables debug mode. Uses production-grade settings (e.g., production database URI, actual API keys). Environment variables are paramount for security here.</li>
+            </ul>
+
+            <h3>Troubleshooting Common Operational Issues:</h3>
+            <p>If you encounter problems while using the application:</p>
+            <ul>
+                <li>
+                    <strong>Chatbot Not Responding / Extremely Slow:</strong>
+                    <ul>
+                        <li><strong>Check Flask Server:</strong> Is the `python app2.py` process still running in your terminal? Any error messages displayed?</li>
+                        <li><strong>Ollama Service:</strong> Is the Ollama service running? (e.g., `ollama list` in terminal). Is the Llama 3.2 model fully downloaded and available? Check Ollama logs if accessible.</li>
+                        <li><strong>GPU/CPU Usage:</strong> Monitor system resources. High CPU/GPU usage might indicate slow model inference. If on CPU, expect slowness.</li>
+                        <li><strong>Network Connectivity:</strong> Required for Gemini API. Check internet connection.</li>
+                        <li><strong>Browser Developer Console:</strong> Open it (usually F12) and check for JavaScript errors or failed network requests (e.g., to your Flask API endpoints).</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Document Upload Fails or Processing Errors:</strong>
+                    <ul>
+                        <li><strong>File Type/Size:</strong> Check if the file type is supported and within any size limits defined in the application.</li>
+                        <li><strong>Server Logs (`app2.py` output):</strong> Look for errors during file saving, OCR processing (Gemini API errors like "API key invalid", "Quota exceeded", "Unsupported image format"), or RAG indexing.</li>
+                        <li><strong>`uploads/` Directory:</strong> Ensure this directory exists in the project root (or configured path) and that the application has write permissions to it.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>OCR Quality Issues with Prescriptions:</strong>
+                    <ul>
+                        <li><strong>Image Quality:</strong> Ensure uploaded images are clear, well-lit, and reasonably flat. Very blurry, skewed, or low-resolution images will degrade OCR.</li>
+                        <li><strong>Gemini API Status:</strong> Check if the Gemini API service is operational.</li>
+                        <li><strong>API Key:</strong> Verify `GEMINI_API_KEY` is correct and has necessary permissions/quotas in your Google AI Platform project.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Speech-to-Text (STT) or Text-to-Speech (TTS) Not Working:</strong>
+                    <ul>
+                        <li><strong>FFmpeg:</strong> Confirm FFmpeg is correctly installed and in the system PATH.</li>
+                        <li><strong>Microphone/Speaker Permissions:</strong> Ensure your browser has permission to access the microphone. Check system audio settings.</li>
+                        <li><strong>Whisper Model:</strong> If Whisper is run locally, ensure the model files are downloaded and accessible. Check for related errors in server logs.</li>
+                        <li><strong>TTS Service:</strong> If using gTTS, ensure internet connectivity. If using browser Web Speech API, check browser compatibility.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Database Errors (e.g., "Cannot connect to server"):</strong>
+                    <ul>
+                        <li><strong>PostgreSQL Service:</strong> Is the PostgreSQL server running?</li>
+                        <li><strong>`DATABASE_URL` in `.env`/`config.py`:</strong> Double-check host, port, database name, username, and password for typos.</li>
+                        <li><strong>Firewall:</strong> Ensure no firewall is blocking connections to the PostgreSQL port (default 5432) from the machine running Flask.</li>
+                        <li><strong>Database Migrations:</strong> If you see errors like "table not found," ensure migrations have been run correctly after any model changes.</li>
+                    </ul>
+                </li>
+                <li><strong>"Context Length Exceeded" or Similar LLM Errors:</strong>
+                    <ul>
+                        <li>This can happen if the combined prompt (system message, history, RAG context, user query) is too long for Llama 3.2's context window.
+                        <li>Solutions involve better history summarization, more selective RAG context, or chunking user input if it's excessively long. The application should ideally handle this gracefully.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>For persistent issues, detailed logs from the Flask application, Ollama, PostgreSQL, and the browser's developer console are invaluable for diagnosis.</p>
+        </section>
+
+        <section id="testing">
+            <h2>Testing Strategy and Execution</h2>
+            <p>A robust and multi-layered testing strategy is paramount for ensuring the reliability, correctness, and stability of the Intelligence Assistance Chatbot, especially given its handling of potentially sensitive information and complex AI components. The project employs a combination of unit, integration, and potentially end-to-end (E2E) tests, primarily using Python's testing ecosystem.</p>
+
+            <h3>Core Testing Philosophy:</h3>
+            <p>The testing approach follows the "testing pyramid" principle: a broad base of fast unit tests, a smaller layer of integration tests, and an even smaller (if present) set of E2E tests. The aim is to catch bugs early, ensure individual components work as expected, and verify that these components interact correctly.</p>
+
+            <div class="image-placeholder-container">
+                <div class="image-aspect-ratio-wrapper">
+                    <img src="https://via.placeholder.com/800x450.png?text=Testing+Pyramid+16:9" alt="Testing Pyramid" class="placeholder-image">
+                </div>
+                <p class="image-caption">Placeholder illustrating the testing pyramid concept.</p>
+            </div>
+
+            <h3>Testing Frameworks and Tools:</h3>
+            <ul>
+                <li><strong>pytest:</strong> The primary testing framework. Chosen for its expressive syntax, powerful fixture system (for managing test setup/teardown, e.g., database connections, mock objects), extensive plugin ecosystem, and ease of use. Test files are typically named `test_*.py` and test functions `test_*()`.</li>
+                <li><strong>unittest (and `unittest.mock`):</strong> Python's built-in framework. While `pytest` can run `unittest`-style tests, `unittest.mock` (or `pytest-mock` which wraps it) is indispensable for creating mock objects and patching. Mocking allows isolating units of code by replacing external dependencies (like API calls, database interactions, file system operations) with controllable test doubles.</li>
+                <li><strong>Flask-Testing (or Flask's `test_client`):</strong> Provides utilities for testing Flask applications. The `test_client` simulates HTTP requests to Flask routes without needing to run a live server, allowing testing of route handlers, request parsing, and response generation.</li>
+                <li><strong>pytest-cov:</strong> A `pytest` plugin for measuring code coverage. It indicates what percentage of the codebase (lines, branches) is executed by the tests, helping identify untested areas.</li>
+                <li><strong>Faker (Optional):</strong> Useful for generating realistic fake data (names, addresses, text) for tests.</li>
+                <li><strong>Hypothesis (Optional):</strong> For property-based testing, generating a wide range of inputs to test functions against specified properties.</li>
+            </ul>
+
+            <h3>Types of Tests Implemented:</h3>
+            <ul>
+                <li><strong>Unit Tests:</strong>
+                    <ul>
+                        <li><strong>Focus:</strong> Test individual functions, methods, or classes in isolation.
+                        <li><strong>Examples:</strong>
+                            <ul>
+                                <li>Testing a utility function that formats dates.</li>
+                                <li>Testing a method in `ChatService` that constructs a prompt for the LLM, mocking the actual LLM call.</li>
+                                <li>Testing a text chunking function in `RAGService` with various input texts.</li>
+                                <li>Testing validation logic in a form or model.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Key Technique:</strong> Extensive use of mocking to replace dependencies. For instance, when testing `ocr_service.py`, the call to the Gemini API would be mocked to return predefined responses, allowing tests for how the service handles successful OCR, API errors, or empty results.</li>
+                    </ul>
+                </li>
+                <li><strong>Integration Tests:</strong>
+                    <ul>
+                        <li><strong>Focus:</strong> Test the interaction between multiple components or services.
+                        <li><strong>Examples:</strong>
+                            <ul>
+                                <li>Testing a Flask API route for sending a chat message: This involves the route handler, `ChatService`, interaction with mocked LLM/RAG services, and potentially interaction with a test database to verify message storage.</li>
+                                <li>Testing the document upload and RAG pipeline: Uploading a test document via the `test_client`, verifying it's processed by `DocumentService` and `RAGService`, and then querying the (mocked or test) vector store.</li>
+                                <li>Testing database interactions: Verifying that SQLAlchemy models correctly save and retrieve data from a dedicated test database.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Considerations:</strong> These tests are slower than unit tests as they involve more components. A test database (e.g., a separate PostgreSQL instance or an in-memory SQLite for faster tests, if compatible) is often used, and fixtures manage its setup and teardown for each test or session. External API calls (Ollama, Gemini) are still typically mocked to avoid flakiness and cost, unless specifically testing the direct API integration with stubs.</li>
+                    </ul>
+                </li>
+                <li><strong>End-to-End (E2E) Tests (Less Frequent, Higher Level):</strong>
+                    <ul>
+                        <li><strong>Focus:</strong> Test the entire application flow from the user's perspective, often involving the UI.
+                        <li><strong>Tools:</strong> Selenium, Playwright, or Cypress (if a JavaScript frontend framework is heavily used).
+                        <li><strong>Example:</strong> A test script that opens a browser, navigates to the chat page, types a message, uploads a document, asks a question about it, and verifies the UI updates correctly.
+                        <li><strong>Challenges:</strong> Slowest to run, most brittle (prone to break with UI changes), and complex to set up. Used sparingly for critical user flows. For this project, a focus on strong API-level integration tests might be more pragmatic initially.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>How to Run Tests:</h3>
+            <p>Tests are typically located in a `tests/` directory. Ensure your virtual environment is active and test-specific configurations (e.g., test database URI) are set up (often via fixtures or environment variables like `FLASK_ENV=testing`).</p>
+            <ul>
+                <li><strong>Run all tests:</strong>
+                    <pre><code class="language-bash">(venv) python -m pytest tests/ -v</code></pre>
+                    The `-v` (verbose) flag shows individual test names and results. `-s` can show print statements.
+                </li>
+                <li><strong>Run tests in a specific file or directory:</strong>
+                    <pre><code class="language-bash">(venv) python -m pytest tests/services/test_chat_service.py -v</code></pre>
+                </li>
+                <li><strong>Run a specific test function by name (using `-k` keyword expression):</strong>
+                    <pre><code class="language-bash">(venv) python -m pytest -k "test_prescription_parsing" -v</code></pre>
+                </li>
+                <li><strong>Run tests with coverage report:</strong>
+                    <pre><code class="language-bash">(venv) python -m pytest --cov=app --cov-report=html tests/</code></pre>
+                    This runs tests, measures coverage for the `app` directory, and generates an HTML report in an `htmlcov/` directory. Open `htmlcov/index.html` in a browser to see detailed line-by-line coverage.
+                </li>
+            </ul>
+
+            <h3>Writing Effective Tests:</h3>
+            <p>When contributing, adhere to these best practices:</p>
+            <ul>
+                <li><strong>Test File Structure:</strong> Mirror the application structure within `tests/` (e.g., `tests/services/test_rag_service.py` for `app/services/rag_service.py`).</li>
+                <li><strong>Clear Naming:</strong> Test function names should clearly describe what they are testing (e.g., `test_process_user_message_with_rag_context_success`).</li>
+                <li><strong>AAA Pattern:</strong> Arrange (set up test conditions), Act (execute the code under test), Assert (verify the outcome).</li>
+                <li><strong>Pytest Fixtures (`@pytest.fixture`):</strong> Use extensively for reusable setup code:
+                    <ul>
+                        <li>`app` fixture: provides a configured Flask app instance.</li>
+                        <li>`client` fixture: provides a Flask test client from the `app` fixture.</li>
+                        <li>`db` fixture: sets up and tears down a test database, often yielding a session.
+                            <pre><code class="language-python">@pytest.fixture(scope='session') # Or 'function'
+def test_db(app_with_test_config):
+    with app_with_test_config.app_context():
+        db.create_all()
+        yield db
+        db.session.remove()
+        db.drop_all()</code></pre>
+                        </li>
+                        <li>Mock object fixtures.</li>
+                    </ul>
+                    Fixture scopes (`function`, `class`, `module`, `session`) control how often setup/teardown runs.
+                </li>
+                <li><strong>Effective Mocking:</strong> Use `mocker` (from `pytest-mock`) or `unittest.mock.patch` to replace external dependencies.
+                    <pre><code class="language-python">def test_ocr_with_mocked_gemini(mocker, ocr_service_instance):
+    mock_gemini_response = {"textAnnotations": [{"description": "Sample OCR text"}]}
+    mocker.patch('google.generativeai.GenerativeModel.generate_content', return_value=MagicMock(text="Sample OCR text")) # Path to actual API call
+    
+    result = ocr_service_instance.process_image("fake_image_bytes")
+    assert result == "Sample OCR text"</code></pre>
+                </li>
+                <li><strong>Test Coverage, Not Just Quantity:</strong> Focus on testing different logical paths, edge cases (empty inputs, invalid data, null values), and error handling scenarios, not just "happy path" execution. Aim for high branch coverage.</li>
+                <li><strong>Independent Tests:</strong> Each test should be independent and not rely on the state or outcome of other tests. Proper fixture usage helps achieve this.</li>
+                <li><strong>Readability:</strong> Tests are also documentation. Write clear, understandable tests.</li>
+            </ul>
+
+            <h3>Test Coverage Goals:</h3>
+            <p>While 100% coverage is often not a practical or cost-effective goal, striving for high coverage (e.g., 85-90%+) for critical business logic (services, models) is essential. Coverage reports highlight untested code, prompting further test development. However, high coverage doesn't guarantee bug-free code; the quality and diversity of assertions are equally important. It primarily shows what code *has been executed*, not if it *behaved correctly in all circumstances*.</p>
+        </section>
+
+        <section id="deployment">
+            <h2>Deployment Strategy and CI/CD Pipeline</h2>
+            <p>Deploying the Intelligence Assistance Chatbot effectively requires a well-thought-out strategy to move the application from a development environment to a live, accessible production server. A Continuous Integration/Continuous Deployment (CI/CD) pipeline automates this process, ensuring consistency, reliability, and speed in releases.</p>
+
+            <h3>Deployment Options & Considerations:</h3>
+            <p>The project is designed for flexibility in deployment:</p>
+
+            <div class="image-placeholder-container">
+                <div class="image-aspect-ratio-wrapper">
+                    <img src="https://via.placeholder.com/800x450.png?text=Deployment+Flow+16:9" alt="Deployment Workflow" class="placeholder-image">
+                </div>
+                <p class="image-caption">Placeholder diagram of a typical deployment workflow.</p>
+            </div>
+
+            <ul>
+                <li>
+                    <strong>Local Development/Testing Server:</strong>
+                    <ul>
+                        <li><strong>Flask Development Server:</strong> `python app2.py`. Suitable only for development due to its single-threaded nature and lack of production-grade robustness.</li>
+                        <li><strong>WSGI Server (Gunicorn/uWSGI):</strong> For a more production-like local setup or simple deployments. Gunicorn is a popular choice for Python.
+                            <pre><code class="language-bash">pip install gunicorn
+gunicorn --workers 4 --bind 0.0.0.0:5000 app:create_app() # Assuming app factory in app.py or app/__init__.py</code></pre>
+                            `--workers` (typically 2-4 per CPU core) determines concurrent request handling. `app:create_app()` points to the Flask app instance or factory function.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Platform-as-a-Service (PaaS):</strong> E.g., Heroku, Render, AWS Elastic Beanstalk, Google App Engine.
+                    <ul>
+                        <li><strong>Pros:</strong> Simplifies infrastructure management. Handles scaling, load balancing, and deployment workflows to a large extent.
+                        <li><strong>Process:</strong> Typically involves a `Procfile` (e.g., `web: gunicorn app:create_app()`), `requirements.txt`, and configuration via environment variables set on the PaaS dashboard. Database services are often provided as add-ons.
+                        <li><strong>Considerations:</strong> Cost, limitations of the free/hobby tiers, region availability, specific platform requirements for file system access (ephemeral on Heroku). Running Ollama might require a separate VPS or a PaaS that supports custom Docker images with GPU access, or using a cloud LLM API instead.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Containerization with Docker:</strong> Highly recommended for portability, consistency, and scalability.
+                    <ul>
+                        <li><strong>`Dockerfile`:** Defines the image.
+                            <pre><code class="language-dockerfile"># Example Dockerfile (adjust for your project)
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Set environment variables (can be overridden at runtime)
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV FLASK_APP app:create_app()
+ENV FLASK_ENV production 
+# For Gunicorn
+ENV PORT 5000 
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+# Ensure uploads directory exists if needed inside container (or use volume)
+# RUN mkdir -p /app/uploads 
+
+EXPOSE $PORT
+
+# CMD instruction to run Gunicorn
+CMD ["gunicorn", "--workers", "4", "--bind", "0.0.0.0:$PORT", "app:create_app()"]
+</code></pre>
+                        </li>
+                        <li><strong>Deployment:</strong> Docker images can be run directly on a server with Docker installed, or deployed to container orchestration platforms (Kubernetes, Docker Swarm) or cloud container services (AWS ECS/EKS, Google Kubernetes Engine, Azure Kubernetes Service).
+                        <li><strong>Ollama in Docker:</strong> Ollama itself can be run in a Docker container, potentially on the same host or a separate one, and networked with the application container. If GPU access is needed for Ollama, the Docker runtime and host need to be configured for NVIDIA GPU support (nvidia-docker).</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Virtual Private Server (VPS) / Bare Metal:</strong> E.g., AWS EC2, DigitalOcean Droplets, Linode.
+                    <ul>
+                        <li><strong>Pros:</strong> Full control over the environment.
+                        <li><strong>Cons:</strong> More setup and maintenance (OS updates, security patching, web server configuration like Nginx/Apache as a reverse proxy, process management with systemd/supervisor).
+                        <li><strong>Process:</strong> Set up Python, PostgreSQL, Ollama (with GPU drivers if needed), clone the app, install dependencies, configure a reverse proxy (Nginx) to serve the Gunicorn process, manage SSL certificates (e.g., Let's Encrypt).</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>Key Production Considerations:</strong>
+                <ul>
+                    <li><strong>Database:</strong> Use a managed PostgreSQL service (AWS RDS, Google Cloud SQL) or a robust self-hosted setup.</li>
+                    <li><strong>Ollama/LLM Hosting:</strong> Decide whether to self-host Ollama (requires appropriate hardware, especially GPU) or use a managed LLM API endpoint (adds cost and external dependency).</li>
+                    <li><strong>Static Files & Media:</strong> For performance, serve static files (CSS, JS) via Nginx or a Content Delivery Network (CDN). User-uploaded files (media) should ideally be stored in a dedicated object storage service (AWS S3, Google Cloud Storage) rather than the application server's local file system, especially in containerized or PaaS environments.</li>
+                    <li><strong>Logging & Monitoring:</strong> Implement comprehensive logging (e.g., to files, centralized logging services like ELK stack or Datadog) and application performance monitoring (APM).</li>
+                    <li><strong>Security:</strong> HTTPS enforced everywhere, regular security updates, firewall configuration.</li>
+                </ul>
+            </p>
+
+            <h3>CI/CD Pipeline Implementation:</h3>
+            <p>A CI/CD pipeline automates the build, test, and deployment lifecycle. Tools: GitHub Actions, GitLab CI/CD, Jenkins, CircleCI.</p>
+            <p><strong>Typical CI/CD Workflow (e.g., using GitHub Actions, triggered on push to `main` or PRs):</strong></p>
+            <ol>
+                <li><strong>Trigger:</strong> Code push to specific branches (e.g., `develop`, `main`) or on pull request creation.</li>
+                <li><strong>Checkout Code:</strong> Fetch the latest version of the repository.</li>
+                <li><strong>Set Up Environment:</strong>
+                    <ul>
+                        <li>Specify Python version.</li>
+                        <li>Cache dependencies (e.g., `pip` cache) to speed up subsequent runs.</li>
+                        <li>Install dependencies from `requirements.txt`.</li>
+                    </ul>
+                </li>
+                <li><strong>Linting and Code Formatting:</strong>
+                    <ul>
+                        <li>Run linters like Flake8 or Pylint to check for code style and potential errors.</li>
+                        <li>Run code formatters like Black or Ruff (which includes formatting) to ensure consistent style. Fail the build if checks fail.
+                           <pre><code>pip install flake8 black
+flake8 .
+black --check .</code></pre>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Run Tests:</strong>
+                    <ul>
+                        <li>Execute all unit and integration tests using `pytest`.
+                           <pre><code>pytest --cov=app tests/</code></pre>
+                        </li>
+                        <li>Set up necessary services for testing (e.g., a PostgreSQL service container if integration tests hit a real DB, mock API services). Environment variables for test configuration are crucial here.</li>
+                        <li>Fail the build if any tests fail or if coverage drops below a defined threshold.</li>
+                    </ul>
+                </li>
+                <li><strong>Security Scans (Optional but Recommended):</strong>
+                    <ul>
+                        <li>Static Application Security Testing (SAST) tools like Bandit: `bandit -r app/`.</li>
+                        <li>Dependency vulnerability scanning (e.g., `safety check -r requirements.txt` or GitHub's Dependabot alerts).</li>
+                    </ul>
+                </li>
+                <li><strong>Build Artifacts (if applicable):</strong>
+                    <ul>
+                        <li>If using Docker, build the Docker image: `docker build -t myapp-image:${{ github.sha }} .`</li>
+                        <li>Push the Docker image to a container registry (Docker Hub, AWS ECR, Google Container Registry): `docker push myapp-image:${{ github.sha }}`.</li>
+                    </ul>
+                </li>
+                <li><strong>Continuous Deployment (CD) to Staging/Production (Conditional on successful CI):</strong>
+                    <ul>
+                        <li><strong>Staging Deployment:</strong> Automatically deploy to a staging environment (a replica of production for final testing) on pushes to a `develop` or `staging` branch.</li>
+                        <li><strong>Production Deployment:</strong>
+                            <ul>
+                                <li>Often triggered manually after successful staging tests, or automatically on merges to the `main` branch (for true Continuous Deployment).</li>
+                                <li>Deployment script executes:
+                                    <ul>
+                                        <li>Pulls the new Docker image on production servers.</li>
+                                        <li>Updates the running application (e.g., `docker-compose up -d --force-recreate`, Kubernetes `kubectl apply -f deployment.yaml`, PaaS CLI commands like `heroku deploy`).</li>
+                                        <li>Runs database migrations: `flask db upgrade` (needs to be done carefully in production).</li>
+                                        <li>Performs health checks post-deployment.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Notifications:</strong> Notify developers of build/deployment status (success or failure) via Slack, email, etc.</li>
+            </ol>
+            <p>The CI/CD configuration is usually defined in a YAML file (e.g., `.github/workflows/main.yml` for GitHub Actions).</p>
+
+            <h3>Rollback Strategy:</h3>
+            <p>A critical part of deployment is the ability to quickly revert to a previous stable version if a new deployment introduces critical issues.</p>
+            <ul>
+                <li><strong>Application Rollback:</strong>
+                    <ul>
+                        <li><strong>Docker/Containers:</strong> Re-deploy the previous Docker image tag. Orchestration platforms usually have built-in rollback features.</li>
+                        <li><strong>PaaS:</strong> Most PaaS providers offer a way to redeploy a previous release version.</li>
+                    </ul>
+                </li>
+                <li><strong>Database Rollback:</strong>
+                    <ul>
+                        <li>This is more complex. If a deployment included breaking database schema changes (migrations), rolling back the application code might require also downgrading the database schema using migration tool commands (e.g., `flask db downgrade`). This must be tested thoroughly, as downgrades can be risky and potentially lead to data loss if not handled correctly.</li>
+                        <li>Regular database backups are essential. For critical issues, restoring from a backup might be necessary (a last resort).</li>
+                    </ul>
+                </li>
+                <li><strong>Process:</strong> Have a documented rollback procedure. Monitoring and alerting systems should quickly identify issues post-deployment to trigger a rollback if needed.</li>
+            </ul>
+        </section>
+
+        <section id="security">
+            <h2>Security Considerations and Best Practices</h2>
+            <p>Given the potential for handling sensitive medical information (even if anonymized or user-provided), security is a non-negotiable, paramount concern. The project must incorporate robust security measures at multiple layers to protect user data, maintain privacy, and ensure application integrity.</p>
+
+            <h3>Authentication & Authorization:</h3>
+            <p>Controlling access is the first line of defense.</p>
+
+            <div class="image-placeholder-container">
+                <div class="image-aspect-ratio-wrapper">
+                    <img src="https://via.placeholder.com/800x450.png?text=Security+Layers+16:9" alt="Security Layers" class="placeholder-image">
+                </div>
+                <p class="image-caption">Placeholder illustrating layers of security considerations.</p>
+            </div>
+
+            <ul>
+                <li><strong>Strong User Authentication:</strong>
+                    <ul>
+                        <li><strong>Password Hashing:</strong> Never store passwords in plain text. Use strong, adaptive, salted hashing algorithms like Argon2 (preferred), scrypt, or bcrypt. Flask-Bcrypt or Werkzeug's security helpers can be used.
+                           <pre><code class="language-python">from werkzeug.security import generate_password_hash, check_password_hash
+hashed_pw = generate_password_hash("plain_text_password")
+is_correct = check_password_hash(hashed_pw, "user_entered_password")</code></pre>
+                        </li>
+                        <li><strong>Multi-Factor Authentication (MFA/2FA) - Future Enhancement:</strong> For increased security, consider implementing MFA using TOTP (Time-based One-Time Password) authenticators like Google Authenticator or Authy.</li>
+                    </ul>
+                </li>
+                <li><strong>JWT-based Session Management (for APIs):</strong>
+                    <ul>
+                        <li>JSON Web Tokens (JWTs) are commonly used for stateless authentication in APIs. Upon login, the server issues an access token (short-lived) and potentially a refresh token (long-lived, stored securely by the client).
+                        <li>Flask-JWT-Extended is a popular Flask extension.
+                        <li><strong>Access Tokens:</strong> Included in the `Authorization: Bearer <token>` header of API requests. Validated by the server on each protected endpoint.
+                        <li><strong>Refresh Tokens:</strong> Used to obtain new access tokens without requiring re-login. Must be handled securely (e.g., stored in HttpOnly cookies for web clients if not a pure SPA).
+                        <li><strong>Token Revocation/Blacklisting:</strong> Implement a mechanism to invalidate tokens (e.g., on logout, password change) by maintaining a blacklist (e.g., in Redis or database).</li>
+                    </ul>
+                </li>
+                <li><strong>Role-Based Access Control (RBAC):</strong>
+                    <ul>
+                        <li>Define roles (e.g., `patient`, `admin`, potentially `caregiver` in future). Assign permissions to roles. Users are assigned roles.
+                        <li>Enforce authorization checks on routes and service methods to ensure users can only access data and perform actions permitted by their role (e.g., a patient can only see their own chat history and medical data). This involves checking the current user's identity and roles against the resource being accessed.</li>
+                    </ul>
+                </li>
+                <li><strong>Secure Session Management (for Web UI):</strong>
+                    <ul>
+                        <li>If using traditional Flask sessions (cookie-based), ensure the `SECRET_KEY` is strong and kept confidential. Use `SESSION_COOKIE_SECURE=True`, `SESSION_COOKIE_HTTPONLY=True`, and `SESSION_COOKIE_SAMESITE='Lax'` or `'Strict'`.</li>
+                        <li>Implement session timeouts (automatic logout after inactivity).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Data Security & Privacy:</h3>
+            <p>Protecting data at rest, in transit, and during processing.</p>
+            <ul>
+                <li><strong>Encryption in Transit:</strong>
+                    <ul>
+                        <li><strong>HTTPS Everywhere:</strong> Enforce HTTPS for all communication between clients and the server. Use a reverse proxy like Nginx to terminate SSL/TLS and manage certificates (e.g., free certificates from Let's Encrypt via Certbot). Flask-Talisman can help enforce HTTPS and set security headers.</li>
+                    </ul>
+                </li>
+                <li><strong>Encryption at Rest:</strong>
+                    <ul>
+                        <li><strong>Database Encryption:</strong> Modern managed database services (AWS RDS, Google Cloud SQL) offer transparent data encryption (TDE) for data at rest. If self-hosting PostgreSQL, explore filesystem-level encryption or pgcrypto for column-level encryption of highly sensitive fields.</li>
+                        <li><strong>Sensitive Fields:</strong> For specific highly sensitive data within the database (e.g., extracted prescription content if not anonymized, PII), consider application-level encryption using libraries like `cryptography` (AES-256). Key management becomes critical here (e.g., using HashiCorp Vault or cloud KMS).</li>
+                        <li><strong>Uploaded Files:</strong> If storing uploaded medical documents, ensure the storage (e.g., AWS S3) is configured for server-side encryption.</li>
+                    </ul>
+                </li>
+                <li><strong>Environment Variables for Secrets:</strong> All credentials (database passwords, API keys, `SECRET_KEY`) MUST be stored in environment variables (loaded via `.env` in dev, set directly in prod environment), never hardcoded in source code. Ensure `.env` is in `.gitignore`.</li>
+                <li><strong>Data Minimization & Anonymization:</strong>
+                    <ul>
+                        <li>Collect and store only the data absolutely necessary for the application's functionality.</li>
+                        <li>Where possible, consider anonymizing or pseudonymizing data, especially if used for analytics or model training in the future. This is complex for medical data.</li>
+                    </ul>
+                </li>
+                <li><strong>Regular Security Audits & Penetration Testing:</strong>
+                    <ul>
+                        <li>Periodically conduct security code reviews (manual and automated with SAST tools like Bandit).</li>
+                        <li>Consider third-party penetration testing for production systems handling sensitive data.</li>
+                    </ul>
+                </li>
+                <li><strong>Compliance (HIPAA, GDPR - if applicable):</strong> If the application handles identifiable health information and targets users in relevant jurisdictions, strict adherence to regulations like HIPAA (US) or GDPR (EU) is mandatory. This has significant implications for data handling, consent, audit trails, and security measures. This project, as described for general information, might not directly fall under these if it avoids PII, but it's a critical consideration for any real-world healthcare application.</li>
+            </ul>
+
+            <h3>Common Web Application Vulnerabilities and Mitigations:</h3>
+            <ul>
+                <li>
+                    <strong>SQL Injection (SQLi):</strong>
+                    <ul>
+                        <li><strong>Mitigation:</strong> Primarily by using an ORM like SQLAlchemy, which uses parameterized queries (prepared statements) that separate SQL logic from user data. Avoid constructing SQL queries by string concatenation with user input. Validate and sanitize all input that might be used in database queries, even with an ORM.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Cross-Site Scripting (XSS):</strong> Malicious scripts injected into web pages.
+                    <ul>
+                        <li><strong>Mitigation:</strong>
+                            <ul>
+                                <li><strong>Output Escaping:</strong> Jinja2 (Flask's default templating engine) auto-escapes by default, which helps. Ensure this is not disabled.</li>
+                                <li><strong>Content Security Policy (CSP):</strong> Implement a strong CSP header to restrict where scripts can be loaded from and executed.</li>
+                                <li><strong>Sanitize User Input:</strong> If displaying user-generated HTML content, use libraries like Bleach to sanitize it, allowing only safe tags and attributes.</li>
+                                <li>Avoid using `innerHTML` with unsanitized user data in JavaScript.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Cross-Site Request Forgery (CSRF):</strong> Trick a user's browser into making unintended requests.
+                    <ul>
+                        <li><strong>Mitigation:</strong> Use Flask-WTF or similar libraries that generate and validate CSRF tokens for all state-changing requests (POST, PUT, DELETE). Ensure tokens are unique per session and checked on the server.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Insecure Direct Object References (IDOR):</strong> Accessing resources by guessing IDs.
+                    <ul>
+                        <li><strong>Mitigation:</strong> Implement strong authorization checks. Always verify that the authenticated user has permission to access or modify the requested resource (e.g., `chat = Chat.query.get(chat_id); if chat.user_id != current_user.id: abort(403)`).</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Security Misconfiguration:</strong> Default credentials, unnecessary services enabled, verbose error messages revealing internal details.
+                    <ul>
+                        <li><strong>Mitigation:</strong> Harden server configurations, change all default credentials, disable unused features/ports, configure Flask `DEBUG=False` in production, use custom error pages.</li>
+                    </ul>
+                </li>
+                <li><strong>Data Leakage & Information Exposure:</strong>
+                    <ul>
+                        <li><strong>CORS Policy:</strong> Configure Cross-Origin Resource Sharing (CORS) strictly (e.g., using Flask-CORS) to allow API requests only from authorized origins.
+                        <li><strong>Rate Limiting:</strong> Implement rate limiting (e.g., using Flask-Limiter) on API endpoints and login attempts to prevent brute-force attacks and DoS.
+                        <li><strong>Logging:</strong> Log security-relevant events (logins, failed logins, access denials, critical errors) but avoid logging sensitive data like passwords or full API keys in logs. Review logs regularly.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Security Best Practices Applied Throughout Development:</h3>
+            <ul>
+                <li><strong>Principle of Least Privilege:</strong> Application processes, database users, and API clients should only have the minimum permissions necessary.</li>
+                <li><strong>Input Validation:</strong> Validate ALL input from users or external systems on the server-side (type, length, format, range). Do not trust client-side validation alone.</li>
+                <li><strong>Regular Dependency Updates:</strong> Keep all libraries, frameworks, OS, and database software up-to-date with security patches. Use tools like Dependabot (GitHub) or `pip-audit` to monitor for vulnerabilities in dependencies.</li>
+                <li><strong>Secure Software Development Lifecycle (SSDLC):</strong> Integrate security considerations into every phase of development, from design to deployment and maintenance.</li>
+                <li><strong>Error Handling:</strong> Implement robust error handling that fails securely, logs detailed error information for administrators, but does not expose sensitive internal details to users.</li>
+            </ul>
+        </section>
+
+         <section id="roadmap">
+            <h2>Future Improvements & Strategic Roadmap</h2>
+            <p>The Intelligence Assistance Chatbot Project is envisioned as an evolving platform. The current feature set provides a solid foundation, but the roadmap includes several exciting enhancements to expand its capabilities, improve user experience, and broaden its impact in aiding health information comprehension.</p>
+
+            <h3>High-Priority Upcoming Features:</h3>
+            <p>Development efforts are focused on or planned for these key areas:</p>
+
+            <div class="image-placeholder-container">
+                <div class="image-aspect-ratio-wrapper">
+                    <img src="https://via.placeholder.com/800x450.png?text=Roadmap+Feature+16:9" alt="Future Feature Example" class="placeholder-image">
+                </div>
+                <p class="image-caption">Placeholder illustrating a planned future feature.</p>
+            </div>
+
+            <ul>
+                <li>
+                    <strong>Multi-language Prescription & Query Support:</strong>
+                    <ul>
+                        <li><strong>Goal:</strong> Enable the system to process prescriptions and understand user queries in languages beyond English (e.g., Spanish, French, German, Hindi).</li>
+                        <li><strong>Technical Challenges:</strong> Requires OCR models (Gemini supports many languages) and LLMs (Llama 3.2 has multilingual capabilities, but quality varies) proficient in target languages. Abbreviation lexicons and NLP pre-processing would need localization. UI internationalization (i18n) is also needed.</li>
+                        <li><strong>Impact:</strong> Massively increases accessibility and usability for a global audience.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Automated Drug Interaction Checker:</strong>
+                    <ul>
+                        <li><strong>Goal:</strong> Integrate a module to analyze a user's medication list (from prescriptions or manual input) and check for potential adverse drug-drug interactions, drug-food interactions, or contraindications based on user-provided conditions.
+                        <li><strong>Technical Challenges:</strong> Requires a reliable, up-to-date drug interaction database/API (e.g., NIH's RxNav, OpenFDA, commercial APIs like Medscape or Epocrates). Logic for interpreting interaction severity and presenting clear, actionable warnings is complex. This feature carries significant responsibility and must be carefully validated.
+                        <li><strong>Impact:</strong> Provides a critical safety feature, helping users and caregivers identify potential risks. Must clearly state it's not a substitute for pharmacist/doctor advice.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Basic Telemedicine Platform Integration Hooks:</strong>
+                    <ul>
+                        <li><strong>Goal:</strong> Explore initial integrations with telemedicine platforms, potentially allowing users to (with explicit consent) share summarized health data or chatbot interaction summaries with their providers, or receive post-consultation information via the chatbot.
+                        <li><strong>Technical Challenges:</strong> Requires understanding telemedicine API capabilities (e.g., FHIR-based APIs if available), secure authentication and authorization mechanisms, and robust data privacy controls. Starting with simple information hand-offs would be pragmatic.
+                        <li><strong>Impact:</strong> Bridges the gap between self-management tools and professional healthcare, fostering better continuity of care.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Enhanced Symptom Analysis with Differential Context:</strong>
+                    <ul>
+                        <li><strong>Goal:</strong> Improve the chatbot's ability to engage in more nuanced, context-aware conversations about symptoms. While not providing diagnoses, it could offer more detailed information about conditions associated with a *combination* of symptoms, cite sources for this information (via RAG), and better guide users on when specific symptom patterns warrant urgent medical attention.</li>
+                        <li><strong>Technical Challenges:</strong> Requires a more sophisticated RAG knowledge base curated from reputable medical sources (e.g., Mayo Clinic, NHS, MedlinePlus). Prompt engineering to elicit detailed symptom information and present potential (not definitive) associations carefully is key. Ethical considerations are paramount.</li>
+                        <li><strong>Impact:</strong> Offers more valuable informational support for users trying to understand their symptoms before seeking professional help.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Integration with Wearable Devices & Health Platforms:</strong>
+                    <ul>
+                        <li><strong>Goal:</strong> Allow users to connect data streams from popular wearable devices (Fitbit, Apple Health, Google Fit) to automatically populate vital signs and activity data.
+                        <li><strong>Technical Challenges:</strong> Requires implementing OAuth2 flows for third-party platform authentication and using their respective APIs to fetch data. Data mapping and normalization across different platforms is also a challenge.
+                        <li><strong>Impact:</strong> Automates data entry for vital signs, providing a richer, more continuous dataset for personalized insights.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Personalized Health Insights and Trend Visualization:</strong>
+                    <ul>
+                        <li><strong>Goal:</strong> Utilize historical data (vitals, appointments, medication adherence patterns if tracked) to provide users with personalized, actionable insights and visual trends (e.g., charts of blood pressure over time).
+                        <li><strong>Technical Challenges:</strong> Requires robust data analysis capabilities and careful design to ensure insights are meaningful and not misleading. Visualization libraries (e.g., Chart.js on frontend, Matplotlib/Seaborn on backend for report generation) would be needed.
+                        <li><strong>Impact:</strong> Empowers users with a better understanding of their health journey and the impact of their behaviors or treatments.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Acknowledged Current Limitations:</h3>
+            <p>Transparency about current limitations is important:</p>
+            <ul>
+                <li><strong>Handwritten Prescription OCR Accuracy:</strong> While Gemini is advanced, accurately digitizing highly stylized, faint, or poorly written handwritten prescriptions remains a significant challenge. Estimated accuracy of ~85% means there's room for improvement; errors in critical fields like dosage are possible. Users must always verify against the original. Pre-processing and potential fine-tuning or prompt engineering for OCR could improve this.</li>
+                <li><strong>Language Support:</strong> Currently, the primary language for all processing and interaction is English. This limits accessibility for non-English speakers.</li>
+                <li><strong>No Dedicated Mobile Application:</strong> Access is via a web interface, which may not be as convenient or feature-rich as a native mobile app for on-the-go use. Responsive web design helps, but a native app is a distinct future possibility.</li>
+                <li><strong>Reliance on External APIs:</strong> Core functionalities depend on Google Gemini (OCR) and potentially Ollama (if not self-hosted robustly) or other LLM APIs. Availability, terms of service, and potential costs of these APIs are external factors. Network latency can also affect user experience.</li>
+                <li><strong>Depth of Medical Knowledge:</strong> The LLM's general knowledge and the RAG system's specific knowledge base define the system's expertise. Expanding and curating the RAG knowledge base with high-quality medical information is an ongoing process. It does not replace the nuanced knowledge of a trained medical professional.</li>
+                <li><strong>Context Window Limitations:</strong> LLMs have finite context windows. Very long chat histories or extremely large documents might require sophisticated summarization or chunking strategies to manage context effectively.</li>
+            </ul>
+
+            <h3>Call for Community Collaboration:</h3>
+            <p>The project thrives on open collaboration. Contributions are welcome from individuals with diverse expertise:</p>
+            <ul>
+                <li><strong>Medical Professionals (Doctors, Pharmacists, Nurses):</strong> Crucial for validating medical information accuracy, expanding the abbreviation lexicon, advising on drug interaction logic, and ensuring clinical relevance and safety. Help in curating RAG knowledge sources.</li>
+                <li><strong>AI/ML Engineers & Researchers:</strong> Improving OCR pre-processing, fine-tuning LLMs/embedding models, developing more advanced RAG strategies, exploring new AI-driven features.</li>
+                <li><strong>UI/UX Designers & Frontend Developers:</strong> Enhancing the web interface for better usability, accessibility (WCAG compliance), and overall user experience. Designing intuitive interfaces for new features.</li>
+                <li><strong>Backend Developers (Python/Flask):</strong> Optimizing performance, improving API design, implementing new features, strengthening security, and scaling the application.</li>
+                <li><strong>DevOps & Security Specialists:</strong> Improving CI/CD pipelines, infrastructure hardening, security testing, and ensuring best practices for deployment and data protection.</li>
+                <li><strong>Translators & Localization Experts:</strong> Assisting with UI translation and adapting content for different languages and cultural contexts.</li>
+            </ul>
+            <p>Interested contributors should refer to the project's `CONTRIBUTING.md` file (if available) for guidelines on setting up the development environment, coding standards, and the process for submitting contributions (e.g., pull requests).</p>
+        </section>
+
+        <section id="conclusion">
+            <h2>Conclusion and Valuable Resources</h2>
+            <p>The Intelligence Assistance Chatbot Project represents a significant step towards leveraging advanced AI and web technologies to tackle tangible challenges in healthcare information accessibility. By empowering individuals with a clearer understanding of their medical data, particularly complex prescriptions, the project aims to foster better health management, improve medication adherence, and enhance patient-provider communication. The robust architecture, combining sophisticated NLP/OCR with a user-centric design, provides a resilient and extensible platform for continued innovation and meaningful impact.</p>
+            <p>The journey of this project is ongoing. We encourage you to delve into the codebase, experiment with its features, and consider contributing your expertise. Your feedback, insights, and collaborative efforts are invaluable in shaping a tool that can genuinely make a difference in how people interact with and understand their health information.</p>
+
+            <h3>Useful Links for Technologies Used:</h3>
+            <ul>
+                <li><a href="https://flask.palletsprojects.com/" target="_blank">Flask Documentation</a>: The official guide for the Flask microframework, essential for backend development.</li>
+                <li><a href="https://docs.sqlalchemy.org/" target="_blank">SQLAlchemy Documentation</a>: Comprehensive resource for the ORM, crucial for database interactions.</li>
+                <li><a href="https://ollama.ai/" target="_blank">Ollama Website</a>: Information on running Llama 3.2 and other LLMs locally.</li>
+                <li><a href="https://ai.google.dev/gemini-api" target="_blank">Google Gemini API Documentation</a>: Details on using Gemini for OCR and other multimodal tasks.</li>
+                <li><a href="https://github.com/openai/whisper" target="_blank">OpenAI Whisper GitHub</a>: Code and information for the Whisper speech-to-text model.</li>
+                <li><a href="https://huggingface.co/docs/transformers/index" target="_blank">Hugging Face Transformers</a>: Documentation for accessing and using a vast range of pre-trained models.</li>
+                <li><a href="https://python.langchain.com/docs/get_started/introduction" target="_blank">LangChain Documentation</a>: Essential guides for building LLM-powered applications, including RAG.</li>
+                <li><a href="https://docs.trychroma.com/" target="_blank">Chroma DB Documentation</a>: Learn about the Chroma vector database for semantic search.</li>
+                <li><a href="https://www.postgresql.org/docs/" target="_blank">PostgreSQL Documentation</a>: Official manuals for the PostgreSQL database system.</li>
+                <li><a href="https://python-sounddevice.readthedocs.io/" target="_blank">python-sounddevice Documentation</a>: For audio I/O from Python.</li>
+
+            </ul>
+             <h3>Medical Information & Standards Resources:</h3>
+            <ul>
+                <li><a href="https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/LEXICAL_TOOLS/LEXICON.html" target="_blank">SPECIALIST Lexicon (NLM)</a>: Part of UMLS, useful for medical term normalization and abbreviation expansion.</li>
+                <li><a href="https://www.ncbi.nlm.nih.gov/books/NBK519006/" target="_blank">Medical Abbreviation Standards (NCBI Example)</a>: Provides context on the complexity and standardization efforts for medical abbreviations.</li>
+                <li><a href="https://www.hl7.org/fhir/" target="_blank">HL7 FHIR Standards</a>: Key international standards for exchanging healthcare information electronically, relevant for future integrations.</li>
+                <li><a href="https://www.who.int/teams/health-product-policy-and-standards/standards-and-specifications/pharmaceuticals/dictionaries" target="_blank">WHO Drug Dictionaries</a>: Authoritative sources for drug information, useful for validation and feature expansion.</li>
+                <li><a href="https://loinc.org/" target="_blank">LOINC (Logical Observation Identifiers Names and Codes)</a>: Standard for identifying laboratory tests and observations.</li>
+                <li><a href="https://www.snomed.org/snomed-ct" target="_blank">SNOMED CT</a>: Comprehensive clinical health terminology, valuable for advanced NLP tasks and knowledge base construction.</li>
+                 <li><a href="https://medlineplus.gov/" target="_blank">MedlinePlus (NLM)</a>: High-quality, patient-friendly health information, excellent for curating RAG knowledge.</li>
+            </ul>
+
+            <h3>Broader AI & Healthcare Informatics Resources:</h3>
+            <ul>
+                <li><a href="https://www.amia.org/" target="_blank">American Medical Informatics Association (AMIA)</a>: Leading organization for biomedical and health informatics professionals and research.</li>
+                <li><a href="https://www.himss.org/" target="_blank">Healthcare Information and Management Systems Society (HIMSS)</a>: Global advisor on health information and technology.</li>
+                <li><a href="https://nlp.stanford.edu/projects/" target="_blank">Stanford NLP Group Projects</a>: Research and resources from a leading NLP academic group.</li>
+                <li><a href="https://ai.googleblog.com/" target="_blank">Google AI Blog</a>: Updates on AI research and tools, including advancements in models like Gemini.</li>
+            </ul>
+        </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Intelligence Assistance Chatbot Project. All rights reserved.</p>
+        <p>Licensed under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Theme Toggle ---
+            const themeToggleButton = document.getElementById('theme-toggle-button');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+            const applyTheme = (theme) => {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    darkIcon.classList.add('hidden');
+                    lightIcon.classList.remove('hidden');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    darkIcon.classList.remove('hidden');
+                    lightIcon.classList.add('hidden');
+                }
+            };
+
+            let currentTheme = localStorage.getItem('theme');
+            if (!currentTheme) {
+                currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            applyTheme(currentTheme);
+
+            themeToggleButton.addEventListener('click', () => {
+                const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            // --- Table of Contents (TOC) Generation & Hover ---
+            const tocList = document.getElementById('toc-list');
+            const contentArea = document.querySelector('.content-area');
+            const headings = contentArea.querySelectorAll('h2, h3'); // Select H2s and H3s
+
+            let currentMainListItem = null;
+            let currentSubList = null;
+            const mainNavItems = []; 
+            let h3Counter = 0; // Counter for unique H3 IDs
+
+            const slugify = (text) => {
+                if (!text) return '';
+                return text.toString().toLowerCase()
+                    .replace(/\s+/g, '-')           // Replace spaces with -
+                    .replace(/[^\w-]+/g, '')       // Remove all non-word chars
+                    .replace(/--+/g, '-')           // Replace multiple - with single -
+                    .replace(/^-+/, '')             // Trim - from start of text
+                    .replace(/-+$/, '');            // Trim - from end of text
+            };
+
+            headings.forEach(heading => {
+                const parentSection = heading.closest('section[id]');
+                if (!parentSection && heading.tagName === 'H2') {
+                    console.warn("H2 found without parent section ID:", heading.textContent);
+                    return;
+                }
+                
+                let sectionId = parentSection ? parentSection.id : null;
+                let targetId = sectionId; // Default target for H2s
+
+                const link = document.createElement('a');
+                link.textContent = heading.textContent;
+
+                const listItem = document.createElement('li');
+                listItem.appendChild(link);
+
+                if (heading.tagName === 'H2') {
+                    if (!sectionId) return; // Skip H2 if its section has no ID
+                    link.href = `#${sectionId}`;
+                    tocList.appendChild(listItem);
+                    currentMainListItem = listItem;
+                    mainNavItems.push(listItem);
+                    currentSubList = null; 
+                } else if (heading.tagName === 'H3' && currentMainListItem) {
+                    h3Counter++;
+                    let h3BaseId = sectionId ? `${sectionId}-${slugify(heading.textContent)}` : `h3-${slugify(heading.textContent)}`;
+                    let h3Id = `${h3BaseId}-${h3Counter}`;
+                    
+                    let tempId = h3Id;
+                    let i = 1;
+                    while(document.getElementById(tempId)) {
+                        tempId = `${h3BaseId}-${h3Counter}-${i}`;
+                        i++;
+                    }
+                    h3Id = tempId;
+
+                    heading.id = h3Id; // Set ID on the H3 element itself
+                    targetId = h3Id;   // TOC link will point to H3's ID
+                    link.href = `#${targetId}`;
+
+                    if (!currentSubList) {
+                        currentSubList = document.createElement('ul');
+                        currentMainListItem.appendChild(currentSubList);
+                    }
+                    currentSubList.appendChild(listItem);
+                }
+            });
+            
+            mainNavItems.forEach(item => {
+                const subMenu = item.querySelector('ul');
+                let hideTimeout;
+
+                if (subMenu) {
+                    const showSubMenu = () => {
+                        clearTimeout(hideTimeout);
+                        subMenu.style.maxHeight = subMenu.scrollHeight + "px";
+                        item.classList.add('open');
+                    };
+
+                    const startHideTimeout = () => {
+                        hideTimeout = setTimeout(() => {
+                            if (!item.matches(':hover') && !subMenu.matches(':hover')) { // Check if mouse truly left
+                                subMenu.style.maxHeight = '0px';
+                                item.classList.remove('open');
+                            }
+                        }, 200); // Small delay to allow moving mouse into submenu
+                    };
+                    
+                    // Handle mouse enter on item and submenu to keep it open
+                    item.addEventListener('mouseenter', showSubMenu);
+                    subMenu.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+
+                    // Handle mouse leave from item and submenu
+                    item.addEventListener('mouseleave', startHideTimeout);
+                    subMenu.addEventListener('mouseleave', startHideTimeout);
+                }
+            });
+
+
+            // --- Smooth Scrolling for TOC and Navbar Links ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href.length > 1 && href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+
+            // --- Highlight Active Section in Sidebar TOC ---
+            const allHeadingElements = document.querySelectorAll('.content-area section[id], .content-area h3[id]');
+            const allTocLinks = document.querySelectorAll('#toc-list a');
+            const topNavbarHeight = document.querySelector('.top-utility-navbar').offsetHeight;
+            const sidebar = document.querySelector('.sidebar');
+
+            const observer = new IntersectionObserver(entries => {
+                let currentActiveId = null;
+                let minDistanceToActivationLine = Infinity;
+
+                entries.forEach(entry => {
+                    const targetElement = entry.target;
+                    const rect = targetElement.getBoundingClientRect();
+                    const id = targetElement.id;
+                    
+                    // Consider elements whose top is visible or above the fold, and bottom is below the navbar
+                    if (rect.top < window.innerHeight && rect.bottom > topNavbarHeight) {
+                        // Calculate distance from the element's top to the "activation line" 
+                        // (just below the navbar)
+                        const distance = Math.abs(rect.top - (topNavbarHeight + 15)); // 15px buffer
+                        
+                        // Prioritize elements that are closer to the activation line
+                        // and are currently intersecting
+                        if (entry.isIntersecting && distance < minDistanceToActivationLine) {
+                            minDistanceToActivationLine = distance;
+                            currentActiveId = id;
+                        }
+                    }
+                });
+                
+                // Fallback if no intersecting element was ideal (e.g., fast scroll, initial load)
+                if (!currentActiveId) {
+                    let fallbackMinDistance = Infinity;
+                    allHeadingElements.forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                         // Element's top must be on screen, bottom must be past navbar.
+                        if (rect.top < window.innerHeight && rect.bottom > topNavbarHeight) {
+                            const distance = Math.abs(rect.top - (topNavbarHeight + 15));
+                             // And its top must be reasonably close to the activation line
+                            if (rect.top < (topNavbarHeight + window.innerHeight * 0.5)) { // Within top half of viewport generally
+                                if (distance < fallbackMinDistance) {
+                                    fallbackMinDistance = distance;
+                                    currentActiveId = el.id;
+                                }
+                            }
+                        }
+                    });
+                }
+
+
+                allTocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const parentLi = link.closest('li'); // For H2 or H3 li
+                    if(parentLi) parentLi.classList.remove('active-parent');
+
+                    if (link.getAttribute('href') === `#${currentActiveId}`) {
+                        link.classList.add('active');
+                        if(parentLi) parentLi.classList.add('active-parent');
+
+
+                        // Scroll active TOC item into view if sidebar is scrollable
+                        if (sidebar.scrollHeight > sidebar.clientHeight) {
+                            const linkRect = link.getBoundingClientRect();
+                            const sidebarRect = sidebar.getBoundingClientRect();
+                            // Check if element is fully visible within sidebar
+                            const isVisible = (linkRect.top >= sidebarRect.top && linkRect.bottom <= sidebarRect.bottom);
+                            if (!isVisible) {
+                                link.scrollIntoView({ behavior: 'auto', block: 'nearest' });
+                            }
+                        }
+                    }
+                });
+
+            }, {
+                rootMargin: `-${topNavbarHeight - 1}px 0px -${Math.max(0, window.innerHeight - topNavbarHeight - (window.innerHeight * 0.34))}px 0px`,
+                threshold:  [0, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 1.0] // More thresholds for finer-grained updates
+            });
+
+            allHeadingElements.forEach(section => {
+                if (section.id) {
+                     observer.observe(section);
+               }
+           });
+
+           // --- Accordion Logic ---
+           const accordionItems = document.querySelectorAll('.accordion-item');
+           accordionItems.forEach(item => {
+               const header = item.querySelector('.accordion-header');
+               const content = item.querySelector('.accordion-content');
+               const icon = header.querySelector('.accordion-icon');
+
+               header.addEventListener('click', () => {
+                   const isActive = header.classList.contains('active');
+
+                   // Optional: Close other open accordions
+                   // accordionItems.forEach(otherItem => {
+                   //     if (otherItem !== item) {
+                   //         otherItem.querySelector('.accordion-header').classList.remove('active');
+                   //         otherItem.querySelector('.accordion-content').classList.remove('active');
+                   //         otherItem.querySelector('.accordion-content').style.maxHeight = '0px';
+                   //         otherItem.querySelector('.accordion-icon').textContent = '+';
+                   //     }
+                   // });
+
+                   if (isActive) {
+                       header.classList.remove('active');
+                       content.classList.remove('active');
+                       content.style.maxHeight = '0px';
+                       if(icon) icon.textContent = '+';
+                   } else {
+                       header.classList.add('active');
+                       content.classList.add('active');
+                       content.style.maxHeight = content.scrollHeight + "px";
+                       if(icon) icon.textContent = '-';
+                   }
+               });
+           });
+
+           // --- Navbar Hide/Show on Scroll ---
+           const topNavbar = document.querySelector('.top-utility-navbar');
+           let lastScrollTop = 0;
+           const scrollThreshold = 50; // Pixels to scroll before navbar state changes
+
+           window.addEventListener('scroll', function() {
+               let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+               if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold/2) { // Add some hysteresis
+                   if (scrollTop > lastScrollTop && scrollTop > topNavbarHeight) {
+                       // Scroll Down
+                       topNavbar.classList.add('navbar--hidden');
+                       topNavbar.classList.remove('navbar--visible');
+                   } else {
+                       // Scroll Up or at the top
+                       if (scrollTop + window.innerHeight < document.documentElement.scrollHeight || scrollTop === 0) {
+                          topNavbar.classList.remove('navbar--hidden');
+                          topNavbar.classList.add('navbar--visible');
+                       }
+                   }
+                   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+               }
+           }, false);
+
+
+       });
+   </script>
+</body>
+</html>

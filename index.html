@@ -358,10 +358,11 @@
                         margin-top 0.5s var(--easing-cubic);
         }
 
-        .project-entry-title:hover + .project-entry-details {
-            max-height: 700px; 
+        .project-entry-title:hover + .project-entry-details,
+        .project-entry.expanded .project-entry-details { /* Add rule for expanded class */
+            max-height: 700px;
             opacity: 1;
-            margin-top: 15px; 
+            margin-top: 15px;
         }
         .project-entry-description {
             font-size: 1rem; 
@@ -544,7 +545,7 @@
                         <div class="project-entry-tags">
                             <span class="project-entry-tag">ML</span><span class="project-entry-tag">Python</span><span class="project-entry-tag">HTML</span><span class="project-entry-tag">Custom LLM</span>
                         </div>
-                        <div class="project-entry-links"><a href="#">GitHub</a></div>
+                        <div class="project-entry-links"><a href="#">GitHub</a> <a href="project3.html">Documentation</a></div>
                     </div>
                 </div>
                 <div class="project-entry reveal-on-scroll" style="transition-delay: 0.1s;">
@@ -976,6 +977,24 @@
 
         resizeCanvas(); // Initial setup and start animation
     });
+
+    // --- Project Entry Click Expansion ---
+    const projectTitles = document.querySelectorAll('.project-entry-title');
+    projectTitles.forEach(title => {
+        title.addEventListener('click', function() {
+            const projectEntry = this.closest('.project-entry');
+            if (projectEntry) {
+                // Optional: Close other expanded entries
+                // document.querySelectorAll('.project-entry.expanded').forEach(entry => {
+                //     if (entry !== projectEntry) {
+                //         entry.classList.remove('expanded');
+                //     }
+                // });
+                projectEntry.classList.toggle('expanded');
+            }
+        });
+    });
+
     </script>
 </body>
 </html>
