@@ -876,9 +876,11 @@
             /* border-radius: 6px 6px 0 0; */ /* Removed */
             /* border-bottom: 1px solid var(--border-color-light); */ /* Removed border for cleaner look */
             margin-bottom: 10px; /* Space before content appears */
+            background-color: var(--background-color-light);
         }
         body.dark-mode .accordion-header {
             color: var(--text-color-dark); /* Ensure this is distinct if needed */
+            background-color: var(--background-color-dark);
             /* border-bottom-color: var(--border-color-dark); */ /* Removed border */
         }
 
@@ -941,49 +943,52 @@
         /* Image Placeholder Styles */
         .image-placeholder-container {
             width: 100%;
-            max-width: 800px; /* Increased max width of the image */
-            margin: 25px auto; /* Centered with space */
+            max-width: 800px;
+            margin: 25px auto;
             padding: 0;
-            background-color: #e9ecef; /* Light background for the container */
-            border: 1px solid var(--border-color-light);
+            background-color: #ffffff;
             border-radius: 4px;
-            overflow: hidden; /* To contain the image aspect ratio padding */
+            overflow: hidden;
         }
+
         body.dark-mode .image-placeholder-container {
             background-color: #2c2c2c;
             border-color: var(--border-color-dark);
         }
 
         .image-aspect-ratio-wrapper {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio (9/16 * 100) */
+            /* This wrapper doesn't need specific styles for your current goal
+            if the image is styled correctly. It will act as a block element.
+            If you want the wrapper to shrink to the image's size (when image is small): */
+            /* display: inline-block; /* Or line-flex, or just let image's margin auto handle it */
+            /* text-align: center; /* If using inline-block on wrapper, to center it */
+            /* For simplicity, let's assume it's a standard block for now. */
         }
 
-        img.placeholder-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Cover the area, might crop */
-            display: block;
-            border-bottom: 1px solid var(--border-color-light);
-        }
-        body.dark-mode img.placeholder-image {
-            border-bottom-color: var(--border-color-dark);
+        .placeholder-image {
+            display: block;     /* Treat as a block element */
+            max-width: 75%;   /* MODIFIED: Make image take up at most 75% of its parent's width.
+                                Adjust this percentage (e.g., 50%, 60%, 80%) to your liking.
+                                If the image's natural width is less than this calculated 75%,
+                                it will display at its natural width (no upscaling). */
+            height: auto;       /* Maintain aspect ratio */
+            margin-left: auto;  /* Center the image horizontally within its parent */
+            margin-right: auto; /* (.image-aspect-ratio-wrapper) */
         }
 
+        /* Specific rule to keep the image in the Project Overview section at its original size */
+        #overview .placeholder-image {
+            max-width: 50%;
+        }
         .image-caption {
-            padding: 10px 15px;
-            font-size: 0.9em;
             text-align: center;
-            color: var(--text-muted-light);
-            background-color: var(--card-background-light); /* Match card bg if any, or slightly off-main */
+            padding: 8px 15px;
+            font-size: 0.9em;
+            color: #555;
         }
+
         body.dark-mode .image-caption {
-            color: var(--text-muted-dark);
-            background-color: var(--card-background-dark);
+            color: #bbb;
         }
 
         /* Navbar hide on scroll */
@@ -1146,9 +1151,9 @@
             
             <div class="image-placeholder-container">
                 <div class="image-aspect-ratio-wrapper">
-                    <img src="https://via.placeholder.com/800x450.png?text=Project+Overview+16:9" alt="Project Overview Illustration" class="placeholder-image">
+                    <img src="assets/papers/project images/core concepts image.png" alt="Project Overview Illustration" class="placeholder-image">
                 </div>
-                <p class="image-caption">Placeholder image illustrating the project's core concept.</p>
+                <p class="image-caption">The Project's Core Concept.</p>
             </div>
 
             <p>The fundamental problem this project addresses is the pervasive difficulty patients encounter when trying to understand medication names, dosages, complex administration schedules, potential side effects, and drug interactions as detailed on prescriptions or in medical reports. This lack of clarity can lead to medication errors, poor adherence, and increased anxiety. By automating the extraction, interpretation, and contextual explanation of this information, the chatbot functions as an intelligent, empathetic assistant. It empowers patients to take a more active and informed role in managing their health and medication regimens, fostering a greater sense of control and confidence. The system's vision extends to democratizing medical knowledge, making it more accessible and less intimidating for the average user.</p>
@@ -1169,9 +1174,9 @@
             
             <div class="image-placeholder-container">
                 <div class="image-aspect-ratio-wrapper">
-                    <img src="https://via.placeholder.com/800x450.png?text=Key+Features+16:9" alt="Key Features Overview" class="placeholder-image">
+                    <img src="assets/papers/project images/key features project3.png" alt="Key Features Overview" class="placeholder-image">
                 </div>
-                <p class="image-caption">Placeholder illustrating a key feature of the chatbot.</p>
+                <p class="image-caption">Illustrating a Key Feature of the Chatbot.</p>
             </div>
 
             <div class="accordion-container">
@@ -1265,9 +1270,9 @@
             
             <div class="image-placeholder-container">
                 <div class="image-aspect-ratio-wrapper">
-                    <img src="https://via.placeholder.com/800x450.png?text=Tech+Stack+16:9" alt="Technology Stack Diagram" class="placeholder-image">
+                    <img src="assets/papers/project images/techstack project3.png" alt="Technology Stack Diagram" class="placeholder-image">
                 </div>
-                <p class="image-caption">Placeholder diagram of the technology stack.</p>
+                <p class="image-caption">Diagram of the Technology Stack.</p>
             </div>
 
             <ul class="tech-stack-list">
@@ -1352,12 +1357,6 @@
                 <li><strong>Internet Connection:</strong> Required for downloading dependencies, models, and for accessing the Gemini API.</li>
             </ul>
 
-            <div class="image-placeholder-container">
-                <div class="image-aspect-ratio-wrapper">
-                    <img src="https://via.placeholder.com/800x450.png?text=Setup+Diagram+16:9" alt="Setup Illustration" class="placeholder-image">
-                </div>
-                <p class="image-caption">Placeholder illustrating a step in the setup process.</p>
-            </div>
 
             <h3>Detailed Installation Steps:</h3>
             <ol>
@@ -1513,12 +1512,6 @@ FLASK_SECRET_KEY=a_very_strong_random_secret_key_for_sessions
 └── README.md                     # Project overview and setup
 </code></pre>
 
-<div class="image-placeholder-container">
-    <div class="image-aspect-ratio-wrapper">
-        <img src="https://via.placeholder.com/800x450.png?text=Codebase+Structure+16:9" alt="Codebase Structure" class="placeholder-image">
-    </div>
-    <p class="image-caption">Placeholder diagram of the codebase structure.</p>
-</div>
 
 <p>This structure separates concerns: `app/` contains the core application, `migrations/` handles database schema changes, `tests/` for quality assurance, and root files for configuration and execution. Using Flask Blueprints (`app/main/`, `app/api/`) helps organize routes into manageable groups.</p>
 
@@ -1695,9 +1688,9 @@ class RAGService:
 
             <div class="image-placeholder-container">
                 <div class="image-aspect-ratio-wrapper">
-                    <img src="https://via.placeholder.com/800x450.png?text=Usage+Example+16:9" alt="Chatbot Interface Example" class="placeholder-image">
+                    <img src="assets/papers/project images/interface project3.png" alt="Chatbot Interface Example" class="placeholder-image">
                 </div>
-                <p class="image-caption">Placeholder screenshot of the chatbot interface in use.</p>
+                <p class="image-caption">Screenshot of the Chatbot Interface in use.</p>
             </div>
 
             <ul>
@@ -1837,9 +1830,9 @@ class RAGService:
 
             <div class="image-placeholder-container">
                 <div class="image-aspect-ratio-wrapper">
-                    <img src="https://via.placeholder.com/800x450.png?text=Testing+Pyramid+16:9" alt="Testing Pyramid" class="placeholder-image">
+                    <img src="assets/papers/project images/testing image project3.png" alt="Testing Pyramid" class="placeholder-image">
                 </div>
-                <p class="image-caption">Placeholder illustrating the testing pyramid concept.</p>
+                <p class="image-caption">Illustrating the Testing Pyramid Concept.</p>
             </div>
 
             <h3>Testing Frameworks and Tools:</h3>
@@ -1956,13 +1949,6 @@ def test_db(app_with_test_config):
 
             <h3>Deployment Options & Considerations:</h3>
             <p>The project is designed for flexibility in deployment:</p>
-
-            <div class="image-placeholder-container">
-                <div class="image-aspect-ratio-wrapper">
-                    <img src="https://via.placeholder.com/800x450.png?text=Deployment+Flow+16:9" alt="Deployment Workflow" class="placeholder-image">
-                </div>
-                <p class="image-caption">Placeholder diagram of a typical deployment workflow.</p>
-            </div>
 
             <ul>
                 <li>
