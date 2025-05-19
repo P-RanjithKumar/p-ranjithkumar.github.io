@@ -366,33 +366,63 @@
             position: relative; /* For dropdown positioning */
         }
 
+        #page-share-button {
+            background-color: transparent;
+            border: 1px solid var(--border-color-light);
+            color: var(--text-muted-light);
+            padding: 5px 10px; /* MODIFIED: Slightly sleeker padding */
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease; /* MODIFIED: Faster transition, added transform */
+        }
+
         .share-dropdown {
             position: absolute;
-            top: calc(100% + 5px); /* Position below the button */
-            right: 0; /* Align to the right of the container */
+            top: calc(100% + 8px); /* MODIFIED: Slightly more space from button */
+            right: 0;
             background-color: var(--card-background-light);
             border: 1px solid var(--border-color-light);
-            border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1001; /* Ensure it's above other content */
-            width: max-content; /* Fit content width */
-            padding: 5px 0;
+            border-radius: 6px; /* MODIFIED: Slightly larger radius, common for cards */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* MODIFIED: Softer shadow */
+            z-index: 1001;
+            width: max-content;
+            min-width: 170px; /* ADDED: Ensures a decent minimum width */
+            padding: 6px 0; /* MODIFIED: Slight adjustment */
+            opacity: 0; /* Start hidden for transition */
+            visibility: hidden; /* Start hidden for transition */
+            transform: translateY(5px); /* Start slightly lower for transition */
+            transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
         }
 
         .share-dropdown-item {
-            display: flex; /* Changed to flex for icon and text alignment */
-            align-items: center; /* Vertically center icon and text */
+            display: flex;
+            align-items: center;
             padding: 8px 15px;
             color: var(--text-color-light);
             text-decoration: none;
             font-size: 0.9em;
-            background-color: transparent; /* For button reset */
-            border: none; /* For button reset */
-            width: 100%; /* For button reset */
-            text-align: left; /* For button reset */
-            cursor: pointer; /* For button reset */
+            font-family: 'Open Sans', sans-serif; /* Explicitly set if needed, though should inherit */
+            background-color: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
             transition: background-color 0.2s ease, color 0.2s ease;
+            border-radius: 3px; /* ADDED: Subtle rounding for items on hover state */
         }
+
+        /* Show dropdown */
+        .share-dropdown:not(.hidden) { /* Use :not(.hidden) to trigger transition */
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
         .share-dropdown-item svg {
             margin-right: 10px;
             /* width: 16px; height: 16px; -- set in HTML */
@@ -403,6 +433,7 @@
         .share-dropdown-item:hover {
             background-color: var(--code-background-light);
             color: var(--primary-color-light);
+            /* border-radius is applied above */
         }
         
         .copy-feedback {
@@ -412,11 +443,26 @@
             text-align: center;
         }
 
+        #page-share-button:hover {
+            color: var(--primary-color-light);
+            background-color: var(--code-background-light);
+            border-color: var(--primary-color-light);
+            transform: translateY(-1px); /* ADDED: Subtle lift on hover */
+        }
+
+        /* Dark Mode for Share Button - hover refinement */
+        body.dark-mode #page-share-button:hover {
+            color: var(--primary-color-dark);
+            background-color: var(--code-background-dark);
+            border-color: var(--primary-color-dark);
+            transform: translateY(-1px); /* ADDED: Subtle lift on hover */
+        }
+
         /* Dark Mode for Dropdown */
         body.dark-mode .share-dropdown {
             background-color: var(--card-background-dark);
             border-color: var(--border-color-dark);
-            box-shadow: 0 2px 10px rgba(255,255,255,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* MODIFIED: Adjusted dark shadow */
         }
         body.dark-mode .share-dropdown-item {
             color: var(--text-color-dark);
@@ -1020,7 +1066,7 @@
             <div class="navbar-links-right">
                 <a href="index.html">Portfolio</a>
                 <a href="assets/papers/Medical Assistance System Using Large Language Model and Medical Data Management.docx" download id="view-paper-button" aria-label="View Paper">View Paper</a> <!-- Changed to download link -->
-                <a href="index.html">Contact</a> 
+                <a href="index.html#contact">Contact</a> 
                 <button id="theme-toggle-button" aria-label="Toggle theme">
                     <svg id="theme-toggle-dark-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
@@ -2637,7 +2683,7 @@ is_correct = check_password_hash(hashed_pw, "user_entered_password")</code></pre
                }
            }, false);
 
-           
+
             // --- Share Button Functionality ---
             const shareButton = document.getElementById('page-share-button');
             const shareDropdown = document.getElementById('share-dropdown-menu');
