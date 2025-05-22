@@ -976,10 +976,6 @@
             margin-right: auto; /* (.image-aspect-ratio-wrapper) */
         }
 
-        /* Specific rule to keep the image in the Project Overview section at its original size */
-        #overview .placeholder-image {
-            max-width: 50%;
-        }
         .image-caption {
             text-align: center;
             padding: 8px 15px;
@@ -991,7 +987,110 @@
             color: #bbb;
         }
 
-        /* Navbar hide on scroll */
+        /* Specific rule to keep the image in the Project Overview section at its original size */
+        #overview .placeholder-image {
+            max-width: 50%;
+        }
+        #usage .placeholder-image {
+            max-width: 100%;
+        }
+
+        /* Styles for the horizontal image gallery within the #usage section */
+        #usage .horizontal-scroll-gallery .gallery-items-wrapper {
+            display: flex;          /* Arrange items in a row */
+            overflow-x: auto;       /* Enable horizontal scrolling when content overflows */
+            overflow-y: hidden;     /* Hide vertical scrollbar (usually not needed for horizontal galleries) */
+            padding-top: 5px;       /* Optional: some space above the images */
+            padding-bottom: 20px;   /* Extra space at the bottom to accommodate the scrollbar without overlapping content */
+            gap: 15px;              /* Consistent spacing between gallery items using flex gap */
+        }
+
+        #usage .horizontal-scroll-gallery .gallery-item {
+            flex: 0 0 auto;         /* Prevent items from shrinking, let them take their content's width based on image size */
+            /* The 'gap' property on the parent (.gallery-items-wrapper) handles spacing, so margin-right is not strictly needed here */
+        }
+
+        /* Adjust placeholder-image style specifically for this gallery context */
+        #usage .horizontal-scroll-gallery .placeholder-image {
+            /* Override general .placeholder-image styles or #usage .placeholder-image if they conflict */
+            max-width: none;        /* Allows image to be wider if its aspect ratio demands it for the given height */
+            
+            /* Specific dimensions for gallery images */
+            height: 280px;          /* Example: Set a fixed height for all gallery images for visual consistency */
+            width: auto;            /* Width will adjust to maintain aspect ratio based on the fixed height */
+
+            /* Ensure display and object-fit are appropriate */
+            display: block;
+            object-fit: contain;    /* Shows entire image within the bounds, maintains aspect ratio. */
+                                    /* Use 'cover' if you want to fill height and allow cropping of width. */
+
+            /* Override centering margins from general .placeholder-image style */
+            margin-left: 0;
+            margin-right: 0;
+
+            /* Optional styling */
+            border-radius: 6px;
+            background-color: var(--code-background-light); /* Fallback bg for images */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        body.dark-mode #usage .horizontal-scroll-gallery .placeholder-image {
+            background-color: var(--code-background-dark);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* The main caption for the gallery might need slight adjustment if space is tight */
+        #usage .horizontal-scroll-gallery .image-caption {
+            margin-top: 5px; /* Reduced margin-top as scrollbar padding is handled by gallery-items-wrapper */
+            text-align: center; /* Ensure caption is centered under the potentially wide gallery */
+        }
+
+
+        /* --- Optional: Custom Scrollbar Styling (Uncomment and adapt if desired) --- */
+        /*
+        #usage .horizontal-scroll-gallery .gallery-items-wrapper {
+            scrollbar-width: thin; 
+            scrollbar-color: var(--text-muted-light) var(--code-background-light);
+        }
+
+        #usage .horizontal-scroll-gallery .gallery-items-wrapper::-webkit-scrollbar {
+            height: 8px; 
+        }
+
+        #usage .horizontal-scroll-gallery .gallery-items-wrapper::-webkit-scrollbar-track {
+            background: var(--code-background-light);
+            border-radius: 4px;
+        }
+
+        #usage .horizontal-scroll-gallery .gallery-items-wrapper::-webkit-scrollbar-thumb {
+            background-color: var(--text-muted-light);
+            border-radius: 4px;
+            border: 2px solid var(--code-background-light); 
+        }
+
+        #usage .horizontal-scroll-gallery .gallery-items-wrapper::-webkit-scrollbar-thumb:hover {
+            background-color: var(--primary-color-light);
+        }
+
+        body.dark-mode #usage .horizontal-scroll-gallery .gallery-items-wrapper {
+            scrollbar-color: var(--text-muted-dark) var(--code-background-dark);
+        }
+
+        body.dark-mode #usage .horizontal-scroll-gallery .gallery-items-wrapper::-webkit-scrollbar-track {
+            background: var(--code-background-dark);
+        }
+
+        body.dark-mode #usage .horizontal-scroll-gallery .gallery-items-wrapper::-webkit-scrollbar-thumb {
+            background-color: var(--text-muted-dark);
+            border-color: var(--code-background-dark);
+        }
+
+        body.dark-mode #usage .horizontal-scroll-gallery .gallery-items-wrapper::-webkit-scrollbar-thumb:hover {
+            background-color: var(--primary-color-dark);
+        }
+        */
+
+        /* ### Navbar hide on scroll ### */
         .top-utility-navbar.navbar--hidden {
             transform: translateY(-100%);
             transition: transform 0.3s ease-in-out;
@@ -999,6 +1098,79 @@
         .top-utility-navbar.navbar--visible {
             transform: translateY(0);
             transition: transform 0.3s ease-in-out;
+        }
+
+        /* Slideshow Styles */
+        .slideshow-container {
+            position: relative;
+            max-width: 800px; /* Adjust as needed */
+            margin: 25px auto;
+            overflow: hidden; /* Important for slide transitions */
+            background-color: var(--card-background-light); /* Match theme */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        body.dark-mode .slideshow-container {
+            background-color: var(--card-background-dark);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .slideshow-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%; /* Ensure it takes up container width */
+        }
+
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .slide img {
+            width: 100%;
+            display: block;
+            max-height: 500px; /* Adjust as needed, or remove for natural height */
+            object-fit: contain; /* Or 'cover' if you prefer filling */
+            border-radius: 8px 8px 0 0; /* Rounded top corners if caption is separate */
+        }
+
+        .slideshow-container .image-caption { /* Re-style caption for slideshow */
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 0.9em;
+            color: var(--text-muted-light);
+            background-color: var(--card-background-light); /* Match theme */
+            border-top: 1px solid var(--border-color-light);
+            border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+        }
+        body.dark-mode .slideshow-container .image-caption {
+            color: var(--text-muted-dark);
+            background-color: var(--card-background-dark);
+            border-top-color: var(--border-color-dark);
+        }
+
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -30px; /* Adjust based on image height and padding */
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            transition: 0.3s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0,0,0,0.3);
+        }
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.6);
         }
 
 
@@ -1067,7 +1239,7 @@
 <body>
     <nav class="top-utility-navbar">
         <div class="top-utility-navbar-container">
-            <a href="#" class="navbar-brand">DocProject</a>
+            <a href="#" class="navbar-brand">Intelligence Assistance Chatbot Project Documentation</a>
             <div class="navbar-links-right">
                 <a href="index.html">Portfolio</a>
                 <a href="assets/papers/Medical Assistance System Using Large Language Model and Medical Data Management.docx" download id="view-paper-button" aria-label="View Paper">View Paper</a> <!-- Changed to download link -->
@@ -1686,11 +1858,39 @@ class RAGService:
             <h3>Interacting with the Chatbot via Web Interface:</h3>
             <p>Open your web browser and navigate to the application's URL.</p>
 
-            <div class="image-placeholder-container">
-                <div class="image-aspect-ratio-wrapper">
-                    <img src="assets/papers/project images/interface project3.png" alt="Chatbot Interface Example" class="placeholder-image">
+            <div class="slideshow-container">
+                <div class="slideshow-slides">
+                    <div class="slide">
+                        <img src="assets/papers/project images/interface1 project3.png" alt="Chatbot Interface Example - View 1">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/papers/project images/interface2 project3.png" alt="Chatbot Interface Example - View 2">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/papers/project images/interface3 project3.png" alt="Chatbot Interface Example - View 3">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/papers/project images/interface4 project3.png" alt="Chatbot Interface Example - View 3">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/papers/project images/interface5 project3.png" alt="Chatbot Interface Example - View 3">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/papers/project images/interface6 project3.png" alt="Chatbot Interface Example - View 3">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/papers/project images/interface7 project3.png" alt="Chatbot Interface Example - View 3">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/papers/project images/interface8 project3.png" alt="Chatbot Interface Example - View 3">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/papers/project images/interface9 project3.png" alt="Chatbot Interface Example - View 3">
+                    </div>
                 </div>
-                <p class="image-caption">Screenshot of the Chatbot Interface in use.</p>
+                <a class="prev">&#10094;</a>
+                <a class="next">&#10095;</a>
+                <p class="image-caption">Screenshots of the Chatbot Interface in use. (Use arrows to navigate)</p>
             </div>
 
             <ul>
@@ -2768,6 +2968,45 @@ is_correct = check_password_hash(hashed_pw, "user_entered_password")</code></pre
                 });
             }
 
+            // --- Slideshow Functionality ---
+            const slideshows = document.querySelectorAll('.slideshow-container');
+
+            slideshows.forEach(slideshow => {
+                const slidesContainer = slideshow.querySelector('.slideshow-slides');
+                const slides = slideshow.querySelectorAll('.slide');
+                const prevButton = slideshow.querySelector('.prev');
+                const nextButton = slideshow.querySelector('.next');
+                let currentIndex = 0;
+                const totalSlides = slides.length;
+
+                if (!slidesContainer || !slides.length || !prevButton || !nextButton) {
+                    console.warn('Slideshow elements not found for a slideshow container.');
+                    return;
+                }
+
+                function showSlide(index) {
+                    if (index >= totalSlides) {
+                        currentIndex = 0;
+                    } else if (index < 0) {
+                        currentIndex = totalSlides - 1;
+                    } else {
+                        currentIndex = index;
+                    }
+                    const offset = -currentIndex * 100;
+                    slidesContainer.style.transform = `translateX(${offset}%)`;
+                }
+
+                prevButton.addEventListener('click', () => {
+                    showSlide(currentIndex - 1);
+                });
+
+                nextButton.addEventListener('click', () => {
+                    showSlide(currentIndex + 1);
+                });
+
+                // Initialize the first slide
+                showSlide(currentIndex);
+            });
 
        });
    </script>
