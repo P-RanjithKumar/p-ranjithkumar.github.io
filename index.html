@@ -11,9 +11,9 @@
             --color-background-medium: #1a1820;
             --color-surface-glass: rgba(26, 24, 32, 0.65); /* Dark glass */
             
-            --color-text-primary: #e8e6f0;
-            --color-text-secondary: #b0acc0;
-            --color-text-muted: #706c80;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #cccccc;
+            --color-text-muted: #999999;
 
             --color-accent-primary: #00f0ff;
             --color-accent-secondary: #ff60c0;
@@ -67,9 +67,9 @@
             --color-background-medium: #ffffff; /* White */
             --color-surface-glass: rgba(255, 255, 255, 0.65); /* Light glass */
             
-            --color-text-primary: #1a1c20; /* Dark grey / Off-black */
-            --color-text-secondary: #4a4e58; /* Medium grey */
-            --color-text-muted: #787c88; /* Lighter grey */
+            --color-text-primary: #000000; /* Pure black */
+            --color-text-secondary: #333333; /* Darker grey */
+            --color-text-muted: #666666; /* Darker grey */
 
             /* Accents can often remain vibrant, ensure contrast */
             /* --color-accent-primary: #00A0B0; Deeper cyan for better contrast if needed */
@@ -324,9 +324,10 @@
             border-bottom: 1px solid rgba(var(--color-text-muted-rgb-values), 0.2); /* Adapts with text-muted */
             opacity: 0; 
             transform: translateY(30px); 
-            transition: opacity var(--transition-duration-medium) var(--easing-cubic), 
+            transition: opacity var(--transition-duration-medium) var(--easing-cubic),
                         transform var(--transition-duration-medium) var(--easing-cubic),
                         border-color var(--transition-duration-medium);
+            will-change: opacity, transform;
         }
         .project-entry.is-visible { 
             opacity: 1;
@@ -354,11 +355,11 @@
             overflow: hidden; 
             margin-top: 0; 
             transition: max-height 0.5s var(--easing-cubic),
-                        opacity 0.4s var(--easing-cubic) 0.1s, 
+                        opacity 0.4s var(--easing-cubic) 0.1s,
                         margin-top 0.5s var(--easing-cubic);
+            will-change: max-height, opacity, margin-top;
         }
 
-        .project-entry-title:hover + .project-entry-details,
         .project-entry.expanded .project-entry-details { /* Add rule for expanded class */
             max-height: 700px;
             opacity: 1;
@@ -434,7 +435,6 @@
         /* Brand colors for social icons on hover - these generally work well on both light/dark */
         .social-icon-list a[title="LinkedIn"]:hover { color: #0A66C2; text-shadow: 0 0 10px rgba(10,102,194,0.5); }
         .social-icon-list a[title="GitHub"]:hover { color: #E8E8E8; text-shadow: 0 0 10px rgba(232,232,232,0.5); }
-        html.light-theme .social-icon-list a[title="GitHub"]:hover { color: #171515; text-shadow: 0 0 10px rgba(23,21,21,0.3); } /* Darker GitHub for light theme */
         .social-icon-list a[title="Twitter / X"]:hover { color: #1DA1F2; text-shadow: 0 0 10px rgba(29,161,242,0.5); }
         .social-icon-list a[title="Kaggle"]:hover { color: #20BEFF; text-shadow: 0 0 10px rgba(32,190,255,0.5); }
         .social-icon-list a[title="instagram"]:hover { color: #E1306C; text-shadow: 0 0 10px rgba(225, 48, 108, 0.5); }
@@ -561,7 +561,7 @@
                     <div class="project-entry-details">
                         <p class="project-entry-description">Conducted an in-depth study using satellite-based remote sensing data. Achieved third place in an inter-university competition for geospatial data processing.</p>
                         <div class="project-entry-tags"><span class="project-entry-tag">CNN</span><span class="project-entry-tag">DataFlow</span><span class="project-entry-tag">Python</span></div>
-                        <div class="project-entry-links"><a href="#">Case Study</a></div>
+                        <div class="project-entry-links"><a href="#">.</a></div>
                     </div>
                 </div>
                 <div class="project-entry reveal-on-scroll" style="transition-delay: 0.2s;">
@@ -569,7 +569,7 @@
                    <div class="project-entry-details">
                         <p class="project-entry-description">Analyzed student performance patterns using the Open University Learning Analytics Dataset. Implemented machine learning models to predict outcomes.</p>
                         <div class="project-entry-tags"><span class="project-entry-tag">Data Eng.</span><span class="project-entry-tag">ANN</span><span class="project-entry-tag">Scikit-learn</span></div>
-                        <div class="project-entry-links"><a href="#">GitHub</a></div>
+                        <div class="project-entry-links"><a href="#">.</a></div>
                    </div>
                </div>
             </div>
@@ -989,15 +989,14 @@
     // --- Project Entry Click Expansion ---
     const projectTitles = document.querySelectorAll('.project-entry-title');
     projectTitles.forEach(title => {
-        title.addEventListener('click', function() {
+        title.addEventListener('click', function () {
             const projectEntry = this.closest('.project-entry');
             if (projectEntry) {
-                // Optional: Close other expanded entries
-                // document.querySelectorAll('.project-entry.expanded').forEach(entry => {
-                //     if (entry !== projectEntry) {
-                //         entry.classList.remove('expanded');
-                //     }
-                // });
+                document.querySelectorAll('.project-entry.expanded').forEach(entry => {
+                    if (entry !== projectEntry) {
+                        entry.classList.remove('expanded');
+                    }
+                });
                 projectEntry.classList.toggle('expanded');
             }
         });
