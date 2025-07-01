@@ -407,6 +407,281 @@
         }
 
 
+        /* --- Publications Section --- */
+        #publications .publication-card {
+            background-color: var(--color-surface-glass);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-large);
+            border: 1px solid var(--color-border-subtle);
+            padding: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            transition: transform var(--transition-duration-medium) var(--easing-cubic), box-shadow var(--transition-duration-medium) var(--easing-cubic), border-color var(--transition-duration-medium);
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        #publications .publication-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #publications .publication-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-color-card-hover), 0 0 15px var(--glow-color-primary);
+            border-color: rgba(var(--color-accent-primary-rgb-values), 0.4);
+        }
+
+        .publication-image {
+            flex-shrink: 0;
+            width: 180px;
+            height: 135px;
+            border-radius: var(--border-radius-medium);
+            overflow: hidden;
+        }
+
+        .publication-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-duration-medium) var(--easing-cubic);
+        }
+
+        .publication-card:hover .publication-image img {
+            transform: scale(1.05);
+        }
+
+        .publication-content {
+            flex-grow: 1;
+        }
+
+        .publication-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 8px;
+        }
+
+        .publication-meta {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .publication-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .publication-authors {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .publication-abstract {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .publication-link {
+            display: inline-block;
+            padding: 8px 20px;
+            background: transparent;
+            border: 1px solid var(--color-accent-primary);
+            color: var(--color-accent-primary);
+            border-radius: var(--border-radius-small);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background-color var(--transition-duration-fast), color var(--transition-duration-fast);
+        }
+
+        .publication-link:hover {
+            background-color: var(--color-accent-primary);
+            color: var(--color-background-deep);
+        }
+
+        .publication-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .publication-doi {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        @media (max-width: 768px) {
+            #publications .publication-card {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            .publication-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        /* --- Citation Modal (Modern) --- */
+        .publication-link.cite-button {
+            background-color: transparent;
+            border: 1px solid var(--color-accent-secondary);
+            color: var(--color-accent-secondary);
+        }
+        .publication-link.cite-button:hover {
+            background-color: var(--color-accent-secondary);
+            color: var(--color-background-deep);
+        }
+        .citation-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(var(--color-background-deep-rgb-values), 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .citation-modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .citation-modal-content {
+            background-color: var(--color-surface-glass);
+            padding: 35px;
+            border-radius: var(--border-radius-large);
+            border: 1px solid var(--color-border-subtle);
+            width: 90%;
+            max-width: 650px;
+            position: relative;
+            transform: translateY(20px) scale(0.98);
+            transition: transform 0.3s var(--easing-cubic), opacity 0.3s;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        .citation-modal-overlay.visible .citation-modal-content {
+            transform: translateY(0) scale(1);
+        }
+        .citation-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(var(--color-text-primary-rgb-values), 0.05);
+            border: none;
+            color: var(--color-text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            line-height: 1;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .citation-modal-close:hover {
+            color: var(--color-text-primary);
+            background: rgba(var(--color-text-primary-rgb-values), 0.1);
+            transform: scale(1.1);
+        }
+        .citation-modal-content h3 {
+            font-size: 1.6rem;
+            color: var(--color-text-primary);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        .citation-tabs {
+            display: flex;
+            gap: 10px;
+            background-color: rgba(var(--color-background-deep-rgb-values), 0.3);
+            padding: 5px;
+            border-radius: var(--border-radius-medium);
+            margin-bottom: 20px;
+        }
+        .citation-tab-link {
+            flex-grow: 1;
+            padding: 8px 15px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: var(--border-radius-small);
+            transition: color 0.2s, background-color 0.2s;
+        }
+        .citation-tab-link:hover {
+            background-color: rgba(var(--color-text-primary-rgb-values), 0.05);
+            color: var(--color-text-primary);
+        }
+        .citation-tab-link.active {
+            background-color: var(--color-background-medium);
+            color: var(--color-text-primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .citation-tab-content {
+            display: none;
+        }
+        .citation-tab-content.active {
+            display: block;
+        }
+        .citation-tab-content pre {
+            background-color: rgba(var(--color-background-deep-rgb-values), 0.5);
+            padding: 15px;
+            border-radius: var(--border-radius-medium);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: var(--font-monospace);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            border: 1px solid var(--color-border-subtle);
+            max-height: 220px;
+            overflow-y: auto;
+        }
+        .copy-citation-button {
+            display: block;
+            margin-top: 15px;
+            margin-left: auto;
+            padding: 9px 20px;
+            background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary));
+            color: var(--color-background-deep);
+            border: none;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.2s var(--easing-cubic), box-shadow 0.2s var(--easing-cubic);
+        }
+        .copy-citation-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(var(--color-accent-primary-rgb-values), 0.2), 0 4px 15px rgba(var(--color-accent-secondary-rgb-values), 0.2);
+        }
+        .copy-citation-button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
         /* --- Blog Section --- */
         #blog .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         .blog-card { background-color: var(--color-background-medium); border-radius: var(--border-radius-large); border: 1px solid var(--color-border-subtle); transition: transform var(--transition-duration-medium) var(--easing-cubic), box-shadow var(--transition-duration-medium) var(--easing-cubic), background-color var(--transition-duration-medium), border-color var(--transition-duration-medium); opacity: 0; transform: translateY(30px); overflow: hidden; display: flex; flex-direction: column; }
@@ -456,6 +731,7 @@
         <a href="#about" class="nav-link" data-section="about">About</a>
         <a href="#experience" class="nav-link" data-section="experience">Experience</a>
         <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+        <a href="#publications" class="nav-link" data-section="publications">Publications</a>
         <a href="#blog" class="nav-link" data-section="blog">Blog</a>
         <a href="#contact" class="nav-link" data-section="contact">Contact</a>
         <button id="theme-toggle" title="Toggle light/dark mode">
@@ -575,6 +851,37 @@
             </div>
         </section>
 
+        <section id="publications" class="page-section">
+            <div class="section-header">
+                <h2 class="section-title">My <span class="highlight">Publications</span></h2>
+                <p class="section-subtitle">Authored works and research contributions that I've had the privilege to share with the community.</p>
+            </div>
+            <div class="publication-list">
+                <article class="publication-card reveal-on-scroll">
+                    <div class="publication-image">
+                        <img src="assets/papers/project images/coverimage_project3.png" alt="Publication Cover Image">
+                    </div>
+                    <div class="publication-content">
+                        <h3 class="publication-title">Medical Assistance System Using Large Language Model and Medical Data Management</h3>
+                        <p class="publication-authors">Ranjith Kumar P, Dinesh Arun M, Soundararajan N, Nivetha R, Kaviya Priya S, Nivethika R.</p>
+                        <div class="publication-meta">
+                            <span><strong>Published In:</strong> 2025 3rd International Conference on Advancements in Electrical, Electronics, Communication, Computing and Automation (ICAECA)</span>
+                            <span><strong>Location:</strong> Coimbatore, India</span>
+                            <span><strong>Date:</strong> 04-05 April 2025</span>
+                        </div>
+                        <p class="publication-abstract">
+                            This project aims to create a multi-module system to deal with issues related to healthcare personal record keeping and communication. There are three modules working synchronously. The process of extracting meaningful information from the prescriptions and storing them in a database is done in Module 1. In Module 2, a fine-tuned Large Language Model is implemented with information retrieval capabilities that enables users to ask medical-related queries and retrieve their medical history using natural language. With the help of the voice interaction technology included in Module 3, users can interact verbally with the system by giving voice instructions, and the system will respond accordingly.
+                        </p>
+                        <div class="publication-links">
+                             <a href="https://doi.org/10.1109/ICAECA63854.2025.11012384" class="publication-link" target="_blank">View on IEEE Xplore</a>
+                             <a href="#" class="publication-link cite-button">Cite</a>
+                             <span class="publication-doi"><strong>DOI:</strong> 10.1109/ICAECA63854.2025.11012384</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
         <section id="blog" class="page-section">
              <div class="section-header">
                 <h2 class="section-title">Insights & <span class="highlight">Reflections</span></h2>
@@ -641,6 +948,54 @@
             </div>
         </footer>
     </main>
+
+    <div id="citation-modal" class="citation-modal-overlay">
+        <div class="citation-modal-content">
+            <button class="citation-modal-close">&times;</button>
+            <h3>Cite this paper</h3>
+            <div class="citation-tabs">
+                <button class="citation-tab-link active" data-tab="bibtex">BibTeX</button>
+                <button class="citation-tab-link" data-tab="ris">RIS</button>
+                <button class="citation-tab-link" data-tab="plaintext">Plain Text</button>
+            </div>
+            <div id="bibtex" class="citation-tab-content active">
+                <pre><code>@INPROCEEDINGS{11012384,
+  author={R, Nivetha and Priya S, Kaviya and P, Ranjith Kumar and Arun M, Dinesh and N, Soundararajan and R, Nivethika and Bhattacharjee, Ananya},
+  booktitle={2025 3rd International Conference on Advancements in Electrical, Electronics, Communication, Computing and Automation (ICAECA)},
+  title={Medical Assistance System Using Large Language Model and Medical Data Management},
+  year={2025},
+  volume={},
+  number={},
+  pages={1-5},
+  doi={10.1109/ICAECA63854.2025.11012384}}</code></pre>
+                <button class="copy-citation-button" data-clipboard-target="#bibtex pre code">Copy</button>
+            </div>
+            <div id="ris" class="citation-tab-content">
+                <pre><code>TY  - CONF
+TI  - Medical Assistance System Using Large Language Model and Medical Data Management
+T2  - 2025 3rd International Conference on Advancements in Electrical, Electronics, Communication, Computing and Automation (ICAECA)
+SP  - 1
+EP  - 5
+AU  - N. R
+AU  - K. Priya S
+AU  - R. K. P
+AU  - D. Arun M
+AU  - S. N
+AU  - N. R
+AU  - A. Bhattacharjee
+PY  - 2025
+DO  - 10.1109/ICAECA63854.2025.11012384
+JO  - 2025 3rd International Conference on Advancements in Electrical, Electronics, Communication, Computing and Automation (ICAECA)
+Y1  - 4-5 April 2025
+ER  - </code></pre>
+                <button class="copy-citation-button" data-clipboard-target="#ris pre code">Copy</button>
+            </div>
+            <div id="plaintext" class="citation-tab-content">
+                <pre><code>N. R et al., "Medical Assistance System Using Large Language Model and Medical Data Management," 2025 3rd International Conference on Advancements in Electrical, Electronics, Communication, Computing and Automation (ICAECA), Coimbatore, India, 2025, pp. 1-5, doi: 10.1109/ICAECA63854.2025.11012384.</code></pre>
+                <button class="copy-citation-button" data-clipboard-target="#plaintext pre code">Copy</button>
+            </div>
+        </div>
+    </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -1001,6 +1356,63 @@
             }
         });
     });
+
+    // --- Citation Modal Logic ---
+    const citeButton = document.querySelector('.cite-button');
+    const modalOverlay = document.getElementById('citation-modal');
+
+    if (citeButton && modalOverlay) {
+        const modalCloseButton = modalOverlay.querySelector('.citation-modal-close');
+        const tabLinks = modalOverlay.querySelectorAll('.citation-tab-link');
+        const tabContents = modalOverlay.querySelectorAll('.citation-tab-content');
+        const copyButtons = modalOverlay.querySelectorAll('.copy-citation-button');
+
+        citeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            modalOverlay.classList.add('visible');
+        });
+
+        const closeModal = () => {
+            modalOverlay.classList.remove('visible');
+        };
+
+        modalCloseButton.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+
+                tabLinks.forEach(l => l.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                this.classList.add('active');
+                modalOverlay.querySelector('#' + tabId).classList.add('active');
+            });
+        });
+
+        copyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetSelector = this.dataset.clipboardTarget;
+                const textToCopy = modalOverlay.querySelector(targetSelector).innerText;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = this.innerText;
+                    this.innerText = 'Copied!';
+                    setTimeout(() => {
+                        this.innerText = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy');
+                });
+            });
+        });
+    }
 
     </script>
 </body>
