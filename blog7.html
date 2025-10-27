@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crafting Synaptic Flow: My Portfolio's Design & Code | Ranjith Kumar</title>
-    <meta name="description" content="A behind-the-scenes look at the design philosophy, technical choices, and development process of my interactive personal portfolio, 'Synaptic Flow'.">
-
-    <!-- Include MathJax for rendering LaTeX equations (if needed, can be removed if no math) -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>From Coimbatore to Dublin: Chaos, Humor, and Growth | Ranjith Kumar</title>
+    <meta name="description" content="A student's leap from South India to Ireland — packed with messy goodbyes, airport drama, relentless rain, and unexpected lessons.">
 
     <style>
-        /* --- Copied Styles from blog5.html --- */
+        /* --- Copied Styles from blog6.html --- */
         /* 1. --- Reset & Base Styles --- */
         :root {
             --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -20,9 +16,9 @@
 
             --color-text: #333;
             --color-bg: #ffffff;
-            --color-primary: #0d6efd; /* Bootstrap Blue */
+            --color-primary: #0d6efd;
             --color-secondary: #6c757d;
-            --color-accent: #fd7e14; /* Bootstrap Orange */
+            --color-accent: #fd7e14;
             --color-border: #dee2e6;
             --color-code-bg: #f8f9fa;
             --color-blockquote-border: var(--color-primary);
@@ -30,9 +26,9 @@
             --color-illustration-border: var(--color-accent);
 
             --container-width: 800px;
-            --toc-width: 220px; /* Width for the Table of Contents */
-            --layout-gap: calc(var(--spacing-unit) * 2.5); /* Gap between content and TOC */
-            --main-wrapper-width: calc(var(--container-width) + var(--toc-width) + var(--layout-gap)); /* Max width for content+TOC */
+            --toc-width: 220px;
+            --layout-gap: calc(var(--spacing-unit) * 2.5);
+            --main-wrapper-width: calc(var(--container-width) + var(--toc-width) + var(--layout-gap));
 
             --spacing-unit: 1rem;
             --border-radius: 6px;
@@ -55,7 +51,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 100%; } /* Enable smooth scroll */
+        html { scroll-behavior: smooth; font-size: 100%; }
 
         body {
             font-family: var(--font-primary);
@@ -74,39 +70,37 @@
         a:hover { color: var(--color-accent); text-decoration: underline; }
         *:focus-visible { outline: 3px dashed var(--color-primary); outline-offset: 3px; }
 
-        /* Target headings for scroll margin */
         h2[id], h3[id], h4[id], section[id] {
             scroll-margin-top: calc(var(--header-height) + var(--spacing-unit) * 1.5);
         }
 
         /* 2. --- Layout Structure --- */
-        .container { /* Still used for header/footer */
+        .container {
              width: 90%;
-             max-width: var(--container-width); /* Default article width */
+             max-width: var(--container-width);
              margin: 0 auto;
              padding: 0 calc(var(--spacing-unit) / 2);
         }
-        /* New wrapper for main content and TOC */
         .content-wrapper {
             width: 90%;
             max-width: var(--main-wrapper-width);
             margin: 0 auto;
             display: grid;
-            grid-template-columns: minmax(0, var(--container-width)) auto; /* Article column + TOC column */
+            grid-template-columns: minmax(0, var(--container-width)) auto;
             gap: var(--layout-gap);
-            align-items: start; /* Align top */
+            align-items: start;
         }
         .article-column {
             grid-column: 1 / 2;
-            max-width: 100%; /* Ensure it doesn't overflow */
+            max-width: 100%;
         }
         .toc-column {
             grid-column: 2 / 3;
             width: var(--toc-width);
             position: sticky;
-            top: calc(var(--header-height) + var(--spacing-unit) * 1.5); /* Stick below header */
-            height: calc(100vh - var(--header-height) - var(--spacing-unit) * 3); /* Limit height */
-            overflow-y: auto; /* Allow scrolling within TOC if needed */
+            top: calc(var(--header-height) + var(--spacing-unit) * 1.5);
+            height: calc(100vh - var(--header-height) - var(--spacing-unit) * 3);
+            overflow-y: auto;
         }
 
         #progress-bar { position: fixed; top: 0; left: 0; height: 5px; background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); width: 0%; z-index: 100; transition: width 0.1s linear; }
@@ -155,7 +149,6 @@
         #search-input { display: none; border: 1px solid var(--color-border); padding: 6px 10px; border-radius: var(--border-radius); background-color: var(--color-bg); color: var(--color-text); }
         body.search-active #search-input { display: inline-block; animation: fadeIn 0.3s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateX(10px)} to { opacity: 1; transform: translateX(0)} }
-        @media (max-width: 768px) { .main-navigation { display: none; } }
         
         .back-to-blog {
             display: inline-block;
@@ -180,6 +173,7 @@
         .post-meta .category a { background-color: var(--color-primary); color: #fff; padding: 3px 10px; border-radius: calc(var(--border-radius) / 1.5); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; transition: background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; display: inline-block; }
         .post-meta .category a:hover { background-color: var(--color-accent); text-decoration: none; transform: translateY(-2px); }
         .post-title { font-size: 2.8rem; font-family: var(--font-serif); font-weight: 700; line-height: 1.25; margin-bottom: var(--spacing-unit); color: var(--color-text); transition: color var(--transition-speed) ease; }
+        .post-subtitle { font-size: 1.3rem; font-style: italic; color: var(--color-secondary); margin-bottom: calc(var(--spacing-unit) * 1.5); line-height: 1.5; }
         .author-info { display: flex; align-items: center; gap: calc(var(--spacing-unit) * 0.75); margin-bottom: calc(var(--spacing-unit) * 2.5); font-size: 0.95rem; }
         .author-info .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-border); }
         .author-info .author-name { font-weight: 500; color: var(--color-text); transition: color var(--transition-speed-fast) ease; }
@@ -190,9 +184,6 @@
         .content-body h2[id] { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; }
         .content-body h3[id] { font-size: 1.6rem; }
         .content-body h4[id] { font-size: 1.3rem; color: var(--color-primary); }
-        .content-body h2:not([id]) { font-size: 2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 5px; display: inline-block; } 
-        .content-body h3:not([id]) { font-size: 1.6rem; }
-        .content-body h4:not([id]) { font-size: 1.3rem; color: var(--color-primary); }
 
         .content-body p, .content-body ul, .content-body ol, .content-body blockquote, .content-body figure, .content-body pre, .content-body section, .content-body table, .content-body iframe {
             transition: none; 
@@ -203,42 +194,20 @@
         .content-body blockquote { border-left: 5px solid var(--color-blockquote-border); padding-left: calc(var(--spacing-unit) * 1.5); margin-left: 0; font-style: italic; font-size: 1.2rem; color: var(--color-secondary); transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease; }
         .content-body code { font-family: var(--font-mono); background-color: var(--color-code-bg); padding: 3px 6px; border-radius: var(--border-radius); font-size: 0.9em; color: var(--color-text); transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
         body.dark-mode .content-body code { color: #f8f9fa; }
-        .content-body pre { background-color: var(--color-code-bg); padding: calc(var(--spacing-unit) * 1.5); border-radius: var(--border-radius); overflow-x: auto; position: relative; transition: background-color var(--transition-speed) ease; border: 1px solid var(--color-border); margin: var(--spacing-unit) 0; }
-        .content-body pre code { background-color: transparent; padding: 0; font-size: 0.95rem; line-height: 1.6; color: var(--color-text); transition: color var(--transition-speed) ease; display: block; }
-        body.dark-mode .content-body pre code { color: #f8f9fa; }
-        .copy-code-button { position: absolute; top: 12px; right: 12px; background-color: var(--color-secondary); color: #fff; border: none; padding: 6px 12px; border-radius: var(--border-radius); font-size: 0.85rem; cursor: pointer; opacity: 0; transition: opacity var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease; transform: translateY(5px); }
-        .content-body pre:hover .copy-code-button { opacity: 1; transform: translateY(0); }
-        .copy-code-button:hover { background-color: var(--color-primary); transform: scale(1.05) translateY(0); }
-        .copy-code-button.copied { background-color: var(--color-accent); transform: scale(1.05) translateY(0); }
+        .content-body strong { color: var(--color-primary); }
 
-        .content-body .math { text-align: center; margin: var(--spacing-unit) 0; padding: var(--spacing-unit); background-color: var(--color-code-bg); border-radius: var(--border-radius); overflow-x: auto; border: 1px solid var(--color-border); }
-        
-        .content-body figure { 
-            background-color: var(--color-illustration-bg); 
-            border: 1px solid var(--color-illustration-border);
-            padding: var(--spacing-unit); 
+        .highlight-box {
+            background-color: var(--color-illustration-bg);
+            border-left: 4px solid var(--color-accent);
+            padding: calc(var(--spacing-unit) * 1.5);
+            margin: calc(var(--spacing-unit) * 2) 0;
             border-radius: var(--border-radius);
-            margin: calc(var(--spacing-unit) * 1.5) auto; /* Centered with auto margins */
-            max-width: 90%; /* Control max width of figure */
         }
-        .content-body figure img { 
-            border-radius: calc(var(--border-radius) / 2);
-            margin-bottom: calc(var(--spacing-unit) / 2); 
+        .highlight-box h4 {
+            margin-top: 0 !important;
+            margin-bottom: var(--spacing-unit);
+            color: var(--color-accent);
         }
-        .content-body figcaption { 
-            text-align: center; 
-            font-size: 0.9rem; 
-            color: var(--color-secondary); 
-            font-style: italic;
-        }
-
-
-        .content-body table { width: 100%; border-collapse: collapse; margin: calc(var(--spacing-unit) * 2) 0; font-size: 0.95rem; border: 1px solid var(--color-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .content-body th, .content-body td { border: 1px solid var(--color-border); padding: calc(var(--spacing-unit) * 0.75); text-align: left; }
-        .content-body thead th { background-color: var(--color-code-bg); font-weight: 600; color: var(--color-text); }
-        .content-body tbody tr:nth-child(even) { background-color: var(--color-code-bg); }
-        body.dark-mode .content-body tbody tr:nth-child(even) { background-color: rgba(var(--color-bg-rgb), 0.1); }
-        body.dark-mode .content-body thead th { background-color: var(--color-code-bg); }
 
         .section-divider { height: 5px; width: 100px; margin: calc(var(--spacing-unit) * 3) auto; background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary)); background-size: 200% 100%; border-radius: 3px; animation: gradient-shift 4s linear infinite; }
         @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -289,6 +258,7 @@
         body.dark-mode .gh-comments-info code { background-color: rgba(255,255,255,0.1); }
         #comment-thread-container { margin-top: calc(var(--spacing-unit) * 2); }
 
+
         /* 5. --- Footer --- */
         .site-footer { background-color: var(--color-code-bg); color: var(--color-secondary); padding: calc(var(--spacing-unit) * 2.5) 0; margin-top: calc(var(--spacing-unit) * 4); font-size: 0.9rem; text-align: center; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; border-top: 1px solid var(--color-border); }
         .site-footer .container { max-width: var(--main-wrapper-width); } 
@@ -302,7 +272,6 @@
         #back-to-top.visible { opacity: 0.8; visibility: visible; transform: scale(1); }
         #back-to-top:hover { opacity: 1; background-color: var(--color-accent); transform: scale(1.1); }
         #back-to-top:active { transform: scale(1); }
-
 
         /* 7. --- Table of Contents Styling --- */
         #toc-container {
@@ -328,11 +297,6 @@
         #toc-list li {
             margin-bottom: calc(var(--spacing-unit) * 0.5);
         }
-        #toc-list ul { /* For nested lists (H3s under H2s) */
-            list-style: none;
-            padding-left: var(--spacing-unit);
-            margin-top: calc(var(--spacing-unit) * 0.25);
-        }
         #toc-list a {
             display: block;
             color: var(--color-secondary);
@@ -341,10 +305,6 @@
             border-left: 3px solid transparent; 
             padding-left: calc(var(--spacing-unit) * 0.75);
             text-decoration: none;
-        }
-        #toc-list ul a { /* Style for H3 links */
-            padding-left: calc(var(--spacing-unit) * 1.25); /* More indent for H3 */
-            font-size: 0.85rem;
         }
         #toc-list a:hover {
             color: var(--color-primary);
@@ -357,36 +317,30 @@
             border-left-color: var(--color-primary);
         }
 
-
         /* --- Responsive Adjustments --- */
         @media (max-width: 1024px) { 
             .content-wrapper {
                 grid-template-columns: 1fr; 
                 max-width: var(--container-width); 
-                 width: 90%; 
+                width: 90%; 
             }
             .toc-column {
                 display: none; 
             }
             .site-header .container,
             .site-footer .container {
-                 max-width: var(--container-width); 
-            }
-            .post-featured-image img {
-                max-width: 800px; 
+                max-width: var(--container-width); 
             }
         }
         @media (max-width: 768px) {
             .post-title { font-size: 2.2rem; }
+            .post-subtitle { font-size: 1.1rem; }
             .content-body { font-size: 1.1rem; }
             .content-body h2 { font-size: 1.8rem; }
             .content-body h3 { font-size: 1.5rem; }
             .author-bio { flex-direction: column; align-items: center; text-align: center; }
             .author-bio .avatar { margin-bottom: var(--spacing-unit); }
         }
-         @media (max-width: 600px) {
-              .related-posts-grid { grid-template-columns: 1fr; }
-         }
     </style>
 </head>
 <body>
@@ -410,21 +364,23 @@
                 <article class="blog-post" itemscope itemtype="http://schema.org/BlogPosting">
 
                     <figure class="post-featured-image">
-                        <img src="assets/blog_cover_image/newportfolio.png"
-                             alt="Conceptual image representing the Synaptic Flow portfolio design"
+                        <img src="assets\blog_cover_image\DCU&myself.jpg"
+                             alt="Coimbatore to Dublin journey - Airport departure scene"
                              itemprop="image"
                              loading="eager">
                     </figure>
 
                     <div class="post-meta">
-                        <span class="category"><a href="#category-webdev" itemprop="articleSection">Web Dev</a></span>
-                        <span class="category"><a href="#category-portfolio" itemprop="articleSection">Portfolio</a></span>
-                        <span class="category"><a href="#category-design" itemprop="articleSection">Design</a></span>
+                        <span class="category"><a href="#category-personal" itemprop="articleSection">Personal</a></span>
+                        <span class="category"><a href="#category-studentlife" itemprop="articleSection">Student Life</a></span>
+                        <span class="category"><a href="#category-travel" itemprop="articleSection">Travel</a></span>
+                        <span class="category"><a href="#category-blogging" itemprop="articleSection">Blogging</a></span>
                         <span class="reading-time" title="Estimated reading time">⏱️ Calculating...</span>
-                        <time class="publication-date" datetime="2025-03-08" itemprop="datePublished">March 8, 2025</time>
+                        <time class="publication-date" datetime="2025-03-15" itemprop="datePublished">March 15, 2025</time>
                     </div>
 
-                    <h1 class="post-title" itemprop="headline">Crafting Synaptic Flow: A Deep Dive into My Portfolio's Design & Code</h1>
+                    <h1 class="post-title" itemprop="headline">From Coimbatore to Dublin: Chaos, Humor, and Growth</h1>
+                    <p class="post-subtitle">A student's leap from South India to Ireland — packed with messy goodbyes, airport drama, relentless rain, and unexpected lessons.</p>
 
                     <div class="author-info" itemprop="author" itemscope itemtype="http://schema.org/Person">
                          <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
@@ -432,223 +388,161 @@
                     </div>
 
                     <div class="content-body" itemprop="articleBody">
-                        <p>I'm thrilled to finally share a behind-the-scenes look at my new personal portfolio page! This project was a labor of love, aimed at not just showcasing my skills and projects, but also creating an immersive and engaging experience for visitors. I've themed it "Synaptic Flow," representing the interconnectedness of ideas, skills, and the continuous flow of learning and creation in the tech world. In this post, I'll walk you through the design philosophy, highlight key features, discuss the technology stack, and touch upon some of the interesting coding aspects.</p>
-
-                        <h2 id="intro">Introduction: The Vision Behind "Synaptic Flow"</h2>
-                        <p>The primary goal for my new portfolio was to create a digital space that felt alive, modern, and reflective of my passion for software development and AI. The name "Synaptic Flow" itself evokes imagery of neural networks, data streams, and the fluid exchange of information. I wanted the design to embody this – a dynamic, interconnected experience that guides visitors through my journey and work seamlessly.</p>
-                        <p>This post will cover:</p>
-                        <ul>
-                            <li>The core design philosophy and visual goals.</li>
-                            <li>A breakdown of key features and how they contribute to the theme.</li>
-                            <li>The technology stack that powers the site.</li>
-                            <li>Some interesting code snippets and challenges faced.</li>
-                        </ul>
-
-                        <h2 id="design-philosophy">Design Philosophy: Weaving the "Synaptic Flow"</h2>
-                        <p>The design journey started with a few core principles:</p>
-                        <ul>
-                            <li><strong>Modern & Tech-Forward:</strong> A look that feels current and hints at the future of technology.</li>
-                            <li><strong>Dark Theme Dominance:</strong> A sleek, dark interface as the default, which is often preferred in developer tools and creative software, complemented by a clean, accessible light theme.</li>
-                            <li><strong>Vibrant Accents:</strong> Strategic use of accent colors (a vivid cyan, a striking magenta, and a warm yellow) to create focal points, highlight important information, and add energy.</li>
-                            <li><strong>Glassmorphism:</strong> Employing frosted glass effects (<code>backdrop-filter: blur()</code>) on elements like the navigation bar and some surfaces to create a sense of depth and modern elegance.</li>
-                            <li><strong>Subtle Dynamism:</strong> Incorporating animations and micro-interactions that enhance user experience without being overwhelming. Think smooth transitions, hover effects, and reveal-on-scroll animations.</li>
-                            <li><strong>Clarity & Intuition:</strong> Ensuring that despite the dynamic elements, the information architecture is clear, and navigation is intuitive.</li>
-                        </ul>
-                        <p>The overall aim was to make the portfolio not just a static resume but an interactive experience that tells a story.</p>
-
-                        <h2 id="key-features">Key Features & Section Breakdown</h2>
-                        <p>Let's dive into some of the specific features and how they were designed and implemented to align with the "Synaptic Flow" theme.</p>
-
-                        <h3 id="feature-particles">The Living Background: Particles in Motion</h3>
-                        <p>One of the most prominent features is the global particle animation. This is the visual backbone of the "Synaptic Flow" concept, representing data points, neural connections, or abstract energy flowing through the digital space.</p>
-                        <ul>
-                            <li><strong>Implementation:</strong> Built using the HTML5 Canvas API and JavaScript. Each particle is an object with properties like position (x, y, z for a 3D perspective), size, color, and velocity.</li>
-                            <li><strong>Interactivity:</strong>
-                                <ul>
-                                    <li><strong>3D Scroll Zoom:</strong> As the user scrolls, particles in the "foreground" move faster and appear larger, while those in the "background" move slower, creating a parallax-like 3D effect. This is achieved by adjusting their 'z' coordinate based on scroll delta and applying a perspective projection.</li>
-                                    <li><strong>Mouse Interaction:</strong> Particles subtly react to mouse movements, either repelling or moving towards the cursor, adding a layer of direct interaction.</li>
-                                    <li><strong>Theme Adaptability:</strong> Particle colors and link colors are defined using CSS custom properties, so they automatically update when the theme is switched between light and dark modes.</li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <p>A simplified version of the particle update logic might look like this in JavaScript:</p>
-                        <pre><code class="language-javascript">// Simplified Particle update logic
-class Particle {
-    // ... constructor ...
-    update(scrollDelta) {
-        this.z -= scrollDelta * Z_SCROLL_FACTOR; // Adjust depth based on scroll
-
-        // Perspective projection
-        const perspectiveScale = FOCAL_LENGTH / (FOCAL_LENGTH + this.z);
-        let screenX = (this.x * perspectiveScale) + canvas.width / 2;
-        let screenY = (this.y * perspectiveScale) + canvas.height / 2;
-        let screenSize = this.baseSize * perspectiveScale;
-
-        // Mouse interaction logic (simplified)
-        // ...
-
-        // Boundary checks and reset if particle goes out of view
-        if (this.z <= Z_NEAR_CLIP || this.z >= Z_FAR_CLIP || perspectiveScale <= 0) {
-            this.reset();
-        }
-        this.draw(screenX, screenY, screenSize);
-    }
-    // ... draw method ...
-}</code><button class="copy-code-button">Copy</button></pre>
-                        <p>The key was to balance the number of particles and the complexity of calculations to ensure smooth performance across devices.</p>
-
-                        <h3 id="feature-navigation">Navigating the Flow: Header & Theme Toggle</h3>
-                        <p>The main navigation is designed to be always accessible yet unobtrusive. It uses a glassmorphism effect to sit atop the content and features:</p>
-                        <ul>
-                            <li><strong>Fixed Position & Glassmorphism:</strong> <code>position: fixed</code> and <code>backdrop-filter: blur(10px)</code> give it a modern, floating appearance.</li>
-                            <li><strong>Active Link Highlighting:</strong> JavaScript monitors the scroll position and updates the <code>.active</code> class on navigation links to indicate the current section. The active link has a distinct style with an underline accent.</li>
-                            <li><strong>Smooth Scroll:</strong> Clicking a nav link smoothly scrolls the page to the corresponding section, taking the navigation bar's height into account for precise positioning.</li>
-                            <li><strong>Theme Toggle:</strong> A dedicated button allows users to switch between light and dark themes. This updates a class on the <code>&lt;html&gt;</code> element, and CSS custom properties handle the rest. The SVG icon within the button also changes to reflect the current mode. The particle system is re-initialized on theme change to pick up new colors.</li>
-                        </ul>
-
-                        <h3 id="feature-hero">Making an Entrance: The Hero Section</h3>
-                        <p>The hero section is designed to make a strong first impression.</p>
-                        <ul>
-                            <li><strong>Animated Name:</strong> My name, "Ranjith Kumar," animates in character by character with a slight playful rotation and upward motion, drawing attention immediately. This is achieved by splitting the name into individual <code>&lt;span&gt;</code> elements and applying a CSS animation with staggered delays.</li>
-                            <li><strong>Clear Tagline & CTA:</strong> A concise tagline introduces my focus, and a prominent Call to Action (CTA) button encourages visitors to explore further or get in touch. The CTA uses a gradient background and a subtle shadow that intensifies on hover.</li>
-                        </ul>
-
-                        <h3 id="feature-about">Crafting the Narrative: About Me</h3>
-                        <p>The About section provides a personal narrative, and importantly, showcases my core technical skills.</p>
-                        <ul>
-                            <li><strong>Storytelling:</strong> The text focuses on my journey, passion, and aspirations.</li>
-                            <li><strong>Tech Stack Showcase:</strong> Instead of a plain list, skills are presented in a visually appealing grid with icons. Each skill item has a subtle hover effect. This section also uses a glassmorphism background for a modern touch.</li>
-                        </ul>
-
-                        <h3 id="feature-experience">Tracing the Journey: Experience Timeline</h3>
-                        <p>The Experience section uses a vertical timeline to present my roles and milestones. This visual metaphor for progression is central to the "Synaptic Flow" theme.</p>
-                        <ul>
-                            <li><strong>Visual Structure:</strong> A central line connects timeline items, which alternate on either side (on wider screens). Each item has a distinct circular marker on the timeline.</li>
-                            <li><strong>Glassmorphic Content Blocks:</strong> The content for each timeline entry is housed in a card with a <code>backdrop-filter</code>, maintaining consistency with the navigation and tech stack showcase.</li>
-                            <li><strong>Reveal-on-Scroll:</strong> Timeline items animate into view as the user scrolls, using the Intersection Observer API. This adds a dynamic feel and guides the user's attention.</li>
-                        </ul>
-
-                        <h3 id="feature-projects">Showcasing Creations: Projects</h3>
-                        <p>The Projects section is designed for quick scanning with an option to dive deeper.</p>
-                        <ul>
-                            <li><strong>List-Based Layout:</strong> Projects are listed with their titles prominently displayed.</li>
-                            <li><strong>Hover-to-Reveal Details:</strong> Hovering over a project title smoothly expands a details section below it, revealing a description, tags, and links. This uses CSS transitions on <code>max-height</code> and <code>opacity</code> for the effect. This approach keeps the initial view clean and uncluttered.</li>
-                            <li><strong>CTA for All Projects:</strong> A button links to a (future) dedicated page for a more comprehensive list of projects.</li>
-                        </ul>
-
-                        <h3 id="feature-blog">Sharing Insights: Blog Preview</h3>
-                        <p>The Blog section previews a few recent posts using a card-based layout, consistent with modern blog designs.</p>
-                        <ul>
-                            <li><strong>Blog Cards:</strong> Each card includes a placeholder for an image, title, metadata, and an excerpt. Hovering over a card provides a subtle lift and shadow effect, and can also apply effects to the image like a slight zoom.</li>
-                            <li><strong>View All CTA:</strong> A clear CTA directs users to the main blog page.</li>
-                        </ul>
                         
-                        <h3 id="feature-contact">Connecting: The Contact Section</h3>
-                        <p>The Contact section aims to be direct and inviting.</p>
+                        <h2 id="the-realization">✈️ Wait... Am I Really Doing This?</h2>
+                        <p>It hit me one morning between packing my charger and losing my passport for the third time: <em>I'm actually moving to Ireland</em>.</p>
+                        <p>Leaving behind Coimbatore's warmth — the people, the food, the familiar chaos — for Dublin's rain and rolling R's felt surreal. I boarded that plane with an AIB card, a slightly broken suitcase, and zero idea how to cook rice without my mother yelling instructions from the kitchen.</p>
+                        <p>The calendar said <strong>Departure Day</strong>, but in my head, it screamed <em>"Are you sure about this?!"</em></p>
+                        <p>The first morning in Dublin wasn't poetic. It was me, in a foggy room, Googling "How much does rice cost in euros?" while rain smirked outside the window.</p>
+
+                        <h2 id="why-dublin">💻 Why Dublin? Why AI?</h2>
+                        <p>Dublin wasn't a random pin drop on a map. It was strategic chaos.</p>
+                        <p>I wanted a city that didn't just <em>teach</em> AI, but <em>breathed</em> it. <strong>Dublin City University (DCU)</strong> checked all the boxes — modern labs, diverse people, and professors who spoke the language of algorithms like poetry.</p>
+                        <p>My MSc in Computing (Artificial Intelligence) wasn't easy. It still isn't. The coursework is brutal, but the learning curve is even steeper — Italians, Brazilians, Chinese, Indians — all thrown into one classroom. Every conversation sounded like a mini UN conference.</p>
+                        <blockquote>
+                            "Dublin keeps whispering: <em>'Learn fast, or get left behind.'</em> So I learn. Fast."
+                        </blockquote>
+
+                        <h2 id="farewell">👋 Farewell: Bus Rides, Hugs, and Half-Goodbyes</h2>
+                        <p>The farewell wasn't cinematic — it was messy, loud, and heartbreakingly human.</p>
+                        <p>Family hugs turned into tissues, friends cracked jokes to hide tears, and my bus from Coimbatore to Chennai felt like a moving memory reel. Every kilometer away from home felt heavier than the last.</p>
+                        <p>At Chennai airport, I tried to be brave. But when the flight got delayed (of course it did), anxiety staged its own drama. Still, when I finally hugged my friends one last time, I realized — <strong>this chaos is love</strong>.</p>
+
+                        <h2 id="paperwork">📑 Paperwork & Panic: IELTS, Loans, and Visa Nightmares</h2>
+                        <p>Ah, the glamorous student life... starts with forms.</p>
+                        
+                        <div class="highlight-box">
+                            <h4>📊 The Numbers That Made It Happen</h4>
+                            <ul>
+                                <li><strong>IELTS Score:</strong> 7.5 overall (8.5 in reading & listening, 6.5 in speaking & writing — clearly, my words don't cooperate under pressure)</li>
+                                <li><strong>Loan:</strong> ₹15 lakhs from Bank of Baroda — approved on the last day like a Bollywood climax</li>
+                                <li><strong>Visa Timeline:</strong> Applied August 6th, approved September 6th, classes started September 8th. Talk about cutting it close!</li>
+                            </ul>
+                        </div>
+
+                        <p>Packing? Let's just say "organized panic." I threw half my life into a duffel bag labeled 'International Student' — and hoped for the best.</p>
+
+                        <h2 id="the-flight">🛫 The Flight: Jetlag and Jitters</h2>
+                        <p>Coimbatore → Mumbai (IndiGo) → Istanbul → Dublin (Turkish Airlines).</p>
+                        <p>By the time I landed, I had no idea what day it was. I set up international roaming, bought a local SIM, and called home:</p>
+                        <blockquote>
+                            <em>"Yes Amma, I'm alive. No, I didn't lose my passport. Yet."</em>
+                        </blockquote>
+                        <p><strong>Hazelwood Student Village</strong> was my new "home." It was clean, cozy, and painfully expensive. The first grocery trip nearly gave me a heart attack — rice cost more than chai!</p>
+
+                        <div class="section-divider"></div>
+
+                        <h2 id="arrival">🌧️ Arrival: Ireland Hits Differently</h2>
+                        <p>Ireland doesn't welcome you gently — it slaps you awake with wind and sideways rain.</p>
+                        <p>Dublin city center buzzed with trams, polite strangers, and bookstores that begged for rainy-day reading. <strong>Temple Bar</strong>, <strong>St. Stephen's Green</strong>, <strong>Grafton Street</strong> — all postcard-perfect.</p>
+                        <p>But nothing prepared me for the math of grocery shopping. Bananas shouldn't cost that much.</p>
+
+                        <h3 id="first-impressions">First Impressions: Culture Shock in Real Time</h3>
                         <ul>
-                            <li><strong>Engaging Pitch:</strong> A friendly and inspiring message encourages users to reach out.</li>
-                            <li><strong>Prominent Email CTA:</strong> A large, gradient button makes it easy to send an email.</li>
-                            <li><strong>Social Links:</strong> Social media icons are provided, which change to their respective brand colors on hover, adding a touch of personality.</li>
+                            <li><strong>The Weather:</strong> Rain isn't an event here; it's a lifestyle. I learned to carry an umbrella everywhere, even on sunny days.</li>
+                            <li><strong>The Accents:</strong> Irish English is beautiful but bewildering. "Grand" means everything from "good" to "okay" to "I'm not sure either."</li>
+                            <li><strong>The People:</strong> Surprisingly warm for such cold weather. Random strangers helped me find my way more times than Google Maps did.</li>
+                            <li><strong>The Food:</strong> Let's not talk about what I paid for vegetables. But discovering Irish breakfast (full fry-up) made up for some of the pain.</li>
                         </ul>
 
-                        <h3 id="feature-responsive">Adapting to All Screens: Responsiveness</h3>
-                        <p>A crucial aspect was ensuring the portfolio looks and works great on all devices. This involved:</p>
+                        <h2 id="university-life">🎓 University Life: Panic, People, and Little Wins</h2>
+                        <p>DCU doesn't play around. Miss one week, and you're already behind a mountain of code. Between assignments, plagiarism warnings, and group projects with five accents at once, I sometimes wondered if I accidentally enrolled in a global experiment.</p>
+                        
+                        <p>Still — there were bright spots:</p>
                         <ul>
-                            <li><strong>Fluid Layouts:</strong> Using CSS Flexbox and Grid extensively for page structure and component layout.</li>
-                            <li><strong>Media Queries:</strong> Adjusting typography, spacing, and layout at different breakpoints. For instance, the experience timeline collapses into a single column on smaller screens.</li>
-                            <li><strong>Optimized Interactions:</strong> Ensuring hover effects gracefully degrade or are adapted for touch devices.</li>
+                            <li><strong>Cricket club on rainy weekends</strong> — finding home in the least expected places</li>
+                            <li><strong>Engineering club coffee breaks</strong> that felt like therapy sessions</li>
+                            <li><strong>Job rejections</strong> that stung, but toughened me up</li>
+                            <li><strong>Late-night coding sessions</strong> where broken code somehow became breakthroughs</li>
+                            <li><strong>International potlucks</strong> where I finally got to show off my (admittedly limited) cooking skills</li>
+                        </ul>
+
+                        <h3 id="howth-moment">The Howth Cliffs Moment</h3>
+                        <p>And then — <strong>Howth Cliffs</strong>. Standing there with friends, hair flying in the Atlantic wind, laughing for no reason — I realized Dublin was quietly becoming home.</p>
+                        <p>Sometimes the best moments aren't planned. They're just Tuesday afternoons when you decide to take a DART to the edge of the sea and remember why you took this leap.</p>
+
+                        <h2 id="money-reality">💶 Money Talk: When Rice Costs More Than Chai</h2>
+                        <p>Here's the reality nobody sugar-coats in those "study abroad" brochures:</p>
+                        
+                        <div class="highlight-box">
+                            <h4>💰 The Financial Breakdown</h4>
+                            <ul>
+                                <li><strong>Tuition Fees:</strong> €19,000 (~₹19 lakhs)</li>
+                                <li><strong>Accommodation:</strong> €700-900/month for student housing</li>
+                                <li><strong>Living Expenses:</strong> ~₹1 lakh/month (groceries, transport, misc.)</li>
+                                <li><strong>Reality Check:</strong> A simple meal out can cost €15. A movie ticket? €12. A coffee? €4.</li>
+                            </ul>
+                        </div>
+
+                        <p>Budgeting isn't optional here; it's <strong>survival</strong>. Every euro makes you think twice, every grocery bill makes you grateful for your mom's home cooking.</p>
+                        <p>Ireland's economy, like its weather, has its moods. Protests, rising prices, and all. But the kindness you meet in strangers — that's constant.</p>
+
+                        <h2 id="lessons-learned">🌱 Lessons from the Journey</h2>
+                        <p>Six months in, here's what I've learned:</p>
+                        <ul>
+                            <li><strong>Home is portable:</strong> It's in WhatsApp calls at 2 AM, in a friend's laugh, in the smell of chai you finally learned to make right.</li>
+                            <li><strong>Discomfort breeds growth:</strong> Every awkward moment, every cultural confusion, every "I have no idea what I'm doing" — they're all building blocks.</li>
+                            <li><strong>Community matters:</strong> Finding your tribe in a foreign land isn't just nice, it's necessary.</li>
+                            <li><strong>Failure is data:</strong> Every rejected job application, every failed assignment draft — they're teaching me resilience I never knew I needed.</li>
+                            <li><strong>The little things matter:</strong> A sunny day in Dublin. A perfectly cooked meal. A message from home. These aren't small joys; they're lifelines.</li>
                         </ul>
 
                         <div class="section-divider"></div>
 
-                        <h2 id="tech-stack">The Building Blocks: Tech Stack & Tools</h2>
-                        <p>This portfolio was built from the ground up using fundamental web technologies:</p>
+                        <h2 id="looking-back">🌦️ Looking Back: The Real Growth Story</h2>
+                        <p>Homesickness still visits sometimes, usually at midnight with a cup of overbrewed tea. But so does joy — in little victories, in shared laughter, in seeing how far I've come.</p>
+                        <p>The Ranjith who left Coimbatore and the one writing this are different people. One was nervous, uncertain, clutching a boarding pass like a lifeline. The other is still nervous, still uncertain, but now knows that's okay.</p>
+                        
+                        <blockquote>
+                            "Growth doesn't announce itself with fireworks. It whispers in the quiet moments when you realize you've stopped Googling 'How to adult in a foreign country' because you're just... doing it."
+                        </blockquote>
+
+                        <h2 id="final-thoughts">💭 Would I Do It Again?</h2>
+                        <p>If you ask me now, "Would you do it all again?"</p>
+                        <p><strong>Yes. A thousand times, yes.</strong></p>
+                        <p>Because somewhere between the rain, the ramen dinners, the random friendships, and the relentless assignments — I found myself growing, laughing, and learning that sometimes, you have to let life blow you off your feet...</p>
+                        <p>...and enjoy the flight.</p>
+
+                        <h3 id="to-future-students">📝 To Future International Students</h3>
+                        <p>If you're reading this from your hometown, passport application in hand, wondering if you should take the leap — here's my advice:</p>
                         <ul>
-                            <li><strong>HTML5:</strong> For a semantic and well-structured foundation.</li>
-                            <li><strong>CSS3:</strong> The powerhouse for styling and layout. Key features used:
-                                <ul>
-                                    <li><strong>CSS Custom Properties (Variables):</strong> Heavily used for theming (colors, fonts, spacing). This made implementing the light/dark theme toggle much more manageable. Example:
-                                        <pre><code class="language-css">:root {
-    --color-background-deep: #0d0c10;
-    --color-text-primary: #e8e6f0;
-    /* ... other dark theme vars ... */
-}
-
-html.light-theme {
-    --color-background-deep: #f4f7f9;
-    --color-text-primary: #1a1c20;
-    /* ... other light theme vars ... */
-}
-
-body {
-    background-color: var(--color-background-deep);
-    color: var(--color-text-primary);
-}</code><button class="copy-code-button">Copy</button></pre>
-                                    </li>
-                                    <li><strong>Flexbox & Grid:</strong> For all major layout needs.</li>
-                                    <li><strong>Animations & Transitions:</strong> For hover effects, reveals, and the hero name animation.</li>
-                                    <li><code>backdrop-filter</code>: For the glassmorphism effect.</li>
-                                </ul>
-                            </li>
-                            <li><strong>JavaScript (Vanilla):</strong> No frameworks, just pure JS for:
-                                <ul>
-                                    <li>DOM manipulation and event handling.</li>
-                                    <li>Intersection Observer API for reveal-on-scroll effects.</li>
-                                    <li>Canvas API for the particle animation.</li>
-                                    <li>Theme switching logic.</li>
-                                    <li>Navigation active state and smooth scrolling.</li>
-                                    <li>Hero name character animation setup.</li>
-                                </ul>
-                            </li>
-                            <li><strong>Fonts:</strong>
-                                <ul>
-                                    <li><strong>Satoshi:</strong> For primary text, offering a clean and modern feel.</li>
-                                    <li><strong>JetBrains Mono:</strong> For monospace text (like code snippets if I had any directly in the portfolio).</li>
-                                </ul>
-                            </li>
-                            <li><strong>Icons:</strong>
-                                <ul>
-                                    <li>Inline SVGs for theme toggle icons (sun/moon).</li>
-                                    <li>SVG icons from SimpleIcons (via CDN) for the tech stack showcase.</li>
-                                    <li>SVG icons for social media links.</li>
-                                </ul>
-                            </li>
+                            <li><strong>Do it.</strong> The paperwork will stress you out. The goodbyes will break your heart. The first month will feel impossible.</li>
+                            <li><strong>But do it anyway.</strong> Because on the other side of that anxiety is a version of you that's braver, wiser, and infinitely more interesting.</li>
+                            <li><strong>Pack light, but bring patience.</strong> You'll need more of the latter than the former.</li>
+                            <li><strong>Budget ruthlessly.</strong> Every euro counts. Every. Single. One.</li>
+                            <li><strong>Say yes to adventures.</strong> Even when you're tired, broke, or both. Some of the best memories come from the plans you almost canceled.</li>
+                            <li><strong>Call home often.</strong> They miss you more than they say.</li>
+                            <li><strong>Be kind to yourself.</strong> You're doing something incredibly hard. Give yourself credit for showing up every day.</li>
                         </ul>
 
-                        <h2 id="challenges">Challenges & Triumphs</h2>
-                        <p>Every project comes with its hurdles, and this was no exception:</p>
-                        <ul>
-                            <li><strong>Particle Animation Performance:</strong> Balancing the visual appeal of many particles with smooth performance, especially on less powerful devices, required careful optimization. This involved limiting the number of particles, simplifying calculations, and ensuring efficient rendering on the canvas. The 3D perspective scroll also added complexity.</li>
-                            <li><strong>Theme Transition Consistency:</strong> Ensuring all elements transitioned smoothly and correctly between light and dark themes. CSS custom properties were a huge help here, but it still required meticulous checking of every component.</li>
-                            <li><strong>Responsive Timeline:</strong> Making the alternating timeline design collapse gracefully into a single column on mobile, while maintaining readability and visual appeal.</li>
-                            <li><strong>Animation Subtlety:</strong> Fine-tuning animations to be engaging but not distracting. It's a delicate balance – too much can be overwhelming, too little can feel static.</li>
-                        </ul>
-                        <p>Overcoming these challenges was incredibly rewarding, especially seeing the "Synaptic Flow" concept come to life through the interactive elements and cohesive design.</p>
+                        <p>This journey from Coimbatore to Dublin isn't just about geography. It's about transformation — messy, chaotic, beautiful transformation.</p>
+                        <p>And I'm here for every rain-soaked, euro-counting, lesson-learning moment of it.</p>
 
-                        <h2 id="conclusion">Final Thoughts</h2>
-                        <p>Developing this portfolio has been a fantastic learning experience, allowing me to blend design creativity with technical implementation. I'm really pleased with how "Synaptic Flow" turned out – a dynamic, interactive space that I hope effectively communicates my skills, projects, and personality.</p>
-                        <p>I invite you to <a href="index.html" target="_blank" rel="noopener">explore the portfolio</a> and experience it firsthand! Your feedback is always welcome, so feel free to reach out or drop a comment below. What are your favorite features? Is there anything you'd like to see improved?</p>
-                        <p>Thanks for reading, and I hope this peek behind the curtain was insightful!</p>
+                        <p style="text-align: center; font-style: italic; margin-top: calc(var(--spacing-unit) * 2);">
+                            Still chasing dreams, still dodging puddles. 🌧️✈️
+                        </p>
                     </div>
 
                      <div class="post-tags" itemprop="keywords">
                          <span>Tags:</span>
-                         <a href="#tag-portfolio-design">Portfolio Design</a>
-                         <a href="#tag-web-development">Web Development</a>
-                         <a href="#tag-css">CSS</a>
-                         <a href="#tag-javascript">JavaScript</a>
-                         <a href="#tag-ui-ux">UI/UX</a>
-                         <a href="#tag-interactive-design">Interactive Design</a>
+                         <a href="#tag-study-abroad">Study Abroad</a>
+                         <a href="#tag-ireland">Ireland</a>
+                         <a href="#tag-student-life">Student Life</a>
+                         <a href="#tag-dublin">Dublin</a>
+                         <a href="#tag-international-student">International Student</a>
+                         <a href="#tag-personal-growth">Personal Growth</a>
+                         <a href="#tag-travel">Travel</a>
+                         <a href="#tag-dcu">DCU</a>
                      </div>
 
                      <div class="social-share">
                          <h3>Share This Post</h3>
                          <div class="share-buttons">
-                             <a href="https://www.facebook.com/sharer/sharer.php?u=https://p-ranjithkumar.github.io/blog_portfolio_design.html" class="share-facebook" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">Facebook</a>
-                             <a href="https://twitter.com/intent/tweet?url=https://p-ranjithkumar.github.io/blog_portfolio_design.html&text=Crafting%20Synaptic%20Flow%3A%20A%20Deep%20Dive%20into%20My%20Portfolio%27s%20Design%20%26%20Code" class="share-twitter" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter">Twitter</a>
-                             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://p-ranjithkumar.github.io/blog_portfolio_design.html&title=Crafting%20Synaptic%20Flow%3A%20A%20Deep%20Dive%20into%20My%20Portfolio%27s%20Design%20%26%20Code" class="share-linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a>
-                             <a href="https://www.reddit.com/submit?url=https://p-ranjithkumar.github.io/blog_portfolio_design.html&title=Crafting%20Synaptic%20Flow%3A%20A%20Deep%20Dive%20into%20My%20Portfolio%27s%20Design%20%26%20Code" class="share-reddit" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">Reddit</a>
-                             <a href="mailto:?subject=Check%20out%20this%20post%3A%20Crafting%20Synaptic%20Flow&body=Thought%20you%20might%20find%20this%20interesting%3A%0A%0Ahttps%3A//p-ranjithkumar.github.io/blog_portfolio_design.html" class="share-email" aria-label="Share via Email">Email</a>
+                             <a href="https://www.facebook.com/sharer/sharer.php?u=https://p-ranjithkumar.github.io/blog_dublin_journey.html" class="share-facebook" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">Facebook</a>
+                             <a href="https://twitter.com/intent/tweet?url=https://p-ranjithkumar.github.io/blog_dublin_journey.html&text=From%20Coimbatore%20to%20Dublin%3A%20Chaos%2C%20Humor%2C%20and%20Growth" class="share-twitter" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter">Twitter</a>
+                             <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://p-ranjithkumar.github.io/blog_dublin_journey.html&title=From%20Coimbatore%20to%20Dublin%3A%20Chaos%2C%20Humor%2C%20and%20Growth" class="share-linkedin" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a>
+                             <a href="https://www.reddit.com/submit?url=https://p-ranjithkumar.github.io/blog_dublin_journey.html&title=From%20Coimbatore%20to%20Dublin%3A%20Chaos%2C%20Humor%2C%20and%20Growth" class="share-reddit" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">Reddit</a>
+                             <a href="mailto:?subject=Check%20out%20this%20post%3A%20From%20Coimbatore%20to%20Dublin&body=Thought%20you%20might%20find%20this%20interesting%3A%0A%0Ahttps%3A//p-ranjithkumar.github.io/blog_dublin_journey.html" class="share-email" aria-label="Share via Email">Email</a>
                              <button id="copy-link-button" class="share-copy" aria-label="Copy post link">Copy Link</button>
                              <button id="native-share-button" aria-label="Share natively" style="display: none;">Share...</button>
                         </div>
@@ -658,7 +552,7 @@ body {
                          <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
                          <div class="author-bio-content">
                             <h4 itemprop="name">Ranjith Kumar</h4>
-                            <p itemprop="description">Software Developer & AI Enthusiast. Passionate about building innovative solutions and sharing insights on web development, AI, and UI/UX design.</p>
+                            <p itemprop="description">MSc Computing (AI) student at DCU, Dublin. Former software developer from Coimbatore, now navigating Irish rain, AI algorithms, and the adventure of international student life. Coffee enthusiast, cricket lover, and perpetual learner.</p>
                             <div class="author-social-links">
                                  <a href="https://www.linkedin.com/in/p-ranjithkumar" target="_blank" rel="noopener me" aria-label="Ranjith Kumar on LinkedIn" title="LinkedIn">
                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
@@ -677,19 +571,19 @@ body {
                         <h2>Previous & Next Posts</h2>
                         <div class="related-posts-grid">
                             <div class="related-post-card">
-                                 <a href="blog5.html" aria-label="Read previous post: Diving into RL and Attention Mechanisms">
-                                    <img src="assets/blogpost thumbnails/blog5.png" alt="Diving into RL and Attention Mechanisms" loading="lazy">
+                                 <a href="blog6.html" aria-label="Read previous post: Crafting Synaptic Flow">
+                                    <img src="assets/blogpost thumbnails/blog6.png" alt="Crafting Synaptic Flow: A Deep Dive into My Portfolio's Design & Code" loading="lazy">
                                 </a>
                                  <div class="related-post-card-content">
-                                    <h3><a href="blog5.html">← Previous: Diving into RL and Attention</a></h3>
+                                    <h3><a href="blog6.html">← Previous: Crafting Synaptic Flow</a></h3>
                                  </div>
                             </div>
                              <div class="related-post-card">
-                                 <a href="blog7.html" aria-label="Read next post: One Big Journey!">
-                                    <img src="assets/blogpost thumbnails/blog7.png" alt="One Big Journey! - Placeholder" loading="lazy">
+                                 <a href="blog_all_caught_up.html" aria-label="Read next post: All Caught Up!">
+                                    <img src="assets/blogpost thumbnails/allcaughtup.png" alt="All Caught Up! - Placeholder" loading="lazy">
                                 </a>
                                  <div class="related-post-card-content">
-                                    <h3><a href="blog7.html">Next Post: One Big Journey! →</a></h3>
+                                    <h3><a href="blog_all_caught_up.html">Next Post: All Caught Up! →</a></h3>
                                  </div>
                             </div>
                         </div>
@@ -699,7 +593,7 @@ body {
                         <h2>Join the Discussion (<span id="comment-count">0</span>)</h2>
                         <div class="gh-comments-info">
                             <p><strong>Comments via GitHub Discussions:</strong> This blog uses <a href="https://giscus.app/" target="_blank" rel="noopener">Giscus</a>, which leverages GitHub Discussions for comments.</p>
-                            <p>You'll need a GitHub account to comment. Comments will appear in a dedicated Discussion category within the blog's repository.</p>
+                            <p>You'll need a GitHub account to comment. Share your own study abroad stories, tips, or just say hi!</p>
                         </div>
                         <div id="comment-thread-container">
                             <script src="https://giscus.app/client.js"
@@ -728,24 +622,17 @@ body {
                  <nav id="toc-container" aria-label="Table of Contents">
                     <h3>Table of Contents</h3>
                     <ol id="toc-list">
-                        <li><a href="#intro">Introduction</a></li>
-                        <li><a href="#design-philosophy">Design Philosophy</a></li>
-                        <li><a href="#key-features">Key Features & Sections</a>
-                            <ul>
-                                <li><a href="#feature-particles">Particle Background</a></li>
-                                <li><a href="#feature-navigation">Navigation & Theme</a></li>
-                                <li><a href="#feature-hero">Hero Section</a></li>
-                                <li><a href="#feature-about">About Me</a></li>
-                                <li><a href="#feature-experience">Experience Timeline</a></li>
-                                <li><a href="#feature-projects">Projects</a></li>
-                                <li><a href="#feature-blog">Blog Preview</a></li>
-                                <li><a href="#feature-contact">Contact Section</a></li>
-                                <li><a href="#feature-responsive">Responsiveness</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#tech-stack">Tech Stack & Tools</a></li>
-                        <li><a href="#challenges">Challenges & Triumphs</a></li>
-                        <li><a href="#conclusion">Final Thoughts</a></li>
+                        <li><a href="#the-realization">The Realization</a></li>
+                        <li><a href="#why-dublin">Why Dublin? Why AI?</a></li>
+                        <li><a href="#farewell">Farewell</a></li>
+                        <li><a href="#paperwork">Paperwork & Panic</a></li>
+                        <li><a href="#the-flight">The Flight</a></li>
+                        <li><a href="#arrival">Arrival in Ireland</a></li>
+                        <li><a href="#university-life">University Life</a></li>
+                        <li><a href="#money-reality">Money Reality</a></li>
+                        <li><a href="#lessons-learned">Lessons Learned</a></li>
+                        <li><a href="#looking-back">Looking Back</a></li>
+                        <li><a href="#final-thoughts">Final Thoughts</a></li>
                     </ol>
                 </nav>
             </aside> 
@@ -822,21 +709,8 @@ body {
          window.addEventListener('resize', updateProgressBar);
          updateProgressBar(); 
 
-         document.querySelectorAll('.copy-code-button').forEach(button => {
-             const pre = button.closest('pre');
-             const code = pre?.querySelector('code');
-             if (!code || !navigator.clipboard) { button.style.display = 'none'; return; }
-             button.addEventListener('click', async () => {
-                 try {
-                     await navigator.clipboard.writeText(code.innerText);
-                     button.textContent = 'Copied!'; button.classList.add('copied');
-                     setTimeout(() => { button.textContent = 'Copy'; button.classList.remove('copied'); }, 2000);
-                 } catch (err) { console.error('Copy failed:', err); button.textContent = 'Error'; }
-             });
-         });
-
         const copyLinkButton = document.getElementById('copy-link-button');
-        const postUrl = 'https://p-ranjithkumar.github.io/blog_portfolio_design.html'; // Hardcode or make dynamic
+        const postUrl = 'https://p-ranjithkumar.github.io/blog_dublin_journey.html';
         if (copyLinkButton && navigator.clipboard) {
             copyLinkButton.addEventListener('click', async () => {
                  try {
@@ -882,10 +756,6 @@ body {
                      link.classList.remove('active');
                      if (link.getAttribute('href') === `#${id}`) {
                          link.classList.add('active');
-                         const tocContainer = document.getElementById('toc-container');
-                         if (tocContainer.scrollHeight > tocContainer.clientHeight) { // Check if TOC is scrollable
-                            // link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }); // Removed to avoid jumpiness
-                         }
                      }
                  });
              };
@@ -910,7 +780,6 @@ body {
                      activateTocLink(topVisibleSectionId);
                      lastActiveLink = topVisibleSectionId;
                  } else {
-                    // If nothing is intersecting, check scroll position relative to sections
                     const scrollY = window.pageYOffset;
                     const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim(), 10);
                     
@@ -924,10 +793,10 @@ body {
                     if (currentSection) {
                         activateTocLink(currentSection);
                         lastActiveLink = currentSection;
-                    } else if (scrollY === 0 && sections.length > 0) { // At the very top
+                    } else if (scrollY === 0 && sections.length > 0) {
                         activateTocLink(sections[0].id);
                         lastActiveLink = sections[0].id;
-                    } else if (lastActiveLink){ // Keep last active if scrolled past all
+                    } else if (lastActiveLink){
                         activateTocLink(lastActiveLink);
                     }
                  }
@@ -935,12 +804,7 @@ body {
 
              const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
              sections.forEach(section => scrollObserver.observe(section));
-             // Initial check
              if (sections.length > 0) activateTocLink(sections[0].id);
-
-
-        } else {
-            console.log("TOC or Sections not found for active state highlighting.");
         }
 
         try {

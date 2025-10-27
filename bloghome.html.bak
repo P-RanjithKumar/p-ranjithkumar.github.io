@@ -591,48 +591,6 @@
    </div>
    <main id="blogPosts">
 
-    
-    <!-- #################### Post 6 #################### -->
-    <article class="post-card" data-date="Oct 27, 2025" data-tags="Blogging, Student Life, Travel" id="post7">
-     <div class="post-meta">
-      <span>
-       Oct 27, 2025
-      </span>
-      <span>
-       &bull;
-      </span>
-      <span>
-       7 min read
-      </span>
-     </div>
-     <h2>
-      <a href="blog7.html">
-       Coimbatore to Dublin journey - Airport departure scene
-      </a>
-     </h2>
-     <div class="post-tags">
-      <span class="tag" data-tag="blogging">
-       Blogging
-      </span>
-      <span class="tag" data-tag="student life">
-       Student Life
-      </span>
-      <span class="tag" data-tag="travel">
-       Travel
-      </span>
-     </div>
-     <p class="post-excerpt">
-      A student's leap from South India to Ireland &mdash; packed with messy goodbyes, airport drama, relentless rain, and unexpected lessons.
-     </p>
-     <a class="read-more" href="blog7.html">
-      Continue Reading
-      <span class="arrow">
-       &rarr;
-      </span>
-     </a>
-    </article>
-
-
     <!-- #################### Post 6 #################### -->
     <article class="post-card" data-date="May 18, 2025" data-tags="WebDev, Portfolio, Design" id="post6">
      <div class="post-meta">
