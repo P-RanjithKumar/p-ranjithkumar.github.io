@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranjith Kumar | AI Engineer & Developer</title>
+    <meta name="description"
+        content="Portfolio of Ranjith Kumar, a Software Developer & AI Enthusiast specializing in intelligent systems and mobile AI optimization.">
+
+    <!-- Fonts -->
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&f[]=jetbrains-mono@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* --- Color Palette (2025 Cyber-Organic) --- */
+            --color-bg-deep: #050505;
+            --color-bg-surface: #0a0a0a;
+            --color-bg-card: rgba(20, 20, 20, 0.6);
+            --color-bg-glass: rgba(255, 255, 255, 0.03);
+
+            --color-text-primary: #f0f0f0;
+            --color-text-secondary: #a0a0a0;
+            --color-text-muted: #666666;
+
+            --color-accent-cyan: #00f2ea;
+            --color-accent-pink: #ff0055;
+            --color-accent-gold: #ffd700;
+            --color-accent-purple: #bf00ff;
+
+            --gradient-primary: linear-gradient(135deg, var(--color-accent-cyan), var(--color-accent-purple));
+            --gradient-glow: radial-gradient(circle at center, rgba(0, 242, 234, 0.15), transparent 70%);
+
+            /* --- Typography --- */
+            --font-sans: 'Satoshi', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-hand: 'Caveat', cursive;
+
+            /* --- Spacing & Layout --- */
+            --container-width: 1400px;
+            --header-height: 80px;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 40px;
+
+            /* --- Effects --- */
+            --blur-glass: 20px;
+            --shadow-card: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+            --transition-smooth: cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* --- Reset & Base --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--color-bg-deep);
+            color: var(--color-text-primary);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            line-height: 1.6;
+            cursor: none;
+            /* Custom cursor */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            cursor: none;
+        }
+
+        button {
+            cursor: none;
+            border: none;
+            outline: none;
+            font-family: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- Custom Cursor --- */
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--color-text-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        #cursor.hovered {
+            width: 50px;
+            height: 50px;
+            background-color: var(--color-text-primary);
+            border-color: transparent;
+            opacity: 0.5;
+        }
+
+        /* --- Background Noise & Effects --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/generated/noise.png');
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 9000;
+        }
+
+        /* --- Utilities --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .glass-panel {
+            background: var(--color-bg-glass);
+            backdrop-filter: blur(var(--blur-glass));
+            -webkit-backdrop-filter: blur(var(--blur-glass));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+        }
+
+        .text-gradient {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .reveal-text {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+        }
+
+        .reveal-text span {
+            display: inline-block;
+            transform: translateY(100%);
+            transition: transform 1s var(--transition-smooth);
+        }
+
+        .reveal-text.visible span {
+            transform: translateY(0);
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            transition: background-color 0.3s;
+        }
+
+        header.scrolled {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: -0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--color-text-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--color-accent-cyan);
+            transition: width 0.3s var(--transition-smooth);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/generated/hero-bg.png') no-repeat center center;
+            background-size: cover;
+            z-index: -1;
+            filter: brightness(0.6);
+            transform: scale(1.1);
+            transition: transform 10s ease-out;
+        }
+
+        #hero:hover .hero-bg {
+            transform: scale(1.0);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-greeting {
+            font-family: var(--font-mono);
+            color: var(--color-accent-cyan);
+            margin-bottom: 20px;
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 1;
+            font-weight: 900;
+            margin-bottom: 30px;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin-bottom: 50px;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 16px 32px;
+            background: var(--color-text-primary);
+            color: var(--color-bg-deep);
+            font-weight: 700;
+            border-radius: 100px;
+            transition: transform 0.3s var(--transition-smooth), box-shadow 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* --- Sections --- */
+        section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        /* --- About Section --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+        }
+
+        .handwritten-note {
+            font-family: var(--font-hand);
+            color: var(--color-accent-pink);
+            font-size: 1.5rem;
+            transform: rotate(-5deg);
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .skills-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .skill-tag {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: var(--color-accent-cyan);
+            color: var(--color-bg-deep);
+            border-color: var(--color-accent-cyan);
+            transform: translateY(-3px);
+        }
+
+        /* --- Experience (Timeline) --- */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item {
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -45px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--color-accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--color-accent-cyan);
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            color: var(--color-accent-cyan);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-role {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .timeline-company {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            margin-bottom: 15px;
+        }
+
+        /* --- Projects (Bento Grid) --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            grid-auto-rows: 350px;
+        }
+
+        .bento-item {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s var(--transition-smooth);
+        }
+
+        .bento-item:hover {
+            transform: translateY(-10px);
+            z-index: 10;
+        }
+
+        .bento-item.large {
+            grid-column: span 2;
+        }
+
+        .bento-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s var(--transition-smooth);
+        }
+
+        .bento-item:hover .bento-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .project-tag {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* --- Contact --- */
+        #contact {
+            padding: 60px 0;
+        }
+
+        .contact-footer {
+            text-align: center;
+            padding-bottom: 30px;
+        }
+
+        .big-contact-text {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: letter-spacing 0.5s;
+        }
+
+        .big-contact-text:hover {
+            letter-spacing: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--color-accent-cyan);
+            transform: scale(1.2);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bento-item.large {
+                grid-column: span 1;
+            }
+
+            header {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Simplify for mobile for now */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cursor"></div>
+    <div class="noise-overlay"></div>
+
+    <header>
+        <div class="logo">RK.</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#publications" class="nav-link">Publications</a></li>
+                <li><a href="#blog" class="nav-link">Blog</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-bg"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-greeting reveal-text"><span>Hello, I'm</span></span>
+                    <h1 class="hero-title reveal-text"><span>Ranjith Kumar</span></h1>
+                    <p class="hero-subtitle reveal-text"><span>A <strong>Software Developer</strong> & <strong>AI
+                                Enthusiast.</strong><br> I learn, develop, and optimize AI models for mobile use.</span>
+                    </p>
+                    <a href="#projects" class="cta-btn">View My Work</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-text">
+                        <h2 class="section-title">About <span class="text-gradient">Me</span></h2>
+                        <p>I am a passionate and driven developer currently in my final year of B.Tech in Computer
+                            Science at Kumaraguru College of Technology, with a deep focus on leveraging Artificial
+                            Intelligence and Machine Learning to solve real-world problems. I specialize in building
+                            intelligent systems that blend strong technical foundations with thoughtful, user-centered
+                            design.</p>
+                        <p>My experience spans frameworks like PyTorch and tools such as Transformers and LangChain,
+                            enabling me to work confidently at the intersection of research and application. I have a
+                            particular knack for understanding the fundamentals behind complex models, which helps me
+                            not only implement AI systems but also dissect and optimize them for better performance.</p>
+                        <p>Recently, I was honored with the Best Process Excellence Award at my college for a project
+                            that showcased innovation, impact, and technical depth — an achievement that reflects my
+                            commitment to building effective and efficient solutions. I also have experience deploying
+                            models and developing full-stack ML applications, giving me end-to-end visibility of the
+                            development pipeline.</p>
+                        <p>While I enjoy development, my core interest lies in AI research — exploring model behavior,
+                            challenging existing limits, and uncovering novel use cases. In the next few years, I aspire
+                            to grow as an AI researcher, product engineer, or startup founder, creating solutions that
+                            are not only scalable and reliable, but also socially meaningful and accessible across
+                            domains like healthcare, education, and sustainability.</p>
+                        <span class="handwritten-note">"Driven by curiosity, fueled by coffee."</span>
+                    </div>
+                    <div class="glass-panel" style="padding: 40px;">
+                        <h3 style="margin-bottom: 20px; font-size: 1.5rem;">My <span class="text-gradient">Core</span>
+                            Toolkit</h3>
+                        <div class="skills-cloud">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">PyTorch</span>
+                            <span class="skill-tag">Scikit-learn</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Git</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">My <span class="text-gradient">Journey & Education</span></h2>
+                    <p class="section-desc">Milestones and roles that have shaped my expertise and perspective.</p>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2021 - 2025</div>
+                        <h3 class="timeline-role">B.E in Computer Science</h3>
+                        <div class="timeline-company">Kumaraguru College of Technology</div>
+                        <p>Specialized in Artificial Intelligence and Machine Learning, completed a final year project
+                            on an Intelligent Healthcare Assistant, and received the Best Process Excellence Award.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">OCT 2024 - DEC 2024</div>
+                        <h3 class="timeline-role">AI Intern Trainee</h3>
+                        <div class="timeline-company">Infosys Springboard</div>
+                        <p>Designed and implemented a system for detecting fraudulent signature verifications using:</p>
+                        <ul
+                            style="list-style: disc; margin-left: 20px; color: var(--color-text-secondary); margin-top: 10px;">
+                            <li>Edge Detection</li>
+                            <li>Contour Analysis</li>
+                            <li>Pixel-Based Matching</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">My <span class="text-gradient">Creations</span></h2>
+                    <p class="section-desc">Here's a glimpse into some of the exciting projects I've worked on,
+                        showcasing my skills and passion for innovation. Each project represents a unique challenge and
+                        a step forward in my journey.</p>
+                </div>
+                <div class="bento-grid">
+                    <!-- Project 1 -->
+                    <div class="bento-item glass-panel large">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #1a1a1a, #2a2a2a);">
+                        </div>
+                        <div class="bento-content">
+                            <h3>Intelligent Healthcare Assistant</h3>
+                            <p>A comprehensive AI solution designed to assist healthcare professionals and patients.
+                                Features Chatbot, Computer Vision for prescriptions, and Voice-Enabled disease
+                                prediction.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">ML</span>
+                                <span class="project-tag">Python</span>
+                                <span class="project-tag">HTML</span>
+                                <span class="project-tag">Custom LLM</span>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <a href="https://github.com/P-RanjithKumar/FinalYearProject_MedBuddy"
+                                    style="color: var(--color-accent-cyan); margin-right: 15px; font-weight: bold;">GitHub</a>
+                                <a href="project3.html"
+                                    style="color: var(--color-accent-pink); font-weight: bold;">Documentation</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="bento-item glass-panel">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #1a1a1a, #2a2a2a);">
+                        </div>
+                        <div class="bento-content">
+                            <h3>Remote Sensing using ML</h3>
+                            <p>Conducted an in-depth study using satellite-based remote sensing data. Achieved third
+                                place in an inter-university competition.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">CNN</span>
+                                <span class="project-tag">DataFlow</span>
+                                <span class="project-tag">Python</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="bento-item glass-panel">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #1a1a1a, #2a2a2a);">
+                        </div>
+                        <div class="bento-content">
+                            <h3>OULAD Student Performance</h3>
+                            <p>Analyzed student performance patterns using the Open University Learning Analytics
+                                Dataset. Implemented ML models to predict outcomes.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Data Eng.</span>
+                                <span class="project-tag">ANN</span>
+                                <span class="project-tag">Scikit-learn</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="#projects-archive" class="cta-btn"
+                        style="background: transparent; border: 1px solid var(--color-text-primary); color: var(--color-text-primary);">Explore
+                        All Projects</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="publications">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">My <span class="text-gradient">Publications</span></h2>
+                    <p class="section-desc">Authored works and research contributions that I've had the privilege to
+                        share with the community.</p>
+                </div>
+                <div class="glass-panel"
+                    style="padding: 40px; display: flex; flex-wrap: wrap; gap: 30px; align-items: center;">
+                    <div style="flex: 0 0 200px; border-radius: var(--radius-md); overflow: hidden;">
+                        <img src="assets/papers/project images/coverimage_project3.png" alt="Publication Cover"
+                            style="width: 100%; height: auto; display: block;">
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Medical Assistance System Using Large
+                            Language Model and Medical Data Management</h3>
+                        <p style="color: var(--color-text-secondary); font-style: italic; margin-bottom: 15px;">Ranjith
+                            Kumar P, Dinesh Arun M, Soundararajan N, Nivetha R, Kaviya Priya S, Nivethika R.</p>
+                        <div style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 15px;">
+                            <span style="margin-right: 15px;"><strong>Published In:</strong> 2025 3rd ICAECA</span>
+                            <span style="margin-right: 15px;"><strong>Location:</strong> Coimbatore, India</span>
+                            <span><strong>Date:</strong> 04-05 April 2025</span>
+                        </div>
+                        <p style="margin-bottom: 20px; color: var(--color-text-secondary);">This project aims to create
+                            a multi-module system to deal with issues related to healthcare personal record keeping and
+                            communication. It involves prescription extraction, a fine-tuned LLM for medical queries,
+                            and voice interaction.</p>
+                        <div>
+                            <a href="https://doi.org/10.1109/ICAECA63854.2025.11012384" target="_blank" class="cta-btn"
+                                style="padding: 10px 20px; font-size: 0.9rem;">View on IEEE Xplore</a>
+                            <span style="margin-left: 15px; font-size: 0.9rem; color: var(--color-text-muted);">DOI:
+                                10.1109/ICAECA63854.2025.11012384</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Insights & <span class="text-gradient">Reflections</span></h2>
+                    <p class="section-desc">Sharing knowledge, experiences, and thoughts on the evolving tech landscape.
+                    </p>
+                </div>
+                <div class="bento-grid">
+                    <!-- Blog 1 -->
+                    <div class="bento-item glass-panel">
+                        <div style="height: 200px; overflow: hidden;">
+                            <img src="assets/blogpost thumbnails/blog5.png" alt="RL"
+                                style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="bento-content"
+                            style="position: relative; transform: none; opacity: 1; background: none; padding: 20px;">
+                            <span style="font-size: 0.8rem; color: var(--color-accent-cyan);">Mar 7, 2025</span>
+                            <h3 style="margin: 10px 0;"><a href="blog5.html">Reinforcement Learning</a></h3>
+                            <p style="font-size: 0.9rem; color: var(--color-text-secondary);">Exploring Q-learning and
+                                attention mechanisms in LLMs. Building an RL-powered Tic-Tac-Toe game.</p>
+                        </div>
+                    </div>
+                    <!-- Blog 2 -->
+                    <div class="bento-item glass-panel">
+                        <div style="height: 200px; overflow: hidden;">
+                            <img src="assets/blogpost thumbnails/blog4.png" alt="Healthcare"
+                                style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="bento-content"
+                            style="position: relative; transform: none; opacity: 1; background: none; padding: 20px;">
+                            <span style="font-size: 0.8rem; color: var(--color-accent-cyan);">Feb 24, 2025</span>
+                            <h3 style="margin: 10px 0;"><a href="blog4.html">Empowering Patients</a></h3>
+                            <p style="font-size: 0.9rem; color: var(--color-text-secondary);">Building a smart interface
+                                for patient document management. Breaking down the tech and workflow.</p>
+                        </div>
+                    </div>
+                    <!-- Blog 3 -->
+                    <div class="bento-item glass-panel">
+                        <div style="height: 200px; overflow: hidden;">
+                            <img src="assets/blogpost thumbnails/blog3.png" alt="Deep Learning"
+                                style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="bento-content"
+                            style="position: relative; transform: none; opacity: 1; background: none; padding: 20px;">
+                            <span style="font-size: 0.8rem; color: var(--color-accent-cyan);">Feb 23, 2025</span>
+                            <h3 style="margin: 10px 0;"><a href="blog3.html">Learning Deep Learning</a></h3>
+                            <p style="font-size: 0.9rem; color: var(--color-text-secondary);">My journey from basics to
+                                LLMs and RL. Late nights, rented GPUs, and YouTube deep dives.</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="bloghome.html" class="cta-btn">View All Posts</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container">
+                <div class="contact-footer">
+                    <h2 style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 30px;">Have an idea? A challenge?
+                        <br>Or just want to talk <span class="text-gradient">tech</span>?
+                    </h2>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 40px; font-size: 1.2rem;">Let's make
+                        something <span class="text-gradient">amazing</span> together.</p>
+
+                    <h2 class="big-contact-text"><a href="mailto:youremail@example.com">DROP ME A LINE</a></h2>
+
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/p-ranjithkumar" class="social-link">LinkedIn</a>
+                        <a href="https://github.com/P-RanjithKumar" class="social-link">GitHub</a>
+                        <a href="https://instagram.com/ranjithh_56" class="social-link">Instagram</a>
+                    </div>
+
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                        <p style="color: var(--color-text-muted); font-size: 0.9rem;">&copy; <span
+                                id="currentYear"></span> Ranjith Kumar. All Rights Reserved.</p>
+                        <p style="color: var(--color-text-muted); font-size: 0.9rem;">Designed & Built with Passion and
+                            Practice.</p>
+                        <div style="margin-top: 20px;">
+                            <a href="komala.html" style="color: var(--color-accent-cyan); font-size: 0.9rem;">Check out
+                                the animated page</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // --- Current Year ---
+        const currentYearElem = document.getElementById('currentYear');
+        if (currentYearElem) {
+            currentYearElem.textContent = new Date().getFullYear();
+        }
+
+        // --- Custom Cursor ---
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, button, .bento-item').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // --- Text Reveal Animation ---
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Optional: unobserve after reveal
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
+
+        // --- Header Scroll Effect ---
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>
