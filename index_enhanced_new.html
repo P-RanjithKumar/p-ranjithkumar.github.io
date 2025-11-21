@@ -467,32 +467,149 @@
             font-weight: 900;
             line-height: 1;
             margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--color-text-primary);
+            perspective: 500px;
             transition: letter-spacing 0.5s;
+            cursor: pointer;
+        }
+
+        .big-contact-text a {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+        }
+
+        .big-contact-text span {
+            display: inline-block;
+            transition: transform 0.1s ease-out, text-shadow 0.3s;
+            transform-style: preserve-3d;
+            will-change: transform, text-shadow;
         }
 
         .big-contact-text:hover {
-            letter-spacing: 10px;
+            letter-spacing: 15px;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
             gap: 40px;
-            margin-top: 20px;
+            margin-top: 40px;
         }
 
-        .social-link {
-            font-size: 1.2rem;
+        .social-icon {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--color-text-secondary);
-            transition: color 0.3s, transform 0.3s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: visible;
         }
 
-        .social-link:hover {
-            color: var(--color-accent-cyan);
-            transform: scale(1.2);
+        .social-icon svg {
+            width: 28px;
+            height: 28px;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--color-accent-cyan);
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* --- LinkedIn Animation --- */
+        .social-icon.linkedin:hover .linkedin-dot {
+            animation: bounceDot 0.6s infinite alternate;
+        }
+
+        @keyframes bounceDot {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-3px);
+            }
+        }
+
+        /* --- GitHub Animation --- */
+        .social-icon.github {
+            overflow: visible;
+        }
+
+        .github-eyes {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            display: flex;
+            justify-content: space-between;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .social-icon.github:hover .github-eyes {
+            opacity: 1;
+        }
+
+        .eye {
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pupil {
+            width: 2px;
+            height: 2px;
+            background: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .social-icon.github:hover .github-body {
+            opacity: 0.5;
+        }
+
+        /* --- Instagram Animation --- */
+        .social-icon.instagram:hover .insta-lens {
+            animation: shutter 0.5s ease-in-out;
+            transform-origin: center;
+        }
+
+        .social-icon.instagram:hover {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        @keyframes shutter {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(0.5) rotate(45deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
         }
 
         /* --- Responsive --- */
@@ -512,14 +629,12 @@
             .nav-links {
                 display: none;
             }
-
-            /* Simplify for mobile for now */
         }
     </style>
 </head>
 
 <body>
-    <div id="cursor"></div>
+    <div id="cursor">RK</div>
     <div class="noise-overlay"></div>
 
     <header>
@@ -808,9 +923,48 @@
                     <h2 class="big-contact-text"><a href="mailto:youremail@example.com">DROP ME A LINE</a></h2>
 
                     <div class="social-links">
-                        <a href="https://www.linkedin.com/in/p-ranjithkumar" class="social-link">LinkedIn</a>
-                        <a href="https://github.com/P-RanjithKumar" class="social-link">GitHub</a>
-                        <a href="https://instagram.com/ranjithh_56" class="social-link">Instagram</a>
+                        <!-- LinkedIn: The Bouncing Connector -->
+                        <a href="https://www.linkedin.com/in/p-ranjithkumar" class="social-icon linkedin"
+                            aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2" class="linkedin-dot"></circle>
+                            </svg>
+                        </a>
+
+                        <!-- GitHub: The Watcher -->
+                        <a href="https://github.com/P-RanjithKumar" class="social-icon github" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="github-body">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                </path>
+                            </svg>
+                            <!-- Eyes (Absolute positioned on top) -->
+                            <div class="github-eyes">
+                                <div class="eye">
+                                    <div class="pupil"></div>
+                                </div>
+                                <div class="eye">
+                                    <div class="pupil"></div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Instagram: The Shutter -->
+                        <a href="https://instagram.com/ranjithh_56" class="social-icon instagram"
+                            aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" class="insta-border"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" class="insta-lens"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" class="insta-flash"></line>
+                            </svg>
+                        </a>
                     </div>
 
                     <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
@@ -869,6 +1023,101 @@
             } else {
                 header.classList.remove('scrolled');
             }
+        });
+
+        // --- 3D Text Effect for Contact ---
+        const contactTextContainer = document.querySelector('.big-contact-text a');
+        if (contactTextContainer) {
+            const text = contactTextContainer.textContent;
+            contactTextContainer.innerHTML = '';
+
+            // Split text into spans
+            [...text].forEach(char => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                contactTextContainer.appendChild(span);
+            });
+
+            const spans = contactTextContainer.querySelectorAll('span');
+
+            contactTextContainer.addEventListener('mousemove', (e) => {
+                const containerRect = contactTextContainer.getBoundingClientRect();
+
+                spans.forEach(span => {
+                    const rect = span.getBoundingClientRect();
+                    const spanCenterX = rect.left + rect.width / 2;
+                    const spanCenterY = rect.top + rect.height / 2;
+
+                    // Calculate distance from mouse to span center
+                    const deltaX = e.clientX - spanCenterX;
+                    const deltaY = e.clientY - spanCenterY;
+
+                    // Calculate rotation
+                    // Max rotation 45 degrees
+                    const rotateY = -(deltaX / window.innerWidth) * 100;
+                    const rotateX = -(deltaY / window.innerHeight) * 100;
+
+                    const limit = 45;
+                    const rY = Math.max(-limit, Math.min(limit, rotateY));
+                    const rX = Math.max(-limit, Math.min(limit, rotateX));
+
+                    // 3D Shadow effect
+                    const shadowX = -rY / 4;
+                    const shadowY = rX / 4;
+
+                    span.style.transform = `rotateY(${rY}deg) rotateX(${rX}deg) translateZ(20px)`;
+                    span.style.textShadow = `${shadowX}px ${shadowY}px 0px #888, ${shadowX * 2}px ${shadowY * 2}px 10px rgba(0,0,0,0.5)`;
+                    span.style.color = '#fff'; // Ensure bright face
+                });
+            });
+
+            contactTextContainer.addEventListener('mouseleave', () => {
+                spans.forEach(span => {
+                    span.style.transform = 'rotateY(0) rotateX(0) translateZ(0)';
+                    span.style.textShadow = 'none';
+                    span.style.color = 'inherit';
+                });
+            });
+        }
+
+        // --- GitHub Eye Tracking ---
+        const githubIcon = document.querySelector('.social-icon.github');
+        if (githubIcon) {
+            const pupils = githubIcon.querySelectorAll('.pupil');
+
+            document.addEventListener('mousemove', (e) => {
+                if (!githubIcon.matches(':hover')) return; // Only track when hovering (or close)
+
+                const rect = githubIcon.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+                const distance = Math.min(2, Math.hypot(e.clientX - centerX, e.clientY - centerY) / 10); // Limit movement
+
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+
+                pupils.forEach(pupil => {
+                    pupil.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+                });
+            });
+        }
+
+        // --- Magnetic Button Effect (Optional Polish) ---
+        const socialIcons = document.querySelectorAll('.social-icon');
+        socialIcons.forEach(icon => {
+            icon.addEventListener('mousemove', (e) => {
+                const rect = icon.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+
+                icon.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.1)`;
+            });
+
+            icon.addEventListener('mouseleave', () => {
+                icon.style.transform = 'translate(0, 0) scale(1)';
+            });
         });
     </script>
 </body>
