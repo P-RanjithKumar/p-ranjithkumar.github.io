@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranjith Kumar - Portfolio</title>
+
+    <!-- Fonts -->
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&f[]=jetbrains-mono@400,500&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             /* --- Dark Theme (Default) --- */
@@ -145,9 +152,9 @@
             left: 0;
             width: 100%;
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
-            padding: 12px 0; 
+            padding: 12px 40px; 
             background-color: rgba(var(--color-background-deep-rgb-values), 0.85); 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px); 
@@ -236,11 +243,36 @@
         html.light-theme .moon-icon { display: none; }
         html.light-theme .sun-icon { display: block; }
 
+        /* --- Logo Styles --- */
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: -0.05em;
+            color: var(--color-text-primary); /* Adapts to Light/Dark mode */
+            position: absolute;  /* Pins it to the left */
+            left: 40px;          /* Distance from left edge */
+            text-decoration: none;
+            cursor: pointer;
+            transition: color var(--transition-duration-fast);
+            z-index: 1100;
+        }
+
+        .logo:hover {
+            color: var(--color-accent-primary); /* Cyan hover effect */
+        }
+
+        /* Hide logo on small screens to prevent overlapping links */
+        @media (max-width: 900px) {
+            .logo {
+                display: none;
+            }
+        }
+
         /* --- Horizontal Navigation - END --- */
         .page-section { min-height: 100vh; padding: 20px 8vw; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
         
-        .section-header { margin-bottom: 60px; position: relative; z-index: 1; }
-        .section-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: var(--color-text-primary); margin-bottom: 10px; line-height: 1.2; letter-spacing: -0.02em; }
+        .section-header { margin-bottom: 40px; position: relative; z-index: 1; }
+        .section-title { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; color: var(--color-text-primary); line-height: 1.2; letter-spacing: -0.02em; }
         .section-title .highlight { color: var(--color-accent-primary); }
         .section-subtitle { font-size: clamp(1rem, 2.5vw, 1.3rem); color: var(--color-text-secondary); max-width: 600px; font-weight: 300; }
 
@@ -253,14 +285,38 @@
         .hero-tagline strong { color: var(--color-accent-primary); font-weight: 500; }
         .hero-cta { display: inline-block; padding: 15px 35px; background: linear-gradient(45deg, var(--color-accent-primary), var(--color-accent-secondary)); color: var(--color-background-deep); border: none; border-radius: var(--border-radius-medium); text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: transform var(--transition-duration-medium) var(--easing-elastic), box-shadow var(--transition-duration-medium) var(--easing-cubic), color var(--transition-duration-medium); box-shadow: 0 5px 20px rgba(0, 240, 255, 0.2), 0 5px 20px rgba(255, 96, 192, 0.2); opacity: 0; transform: translateY(20px) scale(0.9); animation: fadeInSlideUpScale 0.6s var(--easing-cubic) 1.5s forwards; }
         .hero-cta:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.4), 0 10px 30px rgba(255, 96, 192, 0.4); }
-        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* ⚠️ Ensure this image path is correct relative to your HTML file */
+            background: url('assets/generated/hero-bg.png') no-repeat center center;
+            background-size: cover;
+            
+            /* Layering */
+            z-index: -1; 
+            
+            /* Visual Adjustments */
+            filter: brightness(0.5); /* Darkens image so text remains readable */
+            
+            /* The Zoom Animation Logic */
+            transform: scale(1.1);       /* Starts zoomed in by 10% */
+            transition: transform 10s ease-out; /* Takes 10 seconds to smooth out */
+        }
+
+        /* Trigger the zoom-out when mouse moves over the hero section */
+        #hero:hover .hero-bg {
+            transform: scale(1.0); /* Returns to normal size */
+        }
         @keyframes fadeInSlideUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInSlideUpScale { to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes letterReveal { 0% { opacity: 0; transform: translateY(30px) rotate(10deg) scale(0.8); } 100% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); } }
 
         /* --- About Section --- */
-        #about .about-content-grid { margin-bottom: 40px; }
-        .about-text p { margin-bottom: 20px; color: var(--color-text-secondary); font-size: 1.05rem; }
+        #about .about-content-grid { margin-bottom: 1px; }
+        .about-text p { margin-bottom: 20px; color: var(--color-text-secondary); font-size: 1.05rem; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
         .about-text p strong { color: var(--color-text-primary); font-weight: 500; }
         .tech-stack-showcase { background-color: var(--color-surface-glass); backdrop-filter: blur(10px); padding: 30px; border-radius: var(--border-radius-large); border: 1px solid var(--color-border-subtle); margin-top: 50px; transition: background-color var(--transition-duration-medium), border-color var(--transition-duration-medium); }
         .tech-stack-title { font-size: 1.5rem; font-weight: 600; color: var(--color-text-primary); margin-bottom: 25px; text-align: center; }
@@ -271,6 +327,24 @@
         .skill-icon { width: 40px; height: 40px; margin-bottom: 5px; }
         .skill-icon img { width:100%; height:100%; object-fit:contain; } 
         .skill-name { font-size: 0.85rem; color: var(--color-text-secondary); font-weight: 500; }
+
+        .handwritten-note {
+            text-align: left;
+            font-family: 'Caveat', cursive; /* Uses the new font */
+            color: var(--color-accent-secondary); /* Uses your existing Pink/Magenta accent */
+            font-size: 1.8rem;
+            font-weight: 700;
+            transform: rotate(-4deg); /* Slight tilt */
+            display: inline-block;
+            margin-top: 30px;
+            opacity: 0.9;
+            text-shadow: 0 0 15px rgba(var(--color-accent-secondary-rgb-values), 0.3); /* Adds a subtle glow */
+            transition: transform 0.3s ease;
+        }
+
+        .handwritten-note:hover {
+            transform: rotate(0deg) scale(1.05); /* Straightens when hovered */
+        }
 
         /* --- Experience Section --- */
         #experience .experience-timeline { position: relative; max-width: 800px; margin: 0 auto; padding-bottom: 20px; /* Added padding for line extension */ }
@@ -707,6 +781,117 @@
         .social-icon-list { display: flex; gap: 25px; justify-content: center; }
         .social-icon-list a { color: var(--color-text-muted); font-size: 2rem; transition: color var(--transition-duration-fast), transform var(--transition-duration-medium) var(--easing-elastic); position: relative; }
         .social-icon-list a:hover { transform: scale(1.2) translateY(-3px); }
+
+        /* --- Contact Section Flip & Parallax Animation --- */
+        /* 1. The Flipping Text Structure */
+        .flip-animation-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            z-index: 2;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .flip-animation-wrapper {
+                flex-direction: row;
+                gap: 15px;
+            }
+        }
+
+        .contact-pitch-static {
+            color: var(--color-text-primary);
+            margin: 0;
+            font-size: inherit; /* Inherit from wrapper */
+        }
+
+        .vertical-flip-window {
+            height: 1.2em; /* Height of one line of text */
+            overflow: hidden;
+            position: relative;
+            width: 100%; /* Full width on mobile */
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .vertical-flip-window {
+                width: auto;
+                min-width: 300px; /* Ensure space for longest word */
+                text-align: left;
+            }
+        }
+
+        .flip-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            animation: verticalFlip 7.5s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+        }
+
+        .flip-item {
+            height: 1.2em; /* Match window height */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center on mobile */
+            color: var(--color-accent-primary);
+        }
+
+        @media (min-width: 768px) {
+            .flip-item {
+                justify-content: flex-start; /* Left align on desktop */
+            }
+        }
+
+        .flip-item.text-gradient {
+            background: linear-gradient(to right, var(--color-accent-secondary), var(--color-accent-tertiary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 2. The Flip Animation Keyframes (3 items + 1 clone = 4 steps) */
+        @keyframes verticalFlip {
+            0%, 20% { transform: translateY(0); }
+            33%, 53% { transform: translateY(-25%); } /* Move 1 unit */
+            66%, 86% { transform: translateY(-50%); } /* Move 2 units */
+            99.99% { transform: translateY(-75%); }   /* Move 3 units */
+            100% { transform: translateY(0); }        /* Snap back to start */
+        }
+
+        /* --- 3D Contact Text Animation --- */
+        .big-contact-text {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 40px;
+            color: var(--color-text-primary);
+            perspective: 500px;
+            transition: letter-spacing 0.5s;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .big-contact-text a {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+        }
+
+        .big-contact-text span {
+            display: inline-block;
+            transition: transform 0.1s ease-out, text-shadow 0.3s;
+            transform-style: preserve-3d;
+            will-change: transform, text-shadow;
+        }
+
+        .big-contact-text:hover {
+            letter-spacing: 15px;
+        }
+
         /* Brand colors for social icons on hover - these generally work well on both light/dark */
         .social-icon-list a[title="LinkedIn"]:hover { color: #0A66C2; text-shadow: 0 0 10px rgba(10,102,194,0.5); }
         .social-icon-list a[title="GitHub"]:hover { color: #E8E8E8; text-shadow: 0 0 10px rgba(232,232,232,0.5); }
@@ -727,6 +912,8 @@
     <canvas id="global-particle-canvas"></canvas>
 
     <nav class="main-nav">
+        <div class="logo">RK.</div>
+
         <a href="#hero" class="nav-link active" data-section="hero">Home</a>
         <a href="#about" class="nav-link" data-section="about">About</a>
         <a href="#experience" class="nav-link" data-section="experience">Experience</a>
@@ -734,14 +921,20 @@
         <a href="#publications" class="nav-link" data-section="publications">Publications</a>
         <a href="#blog" class="nav-link" data-section="blog">Blog</a>
         <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+        
         <button id="theme-toggle" title="Toggle light/dark mode">
-            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM12 4.5a.75.75 0 01.75.75v.01a.75.75 0 01-1.5 0V5.25a.75.75 0 01.75-.75zM4.94 6.44a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.06L4.939 7.5a.75.75 0 010-1.061zM16.469 17.531a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.06l-1.591-1.591a.75.75 0 010-1.06zM19.07 16.06a.75.75 0 010 1.06l-1.591 1.591a.75.75 0 11-1.06-1.06l1.591-1.591a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM4.939 16.06a.75.75 0 011.06 0l1.591 1.591a.75.75 0 01-1.06 1.06l-1.591-1.591a.75.75 0 010-1.06zM17.53 4.94a.75.75 0 011.06 0l1.591 1.591a.75.75 0 01-1.06 1.06L17.531 6a.75.75 0 010-1.06zM2.25 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3a.75.75 0 01-.75-.75zM12 19.5a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V20.25a.75.75 0 01.75-.75z"/></svg>
-            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.51 1.713-6.634 4.372-8.452a.75.75 0 01.819.162z" clip-rule="evenodd"/></svg>
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM12 4.5a.75.75 0 01.75.75v.01a.75.75 0 01-1.5 0V5.25a.75.75 0 01.75-.75zM4.94 6.44a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.06L4.939 7.5a.75.75 0 010-1.061zM16.469 17.531a.75.75 0 011.06 0l1.591 1.591a.75.75 0 11-1.06 1.06l-1.591-1.591a.75.75 0 010-1.06zM19.07 16.06a.75.75 0 010 1.06l-1.591 1.591a.75.75 0 11-1.06-1.06l1.591-1.591a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM4.939 16.06a.75.75 0 011.06 0l1.591 1.591a.75.75 0 01-1.06 1.06l-1.591-1.591a.75.75 0 010-1.06zM17.53 4.94a.75.75 0 011.06 0l1.591 1.591a.75.75 0 01-1.06 1.06L17.531 6a.75.75 0 010-1.06zM2.25 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3a.75.75 0 01-.75-.75zM12 19.5a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V20.25a.75.75 0 01.75-.75z"/>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.51 1.713-6.634 4.372-8.452a.75.75 0 01.819.162z" clip-rule="evenodd"/>
+            </svg>
         </button>
     </nav>
 
     <main>
         <section id="hero" class="page-section">
+            <div class="hero-bg"></div>
             <div class="hero-content">
                 <span class="hero-greeting">Hello, I'm</span>
                 <h1 class="hero-name" data-text="Ranjith Kumar">Ranjith Kumar</h1>
@@ -762,6 +955,7 @@
                     <p>My experience spans frameworks like PyTorch and tools such as Transformers and LangChain, enabling me to work confidently at the intersection of research and application. I have a particular knack for understanding the fundamentals behind complex models, which helps me not only implement AI systems but also dissect and optimize them for better performance.</p>
                     <p>Recently, I was honored with the Best Process Excellence Award at my college for a project that showcased innovation, impact, and technical depth — an achievement that reflects my commitment to building effective and efficient solutions. I also have experience deploying models and developing full-stack ML applications, giving me end-to-end visibility of the development pipeline.</p>
                     <P>While I enjoy development, my core interest lies in AI research — exploring model behavior, challenging existing limits, and uncovering novel use cases. In the next few years, I aspire to grow as an AI researcher, product engineer, or startup founder, creating solutions that are not only scalable and reliable, but also socially meaningful and accessible across domains like healthcare, education, and sustainability.</P>
+                    <p class="handwritten-note">"Driven by curiosity, fueled by coffee."</p>
                 </div>
             </div>
             <div class="tech-stack-showcase">
@@ -926,15 +1120,30 @@
 
         <section id="contact" class="page-section reveal-on-scroll" style="transform: translateY(50px);">
             <div class="contact-container">
-                <h2 class="contact-pitch">
-                    Have an idea? A challenge? Or just want to talk <span class="highlight">tech</span>? <br/>Let's make something <span class="highlight">amazing</span> together.
+                <div class="flip-animation-wrapper">
+                    <h2 class="contact-pitch-static">Do you have</h2>
+                    <div class="vertical-flip-window">
+                        <ul class="flip-list">
+                            <li class="flip-item">an Idea?</li>
+                            <li class="flip-item text-gradient">a Challenge?</li>
+                            <li class="flip-item">tech to talk?</li>
+                            <li class="flip-item">an Idea?</li> </ul>
+                    </div>
+                </div>
+
+                <p style="color: var(--color-text-secondary); margin-bottom: 40px; font-size: 1.2rem; position: relative; z-index: 2;">
+                    Let's make something <span class="text-gradient">amazing</span> together.
+                </p>
+
+                <h2 class="big-contact-text">
+                    <a href="mailto:youremail@example.com">DROP ME A LINE</a>
                 </h2>
-                <a href="mailto:youremail@example.com" class="contact-cta-email">Drop Me a Line</a>
+
                 <p class="contact-social-prompt">Or find me on these platforms:</p>
                 <div class="social-icon-list">
                     <a href="https://www.linkedin.com/in/p-ranjithkumar" target="_blank" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
                     <a href="https://github.com/P-RanjithKumar" target="_blank" title="GitHub"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
-                    <a href="https://instagram.com/ranjithh_56" target="_blank" title="instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm8.75 2.25a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/></svg></a>
+                    <a href="https://instagram.com/ranjithh_56" target="_blank" title="instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm8.75 2.25a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/></svg></a>
                 </div>
             </div>
         </section>
@@ -1339,6 +1548,90 @@ ER  - </code></pre>
         window.addEventListener('resize', resizeCanvas);
 
         resizeCanvas(); // Initial setup and start animation
+
+        // --- Contact Section Mouse Parallax ---
+        const contactSection = document.getElementById('contact');
+        const parallaxOrbs = document.querySelectorAll('.parallax-orb');
+
+        if (contactSection && parallaxOrbs.length > 0) {
+            contactSection.addEventListener('mousemove', (e) => {
+                const rect = contactSection.getBoundingClientRect();
+                // Calculate mouse position relative to the section center
+                const mouseX = e.clientX - rect.left - rect.width / 2;
+                const mouseY = e.clientY - rect.top - rect.height / 2;
+
+                parallaxOrbs.forEach((orb, index) => {
+                    // Different speeds for each orb to create depth
+                    const speed = (index + 1) * 0.05; 
+                    const x = mouseX * speed;
+                    const y = mouseY * speed;
+                    
+                    // Note: We use existing animation transform (translate) via CSS 
+                    // but this JS adds an offset. To combine them, we can use CSS var 
+                    // or just override transform for interaction. 
+                    // Let's use a simple transform override for immediate feedback:
+                    orb.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });        
+        }
+
+        // --- 3D Text Effect for Contact ---
+        const contactTextContainer = document.querySelector('.big-contact-text a');
+        if (contactTextContainer) {
+            const text = contactTextContainer.textContent;
+            contactTextContainer.innerHTML = '';
+
+            // Split text into spans
+            [...text].forEach(char => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                contactTextContainer.appendChild(span);
+            });
+
+            const spans = contactTextContainer.querySelectorAll('span');
+
+            contactTextContainer.addEventListener('mousemove', (e) => {
+                // Check current theme to decide hover color (Black for light mode, White for dark mode)
+                const isLightMode = document.documentElement.classList.contains('light-theme');
+                const hoverColor = isLightMode ? '#000' : '#fff';
+
+                const containerRect = contactTextContainer.getBoundingClientRect();
+                
+                spans.forEach(span => {
+                    const rect = span.getBoundingClientRect();
+                    const spanCenterX = rect.left + rect.width / 2;
+                    const spanCenterY = rect.top + rect.height / 2;
+
+                    // Calculate distance from mouse to span center
+                    const deltaX = e.clientX - spanCenterX;
+                    const deltaY = e.clientY - spanCenterY;
+
+                    // Calculate rotation (Max 45 degrees)
+                    const rotateY = -(deltaX / window.innerWidth) * 100;
+                    const rotateX = -(deltaY / window.innerHeight) * 100;
+
+                    const limit = 45;
+                    const rY = Math.max(-limit, Math.min(limit, rotateY));
+                    const rX = Math.max(-limit, Math.min(limit, rotateX));
+
+                    // 3D Shadow effect
+                    const shadowX = -rY / 4;
+                    const shadowY = rX / 4;
+
+                    span.style.transform = `rotateY(${rY}deg) rotateX(${rX}deg) translateZ(20px)`;
+                    span.style.textShadow = `${shadowX}px ${shadowY}px 0px var(--color-text-muted), ${shadowX * 2}px ${shadowY * 2}px 10px rgba(0,0,0,0.5)`;
+                    span.style.color = hoverColor; // Adaptive color
+                });
+            });
+
+            contactTextContainer.addEventListener('mouseleave', () => {
+                spans.forEach(span => {
+                    span.style.transform = 'rotateY(0) rotateX(0) translateZ(0)';
+                    span.style.textShadow = 'none';
+                    span.style.color = 'inherit';
+                });
+            });
+        }
     });
 
     // --- Project Entry Click Expansion ---
