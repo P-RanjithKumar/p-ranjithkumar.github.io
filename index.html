@@ -1209,6 +1209,10 @@ ER  - </code></pre>
     </div>
 
     <script>
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+    window.location.href = "trial.html";
+    }
     document.addEventListener('DOMContentLoaded', function() {
         const currentYearElem = document.getElementById('currentYear');
         if (currentYearElem) {
