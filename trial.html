@@ -444,321 +444,260 @@
 
     <!-- Contact Section -->
     <section id="contact" class="py-32 dot-grid bg-cream relative overflow-hidden">
-        <style>
-            /* Enhanced Stretchy Text Container */
-            .stretchy-container {
-                perspective: 1000px;
-                position: relative;
-                display: inline-block;
-                cursor: pointer;
-            }
-            
-            .stretchy-text {
-                font-family: 'DM Serif Display', serif;
-                font-size: clamp(3rem, 8vw, 6rem);
-                font-weight: 700;
-                line-height: 1.1;
-                display: flex;
-                justify-content: center;
-                flex-wrap: wrap;
-                position: relative;
-                transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            
-            /* Individual Letter Styling */
-            .stretchy-letter {
-                display: inline-block;
-                transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-                transform-origin: center bottom;
-                position: relative;
-                color: #1A1A1A;
-            }
-            
-            /* Default State - Subtle float */
-            .stretchy-letter {
-                animation: subtleFloat 6s ease-in-out infinite;
-                animation-delay: calc(var(--index) * 0.1s);
-            }
-            
-            @keyframes subtleFloat {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-5px); }
-            }
-            
-            /* Hover States - The Stretch Effect */
-            .stretchy-container:hover .stretchy-letter {
-                animation: none;
-                color: transparent;
-                background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #a78bfa 100%);
-                background-size: 200% auto;
-                -webkit-background-clip: text;
-                background-clip: text;
-                text-shadow: 
-                    0 10px 30px rgba(167, 139, 250, 0.3),
-                    0 0 0 transparent;
-            }
-            
-            /* Odd letters stretch up, even stretch down for wave effect */
-            .stretchy-container:hover .stretchy-letter:nth-child(odd) {
-                transform: translateY(-15px) scaleY(1.2) scaleX(0.9);
-                transition-delay: calc(var(--index) * 0.03s);
-            }
-            
-            .stretchy-container:hover .stretchy-letter:nth-child(even) {
-                transform: translateY(10px) scaleY(0.9) scaleX(1.1);
-                transition-delay: calc(var(--index) * 0.03s);
-            }
-            
-            /* Special stretch for specific letters */
-            .stretchy-container:hover .stretchy-letter:nth-child(3),
-            .stretchy-container:hover .stretchy-letter:nth-child(7) {
-                transform: translateY(-20px) scaleY(1.4) scaleX(0.8);
-                letter-spacing: 0.1em;
-            }
-            
-            /* Underline animation */
-            .stretchy-underline {
-                position: absolute;
-                bottom: -10px;
-                left: 50%;
-                width: 0;
-                height: 4px;
-                background: linear-gradient(90deg, #a78bfa, #f472b6);
-                border-radius: 2px;
-                transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-                transform: translateX(-50%);
-                box-shadow: 0 4px 20px rgba(244, 114, 182, 0.4);
-            }
-            
-            .stretchy-container:hover .stretchy-underline {
-                width: 100%;
-                transition-delay: 0.2s;
-            }
-            
-            /* Magnetic Field Effect */
-            .magnetic-area {
-                position: absolute;
-                inset: -100px;
-                z-index: -1;
-            }
-            
-            /* Cursor follower for extra smoothness */
-            .cursor-follower {
-                width: 20px;
-                height: 20px;
-                background: radial-gradient(circle, rgba(167, 139, 250, 0.6), transparent);
-                border-radius: 50%;
-                position: fixed;
-                pointer-events: none;
-                z-index: 9999;
-                opacity: 0;
-                transition: opacity 0.3s, transform 0.1s;
-                mix-blend-mode: multiply;
-            }
-            
-            .cursor-follower.active {
-                opacity: 1;
-                transform: scale(2);
-            }
-            
-            /* Subtext styling */
-            .contact-subtext {
-                opacity: 0;
-                transform: translateY(20px);
-                transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-                transition-delay: 0.3s;
-            }
-            
-            .stretchy-container:hover ~ .contact-subtext,
-            .stretchy-container:hover + .contact-subtext {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            
-            /* Glow effect behind text */
-            .text-glow {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 100%;
-                height: 100%;
-                background: radial-gradient(circle, rgba(167, 139, 250, 0.2), transparent 70%);
-                opacity: 0;
-                transition: opacity 0.6s;
-                pointer-events: none;
-                filter: blur(40px);
-            }
-            
-            .stretchy-container:hover .text-glow {
-                opacity: 1;
-            }
-        </style>
-
-        <div class="cursor-follower" id="cursor"></div>
-
-        <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
-            <h2 class="font-serif text-5xl md:text-7xl mb-8 fade-up">Let's Create Something</h2>
-            
-            <div class="relative inline-block mb-8 fade-up" style="transition-delay: 0.1s;">
-                <a href="mailto:youremail@example.com" class="stretchy-container" id="stretchyLink">
-                    <div class="text-glow"></div>
-                    <div class="magnetic-area"></div>
-                    <div class="stretchy-text" id="stretchyText">
-                        <!-- Letters will be injected here by JS -->
-                    </div>
-                    <div class="stretchy-underline"></div>
-                </a>
-            </div>
-            
-            <p class="contact-subtext text-gray-500 text-lg font-medium tracking-wide fade-up" style="transition-delay: 0.2s;">
-                Click to start a conversation
+        <div class="max-w-6xl mx-auto px-6 text-center relative z-10">
+            <h2 class="font-serif text-5xl md:text-7xl mb-8 fade-up text-dark">Let's Build Something</h2>
+            <p class="text-xl text-gray-600 mb-16 fade-up" style="transition-delay: 0.1s;">
+                Do you have <span class="text-gradient font-semibold">an idea?</span> a challenge? or tech to talk?
             </p>
 
-            <div class="mt-16 flex justify-center gap-6 fade-up" style="transition-delay: 0.3s;">
+            <!-- 3D Stretchy Text Container -->
+            <div class="relative inline-block mb-16 fade-up" style="transition-delay: 0.2s;" id="contactTextWrapper">
+                <a href="mailto:pranjithkumar.in@gmail.com" class="block group" id="stretchyLink">
+                    <h2 class="font-serif text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight" id="stretchyText" style="perspective: 1000px;">
+                        <!-- Text injected by JS -->
+                    </h2>
+                    <!-- Dynamic glow behind text -->
+                    <div id="textGlow" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-soft-purple/30 via-soft-pink/30 to-soft-purple/30 rounded-full blur-[80px] opacity-0 transition-opacity duration-500 pointer-events-none"></div>
+                </a>
+                <!-- Underline that stretches -->
+                <div class="h-1 bg-gradient-to-r from-transparent via-dark to-transparent mt-4 w-0 group-hover:w-full transition-all duration-700 ease-out mx-auto"></div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex justify-center gap-6 fade-up" style="transition-delay: 0.3s;">
                 <a href="https://www.linkedin.com/in/p-ranjithkumar" target="_blank" 
-                class="group relative w-14 h-14 bg-dark text-white rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-110">
+                class="group relative w-14 h-14 bg-dark text-white rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-110 hover:shadow-lg hover:shadow-soft-purple/30">
                     <div class="absolute inset-0 bg-[#0A66C2] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                    <svg class="relative z-10 w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
+                    <svg class="relative z-10 w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                 </a>
-                
                 <a href="https://github.com/P-RanjithKumar" target="_blank" 
-                class="group relative w-14 h-14 bg-dark text-white rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-110">
+                class="group relative w-14 h-14 bg-dark text-white rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-110 hover:shadow-lg hover:shadow-gray-500/30">
                     <div class="absolute inset-0 bg-[#333] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                    <svg class="relative z-10 w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
+                    <svg class="relative z-10 w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 </a>
-                
                 <a href="https://instagram.com/ranjithh_56" target="_blank" 
-                class="group relative w-14 h-14 bg-dark text-white rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-110">
+                class="group relative w-14 h-14 bg-dark text-white rounded-full flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-110 hover:shadow-lg hover:shadow-pink-500/30">
                     <div class="absolute inset-0 bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                    <svg class="relative z-10 w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm8.75 2.25a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/>
-                    </svg>
+                    <svg class="relative z-10 w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm8.75 2.25a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/></svg>
                 </a>
             </div>
         </div>
 
-        <script>
-            // Initialize stretchy text
-            const text = "DROP ME A LINE";
-            const container = document.getElementById('stretchyText');
-            
-            // Wrap each letter in a span
-            text.split('').forEach((char, index) => {
-                const span = document.createElement('span');
-                span.className = 'stretchy-letter';
-                span.textContent = char === ' ' ? '\u00A0' : char;
-                span.style.setProperty('--index', index);
-                container.appendChild(span);
-            });
-            
-            // Magnetic effect for cursor
-            const link = document.getElementById('stretchyLink');
-            const cursor = document.getElementById('cursor');
-            const letters = document.querySelectorAll('.stretchy-letter');
-            
-            // Smooth cursor tracking
-            let mouseX = 0, mouseY = 0;
-            let cursorX = 0, cursorY = 0;
-            
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-            
-            function animateCursor() {
-                const dx = mouseX - cursorX;
-                const dy = mouseY - cursorY;
-                
-                cursorX += dx * 0.1;
-                cursorY += dy * 0.1;
-                
-                cursor.style.left = cursorX - 10 + 'px';
-                cursor.style.top = cursorY - 10 + 'px';
-                
-                requestAnimationFrame(animateCursor);
+        <style>
+            /* Smooth 3D Letter Styling */
+            .letter-3d {
+                display: inline-block;
+                transition: color 0.4s ease, text-shadow 0.4s ease;
+                transform-style: preserve-3d;
+                will-change: transform;
+                backface-visibility: hidden;
             }
-            animateCursor();
             
-            // Magnetic field effect
-            link.addEventListener('mouseenter', () => {
-                cursor.classList.add('active');
-            });
+            /* Gradient text on hover */
+            .group:hover .letter-3d {
+                background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%);
+                background-size: 200% 200%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: gradientShift 3s ease infinite;
+            }
             
-            link.addEventListener('mouseleave', () => {
-                cursor.classList.remove('active');
-                letters.forEach(letter => {
-                    letter.style.transform = '';
-                });
-            });
+            @keyframes gradientShift {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+            }
             
-            // Advanced magnetic effect on mouse move over text
-            link.addEventListener('mousemove', (e) => {
-                const rect = link.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
+            /* Floating animation when idle */
+            .letter-3d {
+                animation: letterFloat 6s ease-in-out infinite;
+                animation-delay: calc(var(--index) * 0.1s);
+            }
+            
+            @keyframes letterFloat {
+                0%, 100% { transform: translateY(0) translateZ(0); }
+                50% { transform: translateY(-5px) translateZ(10px); }
+            }
+            
+            /* Pause float on hover for manual control */
+            .group:hover .letter-3d {
+                animation-play-state: paused;
+            }
+        </style>
+
+        <script>
+            (function() {
+                const container = document.getElementById('stretchyText');
+                const wrapper = document.getElementById('contactTextWrapper');
+                const glow = document.getElementById('textGlow');
+                const text = "DROP ME A LINE";
                 
-                letters.forEach((letter, index) => {
-                    const letterRect = letter.getBoundingClientRect();
-                    const letterCenterX = letterRect.left + letterRect.width / 2 - rect.left;
-                    const letterCenterY = letterRect.top + letterRect.height / 2 - rect.top;
-                    
-                    const distX = x - letterCenterX;
-                    const distY = y - letterCenterY;
-                    const distance = Math.sqrt(distX * distX + distY * distY);
-                    
-                    if (distance < 150) {
-                        const force = (150 - distance) / 150;
-                        const moveX = (distX / distance) * force * 10;
-                        const moveY = (distY / distance) * force * 5;
-                        const scale = 1 + (force * 0.2);
-                        const rotate = (distX / distance) * force * 10;
-                        
-                        letter.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale}) rotate(${rotate}deg)`;
-                    }
-                });
-            });
-            
-            // Click ripple effect
-            link.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
+                // Split text into letters
+                container.innerHTML = text.split('').map((char, i) => 
+                    `<span class="letter-3d" style="--index: ${i}" data-index="${i}">${char === ' ' ? '&nbsp;' : char}</span>`
+                ).join('');
                 
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = e.clientX - rect.left - size / 2 + 'px';
-                ripple.style.top = e.clientY - rect.top - size / 2 + 'px';
-                ripple.style.position = 'absolute';
-                ripple.style.borderRadius = '50%';
-                ripple.style.background = 'rgba(167, 139, 250, 0.3)';
-                ripple.style.transform = 'scale(0)';
-                ripple.style.animation = 'ripple 0.6s ease-out';
-                ripple.style.pointerEvents = 'none';
+                const letters = container.querySelectorAll('.letter-3d');
                 
-                this.appendChild(ripple);
+                // Animation state
+                let mouseX = 0, mouseY = 0;
+                let currentX = 0, currentY = 0;
+                let rafId = null;
+                let isHovering = false;
                 
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
-            
-            // Add ripple animation keyframes dynamically
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
-                    }
+                // Configuration for smoothness
+                const config = {
+                    lerp: 0.12,        // Lower = smoother but slower (0.1 = smooth, 0.3 = responsive)
+                    maxRotateX: 35,    // Degrees
+                    maxRotateY: 45,    // Degrees
+                    maxTranslateZ: 40, // Pixels
+                    shadowDepth: 3,    // Shadow layers
+                    magneticStrength: 0.3 // Container follows mouse slightly
+                };
+                
+                // Store target and current values for each letter
+                const letterStates = Array.from(letters).map(() => ({
+                    targetRX: 0, currentRX: 0,
+                    targetRY: 0, currentRY: 0,
+                    targetTZ: 0, currentTZ: 0,
+                    targetSX: 1, currentSX: 1, // Scale X for stretch
+                    targetSY: 1, currentSY: 1  // Scale Y for stretch
+                }));
+                
+                function lerp(start, end, factor) {
+                    return start + (end - start) * factor;
                 }
-            `;
-            document.head.appendChild(style);
+                
+                function updateLetters() {
+                    letters.forEach((letter, i) => {
+                        const state = letterStates[i];
+                        
+                        // Smooth interpolation
+                        state.currentRX = lerp(state.currentRX, state.targetRX, config.lerp);
+                        state.currentRY = lerp(state.currentRY, state.targetRY, config.lerp);
+                        state.currentTZ = lerp(state.currentTZ, state.targetTZ, config.lerp);
+                        state.currentSX = lerp(state.currentSX, state.targetSX, config.lerp);
+                        state.currentSY = lerp(state.currentSY, state.targetSY, config.lerp);
+                        
+                        // Dynamic shadow based on rotation
+                        const shadowX = -state.currentRY * 0.5;
+                        const shadowY = state.currentRX * 0.5;
+                        const shadows = [];
+                        
+                        // Multi-layered shadow for depth
+                        for(let j = 1; j <= config.shadowDepth; j++) {
+                            const opacity = 0.3 / j;
+                            const blur = j * 4;
+                            const x = shadowX * j;
+                            const y = shadowY * j;
+                            shadows.push(`${x}px ${y}px ${blur}px rgba(167, 139, 250, ${opacity})`);
+                        }
+                        
+                        // Apply transform with hardware acceleration
+                        letter.style.transform = `
+                            translateZ(${state.currentTZ}px)
+                            rotateX(${state.currentRX}deg)
+                            rotateY(${state.currentRY}deg)
+                            scaleX(${state.currentSX})
+                            scaleY(${state.currentSY})
+                        `;
+                        letter.style.textShadow = shadows.join(',');
+                    });
+                    
+                    // Magnetic container effect
+                    if (isHovering) {
+                        currentX = lerp(currentX, mouseX * config.magneticStrength, 0.1);
+                        currentY = lerp(currentY, mouseY * config.magneticStrength, 0.1);
+                        wrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    } else {
+                        currentX = lerp(currentX, 0, 0.1);
+                        currentY = lerp(currentY, 0, 0.1);
+                        wrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    }
+                    
+                    rafId = requestAnimationFrame(updateLetters);
+                }
+                
+                // Start animation loop
+                updateLetters();
+                
+                // Mouse move handler
+                wrapper.addEventListener('mousemove', (e) => {
+                    isHovering = true;
+                    glow.style.opacity = '1';
+                    
+                    const rect = wrapper.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    
+                    // Mouse position relative to center (-1 to 1)
+                    const normX = (e.clientX - centerX) / (rect.width / 2);
+                    const normY = (e.clientY - centerY) / (rect.height / 2);
+                    
+                    mouseX = normX * 20; // For magnetic effect
+                    mouseY = normY * 20;
+                    
+                    letters.forEach((letter, i) => {
+                        const letterRect = letter.getBoundingClientRect();
+                        const letterCenterX = letterRect.left + letterRect.width / 2;
+                        const letterCenterY = letterRect.top + letterRect.height / 2;
+                        
+                        // Distance from mouse to letter
+                        const distX = e.clientX - letterCenterX;
+                        const distY = e.clientY - letterCenterY;
+                        const dist = Math.sqrt(distX * distX + distY * distY);
+                        const maxDist = 300;
+                        
+                        if (dist < maxDist) {
+                            const force = (1 - dist / maxDist);
+                            
+                            // Calculate rotation (inverse to mouse position for "looking at cursor" effect)
+                            const rotY = -(distX / maxDist) * config.maxRotateY * force;
+                            const rotX = (distY / maxDist) * config.maxRotateX * force;
+                            
+                            // Stretch effect - letters closer to mouse stretch toward it
+                            const stretchX = 1 + (Math.abs(distX) / maxDist) * 0.15 * force;
+                            const stretchY = 1 + (Math.abs(distY) / maxDist) * 0.1 * force;
+                            
+                            letterStates[i].targetRX = rotX;
+                            letterStates[i].targetRY = rotY;
+                            letterStates[i].targetTZ = force * config.maxTranslateZ;
+                            letterStates[i].targetSX = stretchX;
+                            letterStates[i].targetSY = stretchY;
+                        } else {
+                            // Reset to subtle idle state
+                            letterStates[i].targetRX = 0;
+                            letterStates[i].targetRY = 0;
+                            letterStates[i].targetTZ = 0;
+                            letterStates[i].targetSX = 1;
+                            letterStates[i].targetSY = 1;
+                        }
+                    });
+                });
+                
+                // Mouse leave - smooth reset
+                wrapper.addEventListener('mouseleave', () => {
+                    isHovering = false;
+                    glow.style.opacity = '0';
+                    
+                    letters.forEach((_, i) => {
+                        letterStates[i].targetRX = 0;
+                        letterStates[i].targetRY = 0;
+                        letterStates[i].targetTZ = 0;
+                        letterStates[i].targetSX = 1;
+                        letterStates[i].targetSY = 1;
+                    });
+                });
+                
+                // Cleanup on page hide
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden && rafId) {
+                        cancelAnimationFrame(rafId);
+                    } else {
+                        updateLetters();
+                    }
+                });
+            })();
         </script>
     </section>
 
