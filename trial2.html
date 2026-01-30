@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Chrome Neural Network</title>
+    <style>
+        body { margin: 0; background-color: #050505; overflow: hidden; font-family: sans-serif; }
+        #canvas-container { width: 100vw; height: 100vh; position: absolute; z-index: 1; }
+        
+        /* UI Overlay to match the high-end aesthetic */
+        .ui-layer { position: absolute; z-index: 10; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: difference; color: white;}
+        .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        h1 { font-size: 8vw; margin: 0; font-weight: 300; letter-spacing: -0.05em; line-height: 0.9; }
+        p { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.5em; margin-top: 20px; opacity: 0.8; }
+        
+        /* The scroll track */
+        .scroll-track { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-y: scroll; pointer-events: all; z-index: 20; }
+        .scroll-body { height: 600vh; } /* Long scroll area */
+        
+        /* Hide Scrollbar */
+        .scroll-track::-webkit-scrollbar { width: 0; background: transparent; }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div class="ui-layer">
+        <div class="center-text">
+            <h1>SYNAPTIC<br>CHROME</h1>
+            <p>Scroll to Initiate</p>
+        </div>
+    </div>
+
+    <div class="scroll-track">
+        <div class="scroll-body"></div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
+
+        // --- CONFIG ---
+        const config = {
+            pipeCount: 15,          // Number of intertwined neural cables
+            pipeRadius: 0.6,        // Thickness of the "wires"
+            tunnelLength: 80,       // Depth of the tunnel
+            turnIntensity: 15,      // How much the tunnel twists
+            metalness: 1.0,         // 1 = Pure Metal
+            roughness: 0.15,        // 0 = Mirror, 1 = Matte
+            color: 0x88ccff,        // Base blueish-silver tint
+            lightSpeed: 0.05,        // Speed of moving lights
+            scrollDamping: 0.08     // Physics friction (Lower = heavier/slidier)
+        };
+
+        // --- INIT ---
+        const container = document.getElementById('canvas-container');
+        const scrollTrack = document.querySelector('.scroll-track');
+        
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050505);
+        scene.fog = new THREE.FogExp2(0x000000, 0.035); // Hides the end of the tunnel
+
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // Cap pixel ratio for performance
+        renderer.toneMapping = THREE.ACESFilmicToneMapping; // Cinematic lighting
+        renderer.toneMappingExposure = 1.2;
+        container.appendChild(renderer.domElement);
+
+        // --- LIGHTING (CRITICAL FOR CHROME LOOK) ---
+        RectAreaLightUniformsLib.init();
+
+        // 1. Ambient low light
+        const ambientLight = new THREE.AmbientLight(0x111111); 
+        scene.add(ambientLight);
+
+        // 2. Moving Highlight Lights (These create the reflections on the metal)
+        const lightGroup = new THREE.Group();
+        scene.add(lightGroup);
+
+        const lights = [];
+        const lightColors = [0x00ffff, 0xff00ff, 0x4444ff];
+
+        for(let i=0; i<6; i++) {
+            const light = new THREE.PointLight(lightColors[i%3], 80, 40);
+            lights.push(light);
+            lightGroup.add(light);
+        }
+
+        // --- GEOMETRY: THE SYNAPTIC TUNNEL ---
+        // Instead of random points, we generate smooth curved tubes
+        
+        // 1. Create the Spine (The path the camera follows)
+        const pathPoints = [];
+        for (let i = 0; i < 40; i++) {
+            const z = -i * (config.tunnelLength / 40);
+            const x = Math.sin(i * 0.5) * config.turnIntensity;
+            const y = Math.cos(i * 0.3) * config.turnIntensity;
+            pathPoints.push(new THREE.Vector3(x, y, z));
+        }
+        const spline = new THREE.CatmullRomCurve3(pathPoints);
+
+        // 2. Create the "Cables" (The chrome neural fibers)
+        const chromeMaterial = new THREE.MeshPhysicalMaterial({
+            color: config.color,
+            metalness: config.metalness,
+            roughness: config.roughness,
+            clearcoat: 1.0,           // Extra shiny layer like car paint
+            clearcoatRoughness: 0.1,
+            emissive: 0x001133,       // Slight inner glow
+            emissiveIntensity: 0.2
+        });
+
+        // We generate multiple tubes twisting around the main spline
+        for (let i = 0; i < config.pipeCount; i++) {
+            // Offset the spline for each pipe to create a "bundle"
+            const offsetPoints = pathPoints.map((p, index) => {
+                const angle = (index * 0.2) + (i * (Math.PI * 2 / config.pipeCount));
+                const radius = 3 + Math.sin(index * 0.5 + i) * 2; // Varying thickness of the bundle
+                
+                return new THREE.Vector3(
+                    p.x + Math.cos(angle) * radius,
+                    p.y + Math.sin(angle) * radius,
+                    p.z
+                );
+            });
+            
+            const pipeSpline = new THREE.CatmullRomCurve3(offsetPoints);
+            const geometry = new THREE.TubeGeometry(pipeSpline, 150, config.pipeRadius, 8, false);
+            const mesh = new THREE.Mesh(geometry, chromeMaterial);
+            scene.add(mesh);
+        }
+
+        // 3. Add Floating Nodes (The "Neurons")
+        const nodeGeo = new THREE.IcosahedronGeometry(0.5, 0); // Diamond shapes
+        const nodeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const nodesInstanced = new THREE.InstancedMesh(nodeGeo, nodeMat, 300);
+        
+        const dummy = new THREE.Object3D();
+        for(let i=0; i<300; i++) {
+            const t = Math.random();
+            const pos = spline.getPoint(t);
+            // Scatter around the path
+            pos.x += (Math.random() - 0.5) * 15;
+            pos.y += (Math.random() - 0.5) * 15;
+            
+            dummy.position.copy(pos);
+            dummy.scale.setScalar(Math.random() * 0.5 + 0.2);
+            dummy.updateMatrix();
+            nodesInstanced.setMatrixAt(i, dummy.matrix);
+        }
+        scene.add(nodesInstanced);
+
+
+        // --- POST PROCESSING (GLOW) ---
+        const composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+        bloomPass.threshold = 0.2;
+        bloomPass.strength = 1.2; // Intense glow
+        bloomPass.radius = 0.5;
+        composer.addPass(bloomPass);
+
+
+        // --- PHYSICS SCROLL ENGINE ---
+        let targetProgress = 0;
+        let currentProgress = 0;
+        let velocity = 0;
+
+        scrollTrack.addEventListener('scroll', () => {
+            const maxScroll = scrollTrack.scrollHeight - window.innerHeight;
+            targetProgress = scrollTrack.scrollTop / maxScroll;
+        });
+
+        // --- ANIMATION LOOP ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            const time = clock.getElapsedTime();
+
+            // 1. Physics Scroll Calculation
+            // Instead of simple lerp, we calculate velocity for "momentum"
+            const force = (targetProgress - currentProgress) * 0.1; // Spring force
+            velocity += force;
+            velocity *= 0.85; // Friction (Damping) - Stops it from oscillating forever
+            currentProgress += velocity;
+
+            // Clamp progress
+            const safeProgress = Math.max(0, Math.min(currentProgress, 0.99));
+
+            // 2. Move Camera along Spline
+            const camPos = spline.getPointAt(safeProgress);
+            const lookPos = spline.getPointAt(Math.min(safeProgress + 0.05, 1)); // Look slightly ahead
+            
+            // Add "Banking" (Rotation) based on velocity - Like a jet fighter
+            const bankAngle = velocity * -20; 
+            camera.rotation.z = THREE.MathUtils.lerp(camera.rotation.z, bankAngle, 0.1);
+
+            camera.position.copy(camPos);
+            camera.lookAt(lookPos);
+
+            // 3. Animate Lights (To create moving reflections on Chrome)
+            lights.forEach((light, i) => {
+                const t = (time * config.lightSpeed) + (i * 10);
+                // Lights orbit around the current camera position
+                light.position.x = camPos.x + Math.sin(t) * 10;
+                light.position.y = camPos.y + Math.cos(t) * 10;
+                light.position.z = camPos.z - 5 + Math.sin(t * 2) * 10; // Move with camera
+            });
+
+            // 4. Animate Neurons (Pulse)
+            nodesInstanced.rotation.y = time * 0.5;
+
+            requestAnimationFrame(animate);
+            composer.render();
+        }
+
+        // --- RESIZE ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+
+    </script>
+</body>
+</html>
