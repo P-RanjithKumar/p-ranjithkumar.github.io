@@ -370,6 +370,7 @@
 
 <body class="font-sans text-dark bg-cream antialiased overflow-x-hidden">
 
+
     <!-- Navigation -->
     <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-7xl transition-all duration-300" id="navbar">
         <div class="nav-pill rounded-full px-2 py-2 flex items-center justify-between">
@@ -384,6 +385,8 @@
                         class="px-4 py-2 hover:text-white transition-colors rounded-full hover:bg-white/10">Projects</a>
                     <a href="#publications"
                         class="px-4 py-2 hover:text-white transition-colors rounded-full hover:bg-white/10">Publications</a>
+                    <a href="#blog"
+                        class="px-4 py-2 hover:text-white transition-colors rounded-full hover:bg-white/10">Blog</a>
                     <a href="#skills"
                         class="px-4 py-2 hover:text-white transition-colors rounded-full hover:bg-white/10">Skills</a>
                     <a href="#contact"
@@ -830,6 +833,439 @@
         </div>
     </section>
 
+    <!-- Blog Section - Premium Design -->
+    <section id="blog" class="py-32 bg-dark text-white dot-grid-dark overflow-hidden relative">
+        <!-- Animated Background Orbs -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div
+                class="absolute top-[10%] left-[5%] w-96 h-96 bg-soft-purple/10 rounded-full blur-[120px] animate-float">
+            </div>
+            <div
+                class="absolute bottom-[10%] right-[10%] w-80 h-80 bg-soft-pink/10 rounded-full blur-[100px] animate-float-delayed">
+            </div>
+            <div
+                class="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-soft-green/5 rounded-full blur-[150px] animate-float-slow">
+            </div>
+        </div>
+
+        <!-- Marquee Header - Perspective Tunnel Effect (5 lines) -->
+        <div class="relative whitespace-nowrap mb-4 overflow-hidden">
+            <!-- Gradient overlay for left/right edges -->
+            <div class="absolute inset-0 bg-gradient-to-r from-dark via-transparent to-dark z-10 pointer-events-none">
+            </div>
+
+            <!-- Line 1 - Top -->
+            <div class="overflow-hidden flex justify-center -mb-2">
+                <h2 class="font-serif text-2xl md:text-4xl tracking-tight inline-block opacity-[0.03] leading-[0.6]"
+                    style="animation: marquee-reverse 10s linear infinite;">
+                    INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS •
+                    LEARNINGS • INSIGHTS • REFLECTIONS • LEARNINGS •
+                </h2>
+            </div>
+
+            <!-- Line 2 -->
+            <div class="overflow-hidden flex justify-center -mb-2">
+                <h2 class="font-serif text-4xl md:text-6xl tracking-tight inline-block opacity-[0.05] leading-[0.6]"
+                    style="animation: marquee 14s linear infinite;">
+                    INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS •
+                    LEARNINGS •
+                </h2>
+            </div>
+
+            <!-- Line 3 - CENTER -->
+            <div class="overflow-hidden flex justify-center -mb-2">
+                <h2 class="font-serif text-7xl md:text-[10rem] tracking-tight inline-block opacity-[0.08] leading-[0.7]"
+                    style="animation: marquee-reverse 20s linear infinite;">
+                    INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS •
+                    LEARNINGS •
+                </h2>
+            </div>
+
+            <!-- Line 4 -->
+            <div class="overflow-hidden flex justify-center -mb-2">
+                <h2 class="font-serif text-4xl md:text-6xl tracking-tight inline-block opacity-[0.05] leading-[0.6]"
+                    style="animation: marquee 14s linear infinite;">
+                    INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS •
+                    LEARNINGS •
+                </h2>
+            </div>
+
+            <!-- Line 5 - Bottom -->
+            <div class="overflow-hidden flex justify-center">
+                <h2 class="font-serif text-2xl md:text-4xl tracking-tight inline-block opacity-[0.03] leading-[0.6]"
+                    style="animation: marquee-reverse 10s linear infinite;">
+                    INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS • LEARNINGS • INSIGHTS • REFLECTIONS •
+                    LEARNINGS • INSIGHTS • REFLECTIONS • LEARNINGS •
+                </h2>
+            </div>
+        </div>
+
+        <style>
+            @keyframes marquee {
+                0% {
+                    transform: translateX(0%);
+                }
+
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            @keyframes marquee-reverse {
+                0% {
+                    transform: translateX(-50%);
+                }
+
+                100% {
+                    transform: translateX(0%);
+                }
+            }
+        </style>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center mb-20 fade-up">
+                <div
+                    class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 px-5 py-2 rounded-full text-sm font-medium mb-8">
+                    <span class="w-2 h-2 bg-soft-green rounded-full animate-pulse"></span>
+                    My Digital Garden
+                </div>
+                <h2 class="font-serif text-5xl md:text-7xl mb-6">
+                    <span class="text-gradient">Insights</span> & Reflections
+                </h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                    Thoughts, learnings, and discoveries from my journey through AI, tech, and beyond.
+                </p>
+            </div>
+
+            <!-- Bento Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+
+                <!-- Featured Post - Large Card -->
+                <article class="blog-card-3d blog-card-featured lg:col-span-2 lg:row-span-2 group relative fade-up"
+                    style="transition-delay: 0.1s;">
+                    <div
+                        class="blog-card-inner h-full min-h-[400px] lg:min-h-[500px] rounded-[2rem] overflow-hidden relative">
+                        <!-- Gradient Border -->
+                        <div
+                            class="absolute inset-0 rounded-[2rem] p-[1px] bg-gradient-to-br from-soft-purple via-soft-pink to-soft-green opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                            <div class="w-full h-full bg-dark rounded-[2rem]"></div>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div
+                            class="absolute inset-[1px] rounded-[2rem] bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/10 overflow-hidden">
+                            <!-- Background Image with Overlay -->
+                            <div class="absolute inset-0">
+                                <img src="assets/blogpost thumbnails/blog5.png" alt="Reinforcement Learning"
+                                    class="w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-1000"
+                                    onerror="this.style.display='none'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent">
+                                </div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="absolute inset-0 p-8 lg:p-12 flex flex-col justify-end">
+                                <!-- Featured Badge -->
+                                <div class="absolute top-6 left-6 flex items-center gap-3">
+                                    <span
+                                        class="bg-soft-purple/90 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                                        Featured
+                                    </span>
+                                    <span
+                                        class="bg-white/10 backdrop-blur-sm text-white/80 px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <path d="M12 6v6l4 2" />
+                                        </svg>
+                                        5 min read
+                                    </span>
+                                </div>
+
+                                <!-- Tags -->
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span
+                                        class="bg-soft-pink/20 text-soft-pink px-3 py-1 rounded-full text-xs font-medium border border-soft-pink/30">AI/ML</span>
+                                    <span
+                                        class="bg-soft-purple/20 text-soft-purple px-3 py-1 rounded-full text-xs font-medium border border-soft-purple/30">Q-Learning</span>
+                                    <span
+                                        class="bg-soft-green/20 text-soft-green px-3 py-1 rounded-full text-xs font-medium border border-soft-green/30">LLMs</span>
+                                </div>
+
+                                <h3 class="font-serif text-3xl lg:text-4xl mb-4 leading-tight">
+                                    <a href="blog5.html" class="hover:text-soft-purple transition-colors">
+                                        Reinforcement Learning: My Deep Dive into Q-Learning & Attention Mechanisms
+                                    </a>
+                                </h3>
+
+                                <p
+                                    class="text-gray-300 text-base lg:text-lg leading-relaxed mb-6 max-w-2xl line-clamp-3">
+                                    Been a busy few weeks, but I'm back! Lately, I've been deep into Reinforcement
+                                    Learning—mainly Q-learning—and exploring attention mechanisms in LLMs. Also building
+                                    an RL-powered Tic-Tac-Toe game.
+                                </p>
+
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-500 text-sm">Mar 7, 2025</span>
+                                    <a href="blog5.html"
+                                        class="group/btn inline-flex items-center gap-2 bg-white text-dark px-6 py-3 rounded-full font-semibold text-sm hover:bg-soft-purple hover:text-white transition-all duration-300 hover:gap-4">
+                                        Read Article
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2.5"
+                                            class="group-hover/btn:translate-x-1 transition-transform">
+                                            <path d="M5 12h14M12 5l7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 2 - Standard -->
+                <article class="blog-card-3d group relative fade-up" style="transition-delay: 0.2s;">
+                    <div class="blog-card-inner h-full min-h-[320px] rounded-[1.5rem] overflow-hidden relative">
+                        <!-- Gradient Border -->
+                        <div
+                            class="absolute inset-0 rounded-[1.5rem] p-[1px] bg-gradient-to-br from-soft-green via-soft-blue to-soft-purple opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                            <div class="w-full h-full bg-dark rounded-[1.5rem]"></div>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div
+                            class="absolute inset-[1px] rounded-[1.5rem] bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-xl border border-white/10 p-6 flex flex-col">
+                            <!-- Top Section -->
+                            <div class="flex items-start justify-between mb-4">
+                                <span
+                                    class="bg-soft-green/20 text-soft-green px-3 py-1 rounded-full text-xs font-medium border border-soft-green/30">Healthcare</span>
+                                <span class="text-gray-500 text-xs flex items-center gap-1">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <path d="M12 6v6l4 2" />
+                                    </svg>
+                                    4 min
+                                </span>
+                            </div>
+
+                            <!-- Image -->
+                            <div
+                                class="relative h-32 rounded-xl overflow-hidden mb-4 bg-gradient-to-br from-soft-green/20 to-soft-blue/20">
+                                <img src="assets/blogpost thumbnails/blog4.png" alt="Healthcare Tech"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    onerror="this.style.display='none'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/50 to-transparent"></div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex-1 flex flex-col">
+                                <h3
+                                    class="font-serif text-lg mb-2 leading-snug group-hover:text-soft-green transition-colors">
+                                    <a href="blog4.html">Empowering Patients with Technology</a>
+                                </h3>
+                                <p class="text-gray-400 text-sm leading-relaxed mb-4 flex-1 line-clamp-2">
+                                    Healthcare can be overwhelming, so I built a smart interface to help patients manage
+                                    documents.
+                                </p>
+                                <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                                    <span class="text-gray-500 text-xs">Feb 24, 2025</span>
+                                    <a href="blog4.html"
+                                        class="text-soft-green text-sm font-medium hover:underline inline-flex items-center gap-1 group/link">
+                                        Read
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2"
+                                            class="group-hover/link:translate-x-1 transition-transform">
+                                            <path d="M5 12h14M12 5l7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 3 - Standard -->
+                <article class="blog-card-3d group relative fade-up" style="transition-delay: 0.3s;">
+                    <div class="blog-card-inner h-full min-h-[320px] rounded-[1.5rem] overflow-hidden relative">
+                        <!-- Gradient Border -->
+                        <div
+                            class="absolute inset-0 rounded-[1.5rem] p-[1px] bg-gradient-to-br from-soft-yellow via-soft-pink to-soft-purple opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                            <div class="w-full h-full bg-dark rounded-[1.5rem]"></div>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div
+                            class="absolute inset-[1px] rounded-[1.5rem] bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-xl border border-white/10 p-6 flex flex-col">
+                            <!-- Top Section -->
+                            <div class="flex items-start justify-between mb-4">
+                                <span
+                                    class="bg-soft-yellow/20 text-soft-yellow px-3 py-1 rounded-full text-xs font-medium border border-soft-yellow/30">Learning</span>
+                                <span class="text-gray-500 text-xs flex items-center gap-1">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <path d="M12 6v6l4 2" />
+                                    </svg>
+                                    6 min
+                                </span>
+                            </div>
+
+                            <!-- Image -->
+                            <div
+                                class="relative h-32 rounded-xl overflow-hidden mb-4 bg-gradient-to-br from-soft-yellow/20 to-soft-purple/20">
+                                <img src="assets/blogpost thumbnails/blog3.png" alt="Deep Learning Journey"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    onerror="this.style.display='none'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/50 to-transparent"></div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex-1 flex flex-col">
+                                <h3
+                                    class="font-serif text-lg mb-2 leading-snug group-hover:text-soft-yellow transition-colors">
+                                    <a href="blog3.html">How I Learnt Deep Learning and LLMs</a>
+                                </h3>
+                                <p class="text-gray-400 text-sm leading-relaxed mb-4 flex-1 line-clamp-2">
+                                    My journey from deep learning basics to exploring LLMs. Late nights, rented GPUs,
+                                    and YouTube deep dives.
+                                </p>
+                                <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                                    <span class="text-gray-500 text-xs">Feb 23, 2025</span>
+                                    <a href="blog3.html"
+                                        class="text-soft-yellow text-sm font-medium hover:underline inline-flex items-center gap-1 group/link">
+                                        Read
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2"
+                                            class="group-hover/link:translate-x-1 transition-transform">
+                                            <path d="M5 12h14M12 5l7 7-7 7" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- View All CTA -->
+            <div class="text-center mt-20 fade-up" style="transition-delay: 0.4s;">
+                <a href="bloghome.html"
+                    class="group relative inline-flex items-center gap-3 px-10 py-5 rounded-full font-semibold text-base overflow-hidden">
+                    <!-- Animated Gradient Background -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-soft-purple via-soft-pink to-soft-purple bg-[length:200%_100%] animate-gradient-x rounded-full">
+                    </div>
+                    <!-- Content -->
+                    <span class="relative z-10 text-white flex items-center gap-3">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        Explore All Posts
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" class="group-hover:translate-x-2 transition-transform duration-300">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section Styles -->
+    <style>
+        /* 3D Card Effects */
+        .blog-card-3d {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .blog-card-inner {
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* Featured card - Cinematic zoom effect */
+        .blog-card-featured .blog-card-inner {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .blog-card-featured:hover .blog-card-inner {
+            transform: scale(1.03) translateZ(30px);
+        }
+
+        /* Small cards - Keep subtle tilt */
+        .blog-card-3d:not(.blog-card-featured):hover .blog-card-inner {
+            transform: translateZ(20px);
+        }
+
+        /* Animated Gradient */
+        @keyframes gradient-x {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .animate-gradient-x {
+            animation: gradient-x 3s ease infinite;
+        }
+
+        /* Line Clamp */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- 3D Card Effects JavaScript -->
+    <script>
+            (function () {
+                // Only apply tilt to small cards (not featured)
+                const smallCards = document.querySelectorAll('.blog-card-3d:not(.blog-card-featured)');
+
+                smallCards.forEach(card => {
+                    const inner = card.querySelector('.blog-card-inner');
+
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+
+                        const rotateX = (y - centerY) / 25;
+                        const rotateY = (centerX - x) / 25;
+
+                        inner.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        inner.style.transform = 'rotateX(0) rotateY(0) translateZ(0)';
+                    });
+                });
+            })();
+    </script>
+
     <section id="skills" class="py-32 bg-dark text-white dot-grid-dark overflow-hidden relative min-h-[100vh]">
         <div class="absolute inset-0 pointer-events-none overflow-hidden" id="skills-container">
 
@@ -981,6 +1417,154 @@
             </div>
         </div>
 
+        <!-- Interactive Skills Script - Natural Physics & Glow -->
+        <script>
+            (function () {
+                const container = document.getElementById('skills');
+                const pills = document.querySelectorAll('.skill-pill');
+
+                // Physics Config using a Spring-like feel (smooth interpolation)
+                const CONFIG = {
+                    proximity: 300,        // Radius where they start forcing
+                    magneticStrength: 0.4, // How much they pull towards mouse (0-1)
+                    lerpFactor: 0.1,       // "Weight" of the pill (lower = heavier/smoother)
+                    glowIntensity: 0.6,    // Opacity of the glow
+                    maxMove: 60            // Max pixels they can move
+                };
+
+                // State storage for physics
+                const pillStates = new Map();
+
+                // Initialize styles
+                setTimeout(() => {
+                    pills.forEach(pill => {
+                        const style = window.getComputedStyle(pill);
+                        const color = style.backgroundColor; // Get pill's base color
+
+                        // Parse RGB to RGBA for glow
+                        const rgb = color.match(/\d+/g);
+                        const glowColor = rgb ? `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${CONFIG.glowIntensity})` : 'rgba(255,255,255,0.5)';
+
+                        pillStates.set(pill, {
+                            currentX: 0, currentY: 0,
+                            targetX: 0, targetY: 0,
+                            glowX: 0, glowY: 0,
+                            baseColor: glowColor
+                        });
+
+                        // Set initial CSS for GPU acceleration
+                        pill.style.translate = "0px 0px";
+                        pill.style.transition = "none"; // Disable CSS transition for instant JS physics
+                        pill.style.boxShadow = `0 0 0 0 ${glowColor}`; // Init shadow
+                    });
+                }, 100);
+
+                let mouseX = -9999, mouseY = -9999;
+                let isHoveringSkills = false;
+
+                // Track mouse globally in section
+                document.addEventListener('mousemove', (e) => {
+                    // Optimization check
+                    const rect = container.getBoundingClientRect();
+                    if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                        isHoveringSkills = false;
+                        return;
+                    }
+                    isHoveringSkills = true;
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                // Main Physics Loop
+                function animate() {
+                    if (!isHoveringSkills) {
+                        // Slow decay if mouse left
+                        // We check if we need to run cleanup frames
+                    }
+
+                    pills.forEach((pill) => {
+                        const state = pillStates.get(pill);
+                        if (!state) return;
+
+                        const rect = pill.getBoundingClientRect();
+                        const centerX = rect.left + rect.width / 2;
+                        const centerY = rect.top + rect.height / 2;
+
+                        const dx = mouseX - centerX;
+                        const dy = mouseY - centerY;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        // Calculate Target Position
+                        if (dist < CONFIG.proximity) {
+                            // "Happy to see cursor" - pull towards it
+                            // Calculate pull factor (stronger when closer, but clamped)
+                            const pull = (1 - dist / CONFIG.proximity) * CONFIG.magneticStrength;
+
+                            // Target position (limited range)
+                            state.targetX = Math.min(Math.max(dx * pull, -CONFIG.maxMove), CONFIG.maxMove);
+                            state.targetY = Math.min(Math.max(dy * pull, -CONFIG.maxMove), CONFIG.maxMove);
+
+                            // Glow Logic: Calculate angle towards mouse
+                            const angle = Math.atan2(dy, dx);
+
+                            // Distance of the glow highlight. Reduced to prevent "detached" look.
+                            const glowDist = 8;
+
+                            // Calculate vectors
+                            // cos(angle) is -1 to 1 based on X direction of mouse.
+                            const cos = Math.cos(angle);
+                            const sin = Math.sin(angle);
+
+                            // Target Offsets
+                            // Inset needs NEGATIVE to light up the correct side (e.g. mouse right -> inset -5px lights right edge)
+                            const gxInset = -cos * glowDist;
+                            const gyInset = -sin * glowDist;
+
+                            // Outset needs POSITIVE to glow towards the mouse
+                            const gxOut = cos * glowDist;
+                            const gyOut = sin * glowDist;
+
+                            // Lerp Glow (use separate state for smoothness if needed, or just set strictly for responsiveness)
+                            // We'll reuse state.glowX/Y for the generic vector and invert on apply
+                            state.glowX += (glowDist * cos - state.glowX) * 0.2;
+                            state.glowY += (glowDist * sin - state.glowY) * 0.2;
+
+                            // Apply vivid glow
+                            // Inset: using -state.glowX lights up the side facing the mouse
+                            // Outset: using +state.glowX glows towards the mouse
+                            // Reduced blur radius on outer so it looks attached
+                            const rgb = state.baseColor.match(/\d+/g);
+                            const strongGlow = rgb ? `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.6)` : state.baseColor;
+
+                            pill.style.boxShadow = `
+                                inset ${-state.glowX}px ${-state.glowY}px 12px rgba(255, 255, 255, 0.9),
+                                ${state.glowX}px ${state.glowY}px 15px ${strongGlow}
+                            `;
+
+                        } else {
+                            // Return home
+                            state.targetX = 0;
+                            state.targetY = 0;
+                            // Fade out glow
+                            pill.style.boxShadow = `inset 0 0 0 transparent, 0 0 0 transparent`;
+                        }
+
+                        // Apply Physics (Lerp)
+                        state.currentX += (state.targetX - state.currentX) * CONFIG.lerpFactor;
+                        state.currentY += (state.targetY - state.currentY) * CONFIG.lerpFactor;
+
+                        // Apply Transform
+                        // We use 3D transform for best performance
+                        pill.style.translate = `${state.currentX}px ${state.currentY}px`;
+                    });
+
+                    requestAnimationFrame(animate);
+                }
+
+                animate();
+            })();
+        </script>
+
         <style>
             /* Smooth 3D Letter Styling */
             .letter-3d {
@@ -991,14 +1575,11 @@
                 backface-visibility: hidden;
             }
 
-            /* Gradient text on hover */
-            .group:hover .letter-3d {
-                background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%);
-                background-size: 200% 200%;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                animation: gradientShift 3s ease infinite;
+            /* Gradient text - now controlled by JavaScript based on cursor proximity */
+            .letter-3d {
+                color: #2A2A2A;
+                /* Dark gray instead of white */
+                transition: color 0.3s ease;
             }
 
             @keyframes gradientShift {
@@ -1013,7 +1594,7 @@
                 }
             }
 
-            /* Floating animation when idle */
+            /* Floating animation when idle - using opacity/filter instead of transform to avoid conflicts */
             .letter-3d {
                 animation: letterFloat 6s ease-in-out infinite;
                 animation-delay: calc(var(--index) * 0.1s);
@@ -1023,193 +1604,234 @@
 
                 0%,
                 100% {
-                    transform: translateY(0) translateZ(0);
+                    filter: brightness(1);
                 }
 
                 50% {
-                    transform: translateY(-5px) translateZ(10px);
+                    filter: brightness(1.1);
                 }
             }
 
             /* Pause float on hover for manual control */
             .group:hover .letter-3d {
-                animation-play-state: paused;
+                animation: none;
             }
         </style>
 
         <script>
-                (function () {
-                    const container = document.getElementById('stretchyText');
-                    const wrapper = document.getElementById('contactTextWrapper');
-                    const glow = document.getElementById('textGlow');
-                    const text = "DROP ME A LINE";
+            (function () {
+                const container = document.getElementById('stretchyText');
+                const wrapper = document.getElementById('contactTextWrapper');
+                const glow = document.getElementById('textGlow');
+                const text = "DROP ME A LINE 👍";
 
-                    // Split text into letters
-                    container.innerHTML = text.split('').map((char, i) =>
-                        `<span class="letter-3d" style="--index: ${i}" data-index="${i}">${char === ' ' ? '&nbsp;' : char}</span>`
-                    ).join('');
+                // Use spread operator to correctly handle emojis as single characters
+                container.innerHTML = [...text].map((char, i) => {
+                    const isEmoji = char === '👍';
+                    const customStyle = isEmoji ? 'font-size: 0.18em; vertical-align: baseline; margin-left: 0; opacity: 0.7;' : '';
+                    return `<span class="letter-3d" style="--index: ${i}; ${customStyle}" data-index="${i}">${char === ' ' ? '&nbsp;' : char}</span>`;
+                }).join('');
 
-                    const letters = container.querySelectorAll('.letter-3d');
+                const letters = container.querySelectorAll('.letter-3d');
 
-                    // Animation state
-                    let mouseX = 0, mouseY = 0;
-                    let currentX = 0, currentY = 0;
-                    let rafId = null;
-                    let isHovering = false;
+                // Animation state
+                let mouseX = 0, mouseY = 0;
+                let currentX = 0, currentY = 0;
+                let rafId = null;
+                let isHovering = false;
 
-                    // Configuration for smoothness
-                    const config = {
-                        lerp: 0.12,        // Lower = smoother but slower (0.1 = smooth, 0.3 = responsive)
-                        maxRotateX: 35,    // Degrees
-                        maxRotateY: 45,    // Degrees
-                        maxTranslateZ: 40, // Pixels
-                        shadowDepth: 3,    // Shadow layers
-                        magneticStrength: 0.3 // Container follows mouse slightly
-                    };
+                // Configuration for smoothness
+                const config = {
+                    lerp: 0.12,        // Lower = smoother but slower (0.1 = smooth, 0.3 = responsive)
+                    maxRotateX: 35,    // Degrees
+                    maxRotateY: 45,    // Degrees
+                    maxTranslateZ: 40, // Pixels
+                    shadowDepth: 3,    // Shadow layers
+                    magneticStrength: 0.3 // Container follows mouse slightly
+                };
 
-                    // Store target and current values for each letter
-                    const letterStates = Array.from(letters).map(() => ({
-                        targetRX: 0, currentRX: 0,
-                        targetRY: 0, currentRY: 0,
-                        targetTZ: 0, currentTZ: 0,
-                        targetSX: 1, currentSX: 1, // Scale X for stretch
-                        targetSY: 1, currentSY: 1  // Scale Y for stretch
-                    }));
+                // Store target and current values for each letter
+                const letterStates = Array.from(letters).map(() => ({
+                    targetRX: 0, currentRX: 0,
+                    targetRY: 0, currentRY: 0,
+                    targetTZ: 0, currentTZ: 0,
+                    targetSX: 1, currentSX: 1, // Scale X for stretch
+                    targetSY: 1, currentSY: 1  // Scale Y for stretch
+                }));
 
-                    function lerp(start, end, factor) {
-                        return start + (end - start) * factor;
-                    }
+                function lerp(start, end, factor) {
+                    return start + (end - start) * factor;
+                }
 
-                    function updateLetters() {
-                        letters.forEach((letter, i) => {
-                            const state = letterStates[i];
+                function updateLetters() {
+                    letters.forEach((letter, i) => {
+                        const state = letterStates[i];
 
-                            // Smooth interpolation
-                            state.currentRX = lerp(state.currentRX, state.targetRX, config.lerp);
-                            state.currentRY = lerp(state.currentRY, state.targetRY, config.lerp);
-                            state.currentTZ = lerp(state.currentTZ, state.targetTZ, config.lerp);
-                            state.currentSX = lerp(state.currentSX, state.targetSX, config.lerp);
-                            state.currentSY = lerp(state.currentSY, state.targetSY, config.lerp);
+                        // Smooth interpolation
+                        state.currentRX = lerp(state.currentRX, state.targetRX, config.lerp);
+                        state.currentRY = lerp(state.currentRY, state.targetRY, config.lerp);
+                        state.currentTZ = lerp(state.currentTZ, state.targetTZ, config.lerp);
+                        state.currentSX = lerp(state.currentSX, state.targetSX, config.lerp);
+                        state.currentSY = lerp(state.currentSY, state.targetSY, config.lerp);
 
-                            // Dynamic shadow based on rotation
-                            const shadowX = -state.currentRY * 0.5;
-                            const shadowY = state.currentRX * 0.5;
-                            const shadows = [];
+                        // Dynamic shadow based on rotation - using soft-purple color
+                        const shadowX = -state.currentRY * 0.5;
+                        const shadowY = state.currentRX * 0.5;
+                        const shadows = [];
 
-                            // Multi-layered shadow for depth
-                            for (let j = 1; j <= config.shadowDepth; j++) {
-                                const opacity = 0.3 / j;
-                                const blur = j * 4;
-                                const x = shadowX * j;
-                                const y = shadowY * j;
-                                shadows.push(`${x}px ${y}px ${blur}px rgba(167, 139, 250, ${opacity})`);
-                            }
+                        // Multi-layered shadow for depth with soft-purple
+                        for (let j = 1; j <= config.shadowDepth; j++) {
+                            const opacity = 0.3 / j;
+                            const blur = j * 4;
+                            const x = shadowX * j;
+                            const y = shadowY * j;
+                            shadows.push(`${x}px ${y}px ${blur}px rgba(184, 169, 217, ${opacity})`);
+                        }
 
-                            // Apply transform with hardware acceleration
-                            letter.style.transform = `
+                        // Apply transform with hardware acceleration
+                        letter.style.transform = `
                             translateZ(${state.currentTZ}px)
                             rotateX(${state.currentRX}deg)
                             rotateY(${state.currentRY}deg)
                             scaleX(${state.currentSX})
                             scaleY(${state.currentSY})
                         `;
-                            letter.style.textShadow = shadows.join(',');
-                        });
-
-                        // Magnetic container effect
-                        if (isHovering) {
-                            currentX = lerp(currentX, mouseX * config.magneticStrength, 0.1);
-                            currentY = lerp(currentY, mouseY * config.magneticStrength, 0.1);
-                            wrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
-                        } else {
-                            currentX = lerp(currentX, 0, 0.1);
-                            currentY = lerp(currentY, 0, 0.1);
-                            wrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
-                        }
-
-                        rafId = requestAnimationFrame(updateLetters);
-                    }
-
-                    // Start animation loop
-                    updateLetters();
-
-                    // Mouse move handler
-                    wrapper.addEventListener('mousemove', (e) => {
-                        isHovering = true;
-                        glow.style.opacity = '1';
-
-                        const rect = wrapper.getBoundingClientRect();
-                        const centerX = rect.left + rect.width / 2;
-                        const centerY = rect.top + rect.height / 2;
-
-                        // Mouse position relative to center (-1 to 1)
-                        const normX = (e.clientX - centerX) / (rect.width / 2);
-                        const normY = (e.clientY - centerY) / (rect.height / 2);
-
-                        mouseX = normX * 20; // For magnetic effect
-                        mouseY = normY * 20;
-
-                        letters.forEach((letter, i) => {
-                            const letterRect = letter.getBoundingClientRect();
-                            const letterCenterX = letterRect.left + letterRect.width / 2;
-                            const letterCenterY = letterRect.top + letterRect.height / 2;
-
-                            // Distance from mouse to letter
-                            const distX = e.clientX - letterCenterX;
-                            const distY = e.clientY - letterCenterY;
-                            const dist = Math.sqrt(distX * distX + distY * distY);
-                            const maxDist = 300;
-
-                            if (dist < maxDist) {
-                                const force = (1 - dist / maxDist);
-
-                                // Calculate rotation (inverse to mouse position for "looking at cursor" effect)
-                                const rotY = -(distX / maxDist) * config.maxRotateY * force;
-                                const rotX = (distY / maxDist) * config.maxRotateX * force;
-
-                                // Stretch effect - letters closer to mouse stretch toward it
-                                const stretchX = 1 + (Math.abs(distX) / maxDist) * 0.15 * force;
-                                const stretchY = 1 + (Math.abs(distY) / maxDist) * 0.1 * force;
-
-                                letterStates[i].targetRX = rotX;
-                                letterStates[i].targetRY = rotY;
-                                letterStates[i].targetTZ = force * config.maxTranslateZ;
-                                letterStates[i].targetSX = stretchX;
-                                letterStates[i].targetSY = stretchY;
-                            } else {
-                                // Reset to subtle idle state
-                                letterStates[i].targetRX = 0;
-                                letterStates[i].targetRY = 0;
-                                letterStates[i].targetTZ = 0;
-                                letterStates[i].targetSX = 1;
-                                letterStates[i].targetSY = 1;
-                            }
-                        });
+                        letter.style.textShadow = shadows.join(',');
                     });
 
-                    // Mouse leave - smooth reset
-                    wrapper.addEventListener('mouseleave', () => {
-                        isHovering = false;
-                        glow.style.opacity = '0';
+                    // Magnetic container effect
+                    if (isHovering) {
+                        currentX = lerp(currentX, mouseX * config.magneticStrength, 0.1);
+                        currentY = lerp(currentY, mouseY * config.magneticStrength, 0.1);
+                        wrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    } else {
+                        currentX = lerp(currentX, 0, 0.1);
+                        currentY = lerp(currentY, 0, 0.1);
+                        wrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    }
 
-                        letters.forEach((_, i) => {
+                    rafId = requestAnimationFrame(updateLetters);
+                }
+
+                // Start animation loop
+                updateLetters();
+
+                // Mouse move handler
+                wrapper.addEventListener('mousemove', (e) => {
+                    isHovering = true;
+                    glow.style.opacity = '1';
+
+                    const rect = wrapper.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+
+                    // Mouse position relative to center (-1 to 1)
+                    const normX = (e.clientX - centerX) / (rect.width / 2);
+                    const normY = (e.clientY - centerY) / (rect.height / 2);
+
+                    mouseX = normX * 20; // For magnetic effect
+                    mouseY = normY * 20;
+
+                    letters.forEach((letter, i) => {
+                        const letterRect = letter.getBoundingClientRect();
+                        const letterCenterX = letterRect.left + letterRect.width / 2;
+                        const letterCenterY = letterRect.top + letterRect.height / 2;
+
+                        // Distance from mouse to letter
+                        const distX = e.clientX - letterCenterX;
+                        const distY = e.clientY - letterCenterY;
+                        const dist = Math.sqrt(distX * distX + distY * distY);
+                        const maxDist = 300;
+                        const colorRadius = 150; // Radius for color effect
+
+                        // Proximity-based coloring
+                        if (dist < colorRadius) {
+                            const colorForce = 1 - (dist / colorRadius);
+                            // Interpolate between colors based on letter index for gradient effect
+                            const progress = i / letters.length;
+
+                            // Soft purple (#B8A9D9), soft pink (#F4C2C2), soft green (#A8D5BA)
+                            let r, g, b;
+                            if (progress < 0.5) {
+                                // Purple to Pink
+                                const t = progress * 2;
+                                r = Math.round(184 + (244 - 184) * t);
+                                g = Math.round(169 + (194 - 169) * t);
+                                b = Math.round(217 + (194 - 217) * t);
+                            } else {
+                                // Pink to Green
+                                const t = (progress - 0.5) * 2;
+                                r = Math.round(244 + (168 - 244) * t);
+                                g = Math.round(194 + (213 - 194) * t);
+                                b = Math.round(194 + (186 - 194) * t);
+                            }
+
+                            // Blend with dark gray (#2A2A2A = rgb(42, 42, 42)) based on distance
+                            const baseR = 42, baseG = 42, baseB = 42;
+                            const finalR = Math.round(baseR + (r - baseR) * colorForce);
+                            const finalG = Math.round(baseG + (g - baseG) * colorForce);
+                            const finalB = Math.round(baseB + (b - baseB) * colorForce);
+
+                            letter.style.color = `rgb(${finalR}, ${finalG}, ${finalB})`;
+                            letter.style.webkitTextFillColor = `rgb(${finalR}, ${finalG}, ${finalB})`;
+                        } else {
+                            letter.style.color = '#2A2A2A';
+                            letter.style.webkitTextFillColor = '#2A2A2A';
+                        }
+
+                        if (dist < maxDist) {
+                            const force = (1 - dist / maxDist);
+
+                            // Calculate rotation (inverse to mouse position for "looking at cursor" effect)
+                            const rotY = -(distX / maxDist) * config.maxRotateY * force;
+                            const rotX = (distY / maxDist) * config.maxRotateX * force;
+
+                            // Stretch effect - letters closer to mouse stretch toward it
+                            const stretchX = 1 + (Math.abs(distX) / maxDist) * 0.15 * force;
+                            const stretchY = 1 + (Math.abs(distY) / maxDist) * 0.1 * force;
+
+                            letterStates[i].targetRX = rotX;
+                            letterStates[i].targetRY = rotY;
+                            letterStates[i].targetTZ = force * config.maxTranslateZ;
+                            letterStates[i].targetSX = stretchX;
+                            letterStates[i].targetSY = stretchY;
+                        } else {
+                            // Reset to subtle idle state
                             letterStates[i].targetRX = 0;
                             letterStates[i].targetRY = 0;
                             letterStates[i].targetTZ = 0;
                             letterStates[i].targetSX = 1;
                             letterStates[i].targetSY = 1;
-                        });
-                    });
-
-                    // Cleanup on page hide
-                    document.addEventListener('visibilitychange', () => {
-                        if (document.hidden && rafId) {
-                            cancelAnimationFrame(rafId);
-                        } else {
-                            updateLetters();
                         }
                     });
-                })();
+                });
+
+                // Mouse leave - smooth reset
+                wrapper.addEventListener('mouseleave', () => {
+                    isHovering = false;
+                    glow.style.opacity = '0';
+
+                    letters.forEach((letter, i) => {
+                        letterStates[i].targetRX = 0;
+                        letterStates[i].targetRY = 0;
+                        letterStates[i].targetTZ = 0;
+                        letterStates[i].targetSX = 1;
+                        letterStates[i].targetSY = 1;
+                        // Reset color to dark gray
+                        letter.style.color = '#2A2A2A';
+                        letter.style.webkitTextFillColor = '#2A2A2A';
+                    });
+                });
+
+                // Cleanup on page hide
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden && rafId) {
+                        cancelAnimationFrame(rafId);
+                    } else {
+                        updateLetters();
+                    }
+                });
+            })();
         </script>
     </section>
 
