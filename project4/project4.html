@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Face Forward - Project Documentation</title>
+    <meta name="description"
+        content="Comprehensive technical documentation for Wedding Face Forward - An AI-powered event photography management system">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="project4.css">
+</head>
+
+<body>
+    <!-- Top Utility Navbar -->
+    <nav class="top-utility-navbar">
+        <div class="top-utility-navbar-container">
+            <a href="../index.html" class="navbar-brand">P-Ranjith Kumar</a>
+            <div class="navbar-links-right">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#projects">Projects</a>
+                <a href="https://github.com/P-RanjithKumar/Wedding-Face-Forward" target="_blank"
+                    id="view-paper-button">View on GitHub</a>
+                <button id="theme-toggle-button" aria-label="Toggle Dark Mode">
+                    <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                    </svg>
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Main Header -->
+    <header class="page-main-header">
+        <div class="header-image-container">
+            <img src="https://via.placeholder.com/1200x600/0073aa/ffffff?text=Wedding+Face+Forward"
+                alt="Wedding Face Forward Project Banner">
+        </div>
+        <div class="header-text-content">
+            <h1>💍 Wedding Face Forward (WeddingFF)</h1>
+            <p>AI-Powered Event Photography Management & Instant Guest Photo Delivery System</p>
+        </div>
+        <div class="header-text-name">
+            <div class="author-info-block">
+                <h6>February 11, 2026</h6>
+                <h3>Ranjith Kumar</h3>
+                <p>Computer and AI enthusiast</p>
+            </div>
+            <div class="share-button-container">
+                <button id="page-share-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
+                    </svg>
+                    Share
+                </button>
+                <div class="share-dropdown hidden">
+                    <a href="#" class="share-dropdown-item" id="share-twitter">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                        </svg>
+                        Twitter
+                    </a>
+                    <a href="#" class="share-dropdown-item" id="share-linkedin">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
+                        </svg>
+                        LinkedIn
+                    </a>
+                    <button class="share-dropdown-item" id="share-copy">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                            <path
+                                d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                        </svg>
+                        Copy Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <div class="page-content-wrapper">
+        <!-- Sidebar with Table of Contents -->
+        <aside class="sidebar">
+            <h3>Table of Contents</h3>
+            <ul id="toc-list">
+                <!-- TOC will be generated by JavaScript -->
+            </ul>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <!-- Project Vision -->
+            <section id="vision">
+                <h2>Project Vision & Philosophy</h2>
+                <p>Wedding Face Forward (WeddingFF) represents a paradigm shift in event photography. Traditionally,
+                    wedding guests have to wait for weeks to see photos of themselves, often digging through thousands
+                    of images in a shared link. By the time they receive the photos, the emotional peak of the event has
+                    passed.</p>
+                <p>WeddingFF was conceived with a single realization: <strong>The value of a memory is highest at the
+                        moment of capture.</strong></p>
+
+                <h3 id="core-philosophies">Core Philosophies</h3>
+                <ul>
+                    <li><strong>Instant Gratification:</strong> Photos should reach guests while they are still at the
+                        venue or traveling home.</li>
+                    <li><strong>Effortless Discovery:</strong> No searching, no tagging. The AI knows you.</li>
+                    <li><strong>Private-by-Default:</strong> You only get <em>your</em> photos, preserving the intimacy
+                        of the couple's big day.</li>
+                    <li><strong>Professional Grade:</strong> Delivering raw-quality images via automated, low-friction
+                        channels.</li>
+                </ul>
+            </section>
+
+            <!-- Executive Summary -->
+            <section id="executive-summary">
+                <h2>Executive Summary</h2>
+                <p>WeddingFF is a multi-process Python application that provides comprehensive event photography
+                    management with AI-powered face recognition and automated delivery.</p>
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <h4>Zero-Manual-Effort Ingestion</h4>
+                        <p>Watches folders for new files from cameras (DSLR via Wi-Fi/SD or Phone).</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Pro Format Support</h4>
+                        <p>Built-in RAW processing for high-end camera bodies (CR2, NEF, ARW).</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Biometric Identity Discovery</h4>
+                        <p>Automatically clusters people into identities without prior input.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Selfie-to-Gallery Matching</h4>
+                        <p>Guests "log in" using their faces with advanced AI matching.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Cloud Mirroring</h4>
+                        <p>Transparently syncs photos to a private, organized Google Drive structure.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>WhatsApp Push</h4>
+                        <p>Delivers personalized gallery links automatically using browser-level automation.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Visual Mission Control</h4>
+                        <p>A beautiful desktop dashboard for monitoring real-time health.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Privacy-First Design</h4>
+                        <p>Local-first processing with GDPR-compliant biometric handling.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Architecture -->
+            <section id="architecture">
+                <h2>System Architecture</h2>
+                <p>WeddingFF employs a sophisticated three-plane architectural model that separates concerns and ensures
+                    scalability and reliability.</p>
+
+                <h3 id="three-plane-model">The Three-Plane Model</h3>
+
+                <div class="accordion-container">
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>A. The Control Plane (UI & Orchestration)</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Resides in <code>WeddingFFapp.py</code>. Responsible for launching and monitoring
+                                sub-processes. Provides visual feedback of the "Heartbeat" of each system module.</p>
+                            <ul>
+                                <li>Process supervision and multi-subprocess control</li>
+                                <li>Real-time statistics and predictive analytics</li>
+                                <li>Color-coded activity logging and diagnostic feeds</li>
+                                <li>Built with CustomTkinter for modern UI components</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>B. The Processing Plane (Logic Engine)</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Resides in <code>backend/app/worker.py</code> and its dependencies. Handles the "Heavy
+                                Lifting": Image conversion, AI analysis, and Routing.</p>
+                            <ul>
+                                <li>RAW image processing and normalization</li>
+                                <li>Face detection using RetinaFace</li>
+                                <li>512-dimensional embedding generation</li>
+                                <li>Incremental centroid clustering for identity discovery</li>
+                                <li>Intelligent photo routing to person-specific folders</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span>C. The Delivery Plane (Cloud & Messenger)</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Resides in <code>backend/app/cloud.py</code> and
+                                <code>whatsapp_tool/db_whatsapp_sender.py</code>. Manages external integrations (Google
+                                Drive & WhatsApp).
+                            </p>
+                            <ul>
+                                <li>Google Drive API integration with OAuth2</li>
+                                <li>Resumable uploads and bandwidth negotiation</li>
+                                <li>Automated permission setting and link generation</li>
+                                <li>WhatsApp automation via Playwright</li>
+                                <li>Anti-ban safety protocols and rate limiting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 id="data-flow">Data Flow & Event Lifecycle</h3>
+                <p>Every photo follows a well-defined journey through the system:</p>
+                <ol>
+                    <li>Photo begins as an <code>Event</code> in the <code>Incoming/</code> directory</li>
+                    <li>The <code>Watcher</code> detects the file and adds it to the <code>Job Queue</code></li>
+                    <li>A <code>Worker</code> processes the image, generating a <code>Normalized JPEG</code> and
+                        <code>Thumbnail</code>
+                    </li>
+                    <li>The <code>AI Analyzer</code> extracts <code>Embeddings</code></li>
+                    <li>The <code>Clusterer</code> assigns the photo to one or more <code>Person IDs</code></li>
+                    <li>The <code>Router</code> copies the file to the appropriate <code>People/Person_XXX</code>
+                        directories</li>
+                    <li>The <code>Upload Queue</code> picks up these new files and mirrors them to
+                        <code>Google Drive</code>
+                    </li>
+                    <li>Upon <code>Guest Enrollment</code>, the <code>WhatsApp Sender</code> is triggered to send the
+                        link</li>
+                </ol>
+            </section>
+
+            <!-- AI Core -->
+            <section id="ai-core">
+                <h2>The AI Core</h2>
+                <p>At the heart of WeddingFF lies a sophisticated AI engine powered by state-of-the-art computer vision
+                    models.</p>
+
+                <h3 id="insightface">InsightFace Buffalo_L Model</h3>
+                <p>WeddingFF utilizes the <strong>Buffalo_L</strong> model package from InsightFace. This model is built
+                    using the <strong>ResNet100</strong> architecture and is trained on the Large-scale Face Recognition
+                    (MS1M-ArcFace) dataset.</p>
+
+                <h3 id="retinaface">RetinaFace Detection Logic</h3>
+                <p>Unlike simple Haar-cascade filters, RetinaFace uses a single-pass, multi-scale face localization
+                    method. It predicts:</p>
+                <ul>
+                    <li><strong>Face Bounding Boxes:</strong> (x, y, w, h) coordinates</li>
+                    <li><strong>Five Facial Landmarks:</strong> Eyes, Nose, Mouth Corners</li>
+                    <li><strong>Face Scores:</strong> Detection Confidence</li>
+                </ul>
+                <p>RetinaFace is particularly effective at "Small Face Detection," which is critical for wedding group
+                    photos where people might be far from the camera.</p>
+
+                <h3 id="embeddings">512-Dimensional Embeddings</h3>
+                <p>The "Embedding" is a mathematical abstraction of a human face:</p>
+                <ul>
+                    <li><strong>Input:</strong> A cropped and aligned 112x112 face image</li>
+                    <li><strong>Output:</strong> A 512-element array of floating-point numbers</li>
+                    <li><strong>Property:</strong> The distance between two vectors directly correlates to the
+                        biological similarity of the two faces</li>
+                </ul>
+
+                <h3 id="clustering">Incremental Centroid Clustering</h3>
+                <p>WeddingFF uses <strong>Cosine Distance</strong> to compare faces. Unlike Euclidean distance, Cosine
+                    Distance ignores the "magnitude" (brightness/contrast) of the embedding and focuses only on the
+                    "angle" (features).</p>
+                <ul>
+                    <li><strong>Distance 0.0:</strong> Identical faces</li>
+                    <li><strong>Distance 2.0:</strong> Completely opposite features</li>
+                    <li><strong>WeddingFF Match Threshold:</strong> Typically 0.45 - 0.60</li>
+                </ul>
+                <p>As more photos of "Person A" are taken, the <strong>Centroid</strong> (the average of all their
+                    embeddings) "drifts" to better represent their true appearance. This self-correcting mechanism is
+                    what makes WeddingFF so accurate at scale.</p>
+            </section>
+
+            <!-- Database Layer -->
+            <section id="database">
+                <h2>The Data Layer</h2>
+                <p>WeddingFF uses SQLite with Write-Ahead Logging (WAL) mode for robust, concurrent data management.</p>
+
+                <h3 id="schema">Database Schema</h3>
+                <ul class="tech-stack-list">
+                    <li><strong>photos:</strong> The master registry. Fields include <code>file_hash</code>,
+                        <code>status</code>, <code>face_count</code>, and <code>processed_path</code>.
+                    </li>
+                    <li><strong>faces:</strong> Detail table linked to Photos. Each entry stores a pickled numpy array
+                        of the embedding.</li>
+                    <li><strong>persons:</strong> The identity table. Stores the <code>Centroid</code> and the current
+                        <code>Face_Count</code>.
+                    </li>
+                    <li><strong>enrollments:</strong> The Bridge between AI and Humans. Stores <code>User_Name</code>,
+                        <code>Phone</code>, <code>Enrollment Selfie Path</code>.
+                    </li>
+                    <li><strong>upload_queue:</strong> A persistent task list for the cloud syncer.</li>
+                </ul>
+
+                <h3 id="concurrency">Concurrency Management</h3>
+                <p>SQLite is traditionally single-threaded for writes. WeddingFF circumvents this using:</p>
+                <ul>
+                    <li><strong>WAL (Write Ahead Logging):</strong> Allows reading while writing is in progress</li>
+                    <li><strong>PRAGMA busy_timeout:</strong> Set to 30,000ms to allow threads to wait for each other
+                        politely</li>
+                    <li><strong>@retry_on_lock Decorator:</strong> Implements randomized exponential backoff for locked
+                        database operations</li>
+                </ul>
+
+                <h3 id="transactions">Transactional Integrity</h3>
+                <p>We use <code>with conn:</code> blocks to ensure that if a photo is successfully routed to the disk
+                    but the database update fails, the routing is "rolled back" (or the photo is re-processed) to
+                    prevent orphans.</p>
+            </section>
+
+            <!-- Image Processing -->
+            <section id="image-processing">
+                <h2>Image Processing & RAW Workflow</h2>
+
+                <h3 id="raw-support">Professional RAW Support</h3>
+                <p>Using the <code>rawpy</code> library, WeddingFF accesses the "Bayer" data directly from the
+                    sensor-dump files. This allows the system to generate high-fidelity JPEGs that often look better
+                    than standard in-camera previews.</p>
+                <p><strong>Supported Formats:</strong> CR2 (Canon), NEF (Nikon), ARW (Sony)</p>
+
+                <h3 id="normalization">Normalization & Color Grading</h3>
+                <p>Every image goes through a sanitation process:</p>
+                <ul>
+                    <li><strong>Orientation Fix:</strong> Auto-rotated based on camera tilt sensors</li>
+                    <li><strong>Color Space:</strong> Converted to sRGB for consistent web display</li>
+                    <li><strong>Quality:</strong> Saved at 95% JPEG quality to preserve professional sharpness</li>
+                </ul>
+
+                <h3 id="multi-resolution">Multi-Resolution Image Diversification</h3>
+                <p>The system generates:</p>
+                <ul>
+                    <li><strong>Full-Res (e.g. 2048px):</strong> For the guest's cloud gallery</li>
+                    <li><strong>Thumbnail (300px):</strong> Square crop for the Guest Portal and Admin App</li>
+                    <li><strong>AI-Input (640px):</strong> Specifically for the RetinaFace detection engine</li>
+                </ul>
+            </section>
+
+            <!-- Intelligent Routing -->
+            <section id="routing">
+                <h2>Intelligent Routing & Organization</h2>
+
+                <h3 id="hierarchy">Logical Hierarchy of EventRoot</h3>
+                <pre><code>EventRoot/
+  Incoming/   ← The Drop Zone
+  Processed/  ← Master Normalized JPEGs
+  People/     ← The Identity Mirror
+    Person_A/
+      Solo/   ← Just them
+      Group/  ← With friends</code></pre>
+
+                <h3 id="routing-logic">Routing Logic (Solo vs. Group Contexts)</h3>
+                <p>The system employs high-precision routing logic:</p>
+                <ul>
+                    <li><strong>Exactly 1 Person:</strong> File is copied to <code>Solo/</code> with a unique ID-based
+                        name (e.g., <code>000452.jpg</code>)</li>
+                    <li><strong>2+ Persons:</strong> File is copied to the <code>Group/</code> folder of <em>every</em>
+                        detected person. This "Virtual Shadowing" ensures everyone sees shared moments without manual
+                        tagging</li>
+                    <li><strong>Hardlinks:</strong> On Windows/NTFS, the system uses <code>os.link()</code> to create
+                        multiple references to the same file. This means 10 copies of a group photo take 0 extra disk
+                        space</li>
+                </ul>
+
+                <h3 id="hashing">Content-Based Hashing (SHA-256)</h3>
+                <p>We calculate a unique hash for every photo. If you accidentally put the same SD card in twice, the
+                    system skips those photos in milliseconds, recognizing the content hash already exists in the
+                    database.</p>
+            </section>
+
+            <!-- Cloud Synchronization -->
+            <section id="cloud">
+                <h2>Cloud Synchronization</h2>
+
+                <h3 id="authentication">OAuth2 & Service Account Authentication</h3>
+                <p>WeddingFF supports both User-level OAuth (using <code>token.json</code>) and Service Accounts.
+                    User-level is recommended for uploading directly into the photographer's primary Google Drive
+                    account.</p>
+
+                <h3 id="mirroring">Mirroring Local Hierarchies to Cloud</h3>
+                <p>The <code>ensure_folder_path</code> function recursively checks for the existence of folders in Drive
+                    (e.g. "People" → "Person_A" → "Solo"). If they don't exist, it creates them and caches the IDs to
+                    avoid redundant API calls.</p>
+
+                <h3 id="resumable-uploads">Resumable Uploads</h3>
+                <p>Large photo sets can saturate a venue's Wi-Fi. We use <strong>Resumable Media Uploads</strong>,
+                    allowing the system to pause and resume individual file transfers without starting over.</p>
+
+                <h3 id="permissions">Automated Permission Setting</h3>
+                <p>Whenever a new Person folder is created, the system calls <code>permissions.create</code> to make it
+                    "Anyone with link" readable. It then stores the resulting <code>webViewLink</code>.</p>
+            </section>
+
+            <!-- WhatsApp Automation -->
+            <section id="whatsapp">
+                <h2>Personalized Delivery</h2>
+
+                <h3 id="playwright">Playwright Integration</h3>
+                <p>We use Playwright to drive a real browser. This is essential because standard API-based automation is
+                    often detected as "Bot behavior" by WhatsApp.</p>
+
+                <h3 id="session-persistence">Session Persistence</h3>
+                <p>Authentication data is saved in <code>whatsapp_tool/whatsapp_user_data</code>. This means the
+                    operator only needs to scan the QR code once per event (or even per wedding season).</p>
+
+                <h3 id="human-simulation">Human-Simulation Delivery Logic</h3>
+                <p>The system doesn't just "click send." It:</p>
+                <ol>
+                    <li>Navigates to the chat</li>
+                    <li>Waits for the "Type a message" box to become interactive</li>
+                    <li>Pastes the message</li>
+                    <li>Simulates an "Enter" keypress</li>
+                    <li>Waits for the "Sent" checkmark before moving to the next guest</li>
+                </ol>
+
+                <h3 id="anti-ban">Anti-Ban Safety Protocols</h3>
+                <p>To prevent account bans:</p>
+                <ul>
+                    <li>Never send more than 1 message per 10 seconds</li>
+                    <li>Implement "Batch Pausing": after every 20 messages, the system rests for 2 minutes</li>
+                    <li>Maintain a <code>message_state_db.json</code> to ensure no guest ever gets a duplicate message
+                    </li>
+                    <li>Use randomized delays: <code>random.uniform(8.0, 15.0)</code> to mimic human behavior</li>
+                </ul>
+            </section>
+
+            <!-- Frontend -->
+            <section id="frontend">
+                <h2>Frontend</h2>
+
+                <h3 id="fastapi">FastAPI Backend</h3>
+                <p>The web server is built on FastAPI, the fastest modern Python web framework. All guest inputs (names,
+                    phones) are strictly validated using Pydantic models.</p>
+
+                <h3 id="selfie-matching">Selfie Matching Engine</h3>
+                <p>When a guest uploads a selfie, the server extracts the embedding and compares it to the
+                    <code>persons</code> table. It returns a <strong>Confidence Score</strong>. If the confidence is >
+                    50%, the guest is automatically linked to that cluster.
+                </p>
+
+                <h3 id="design-language">Design Language: Glassmorphism</h3>
+                <p>The UI features "Frosty" glass effects, rose gold accents, and smooth CSS-grid-based gallery layouts.
+                    It feels like a premium app, not a simple upload form.</p>
+
+                <h3 id="qr-enrollment">QR-Based Entry & Enrollment Flow</h3>
+                <p>The photographer places QR codes on tables. Guests scan them, land on their private URL, and the
+                    system guides them through the 30-second enrollment process.</p>
+            </section>
+
+            <!-- Mission Control -->
+            <section id="mission-control">
+                <h2>WeddingFFApp Dashboard</h2>
+
+                <h3 id="ui-components">UI Component Architecture</h3>
+                <p>The dashboard uses <code>customtkinter</code>, a modern extension for Tkinter that allows rounded
+                    corners, smooth hover effects, and full theme support.</p>
+
+                <h3 id="real-time-stats">Real-Time Statistics</h3>
+                <p>The app shows:</p>
+                <ul>
+                    <li><strong>Queue Depth:</strong> How many photos are waiting to be processed</li>
+                    <li><strong>Face Velocity:</strong> How many faces per minute the AI is currently discovering</li>
+                    <li><strong>Sync Health:</strong> Success/Failure ratio of cloud uploads</li>
+                </ul>
+
+                <h3 id="process-supervision">Process Supervision</h3>
+                <p>The dashboard doesn't just "import" the workers; it runs them as separate Subprocesses. This ensures
+                    that if the AI worker crashes due to a corrupt file, the GUI remains responsive, allowing the
+                    operator to restart it with one click.</p>
+
+                <h3 id="activity-logging">Color-Coded Activity Logging</h3>
+                <ul>
+                    <li><strong style="color: cyan;">Cyan:</strong> AI and Worker activity</li>
+                    <li><strong style="color: #f0ad4e;">Yellow:</strong> Database and file system events</li>
+                    <li><strong style="color: #5cb85c;">Green:</strong> Successful WhatsApp deliveries</li>
+                    <li><strong style="color: #d9534f;">Red:</strong> Errors or failed uploads</li>
+                </ul>
+            </section>
+
+            <!-- Tech Stack -->
+            <section id="tech-stack">
+                <h2>Technology Stack</h2>
+
+                <ul class="tech-stack-list">
+                    <li>
+                        <strong>Core Language:</strong> Python 3.9+
+                        <ul>
+                            <li>Multi-threading and multi-processing capabilities</li>
+                            <li>Rich ecosystem of libraries for AI and automation</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>AI & Computer Vision:</strong>
+                        <ul>
+                            <li><code>insightface</code> - Face detection and recognition (Buffalo_L model)</li>
+                            <li><code>onnxruntime</code> - Neural network execution engine</li>
+                            <li><code>opencv-python</code> - Image processing operations</li>
+                            <li><code>numpy</code> - Numerical computations for embeddings</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Image Processing:</strong>
+                        <ul>
+                            <li><code>rawpy</code> - RAW image format support (CR2, NEF, ARW)</li>
+                            <li><code>Pillow</code> - Image manipulation and conversion</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Database:</strong>
+                        <ul>
+                            <li><code>sqlite3</code> - Local database with WAL mode</li>
+                            <li>Custom <code>@retry_on_lock</code> decorator for concurrency</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Web Framework:</strong>
+                        <ul>
+                            <li><code>FastAPI</code> - Modern, fast web framework</li>
+                            <li><code>Pydantic</code> - Data validation</li>
+                            <li><code>uvicorn</code> - ASGI server</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Cloud Integration:</strong>
+                        <ul>
+                            <li><code>google-api-python-client</code> - Google Drive API</li>
+                            <li><code>google-auth</code> - OAuth2 authentication</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Automation:</strong>
+                        <ul>
+                            <li><code>playwright</code> - Browser automation for WhatsApp</li>
+                            <li><code>watchdog</code> - File system event monitoring</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Desktop UI:</strong>
+                        <ul>
+                            <li><code>customtkinter</code> - Modern Tkinter UI components</li>
+                            <li>Dark/Light theme support</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Setup & Configuration -->
+            <section id="setup">
+                <h2>Setup & Configuration</h2>
+
+                <h3 id="dependencies">Dependency Management</h3>
+                <p>WeddingFF depends on complex binary libraries. A specific <code>requirements.txt</code> ensures
+                    version compatibility:</p>
+                <pre><code>pip install -r requirements.txt</code></pre>
+
+                <h3 id="env-variables">Environment Configuration (.env Variables)</h3>
+                <ul class="tech-stack-list">
+                    <li><strong>EVENT_ROOT:</strong> Absolute path to photos</li>
+                    <li><strong>DB_PATH:</strong> Where to store the SQLite file</li>
+                    <li><strong>WORKER_COUNT:</strong> Number of parallel workers (match to CPU threads)</li>
+                    <li><strong>CLUSTER_THRESHOLD:</strong> Face matching threshold (0.45-0.65)</li>
+                    <li><strong>DRIVE_ROOT_FOLDER_ID:</strong> Google Drive root folder ID</li>
+                    <li><strong>SCAN_INTERVAL:</strong> How often to check for new files (in seconds)</li>
+                    <li><strong>DRY_RUN:</strong> If "true", simulates the pipeline without moving files</li>
+                </ul>
+
+                <h3 id="google-cloud-setup">Google Cloud Setup</h3>
+                <ol>
+                    <li>Visit the <strong>Google Cloud Console</strong> (console.cloud.google.com)</li>
+                    <li>Create a New Project: Name it "WeddingFF-Sync"</li>
+                    <li>Enable APIs: Search for "Google Drive API" and click Enable</li>
+                    <li>Configure OAuth Consent Screen (External)</li>
+                    <li>Create Credentials → OAuth Client ID → Desktop App</li>
+                    <li>Download the JSON and rename it to <code>credentials.json</code></li>
+                    <li>Place the file in the project root</li>
+                    <li>Run <code>python backend/setup_auth.py</code> to generate <code>token.json</code></li>
+                </ol>
+            </section>
+
+            <!-- Performance & Reliability -->
+            <section id="performance">
+                <h2>Performance & Reliability</h2>
+
+                <h3 id="benchmarks">Performance Benchmarks</h3>
+                <ul>
+                    <li><strong>Memory:</strong> The system typically consumes 600MB - 1GB of RAM depending on the
+                        number of workers</li>
+                    <li><strong>CPU:</strong> Under full load (8 workers), it can peak to 90-100% CPU usage for short
+                        bursts during face detection</li>
+                    <li><strong>Scalability:</strong> The SQLite index architecture supports up to 500,000 face entries
+                        before any perceivable slowdown</li>
+                </ul>
+
+                <h3 id="failure-modes">Failure Mode Analysis</h3>
+                <ul>
+                    <li><strong>Losing Internet:</strong> The system queues everything. Once internet returns, it "burst
+                        uploads" to catch up</li>
+                    <li><strong>Power Loss:</strong> The SQLite database is atomic. No half-finished records will exist.
+                        The system resumes exactly where it left off</li>
+                    <li><strong>Database Locks:</strong> Solved using WAL mode and the custom
+                        <code>@retry_on_lock</code> decorator
+                    </li>
+                </ul>
+
+                <h3 id="hardware-requirements">Hardware Optimization</h3>
+                <p>To run WeddingFF at peak performance:</p>
+                <ul>
+                    <li><strong>CPU:</strong> Intel Core i7-12th Gen or AMD Ryzen 7 (8+ Cores)</li>
+                    <li><strong>RAM:</strong> 16GB Minimum (32GB for handling 8K RAW processing)</li>
+                    <li><strong>Storage:</strong> NVMe SSD (Very high IO throughput is needed for photo routing)</li>
+                    <li><strong>OS:</strong> Windows 11 or Ubuntu Desktop 22.04</li>
+                </ul>
+            </section>
+
+            <!-- Privacy & Security -->
+            <section id="privacy">
+                <h2>Privacy, Security & GDPR Compliance</h2>
+
+                <h3 id="biometric-security">Secure Handling of Biometric Data</h3>
+                <p>WeddingFF is designed to minimize the footprint of biometric data. Embeddings are anonymous
+                    mathematical vectors. There is no facial "image" stored in the database; only coordinates and
+                    numbers.</p>
+
+                <h3 id="local-first">Local-First Storage</h3>
+                <p>By keeping the AI on the local laptop, we ensure that guests' facial measurements never touch the
+                    public internet. Only the final, finished photos are uploaded to Google's encrypted servers.</p>
+
+                <h3 id="consent">Consent Management</h3>
+                <p>The system records the exact timestamp and IP address when a guest checks the "I consent to my face
+                    being matched" box, creating a legal audit trail for the photographer's protection.</p>
+
+                <h3 id="double-hashing">The "Double-Hashing" Security Model</h3>
+                <ul>
+                    <li><strong>Local Hashing:</strong> The actual image Content Hash (SHA-256) is only stored locally
+                        in your SQLite DB</li>
+                    <li><strong>Biometric Hashing:</strong> Face embeddings are randomized mathematical models. Even if
+                        the database were stolen, it is impossible to reconstruct a person's face from the 512 numbers
+                    </li>
+                    <li><strong>Link Obfuscation:</strong> Guest gallery links in Google Drive use a long-form
+                        randomized alphanumeric ID</li>
+                </ul>
+            </section>
+
+            <!-- Troubleshooting -->
+            <section id="troubleshooting">
+                <h2>Troubleshooting & Maintenance</h2>
+
+                <h3 id="common-errors">Common Errors (Resolved)</h3>
+                <ul>
+                    <li><strong>DATABASE_IS_LOCKED:</strong> Solved using WAL mode and the custom
+                        <code>@retry_on_lock</code> decorator in <code>backend/app/db.py</code>
+                    </li>
+                    <li><strong>PERMISSION_DENIED:</strong> Usually happens when the app tries to move files already
+                        open in another program (like Lightroom)</li>
+                    <li><strong>PORT_8000_BUSY:</strong> A common issue solved by the <code>cleanup_ports.bat</code>
+                        script which kills orphaned Python processes</li>
+                </ul>
+
+                <h3 id="maintenance-utilities">Maintenance Utilities</h3>
+                <ul>
+                    <li><code>check_all.py</code> - Runs a full integrity check on the DB, Filesystem, and Cloud folders
+                    </li>
+                    <li><code>clear_photos.py</code> - (DANGER) Resets the entire event root. Use only when starting a
+                        brand new wedding</li>
+                    <li><code>check_hashes.py</code> - Verifies that every file in the <code>People/</code> folder
+                        matches its hash in the database</li>
+                    <li><code>cleanup_ports.bat</code> - A Windows utility to free up Port 8000 and Port 3000</li>
+                </ul>
+
+                <h3 id="operation-checklists">Operation Checklists</h3>
+                <h4>Pre-Event:</h4>
+                <ul>
+                    <li>Clear <code>Incoming/</code>, <code>Processed/</code>, and <code>People/</code> folders</li>
+                    <li>Reset <code>data/wedding.db</code> (or create a new one for the new event)</li>
+                    <li>Verify <code>.env</code> paths are correct for the current laptop drive</li>
+                    <li>Run <code>python WeddingFFapp.py</code> and verify all subsystems show "Stopped"</li>
+                    <li>Perform a "Test Enrollment" with your own face to verify Cloud/WhatsApp</li>
+                </ul>
+
+                <h4>During-Event:</h4>
+                <ul>
+                    <li>Monitor the "Queue Depth" on the dashboard</li>
+                    <li>Ensure the laptop doesn't go to sleep (Disable Power Save)</li>
+                    <li>Encourage guests to scan the QR codes early for "Real-time" delivery</li>
+                    <li>Check the "Errors" folder periodically for corrupt files</li>
+                </ul>
+
+                <h4>Post-Event:</h4>
+                <ul>
+                    <li>Run <code>reupload_cloud.py</code> to ensure 100% of files were synced</li>
+                    <li>Backup the <code>wedding.db</code> and <code>EventRoot</code> to an external archival drive</li>
+                    <li>Generate the "Sync Summary" for the client</li>
+                </ul>
+            </section>
+
+            <!-- Future Roadmap -->
+            <section id="roadmap">
+                <h2>Strategic Roadmap & Vision 2026</h2>
+                <p>The future of WeddingFF includes:</p>
+                <ul>
+                    <li><strong>Phase 3 (Summer 2026):</strong> Video face-detection support</li>
+                    <li><strong>Phase 4 (Winter 2026):</strong> Multi-camera synchronization over local LAN</li>
+                    <li><strong>Phase 5 (2027):</strong> Direct integration with Mirrorless camera FTP protocols</li>
+                    <li><strong>Experimental Features:</strong> Multi-system cluster merging for massive events (10,000+
+                        photos)</li>
+                </ul>
+            </section>
+
+            <!-- Conclusion -->
+            <section id="conclusion">
+                <h2>Final Word</h2>
+                <blockquote>
+                    <p>"To build the world's most seamless bridge between the camera's shutter and the attendee's heart,
+                        powered by invisible, intelligent automation."</p>
+                </blockquote>
+                <p>This project is a labor of love, designed to empower event photographers to provide a level of
+                    service that was previously impossible without a team of 10 assistants.</p>
+                <p>Thank you for being part of the Wedding Face Forward journey.</p>
+
+                <h3 id="repository">Repository & Resources</h3>
+                <ul>
+                    <li><strong>GitHub:</strong> <a href="https://github.com/P-RanjithKumar/Wedding-Face-Forward"
+                            target="_blank">github.com/P-RanjithKumar/Wedding-Face-Forward</a></li>
+                    <li><strong>Author:</strong> P-Ranjith Kumar</li>
+                    <li><strong>Version:</strong> 1.0.0 (Enterprise Edition)</li>
+                    <li><strong>Date:</strong> February 11, 2026</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 P-Ranjith Kumar. All rights reserved. | Built with passion for event photography innovation.</p>
+    </footer>
+
+    <script src="project4.js"></script>
+</body>
+
+</html>
