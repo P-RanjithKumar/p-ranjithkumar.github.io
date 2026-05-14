@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Love Letter in Motion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="./assets/index-C-TjPRw1.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-D60N1RE0.css">
+  </head>
+  <body>
+    <!-- Loader -->
+    <div id="loader" class="loader">
+      <div class="loader-content">
+        <span class="loader-text">A moment, please...</span>
+        <div class="loader-dot"></div>
+      </div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <!-- Main Experience Wrapper -->
+    <div class="scroll-container">
+      <div class="experience-wrapper">
+        <!-- Photo Reel Container (Behind 3D Canvas) -->
+        <div id="photo-container" class="photo-container"></div>
+        
+        <!-- Three.js Canvas -->
+        <canvas id="webgl-canvas"></canvas>
+
+        <!-- Phase Overlays -->
+        <div class="phase-overlay" data-phase="arrival">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="reveal">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="love">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="strength">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="interview">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="future">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="final">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
+        </div>
+
+        <!-- End Screen -->
+        <div id="end-screen" class="end-screen end-screen--hidden">
+          <div class="end-screen-content">
+            <p class="text-quote">For the woman I love, now, and in every chapter to come.</p>
+            <button id="btn-replay" class="btn-replay">Replay this feeling</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+  </body>
+</html>
