@@ -1,0 +1,47 @@
+/* Typography System */
+
+.text-main {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 0.5em;
+  will-change: transform, opacity;
+}
+
+.text-sub {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  color: var(--text-secondary);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 1.5em;
+  will-change: transform, opacity;
+}
+
+.text-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  color: var(--accent-champagne);
+  font-weight: 400;
+  line-height: 1.4;
+  border-left: 2px solid var(--accent-gold);
+  padding-left: 1rem;
+  margin-top: 1rem;
+  will-change: transform, opacity;
+}
+
+/* Text visibility states (controlled by JS) */
+.opacity-0 {
+  opacity: 0;
+}
+
+/* Spotlight Text Effect (Proximity spotlight) */
+.char-wrap {
+  display: inline-block;
+  white-space: pre-wrap;
+  transition: color 0.3s ease;
+}

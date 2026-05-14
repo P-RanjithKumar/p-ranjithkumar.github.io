@@ -1,0 +1,39 @@
+/* Phase Overlays */
+
+.phase-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--phase-padding);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.phase-text-container {
+  max-width: 500px;
+  width: 100%;
+}
+
+/* Phase Specific Positioning */
+.phase-overlay[data-phase="arrival"] { justify-content: flex-start; }
+.phase-overlay[data-phase="reveal"] { justify-content: flex-start; }
+.phase-overlay[data-phase="love"] { justify-content: flex-end; }
+.phase-overlay[data-phase="strength"] { justify-content: flex-start; }
+.phase-overlay[data-phase="interview"] { justify-content: center; text-align: center; }
+.phase-overlay[data-phase="future"] { justify-content: flex-end; }
+.phase-overlay[data-phase="final"] { justify-content: center; text-align: center; }
+
+/* Adjust borders and margins for centered phases */
+.phase-overlay[data-phase="interview"] .text-quote,
+.phase-overlay[data-phase="final"] .text-quote {
+  border-left: none;
+  border-top: 2px solid var(--accent-gold);
+  padding-left: 0;
+  padding-top: 1rem;
+  margin: 1rem auto 0;
+  max-width: 80%;
+}

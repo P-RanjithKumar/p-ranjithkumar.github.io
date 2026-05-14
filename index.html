@@ -1,77 +1,100 @@
 <!DOCTYPE html>
-<html lang="hi">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#07060b">
-    <title>All The Best ✨</title>
-    <meta name="description" content="A special message just for you.">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Love Letter in Motion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- Three.js for real 3D heart (r128 UMD — works from file://) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-</head>
-
-<body>
-
-    <!-- ======= START OVERLAY ======= -->
-    <div id="start-overlay">
-        <div class="start-content">
-            <div class="start-heart-icon">💛</div>
-            <h1 class="start-title">A Message For You</h1>
-            <p class="start-subtitle">🎧 Put on your headphones</p>
-            <button id="start-btn">
-                <span>Begin the Journey</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-            </button>
-        </div>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Loader -->
+    <div id="loader" class="loader">
+      <div class="loader-content">
+        <span class="loader-text">A moment, please...</span>
+        <div class="loader-dot"></div>
+      </div>
     </div>
 
-    <!-- ======= PARTICLE CANVAS ======= -->
-    <canvas id="particle-canvas"></canvas>
+    <!-- Scroll Progress -->
+    <div id="progress-bar" class="progress-bar"></div>
 
-    <!-- ======= MAIN SCENE ======= -->
-    <div id="scene">
+    <!-- Main Experience Wrapper -->
+    <div class="scroll-container">
+      <div class="experience-wrapper">
+        <!-- Photo Reel Container (Behind 3D Canvas) -->
+        <div id="photo-container" class="photo-container"></div>
+        
+        <!-- Three.js Canvas -->
+        <canvas id="webgl-canvas"></canvas>
 
-        <!-- Real 3D Heart (WebGL) -->
-        <canvas id="heart-canvas"></canvas>
-
-        <!-- Dialog Text Display -->
-        <div id="dialog-container">
-            <p id="dialog-text"></p>
+        <!-- Phase Overlays -->
+        <div class="phase-overlay" data-phase="arrival">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+          </div>
         </div>
 
-        <!-- Progress Bar -->
-        <div id="progress-bar-container">
-            <div id="progress-bar"></div>
+        <div class="phase-overlay" data-phase="reveal">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
         </div>
+
+        <div class="phase-overlay" data-phase="love">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="strength">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="interview">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="future">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
+        </div>
+
+        <div class="phase-overlay" data-phase="final">
+          <div class="phase-text-container">
+            <h1 class="text-main"></h1>
+            <p class="text-sub"></p>
+            <p class="text-quote"></p>
+          </div>
+        </div>
+
+        <!-- End Screen -->
+        <div id="end-screen" class="end-screen end-screen--hidden">
+          <div class="end-screen-content">
+            <p class="text-quote">For the woman I love, now, and in every chapter to come.</p>
+            <button id="btn-replay" class="btn-replay">Replay this feeling</button>
+          </div>
+        </div>
+
+      </div>
     </div>
-
-    <!-- ======= FINALE OVERLAY ======= -->
-    <div id="finale-overlay">
-        <div class="finale-content">
-            <div class="finale-heart">💛</div>
-            <h1 class="finale-title">ALL THE BEST!</h1>
-            <p class="finale-subtitle">You've got this. I believe in you. ✨</p>
-        </div>
-    </div>
-
-    <!-- ======= AUDIO ======= -->
-    <audio id="audio" preload="auto">
-        <source src="videoplayback.m4a" type="audio/mp4">
-    </audio>
-
-    <script src="script.js"></script>
-</body>
-
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

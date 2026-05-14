@@ -1,0 +1,69 @@
+@import './typography.css';
+@import './phases.css';
+@import './ui.css';
+
+:root {
+  /* Colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --text-primary: #f5f0e8;       /* warm ivory */
+  --text-secondary: #c4b99a;     /* muted gold */
+  --accent-gold: #d4a855;        /* warm gold */
+  --accent-rose: #c4727f;        /* muted rose */
+  --accent-champagne: #f5e6c8;   /* champagne glow */
+  
+  /* Typography */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+  
+  /* Spacing */
+  --phase-padding: clamp(2rem, 5vw, 6rem);
+  
+  /* Transitions */
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-slow: 1.2s;
+  --duration-medium: 0.8s;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  /* Body scrolling is allowed, but we'll use a tall scroll container */
+}
+
+/* Three.js Canvas */
+#webgl-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1; /* Behind overlays */
+  pointer-events: none; /* Let clicks pass through if needed */
+}
+
+/* Scroll Container */
+.scroll-container {
+  /* This height controls how much the user has to scroll */
+  height: 1000vh;
+  position: relative;
+  z-index: 2;
+}
+
+/* Pinned wrapper */
+.experience-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
