@@ -1,0 +1,1464 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Theory to Tensor – The Reality of Building Causal AI | Ranjith Kumar</title>
+    <meta name="description"
+        content="Moving from Phase 1 to Phase 2 in building a Causal AI. The gritty reality of implementation, failed baselines, and the 'Aha!' moments.">
+
+    <style>
+        /* --- Copied Styles from blog7.html --- */
+        /* 1. --- Reset & Base Styles --- */
+        :root {
+            --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            --font-serif: "Merriweather", "Georgia", serif;
+            --font-mono: "Fira Code", "Courier New", monospace;
+
+            --color-text: #333;
+            --color-bg: #ffffff;
+            --color-primary: #0d6efd;
+            --color-secondary: #6c757d;
+            --color-accent: #fd7e14;
+            --color-border: #dee2e6;
+            --color-code-bg: #f8f9fa;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #e9ecef;
+            --color-illustration-border: var(--color-accent);
+
+            --container-width: 800px;
+            --toc-width: 220px;
+            --layout-gap: calc(var(--spacing-unit) * 2.5);
+            --main-wrapper-width: calc(var(--container-width) + var(--toc-width) + var(--layout-gap));
+
+            --spacing-unit: 1rem;
+            --border-radius: 6px;
+            --transition-speed: 0.3s;
+            --transition-speed-fast: 0.15s;
+            --header-height: 65px;
+        }
+
+        body.dark-mode {
+            --color-text: #e9ecef;
+            --color-bg: #121212;
+            --color-primary: #4dabf7;
+            --color-secondary: #adb5bd;
+            --color-accent: #ff922b;
+            --color-border: #495057;
+            --color-code-bg: #2a2a2a;
+            --color-blockquote-border: var(--color-primary);
+            --color-illustration-bg: #343a40;
+            --color-illustration-border: var(--color-accent);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 100%;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        img,
+        video,
+        figure,
+        canvas,
+        iframe {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: var(--spacing-unit) 0;
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color var(--transition-speed-fast) ease, opacity var(--transition-speed-fast) ease;
+        }
+
+        a:hover {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
+
+        *:focus-visible {
+            outline: 3px dashed var(--color-primary);
+            outline-offset: 3px;
+        }
+
+        h2[id],
+        h3[id],
+        h4[id],
+        section[id] {
+            scroll-margin-top: calc(var(--header-height) + var(--spacing-unit) * 1.5);
+        }
+
+        /* 2. --- Layout Structure --- */
+        .container {
+            width: 90%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 calc(var(--spacing-unit) / 2);
+        }
+
+        .content-wrapper {
+            width: 90%;
+            max-width: var(--main-wrapper-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, var(--container-width)) auto;
+            gap: var(--layout-gap);
+            align-items: start;
+        }
+
+        .article-column {
+            grid-column: 1 / 2;
+            max-width: 100%;
+        }
+
+        .toc-column {
+            grid-column: 2 / 3;
+            width: var(--toc-width);
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-unit) * 1.5);
+            height: calc(100vh - var(--header-height) - var(--spacing-unit) * 3);
+            overflow-y: auto;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            width: 0%;
+            z-index: 100;
+            transition: width 0.1s linear;
+        }
+
+        /* 3. --- Header --- */
+        .site-header {
+            background-color: rgba(var(--color-bg-rgb, 255, 255, 255), 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: calc(var(--spacing-unit) * 0.75) 0;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            height: var(--header-height);
+        }
+
+        body.dark-mode .site-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            --color-bg-rgb: 255, 255, 255;
+            --color-primary-rgb: 13, 110, 253;
+        }
+
+        body.dark-mode {
+            --color-bg-rgb: 18, 18, 18;
+            --color-primary-rgb: 77, 171, 247;
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            max-width: var(--main-wrapper-width);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--color-text);
+            transition: color var(--transition-speed-fast) ease;
+        }
+
+        .logo:hover {
+            text-decoration: none;
+            color: var(--color-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-unit) * 1.2);
+        }
+
+        .header-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: var(--color-secondary);
+            transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease;
+            padding: 5px;
+        }
+
+        .header-actions button:hover {
+            color: var(--color-primary);
+            transform: scale(1.1);
+            background-color: rgba(var(--color-primary-rgb), 0.08);
+            border-radius: 50%;
+        }
+
+        #search-input {
+            display: none;
+            border: 1px solid var(--color-border);
+            padding: 6px 10px;
+            border-radius: var(--border-radius);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        body.search-active #search-input {
+            display: inline-block;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        .back-to-blog {
+            display: inline-block;
+            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            color: var(--color-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .back-to-blog:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        /* 4. --- Main Content Area --- */
+        .main-content {
+            flex-grow: 1;
+            padding: calc(var(--spacing-unit) * 2.5) 0;
+        }
+
+        .blog-post {
+            background-color: var(--color-bg);
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .post-featured-image {
+            margin-bottom: calc(var(--spacing-unit) * 2);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: box-shadow var(--transition-speed) ease;
+        }
+
+        body.dark-mode .post-featured-image {
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
+        }
+
+        .post-featured-image img {
+            width: 100%;
+            max-width: none;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .post-meta {
+            font-size: 0.9rem;
+            color: var(--color-secondary);
+            margin-bottom: var(--spacing-unit);
+            display: flex;
+            flex-wrap: wrap;
+            gap: calc(var(--spacing-unit) * 1.2);
+            align-items: center;
+        }
+
+        .post-meta .category a {
+            background-color: var(--color-primary);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: calc(var(--border-radius) / 1.5);
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: background-color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease;
+            display: inline-block;
+        }
+
+        .post-meta .category a:hover {
+            background-color: var(--color-accent);
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+        .post-title {
+            font-size: 2.8rem;
+            font-family: var(--font-serif);
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: var(--spacing-unit);
+            color: var(--color-text);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .post-subtitle {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--color-secondary);
+            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            line-height: 1.5;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-unit) * 0.75);
+            margin-bottom: calc(var(--spacing-unit) * 2.5);
+            font-size: 0.95rem;
+        }
+
+        .author-info .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--color-border);
+        }
+
+        .author-info .author-name {
+            font-weight: 500;
+            color: var(--color-text);
+            transition: color var(--transition-speed-fast) ease;
+        }
+
+        .content-body {
+            font-family: var(--font-serif);
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--color-text);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .content-body>*+* {
+            margin-top: calc(var(--spacing-unit) * 1.8);
+        }
+
+        .content-body h2,
+        .content-body h3,
+        .content-body h4 {
+            font-family: var(--font-primary);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-top: calc(var(--spacing-unit) * 3);
+            color: var(--color-text);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .content-body h2[id] {
+            font-size: 2rem;
+            border-bottom: 2px solid var(--color-primary);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .content-body h3[id] {
+            font-size: 1.6rem;
+        }
+
+        .content-body h4[id] {
+            font-size: 1.3rem;
+            color: var(--color-primary);
+        }
+
+        .content-body p,
+        .content-body ul,
+        .content-body ol,
+        .content-body blockquote,
+        .content-body figure,
+        .content-body pre,
+        .content-body section,
+        .content-body table,
+        .content-body iframe {
+            transition: none;
+        }
+
+        .content-body ul,
+        .content-body ol {
+            margin-left: calc(var(--spacing-unit) * 1.5);
+            padding-left: var(--spacing-unit);
+        }
+
+        .content-body li {
+            margin-bottom: calc(var(--spacing-unit) * 0.5);
+        }
+
+        .content-body blockquote {
+            border-left: 5px solid var(--color-blockquote-border);
+            padding-left: calc(var(--spacing-unit) * 1.5);
+            margin-left: 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--color-secondary);
+            transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease;
+        }
+
+        .content-body code {
+            font-family: var(--font-mono);
+            background-color: var(--color-code-bg);
+            padding: 3px 6px;
+            border-radius: var(--border-radius);
+            font-size: 0.9em;
+            color: var(--color-text);
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+        }
+
+        body.dark-mode .content-body code {
+            color: #f8f9fa;
+        }
+
+        .content-body strong {
+            color: var(--color-primary);
+        }
+
+        .highlight-box {
+            background-color: var(--color-illustration-bg);
+            border-left: 4px solid var(--color-accent);
+            padding: calc(var(--spacing-unit) * 1.5);
+            margin: calc(var(--spacing-unit) * 2) 0;
+            border-radius: var(--border-radius);
+        }
+
+        .highlight-box h4 {
+            margin-top: 0 !important;
+            margin-bottom: var(--spacing-unit);
+            color: var(--color-accent);
+        }
+
+        .section-divider {
+            height: 5px;
+            width: 100px;
+            margin: calc(var(--spacing-unit) * 3) auto;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary));
+            background-size: 200% 100%;
+            border-radius: 3px;
+            animation: gradient-shift 4s linear infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .post-tags {
+            margin-top: calc(var(--spacing-unit) * 3);
+            padding-top: calc(var(--spacing-unit) * 1.5);
+            border-top: 1px solid var(--color-border);
+            transition: border-color var(--transition-speed) ease;
+        }
+
+        .post-tags span {
+            font-weight: 600;
+            margin-right: var(--spacing-unit);
+            color: var(--color-secondary);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .post-tags a {
+            display: inline-block;
+            background-color: var(--color-code-bg);
+            color: var(--color-secondary);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-right: calc(var(--spacing-unit) / 2);
+            margin-bottom: calc(var(--spacing-unit) / 2);
+            transition: background-color var(--transition-speed-fast) ease, color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease;
+            border: 1px solid var(--color-border);
+        }
+
+        .post-tags a:hover {
+            background-color: var(--color-primary);
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-2px) scale(1.03);
+            border-color: var(--color-primary);
+        }
+
+        .social-share {
+            margin-top: calc(var(--spacing-unit) * 3);
+            padding: calc(var(--spacing-unit) * 2);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            background-color: var(--color-code-bg);
+            text-align: center;
+            transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease;
+        }
+
+        .social-share h3 {
+            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-text);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .share-buttons a,
+        .share-buttons button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 6px;
+            padding: 10px 18px;
+            border-radius: var(--border-radius);
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            min-width: 110px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .share-buttons a:hover,
+        .share-buttons button:hover {
+            opacity: 0.9;
+            transform: translateY(-3px) scale(1.02);
+            text-decoration: none;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .share-facebook {
+            background-color: #1877F2;
+        }
+
+        .share-twitter {
+            background-color: #1DA1F2;
+        }
+
+        .share-linkedin {
+            background-color: #0A66C2;
+        }
+
+        .share-reddit {
+            background-color: #FF4500;
+        }
+
+        .share-email {
+            background-color: #777;
+        }
+
+        .share-copy {
+            background-color: var(--color-secondary);
+        }
+
+        .share-copy.copied {
+            background-color: var(--color-accent) !important;
+        }
+
+        #native-share-button {
+            background-color: #0056b3;
+        }
+
+        .author-bio {
+            margin-top: calc(var(--spacing-unit) * 4);
+            padding: calc(var(--spacing-unit) * 2);
+            background-color: var(--color-code-bg);
+            border-radius: var(--border-radius);
+            display: flex;
+            gap: calc(var(--spacing-unit) * 1.5);
+            align-items: flex-start;
+            transition: background-color var(--transition-speed) ease;
+            border: 1px solid var(--color-border);
+        }
+
+        .author-bio .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 3px solid var(--color-bg);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-bio-content h4 {
+            margin-bottom: calc(var(--spacing-unit) / 1.5);
+            font-size: 1.3rem;
+            color: var(--color-text);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .author-bio-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--color-secondary);
+            transition: color var(--transition-speed) ease;
+            margin-bottom: var(--spacing-unit);
+        }
+
+        .author-social-links a {
+            margin-right: 12px;
+            font-size: 1.3rem;
+            color: var(--color-secondary);
+            transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease;
+            display: inline-block;
+        }
+
+        .author-social-links a:hover {
+            color: var(--color-primary);
+            transform: scale(1.1);
+        }
+
+        .author-social-links a svg {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            fill: currentColor;
+        }
+
+        .related-posts {
+            margin-top: calc(var(--spacing-unit) * 4);
+            padding-top: calc(var(--spacing-unit) * 2.5);
+            border-top: 1px solid var(--color-border);
+            transition: border-color var(--transition-speed) ease;
+        }
+
+        .related-posts h2 {
+            text-align: center;
+            margin-bottom: calc(var(--spacing-unit) * 2);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-text);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .related-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: calc(var(--spacing-unit) * 1.5);
+        }
+
+        .related-post-card {
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: var(--color-bg);
+            transition: border-color var(--transition-speed) ease, box-shadow 0.3s ease, transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .related-post-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-primary);
+            transform: translateY(-5px);
+        }
+
+        body.dark-mode .related-post-card {
+            background-color: var(--color-code-bg);
+        }
+
+        body.dark-mode .related-post-card:hover {
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.08);
+        }
+
+        .related-post-card a:first-child:focus-visible {
+            outline-offset: -3px;
+        }
+
+        .related-post-card img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-bottom: 1px solid var(--color-border);
+            transition: transform 0.3s ease;
+            margin: 0;
+        }
+
+        .related-post-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .related-post-card-content {
+            padding: calc(var(--spacing-unit) * 1.2);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .related-post-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: calc(var(--spacing-unit) / 1.5);
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+
+        .related-post-card h3 a {
+            color: var(--color-text);
+            transition: color var(--transition-speed-fast) ease;
+        }
+
+        .related-post-card h3 a:hover {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .related-post-card .post-meta {
+            font-size: 0.8rem;
+            margin-top: var(--spacing-unit);
+            margin-bottom: 0;
+            gap: calc(var(--spacing-unit) / 1.5);
+            color: var(--color-secondary);
+        }
+
+        .comments-section {
+            margin-top: calc(var(--spacing-unit) * 4);
+            padding-top: calc(var(--spacing-unit) * 2.5);
+            border-top: 1px solid var(--color-border);
+            transition: border-color var(--transition-speed) ease;
+        }
+
+        .comments-section h2 {
+            margin-bottom: calc(var(--spacing-unit) * 1.8);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-text);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .gh-comments-info {
+            background-color: var(--color-illustration-bg);
+            border: 1px dashed var(--color-secondary);
+            padding: calc(var(--spacing-unit) * 1.5);
+            margin: calc(var(--spacing-unit)*2) 0;
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--color-secondary);
+        }
+
+        .gh-comments-info p {
+            margin-bottom: 1em;
+        }
+
+        .gh-comments-info strong {
+            color: var(--color-text);
+        }
+
+        .gh-comments-info code {
+            font-size: 0.85em;
+            padding: 2px 5px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 3px;
+        }
+
+        body.dark-mode .gh-comments-info code {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #comment-thread-container {
+            margin-top: calc(var(--spacing-unit) * 2);
+        }
+
+
+        /* 5. --- Footer --- */
+        .site-footer {
+            background-color: var(--color-code-bg);
+            color: var(--color-secondary);
+            padding: calc(var(--spacing-unit) * 2.5) 0;
+            margin-top: calc(var(--spacing-unit) * 4);
+            font-size: 0.9rem;
+            text-align: center;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .site-footer .container {
+            max-width: var(--main-wrapper-width);
+        }
+
+        .site-footer a {
+            color: var(--color-secondary);
+            transition: color var(--transition-speed-fast) ease;
+        }
+
+        .site-footer a:hover {
+            color: var(--color-primary);
+        }
+
+        .footer-links {
+            margin-top: calc(var(--spacing-unit) / 1.5);
+        }
+
+        .footer-links a {
+            margin: 0 10px;
+        }
+
+        /* 6. --- Utility & Interaction Styles --- */
+        #back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.8rem;
+            line-height: 50px;
+            text-align: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease, background-color var(--transition-speed-fast) ease, transform 0.2s ease;
+            z-index: 90;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #back-to-top.visible {
+            opacity: 0.8;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        #back-to-top:hover {
+            opacity: 1;
+            background-color: var(--color-accent);
+            transform: scale(1.1);
+        }
+
+        #back-to-top:active {
+            transform: scale(1);
+        }
+
+        /* 7. --- Table of Contents Styling --- */
+        #toc-container {
+            padding: calc(var(--spacing-unit) * 1);
+            border-left: 1px solid var(--color-border);
+            transition: border-color var(--transition-speed) ease;
+        }
+
+        #toc-container h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-unit);
+            padding-bottom: calc(var(--spacing-unit) * 0.5);
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text);
+        }
+
+        #toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        #toc-list li {
+            margin-bottom: calc(var(--spacing-unit) * 0.5);
+        }
+
+        #toc-list a {
+            display: block;
+            color: var(--color-secondary);
+            padding: 4px 0;
+            transition: color var(--transition-speed-fast), border-left-color var(--transition-speed-fast), transform var(--transition-speed-fast);
+            border-left: 3px solid transparent;
+            padding-left: calc(var(--spacing-unit) * 0.75);
+            text-decoration: none;
+        }
+
+        #toc-list a:hover {
+            color: var(--color-primary);
+            transform: translateX(3px);
+            text-decoration: none;
+        }
+
+        #toc-list a.active {
+            color: var(--color-primary);
+            font-weight: 600;
+            border-left-color: var(--color-primary);
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                max-width: var(--container-width);
+                width: 90%;
+            }
+
+            .toc-column {
+                display: none;
+            }
+
+            .site-header .container,
+            .site-footer .container {
+                max-width: var(--container-width);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .post-title {
+                font-size: 2.2rem;
+            }
+
+            .post-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .content-body {
+                font-size: 1.1rem;
+            }
+
+            .content-body h2 {
+                font-size: 1.8rem;
+            }
+
+            .content-body h3 {
+                font-size: 1.5rem;
+            }
+
+            .author-bio {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .author-bio .avatar {
+                margin-bottom: var(--spacing-unit);
+            }
+        }
+
+        /* --- Custom Styles for Blog 8 Interactive Elements --- */
+        .interactive-demo {
+            background-color: var(--color-illustration-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-unit);
+            margin: var(--spacing-unit) 0;
+            text-align: center;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: pointer;
+        }
+
+        .model-balance {
+            display: flex;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: white;
+            line-height: 30px;
+            font-weight: bold;
+        }
+    </style>
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</head>
+
+<body>
+    <div id="progress-bar"></div>
+
+    <header class="site-header">
+        <div class="container">
+            <a href="bloghome.html" class="logo">Ranjith's Blog</a>
+            <div class="header-actions">
+                <input type="search" id="search-input" placeholder="Search posts..." aria-label="Search Input">
+                <button id="search-toggle" aria-label="Toggle Search" title="Search">🔍</button>
+                <button id="theme-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌓</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="content-wrapper">
+            <a href="bloghome.html" class="back-to-blog">← Back to Home</a>
+            <div class="article-column">
+                <article class="blog-post" itemscope itemtype="http://schema.org/BlogPosting">
+
+                    <figure class="post-featured-image">
+                        <!-- Placeholder image, ideally would generate one -->
+                        <img src="assets/blog_cover_image/blog8.png" alt="Causal AI Concept Art" itemprop="image"
+                            loading="eager">
+                    </figure>
+
+                    <div class="post-meta">
+                        <span class="category"><a href="#category-ai" itemprop="articleSection">Artificial
+                                Intelligence</a></span>
+                        <span class="category"><a href="#category-research"
+                                itemprop="articleSection">Research</a></span>
+                        <span class="category"><a href="#category-practicum"
+                                itemprop="articleSection">Practicum</a></span>
+                        <span class="reading-time" title="Estimated reading time">⏱️ ~25 Minutes</span>
+                        <time class="publication-date" datetime="2025-11-20" itemprop="datePublished">November 20,
+                            2025</time>
+                    </div>
+
+                    <h1 class="post-title" itemprop="headline">From Theory to Tensor – The Reality of Building Causal AI
+                    </h1>
+                    <p class="post-subtitle">The gritty reality of turning a research proposal into running code—the
+                        data cleaning, the baseline failures, and the "Aha!" moments that only come at 2 AM.</p>
+
+                    <div class="author-info" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                        <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                        <span class="author-name" itemprop="name">Ranjith Kumar</span>
+                    </div>
+
+                    <div class="content-body" itemprop="articleBody">
+
+                        <h2 id="introduction">Introduction: The "Hello World" of Phase 2</h2>
+                        <p>Welcome back to the practicum diary.</p>
+                        <p>If you’ve been following along (or if you’re just joining this chaotic journey now), you know
+                            the mission: We are trying to teach an AI to understand "Why" instead of just "What."</p>
+                        <p>We are building a <strong>Hybrid LLM</strong>—a Frankenstein monster that stitches together
+                            the linguistic fluency of a Transformer (BERT) with the logical rigor of a Structural Causal
+                            Model (SCM). The goal? To stop AI from thinking that yellow fingers cause lung cancer just
+                            because they often appear together. We want it to understand that smoking causes both.</p>
+
+                        <div class="highlight-box">
+                            <h4>🧠 The Theory: Why Correlation ≠ Causation</h4>
+                            <p>Standard AI models are correlation machines. They see patterns. Causal AI tries to see
+                                <em>mechanisms</em>.
+                            </p>
+                            <div class="mermaid">
+                                graph LR
+                                A[Smoking] --> B[Yellow Fingers]
+                                A --> C[Lung Cancer]
+                                B -.-> C
+                                style A fill:#f9f,stroke:#333,stroke-width:2px
+                                style B fill:#ccf,stroke:#333,stroke-width:2px
+                                style C fill:#ccf,stroke:#333,stroke-width:2px
+                                linkStyle 2 stroke:red,stroke-width:2px,stroke-dasharray: 5 5;
+                            </div>
+                            <p>The dotted red line represents the spurious correlation that a standard model might
+                                learn. Our goal is to teach the model the solid arrows.</p>
+                        </div>
+
+                        <p>In the last few blogs, we lived in the comfortable world of Theory. We wrote proposals, we
+                            read Judea Pearl’s <em>The Book of Why</em>, and we designed beautiful diagrams of how our
+                            system should work.</p>
+                        <p>Well, the honeymoon phase is over.</p>
+                        <p>Over the last two weeks, we moved from Phase 1 (Foundation) to Phase 2 (Implementation). We
+                            stopped reading papers and started writing Python code. We loaded datasets, fired up GPUs,
+                            and ran our first experiments.</p>
+                        <p>And guess what? <strong>It broke.</strong></p>
+                        <p>But that’s where the real story begins. This blog is about the gritty reality of turning a
+                            research proposal into running code.</p>
+
+                        <h2 id="dataset-deep-dive">Chapter 1: The Dataset Deep Dive (Balanced COPA)</h2>
+                        <p>Before we could build our "Causal Brain," we needed a test to prove it works. You can’t just
+                            ask an AI, "Are you causal now?" You need a benchmark.</p>
+                        <p>We chose <strong>COPA (Choice of Plausible Alternatives)</strong>. But not just any COPA. We
+                            are using <strong>Balanced COPA</strong>.</p>
+
+                        <h3 id="technical-stuff">The Technical Stuff (Accurate & Careful)</h3>
+                        <p>Standard COPA is a dataset where the model is given a premise and two alternatives, and it
+                            must pick the more plausible cause or effect.</p>
+                        <blockquote>
+                            <strong>Premise:</strong> The man turned on the tap.<br>
+                            <strong>Question:</strong> What happened as a result?<br>
+                            <strong>Choice 1:</strong> Water flowed out. (Correct)<br>
+                            <strong>Choice 2:</strong> The sink broke. (Incorrect)
+                        </blockquote>
+                        <p>The problem with standard COPA is that LLMs are lazy. They cheat. They often pick the answer
+                            that just "sounds" more related, based on word frequency (correlations), without actually
+                            doing any causal reasoning.</p>
+                        <p><strong>Balanced COPA</strong> fixes this by introducing Mirrored Pairs. For every question
+                            in the dataset, there is a "mirror" version where the correct answer is flipped or the
+                            context is changed slightly to neutralize simple keyword matching.</p>
+
+                        <h3 id="practical-experience">The Practical Experience</h3>
+                        <p>Loading this wasn't just <code>import dataset</code>. We had to inspect the schema carefully.
+                            We spent a good chunk of time just writing the preprocessing function. In BERT, you can't
+                            just feed in three sentences. You have to format them like this:</p>
+                        <pre><code>[CLS] Premise [SEP] Choice 1 [SEP]</code></pre>
+                        <p>And then run a second pass for:</p>
+                        <pre><code>[CLS] Premise [SEP] Choice 2 [SEP]</code></pre>
+                        <p>This "siamese network" approach forces the model to score both options independently.</p>
+
+                        <h2 id="baseline">Chapter 2: The Baseline (Setting the Bar)</h2>
+                        <p>Every good scientist needs a control group. Before we could inject our fancy Causal Graph, we
+                            needed to know how a "dumb" model performs.</p>
+                        <p>We set up a <code>BERT-base-uncased</code> model. This is our "Correlation Machine." It
+                            doesn’t know causality; it only knows statistics.</p>
+
+                        <h3 id="hypothesis-vs-reality">The Hypothesis vs. The Reality</h3>
+                        <p>We expected BERT to get around 60-70% accuracy. The reality? Getting the training loop to run
+                            was a lesson in PyTorch patience.</p>
+                        <ul>
+                            <li><strong>Device checks:</strong> ensuring the tensors were actually on the GPU.</li>
+                            <li><strong>Tokenization:</strong> We had to ensure our max length wasn't chopping off the
+                                important parts of the sentences.</li>
+                            <li><strong>The "Story" of the Loss Curve:</strong> Watching the training loss go down is
+                                the most satisfying thing in AI. It started high, dipped, and then... plateaued.</li>
+                        </ul>
+                        <p>We established our baseline. This number is now the "Floor." Our Hybrid model must beat this
+                            number. If it doesn't, we have failed. (No pressure).</p>
+
+                        <h2 id="hybrid-experiment">Chapter 3: The Hybrid Experiment (and the Failure)</h2>
+                        <p>Here is the meat of the update. This is where things got interesting—and frustrating.</p>
+
+                        <h3 id="architecture">The Architecture</h3>
+                        <p>We designed a system with a tunable parameter: <strong>Alpha ($\alpha$)</strong>.</p>
+
+                        <div class="interactive-demo">
+                            <h3>🎛️ Interactive Demo: The Alpha Parameter</h3>
+                            <p>Adjust the slider to see how the Hybrid model balances between BERT (Correlation) and SCM
+                                (Causality).</p>
+                            <input type="range" id="alphaSlider" min="0" max="100" value="50" class="slider"
+                                aria-label="Alpha Slider">
+                            <p>Alpha: <span id="alphaValue">0.5</span></p>
+                            <div class="model-balance">
+                                <div id="bertBar" style="width: 50%; background-color: #0d6efd;">BERT (50%)</div>
+                                <div id="scmBar" style="width: 50%; background-color: #fd7e14;">SCM (50%)</div>
+                            </div>
+                            <p id="demoDescription">Hybrid Mode: Balancing statistics and logic.</p>
+                        </div>
+
+                        <ul>
+                            <li><strong>$\alpha = 0.0$:</strong> Pure BERT (100% Correlation).</li>
+                            <li><strong>$\alpha = 1.0$:</strong> Pure Causal SCM (100% Logic).</li>
+                            <li><strong>$\alpha = 0.5$:</strong> The Hybrid (50% Stats + 50% Logic).</li>
+                        </ul>
+                        <p>We theorized that as we increased Alpha from 0 to 0.5, the accuracy should go up. The SCM
+                            should act as a "Logic Police," catching BERT when it makes a stupid mistake.</p>
+
+                        <h3 id="anomaly">The "48% Anomaly"</h3>
+                        <p>We ran the experiment. We waited. We checked the logs. And we saw something strange.</p>
+                        <p>For Alpha 0.0, 0.2, 0.4, 0.6, 0.8... the accuracy was identical. It was stuck at roughly 48%.
+                            It was flat. The line wasn't moving.</p>
+                        <p>Only when we hit Alpha 1.0 (Pure Causal) did the number jump/change (to about 50%).</p>
+
+                        <h3 id="diagnosis">The Diagnosis</h3>
+                        <p>We sat there staring at the screen. Why is the Causal Module doing nothing? Then it hit us:
+                            <strong>The Causal Graph was empty.</strong>
+                        </p>
+                        <p>Or, more accurately, our Extraction Logic was failing. We were trying to build the causal
+                            graph automatically using rule-based extraction (looking for words like "because", "so",
+                            "therefore"). But COPA sentences are often subtle.</p>
+                        <p>Because our extractor missed the connection, the SCM graph had no edges. If the graph has no
+                            edges, it provides zero information. So, <code>Hybrid Prediction = BERT + (0 * SCM)</code>.
+                        </p>
+
+                        <div class="highlight-box">
+                            <h4>💡 The Lesson: Garbage In, Garbage Out</h4>
+                            <p>We were so focused on the integration (the Alpha parameter, the pipeline) that we
+                                neglected the input (the graph construction). A Hybrid Neuro-Symbolic system is only as
+                                strong as its Symbolic component.</p>
+                        </div>
+
+                        <h2 id="side-quests">Chapter 4: Side Quests (University Life)</h2>
+                        <p>While wrestling with empty graphs, the rest of the MSc didn't stop.</p>
+                        <ol>
+                            <li><strong>The Ethics Assignment (Samsung Case Study):</strong> We analyzed a real-world
+                                case using Liffick’s Analysis Method. It reminded me that what we are building has real
+                                consequences. Accuracy isn't just a scoreboard; it's an ethical obligation.</li>
+                            <li><strong>The Literature Review:</strong> We condensed 40+ papers into a coherent
+                                narrative. Status: Done, dusted, and submitted.</li>
+                        </ol>
+
+                        <h2 id="road-ahead">Chapter 5: The Road Ahead (Fixing the Graph)</h2>
+                        <p>So, where does that leave us? We are currently in Debug Mode. The priority for the next
+                            sprint is clear: <strong>Better Causal Extraction</strong>.</p>
+                        <p>We cannot rely on simple "keyword matching". It's too brittle. The new plan involves:</p>
+                        <ul>
+                            <li><strong>Manual/Semi-Automatic Construction:</strong> Hand-crafting graphs for a subset
+                                of data to prove the concept.</li>
+                            <li><strong>Prompt-Based Extraction:</strong> Using GPT-4 or Llama 3 to extract causal
+                                triples.</li>
+                        </ul>
+
+                        <div class="mermaid">
+                            graph TD
+                            A[Input Text] --> B{BERT Prediction}
+                            A --> C{SCM Validation}
+                            B --> D[Hybrid Score]
+                            C --> D
+                            D --> E[Final Answer]
+                            style A fill:#f9f,stroke:#333,stroke-width:2px
+                            style D fill:#ff9,stroke:#333,stroke-width:2px
+                        </div>
+
+                        <h2 id="conclusion">Conclusion</h2>
+                        <p>This month was a reality check. We went from "We are going to solve Causal AI!" to "Why is my
+                            graph empty?"</p>
+                        <p>But that is exactly what a practicum is supposed to be. If it worked the first time, it
+                            wouldn't be research; it would just be development. We found the bottleneck. We have the
+                            baseline. We have the dataset. Now, we just need to bridge the gap.</p>
+                        <p>Stay tuned for Blog 9, where hopefully, I’ll be sharing a chart where the line actually goes
+                            up.</p>
+
+                        <p style="text-align: center; font-style: italic; margin-top: calc(var(--spacing-unit) * 2);">
+                            Next milestone: Fix Causal Extraction logic. Run the Hybrid experiment again. Survive the
+                            Dublin rain. 🌧️
+                        </p>
+
+                        <div class="highlight-box">
+                            <h4>📝 Author's Note for the Reader (Beginner Friendly)</h4>
+                            <ul>
+                                <li><strong>LLM:</strong> Large Language Model (like ChatGPT or BERT). Good at talking,
+                                    bad at logic.</li>
+                                <li><strong>SCM:</strong> Structural Causal Model. A graph of nodes and arrows that maps
+                                    out logic (A causes B). Good at logic, can't talk.</li>
+                                <li><strong>Hybrid:</strong> Smashing them together so we get an AI that talks well and
+                                    makes sense.</li>
+                                <li><strong>Epoch:</strong> One full run through the training data.</li>
+                                <li><strong>Alpha:</strong> A volume dial. Turn it left for "Pure Stats", turn it right
+                                    for "Pure Logic".</li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="post-tags" itemprop="keywords">
+                        <span>Tags:</span>
+                        <a href="#tag-ai">Artificial Intelligence</a>
+                        <a href="#tag-causal-ai">Causal AI</a>
+                        <a href="#tag-bert">BERT</a>
+                        <a href="#tag-research">Research</a>
+                        <a href="#tag-practicum">Practicum</a>
+                        <a href="#tag-python">Python</a>
+                    </div>
+
+                    <div class="social-share">
+                        <h3>Share This Post</h3>
+                        <div class="share-buttons">
+                            <a href="#" class="share-facebook">Facebook</a>
+                            <a href="#" class="share-twitter">Twitter</a>
+                            <a href="#" class="share-linkedin">LinkedIn</a>
+                            <button id="copy-link-button" class="share-copy">Copy Link</button>
+                        </div>
+                    </div>
+
+                    <section class="author-bio" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                        <img src="assets/myself/ranjith.png" alt="Ranjith Kumar Avatar" class="avatar" itemprop="image">
+                        <div class="author-bio-content">
+                            <h4 itemprop="name">Ranjith Kumar</h4>
+                            <p itemprop="description">MSc Computing (AI) student at DCU, Dublin. Exploring the
+                                intersection of Deep Learning and Causal Inference.</p>
+                            <div class="author-social-links">
+                                <a href="https://www.linkedin.com/in/p-ranjithkumar" target="_blank"
+                                    rel="noopener me">LinkedIn</a>
+                                <a href="https://github.com/P-RanjithKumar" target="_blank" rel="noopener me">GitHub</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="related-posts">
+                        <h2>Previous & Next Posts</h2>
+                        <div class="related-posts-grid">
+                            <div class="related-post-card">
+                                <a href="blog7.html" aria-label="Read previous post: From Coimbatore to Dublin">
+                                    <img src="assets/blog_cover_image/DCU&myself.jpg" alt="From Coimbatore to Dublin"
+                                        loading="lazy">
+                                </a>
+                                <div class="related-post-card-content">
+                                    <h3><a href="blog7.html">← Previous: From Coimbatore to Dublin</a></h3>
+                                </div>
+                            </div>
+                            <div class="related-post-card">
+                                <a href="blog_all_caught_up.html" aria-label="Next post coming soon">
+                                    <img src="assets/blogpost thumbnails/allcaughtup.png" alt="Coming Soon"
+                                        loading="lazy">
+                                </a>
+                                <div class="related-post-card-content">
+                                    <h3><a href="blog_all_caught_up.html">Next Post: Coming Soon... →</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </article>
+            </div>
+
+            <aside class="toc-column">
+                <nav id="toc-container" aria-label="Table of Contents">
+                    <h3>Table of Contents</h3>
+                    <ol id="toc-list">
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#dataset-deep-dive">Dataset Deep Dive</a></li>
+                        <li><a href="#baseline">The Baseline</a></li>
+                        <li><a href="#hybrid-experiment">The Hybrid Experiment</a></li>
+                        <li><a href="#side-quests">Side Quests</a></li>
+                        <li><a href="#road-ahead">The Road Ahead</a></li>
+                        <li><a href="#conclusion">Conclusion</a></li>
+                    </ol>
+                </nav>
+            </aside>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Ranjith Kumar. Building the future, one line of code at a time.</p>
+            <div class="footer-links">
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Back to top" title="Back to top" style="transform: scale(0);">↑</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // Theme Toggle
+            const themeToggleButton = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const currentTheme = localStorage.getItem('theme');
+            const sunIcon = '☀️';
+            const moonIcon = '🌓';
+            let isDarkMode = false;
+
+            const setTheme = (theme) => {
+                isDarkMode = theme === 'dark';
+                document.body.classList.toggle('dark-mode', isDarkMode);
+                themeToggleButton.textContent = isDarkMode ? sunIcon : moonIcon;
+                localStorage.setItem('theme', theme);
+                document.body.style.setProperty('--color-bg-rgb', isDarkMode ? '18, 18, 18' : '255, 255, 255');
+                document.body.style.setProperty('--color-primary-rgb', isDarkMode ? '77, 171, 247' : '13, 110, 253');
+            };
+
+            const initialTheme = currentTheme || (prefersDarkScheme.matches ? 'dark' : 'light');
+            setTheme(initialTheme);
+
+            themeToggleButton.addEventListener('click', () => {
+                setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+            });
+
+            // Alpha Slider Logic
+            const slider = document.getElementById('alphaSlider');
+            const alphaValue = document.getElementById('alphaValue');
+            const bertBar = document.getElementById('bertBar');
+            const scmBar = document.getElementById('scmBar');
+            const description = document.getElementById('demoDescription');
+
+            if (slider) {
+                slider.addEventListener('input', function () {
+                    const val = this.value;
+                    const alpha = (val / 100).toFixed(2);
+                    alphaValue.textContent = alpha;
+
+                    bertBar.style.width = (100 - val) + '%';
+                    bertBar.textContent = `BERT (${100 - val}%)`;
+                    scmBar.style.width = val + '%';
+                    scmBar.textContent = `SCM (${val}%)`;
+
+                    if (val == 0) {
+                        description.textContent = "Pure Correlation: Relying entirely on statistical patterns.";
+                    } else if (val == 100) {
+                        description.textContent = "Pure Logic: Relying entirely on the Causal Graph.";
+                    } else {
+                        description.textContent = "Hybrid Mode: Balancing statistics and logic.";
+                    }
+                });
+            }
+
+            // Back to Top
+            const backToTopButton = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                const isVisible = window.scrollY > 400;
+                backToTopButton.classList.toggle('visible', isVisible);
+                backToTopButton.style.transform = isVisible ? 'scale(1)' : 'scale(0)';
+            }, { passive: true });
+            backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+            // Progress Bar
+            const progressBar = document.getElementById('progress-bar');
+            const updateProgressBar = () => {
+                const element = document.documentElement;
+                const body = document.body;
+                const scrollableHeight = Math.max(body.scrollHeight, body.offsetHeight, element.clientHeight, element.scrollHeight, element.offsetHeight) - window.innerHeight;
+                const scrolled = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
+                progressBar.style.width = `${Math.min(scrolled, 100)}%`;
+            };
+            window.addEventListener('scroll', updateProgressBar);
+            updateProgressBar();
+        });
+    </script>
+</body>
+
+</html>
